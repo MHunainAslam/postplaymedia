@@ -56,6 +56,8 @@ const Register = () => {
         }
     }
 
+  
+
     const bgRef = useRef();
 
     useEffect(() => { bgRef.current.play(); }, []);

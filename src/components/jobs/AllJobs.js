@@ -1,7 +1,9 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { APP_URL } from '../../../config'
+import axios from 'axios'
 
 const AllJobs = () => {
     const [Filter, setFilter] = useState(false)
@@ -10,6 +12,23 @@ const AllJobs = () => {
     const [Internship, setInternship] = useState(false)
     const [PartTime, setPartTime] = useState(false)
     const [Temporary, setTemporary] = useState(false)
+    const [AllJobs, setAllJobs] = useState([])
+    const [SortByFilter, setSortByFilter] = useState([])
+
+
+    useEffect(() => {
+        axios.get(`${APP_URL}/api/all-jobs`)
+            .then(response => {
+                console.log('alljobs', response);
+                setAllJobs(response.data.data)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [])
+
+
+
 
     return (
         <>
@@ -30,47 +49,50 @@ const AllJobs = () => {
                     <div className="border-top row justify-content-between">
                         <div className="d-flex py-3 justify-content-center flex-wrap">
                             <div className='mx-2'>
-                                <input className=' form-check-input' type="checkbox" name="" id="Freelance" value={'freelance'} onChange={(e => { setFreelance(!Freelance) })} checked={Freelance}/>
+                                <input className=' form-check-input' type="checkbox" name="" id="Freelance" value={'freelance'} onChange={(e => { setFreelance(!Freelance) })} checked={Freelance} />
                                 <label className='para clr-text ms-2' htmlFor="Freelance">Freelance</label>
                             </div>
                             <div className='mx-2'>
-                                <input className=' form-check-input' type="checkbox" name="" id="FullTime" value={'FullTime'} onChange={(e => { setFullTime(!FullTime) })} checked={FullTime}/>
+                                <input className=' form-check-input' type="checkbox" name="" id="FullTime" value={'FullTime'} onChange={(e => { setFullTime(!FullTime) })} checked={FullTime} />
                                 <label className='para clr-text ms-2' htmlFor="FullTime">Full Time</label>
                             </div>
                             <div className='mx-2'>
-                                <input className=' form-check-input' type="checkbox" name="" id="Internship" value={'Internship'} onChange={(e => { setInternship(!Internship) })} checked={Internship}/>
+                                <input className=' form-check-input' type="checkbox" name="" id="Internship" value={'Internship'} onChange={(e => { setInternship(!Internship) })} checked={Internship} />
                                 <label className='para clr-text ms-2' htmlFor="Internship">Internship</label>
                             </div>
                             <div className='mx-2'>
-                                <input className=' form-check-input' type="checkbox" name="" id="PartTime" value={'PartTime'} onChange={(e => { setPartTime(!PartTime) })} checked={PartTime}/>
+                                <input className=' form-check-input' type="checkbox" name="" id="PartTime" value={'PartTime'} onChange={(e => { setPartTime(!PartTime) })} checked={PartTime} />
                                 <label className='para clr-text ms-2' htmlFor="PartTime">Part Time</label>
                             </div>
                             <div className='mx-2'>
-                                <input className=' form-check-input' type="checkbox" name="" id="Temporary" value={'Temporary'}  onChange={(e => { setTemporary(!Temporary) })} checked={Temporary}/>
+                                <input className=' form-check-input' type="checkbox" name="" id="Temporary" value={'Temporary'} onChange={(e => { setTemporary(!Temporary) })} checked={Temporary} />
                                 <label className='para clr-text ms-2' htmlFor="Temporary">Temporary</label>
                             </div>
                         </div>
                     </div>
                     : ''}
             </div>
-            <div className="card n-card my-4 py-3 " >
-                <div className="row g-0">
-                    <div className="col-lg-1 col-md-2 text-center my-auto">
-                        <Image src="/assets/images/logo/company1.png" width={300} height={300} className="img-fluid rounded-start rounded-0 post-profile-lg" alt="..." />
-                    </div>
-                    <div className="col-lg col-md">
-                        <div className="card-body">
-                            <Link href={'#'} className="link-hov heading-m fw-bold text-black">Marketing Data Enrichment Specialist</Link>
-                            <p className="card-text para clr-text my-3">3rd street, Perm, Russia</p>
-                            <p className="clr-primary para mb-0">Clinivex Analytics</p>
 
+            {AllJobs.map((item, i) => (
+                <div className="card n-card my-4 py-3 " key={i} >
+                    <div className="row g-0">
+                        <div className="col-lg-1 col-md-2 text-center my-auto">
+                            <Image src={item.image === null ? '' : item.image} width={300} height={300} className="img-fluid rounded-start rounded-0 post-profile-lg" alt="" />
+                        </div>
+                        <div className="col-lg col-md">
+                            <div className="card-body">
+                                <Link href={`jobs/${item.id}`} className="link-hov heading-m fw-bold text-black">{item.title}</Link>
+                                <p className="card-text para clr-text my-3">{item.location}</p>
+                                <p className="clr-primary para mb-0">{item.company_name}</p>
+
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-3 job-card-btn px-4 ">
+                            <p className=''>{item.job_type}</p>
                         </div>
                     </div>
-                    <div className="col-lg-2 col-md-3 job-card-btn px-4 ">
-                        <p className=''>Full Time</p>
-                    </div>
                 </div>
-            </div>
+            ))}
             <div className="card n-card my-4 py-3 " >
                 <div className="row g-0">
                     <div className="col-lg-1 col-md-2 text-center my-auto">

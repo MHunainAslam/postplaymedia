@@ -68,6 +68,7 @@ export const config = {
     '/forums/:path*/:path*',
     '/groups',
     '/jobs',
+    '/jobs/:path*',
     '/people',
     '/photos',
     '/watch',

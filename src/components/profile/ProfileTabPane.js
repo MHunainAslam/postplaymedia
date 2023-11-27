@@ -1,5 +1,6 @@
 import React from 'react'
 import PeopleActivityTab from './PeopleActivity/PeopleActivityTab'
+import PeopleProfileTab from './PeopleProfileTab/PeopleProfileTab'
 
 const ProfileTabPane = () => {
     return (
@@ -9,7 +10,7 @@ const ProfileTabPane = () => {
                     <PeopleActivityTab />
                 </div>
                 <div className="tab-pane fade" id="PeopleProfile" role="tabpanel" aria-labelledby="PeopleProfile-tab">
-                    <PeopleActivityTab />
+                    <PeopleProfileTab />
                 </div>
             </div>
         </>

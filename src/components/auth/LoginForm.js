@@ -34,6 +34,7 @@ const LoginForm = () => {
           localStorage.setItem('userdetail', JSON.stringify({ response }))
           router.push('/activity')
           setisLoading(false)
+          document.querySelector('.closelogin-modal').click()
         })
         .catch(error => {
           console.error(error);
@@ -62,7 +63,7 @@ const LoginForm = () => {
         <Link href={'#'} className='d-none closelogin-modal' data-bs-dismiss="modal"></Link>
         <div className=" custome-inp">
           <span className="input-group-text" ><i className="bi bi-person"></i></span>
-          <input type="text" className="form-control" value={UserEmail} onChange={(e) => { setUserEmail(e.target.value) }} placeholder="Email" />
+          <input type="text" className="form-control" value={UserEmail} onChange={(e) => { setUserEmail(e.target.value) }} placeholder="Email or Username" />
         </div>
         <div className=" custome-inp mt-3 ">
           <span className="input-group-text" ><i className="bi bi-key"></i></span>
