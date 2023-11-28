@@ -1,3 +1,3 @@
 module.exports = {
-    APP_URL: "http://api.microndeveloper.com",
+    APP_URL: "https://api.microndeveloper.com",
 }
