@@ -25,7 +25,7 @@ const JobSubmit = ({ JobCategorydd }) => {
     const [isLoading, setisLoading] = useState(false)
     const [ImgId, setImgId] = useState('')
     const [Error, setError] = useState(false)
-
+    const [UserName, setUserName] = useState('')
     const [editorLoaded, setEditorLoaded] = useState(false);
 
 
@@ -34,8 +34,9 @@ const JobSubmit = ({ JobCategorydd }) => {
     }, []);
     console.log(JobDesc)
 
-    const UserName = (JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.name)
-
+    useEffect(() => {
+        setUserName(JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.name)
+    }, [])
     const SubmitJob = (e) => {
         e.preventDefault()
         if (JobTitle === '' || JobType === '' || JobDesc === '' || ApplicationUrl === '' || CompanyName === '') {
@@ -68,7 +69,7 @@ const JobSubmit = ({ JobCategorydd }) => {
                     setVideo('')
                     setTwitterUsername('')
                     setImgId('')
-                    
+
 
                 })
                 .catch(error => {

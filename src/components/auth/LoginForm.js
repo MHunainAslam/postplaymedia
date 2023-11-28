@@ -18,7 +18,7 @@ const LoginForm = () => {
     e.preventDefault()
     if (UserEmail === '' || UserPass === '') {
       console.log('Empty Email or Password')
-      console.log(JSON.parse(localStorage.getItem('userdetail')))
+      // console.log(JSON.parse(localStorage.getItem('userdetail')))
       message.error('Empty Email or Password');
     } else {
 
@@ -31,6 +31,7 @@ const LoginForm = () => {
           // setUserPass('')
           console.log(response.data.data.token)
           setCookie('logged', response.data.data.token);
+         
           localStorage.setItem('userdetail', JSON.stringify({ response }))
           router.push('/activity')
           setisLoading(false)

@@ -25,6 +25,7 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
     const [isLoading, setisLoading] = useState(false)
     const [ImgId, setImgId] = useState('')
     const [Error, setError] = useState(false)
+    const [UserName, setUserName] = useState('')
 
     const [editorLoaded, setEditorLoaded] = useState(false);
 
@@ -37,7 +38,13 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
     }, []);
     console.log(JobDesc)
 
-    const UserName = (JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.name)
+    useEffect(() => {
+        setUserName(JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.name)
+    }, [])
+
+
+
+    console.log(UserName)
 
     const SubmitJob = (e) => {
         e.preventDefault()
@@ -45,44 +52,44 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
             setError(true)
         }
         else {
-        setisLoading(true)
-        // console.log(UserName, Email, Password, C_Password, Name, MemberType)
-        axios.put(`${APP_URL}/api/job/${JobId}/update`,
-            { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId }
-            // formData
-        )
-            .then(response => {
-                // Handle successful response here
-                // message.success(response.data.message)
-                console.log(response.data);
-                setisLoading(false)
-                document.getElementById('AllJobs-tab').click()
-                handleComponentChange('table')
-                setJobTitle('')
-                setJobCategory('')
-                setCityLocation('')
-                setCountryLocation('')
-                setRemotePosition(false)
-                setJobType('')
-                setJobDesc('')
-                setApplicationUrl('')
-                setCompanyName('')
-                setWebsite('')
-                setTagLine('')
-                setVideo('')
-                setTwitterUsername('')
-                setImgId('')
+            setisLoading(true)
+            // console.log(UserName, Email, Password, C_Password, Name, MemberType)
+            axios.put(`${APP_URL}/api/job/${JobId}/update`,
+                { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId }
+                // formData
+            )
+                .then(response => {
+                    // Handle successful response here
+                    // message.success(response.data.message)
+                    console.log(response.data);
+                    setisLoading(false)
+                    document.getElementById('AllJobs-tab').click()
+                    handleComponentChange('table')
+                    setJobTitle('')
+                    setJobCategory('')
+                    setCityLocation('')
+                    setCountryLocation('')
+                    setRemotePosition(false)
+                    setJobType('')
+                    setJobDesc('')
+                    setApplicationUrl('')
+                    setCompanyName('')
+                    setWebsite('')
+                    setTagLine('')
+                    setVideo('')
+                    setTwitterUsername('')
+                    setImgId('')
 
 
-            })
-            .catch(error => {
-                // Handle error here
-                // message.error(error.data.message)
-                console.error(error);
-                setisLoading(false)
-            });
+                })
+                .catch(error => {
+                    // Handle error here
+                    // message.error(error.data.message)
+                    console.error(error);
+                    setisLoading(false)
+                });
 
-        setError(false)
+            setError(false)
         }
     }
 
