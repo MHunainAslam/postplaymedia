@@ -158,7 +158,12 @@
     color: white;
     font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1920 - 320))) !important;
     font-family: var(--font-p);
-
+}
+.jobdesc h1, h2, h3, h4, h5 {
+    font-weight: 700;
+    color: var(--dark-text);
+    font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1920 - 320))) !important;
+    font-family: var(--font-p);
 }
 
 .link-hov {
@@ -191,6 +196,10 @@
     color: white;
 }
 
+.jobdesc p {
+    font-size: calc(11px + (14 - 11) * ((100vw - 320px) / (1920 - 320)));
+    color: var(--dark-text);
+}
 
 .login-bg {
     min-height: 100vh;
@@ -522,7 +531,9 @@
 .Grp-Bg .post-profile {
     margin-top: -25px;
 }
-
+.modal-bg{
+     background-image: linear-gradient(180deg, #4f5261 3%, #383A44 80%);
+}
 .modal-avatar {
     background-color: #5f6cff;
     background-image: url(/assets/images/Modal/LoginModalBg.png);
@@ -1368,6 +1379,7 @@
 .job-card-btn {
     border-left: 1px solid var(--border);
 }
+
 .border-left {
     border-left: 1px solid var(--border);
 }

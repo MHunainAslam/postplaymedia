@@ -5,7 +5,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config'
 
-const JobCategories = () => {
+const JobCategories = ({ JobCategory }) => {
     const [Filter, setFilter] = useState(false)
     const [Freelance, setFreelance] = useState(false)
     const [FullTime, setFullTime] = useState(false)
@@ -14,16 +14,7 @@ const JobCategories = () => {
     const [Temporary, setTemporary] = useState(false)
     const [JobByCat, setJobByCat] = useState([])
 
-    useEffect(() => {
-        axios.get(`${APP_URL}/api/jobs-catgeories`)
-            .then(response => {
-                console.log('alljobscat', response);
-                setJobByCat(response.data.data)
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, [])
+
     return (
         <>
             <div className="border-bottom row justify-content-between">
@@ -66,44 +57,20 @@ const JobCategories = () => {
                     </div>
                     : ''}
             </div>
-            {JobByCat.map((item, i) => (
-                <div className="card n-card my-4 py-3 " key={i} >
-                    <div className="row g-0">
-                        <div className="col-lg-1 col-md-2 text-center my-auto">
-                            <Image src={item.image === null ? '' : item.image} width={300} height={300} className="img-fluid rounded-start rounded-0 post-profile-lg" alt="" />
-                        </div>
-                        <div className="col-lg col-md">
-                            <div className="card-body">
-                                <Link href={'#'} className="link-hov heading-m fw-bold text-black">{item.title}</Link>
-                                <p className="card-text para clr-text my-3">{item.location}</p>
-                                <p className="clr-primary para mb-0">{item.company_name}</p>
-
+            <div className="row" >
+                {JobCategory?.data?.data?.map((item, i) => (
+                    <div className="col-lg-4 col-md-6" key={i}>
+                        <div className="card n-card my-4 py-3 "  >
+                            <div className="card-body text-center">
+                                <Link className='link-hov' href={`category/${item.id}`}>
+                                    <p className="heading mb-0 clr-text text-capitalize">{item.name}</p>
+                                </Link>
                             </div>
                         </div>
-                        <div className="col-lg-2 col-md-3 job-card-btn px-4 ">
-                            <p className=''>{item.job_type}</p>
-                        </div>
                     </div>
-                </div>
-            ))}
-            <div className="card n-card my-4 py-3 " >
-                <div className="row g-0">
-                    <div className="col-lg-1 col-md-2 text-center my-auto">
-                        <Image src="/assets/images/logo/company2.png" height={300} width={300} className="img-fluid rounded-start rounded-0 post-profile-lg" alt="..." />
-                    </div>
-                    <div className="col-lg col-md">
-                        <div className="card-body">
-                            <Link href={'#'} className="link-hov heading-m fw-bold text-black"> Software Quality Assurance Engineer</Link>
-                            <p className="card-text para clr-text my-3">4901 Lakeland Park Drive, GA, USA</p>
-                            <p className="clr-primary para mb-0">iSoft Nations</p>
-
-                        </div>
-                    </div>
-                    <div className="col-lg-2 col-md-3 job-card-btn px-4 ">
-                        <p className=''>Full Time</p>
-                    </div>
-                </div>
+                ))}
             </div>
+            
         </>
     )
 }

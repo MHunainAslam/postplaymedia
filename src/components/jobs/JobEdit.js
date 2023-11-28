@@ -7,7 +7,7 @@ import { message } from 'antd';
 import Editor from '../Editor';
 import AddCategory from './AddCategory';
 
-const JobSubmit = ({ JobCategorydd }) => {
+const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
     const [LogoImg, setLogoImg] = useState(null)
     const [JobTitle, setJobTitle] = useState('')
     const [CityLocation, setCityLocation] = useState('')
@@ -29,6 +29,9 @@ const JobSubmit = ({ JobCategorydd }) => {
     const [editorLoaded, setEditorLoaded] = useState(false);
 
 
+
+
+    console.log('JobId', JobId)
     useEffect(() => {
         setEditorLoaded(true);
     }, []);
@@ -42,43 +45,44 @@ const JobSubmit = ({ JobCategorydd }) => {
             setError(true)
         }
         else {
-            setisLoading(true)
-            // console.log(UserName, Email, Password, C_Password, Name, MemberType)
-            axios.post(`${APP_URL}/api/jobs-post`,
-                { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId }
-                // formData
-            )
-                .then(response => {
-                    // Handle successful response here
-                    message.success(response.data.message)
-                    console.log(response.data);
-                    setisLoading(false)
-                    document.getElementById('AllJobs-tab').click()
-                    setJobTitle('')
-                    setJobCategory('')
-                    setCityLocation('')
-                    setCountryLocation('')
-                    setRemotePosition(false)
-                    setJobType('')
-                    setJobDesc('')
-                    setApplicationUrl('')
-                    setCompanyName('')
-                    setWebsite('')
-                    setTagLine('')
-                    setVideo('')
-                    setTwitterUsername('')
-                    setImgId('')
-                    
+        setisLoading(true)
+        // console.log(UserName, Email, Password, C_Password, Name, MemberType)
+        axios.put(`${APP_URL}/api/job/${JobId}/update`,
+            { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId }
+            // formData
+        )
+            .then(response => {
+                // Handle successful response here
+                // message.success(response.data.message)
+                console.log(response.data);
+                setisLoading(false)
+                document.getElementById('AllJobs-tab').click()
+                handleComponentChange('table')
+                setJobTitle('')
+                setJobCategory('')
+                setCityLocation('')
+                setCountryLocation('')
+                setRemotePosition(false)
+                setJobType('')
+                setJobDesc('')
+                setApplicationUrl('')
+                setCompanyName('')
+                setWebsite('')
+                setTagLine('')
+                setVideo('')
+                setTwitterUsername('')
+                setImgId('')
 
-                })
-                .catch(error => {
-                    // Handle error here
-                    message.error(error.data.message)
-                    console.error(error);
-                    setisLoading(false)
-                });
 
-            setError(false)
+            })
+            .catch(error => {
+                // Handle error here
+                // message.error(error.data.message)
+                console.error(error);
+                setisLoading(false)
+            });
+
+        setError(false)
         }
     }
 
@@ -247,7 +251,7 @@ const JobSubmit = ({ JobCategorydd }) => {
                             </div>
 
                             <button className='btn primary-btn px-md-5 px-2 me-3'><p>Preview</p></button>
-                            {/* <button className='btn secondary-btn px-md-5 px-2'>Save Draft</button> */}
+                            <button type='button' className='btn secondary-btn px-md-5 px-2' onClick={() => handleComponentChange('table')}>Cancel</button>
                         </div>
 
 
@@ -259,4 +263,4 @@ const JobSubmit = ({ JobCategorydd }) => {
     )
 }
 
-export default JobSubmit
+export default JobEdit

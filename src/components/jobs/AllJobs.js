@@ -5,29 +5,22 @@ import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config'
 import axios from 'axios'
 
-const AllJobs = () => {
+const AllJobs = ({GetAllJobs}) => {
     const [Filter, setFilter] = useState(false)
     const [Freelance, setFreelance] = useState(false)
     const [FullTime, setFullTime] = useState(false)
     const [Internship, setInternship] = useState(false)
     const [PartTime, setPartTime] = useState(false)
     const [Temporary, setTemporary] = useState(false)
-    const [AllJobs, setAllJobs] = useState([])
+
     const [SortByFilter, setSortByFilter] = useState([])
 
 
-    useEffect(() => {
-        axios.get(`${APP_URL}/api/all-jobs`)
-            .then(response => {
-                console.log('alljobs', response);
-                setAllJobs(response.data.data)
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, [])
+   
 
-
+    const imgurl = ({ src }) => {
+        return `${APP_URL}${src}`
+    }
 
 
     return (
@@ -73,11 +66,11 @@ const AllJobs = () => {
                     : ''}
             </div>
 
-            {AllJobs.map((item, i) => (
+            {GetAllJobs?.data?.data?.map((item, i) => (
                 <div className="card n-card my-4 py-3 " key={i} >
                     <div className="row g-0">
                         <div className="col-lg-1 col-md-2 text-center my-auto">
-                            <Image src={item.image === null ? '' : item.image} width={300} height={300} className="img-fluid rounded-start rounded-0 post-profile-lg" alt="" />
+                            <Image loader={imgurl} src={item.image === null ? '' : item.image.url} width={300} height={300} className="img-fluid rounded-start rounded-0 post-profile-lg" alt="" />
                         </div>
                         <div className="col-lg col-md">
                             <div className="card-body">

@@ -20,13 +20,16 @@ const JobDetail = () => {
                 console.error(error);
             });
     }, [])
+    const imgurl = ({ src }) => {
+        return `${APP_URL}${src}`
+    }
 
     return (
         <>
             <div className="card n-card my-4 py-3 shadow-none" >
                 <div className="row g-0">
                     <div className="col-lg-1 col-md-2 text-center my-auto">
-                        <Image src="/assets/images/logo/company2.png" height={300} width={300} className="img-fluid rounded-start rounded-0 post-profile-lg" alt="..." />
+                        <Image loader={imgurl} src={`${Jobdata.image === null ? '' : Jobdata?.image?.url}`} height={300} width={300} className="img-fluid rounded-start rounded-0 post-profile-lg" alt="..." />
                     </div>
                     <div className="col-lg col-md">
                         <div className="card-body">
@@ -38,8 +41,10 @@ const JobDetail = () => {
                     </div>
                     <div className="col-lg-2 col-md-3 profile-page-user  position-static ">
                         <div className="icons d-flex align-items-center  justify-content-evenly justify-content-md-end">
-                            <div><Link href={`${Jobdata.website}`}><i class="bi bi-globe-americas text-white"></i></Link></div>
-                            <div><Link href={`https://twitter.com/https://twitter.com/elonmusk`}><i class="bi bi-twitter text-white"></i></Link></div>
+                            {Jobdata.website ?
+                                <div><Link href={`${Jobdata.website}`}><i class="bi bi-globe-americas text-white"></i></Link></div> : ''}
+                            {Jobdata.twitter_username ?
+                                <div><Link href={`${Jobdata.twitter_username}`}><i class="bi bi-twitter text-white"></i></Link></div> : ''}
                         </div>
                     </div>
                 </div>
@@ -91,9 +96,9 @@ const JobDetail = () => {
                 <p className="heading clr-text">
                     Job Description:
                 </p>
-                <p className="para  clr-text">
-                    {Jobdata.description}
-                </p>
+                <div className="jobdesc" dangerouslySetInnerHTML={{ __html: Jobdata.description }}>
+                    {/* {Jobdata.description} */}
+                </div>
             </div>
             <button class="btn secondary-btn " type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Apply For Job
