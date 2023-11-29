@@ -6,6 +6,9 @@ import { APP_URL } from '../../../config';
 import { message } from 'antd';
 import Editor from '../Editor';
 import AddCategory from './AddCategory';
+import { token } from '@/utils/Token';
+import { useRouter } from 'next/navigation';
+import { deleteCookie } from 'cookies-next';
 
 const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
     const [LogoImg, setLogoImg] = useState(null)
@@ -29,7 +32,7 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
 
     const [editorLoaded, setEditorLoaded] = useState(false);
 
-
+    const router = useRouter()
 
 
     console.log('JobId', JobId)
@@ -55,7 +58,11 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
             setisLoading(true)
             // console.log(UserName, Email, Password, C_Password, Name, MemberType)
             axios.put(`${APP_URL}/api/job/${JobId}/update`,
-                { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId }
+                { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            }
                 // formData
             )
                 .then(response => {
@@ -83,10 +90,15 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
 
                 })
                 .catch(error => {
-                    // Handle error here
-                    // message.error(error.data.message)
+
+                    message.error(error.response.data.message)
                     console.error(error);
                     setisLoading(false)
+                    if (error.response.status === 401) {
+                        router.push('/')
+                        deleteCookie('logged');
+                        localStorage.removeItem('userdetail')
+                    }
                 });
 
             setError(false)
@@ -102,7 +114,11 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
             reader.onload = () => {
                 setLogoImg(reader.result);
                 console.log(e.target.files[0])
-                axios.post(`${APP_URL}/api/post-media`, formDataimg)
+                axios.post(`${APP_URL}/api/post-media`, formDataimg, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    }
+                })
                     .then(response => {
                         console.log('img', response);
                         setImgId(response.data.data.last_inserted_id)
@@ -110,6 +126,11 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
                     .catch(error => {
                         console.error(error);
                         message.error(error?.response.data?.message)
+                        if (error.response.status === 401) {
+                            router.push('/')
+                            deleteCookie('logged');
+                            localStorage.removeItem('userdetail')
+                        }
                     });
             };
             reader.readAsDataURL(file);
@@ -129,9 +150,12 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
         <>
             <form action="" onSubmit={SubmitJob}>
                 <div className="activity-tabs mt-5">
-                    <ul className="nav nav-tabs border-0 " role="tablist">
+                    <ul className="nav nav-tabs border-0 justify-content-between " role="tablist">
                         <li className="nav-item nav-link active heading" id="JobDetails-tab" data-bs-toggle="tab" data-bs-target="#JobDetails" type="button" role="tab" aria-controls="JobDetails" aria-selected="false" tabIndex="-1">
                             Job Details
+                        </li>
+                        <li>
+                            <button type='button' className='btn secondary-btn px-md-5 px-2' onClick={() => handleComponentChange('table')}>Cancel</button>
                         </li>
                     </ul>
                     <div className="tab-content ">

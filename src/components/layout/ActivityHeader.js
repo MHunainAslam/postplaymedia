@@ -9,9 +9,9 @@ const ActivityHeader = () => {
     const router = useRouter()
     const logout = () => {
         deleteCookie('logged');
+        localStorage.removeItem('userdetail')
         router.push('/')
         console.log(deleteCookie())
-        localStorage.removeItem('userdetail')
     }
     // console.log('ss',document.cookie.split('=')[0], JSON.parse(localStorage.getItem('userdetail')).response.data.data)
     useEffect(() => {

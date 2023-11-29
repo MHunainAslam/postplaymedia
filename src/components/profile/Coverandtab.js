@@ -40,7 +40,7 @@ const Coverandtab = () => {
                                         </div>
                                     </div>
                                     <div className=" profile-tabs d-md-flex d-none  my-3">
-                                        <ProfileTabs />
+                                        <ProfileTabs /> 
                                     </div>
                                 </div>
                             </div>

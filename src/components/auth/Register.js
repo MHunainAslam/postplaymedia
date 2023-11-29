@@ -21,7 +21,20 @@ const Register = () => {
     const [ShowPass, setShowPass] = useState(false)
     const [ShowCPass, setShowCPass] = useState(false)
     const [isLoading, setisLoading] = useState(false)
+    const [Roles, setRoles] = useState([])
     const router = useRouter()
+
+    useEffect(() => {
+        axios.get(`${APP_URL}/api/roles`)
+            .then(response => {
+                console.log(response);
+                setRoles(response)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [])
+
 
     const RegistrationSubmit = (e) => {
         e.preventDefault()
@@ -56,7 +69,7 @@ const Register = () => {
         }
     }
 
-  
+
 
     const bgRef = useRef();
 
@@ -118,8 +131,13 @@ const Register = () => {
 
                                                     <label className='para-sm clr-text mt-4' htmlFor="">Member Type</label>
                                                     <select name="" className='form-select slct' id="" onChange={(e) => { setMemberType(e.target.value) }} value={MemberType}>
-                                                        <option value="0">Student</option>
-                                                        <option value="1">Coach</option>
+                                                        {Roles?.data?.data?.map((item, i) => (
+                                                            <>
+                                                                <option value='' selected hidden>--select Member Type--</option>
+                                                                <option value={item.id}>{item.name}</option>
+                                                            </>
+                                                        ))}
+
                                                     </select>
                                                     {Error ? MemberType === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 

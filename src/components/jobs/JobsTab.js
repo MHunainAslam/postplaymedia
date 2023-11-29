@@ -6,13 +6,22 @@ import JobManage from './JobManage'
 import JobSubmit from './JobSubmit'
 import axios from 'axios'
 import { APP_URL } from '../../../config'
+import { useRouter } from 'next/navigation'
+import { deleteCookie } from 'cookies-next'
+import { token } from '@/utils/Token'
+
 
 const JobsTab = () => {
-
+    const router = useRouter()
     const [JobCategory, setJobCategory] = useState(' AllJobs')
-    const [GetAllJobs, setGetAllJobs] = useState([])
     const [activeComponent, setActiveComponent] = useState('AllJobs');
     const [loadcomponent, setloadcomponent] = useState(false)
+    const [CatisLoader, setCatisLoader] = useState(true)
+    const [SearchCategory, setSearchCategory] = useState('')
+
+
+
+
 
     const handleComponentChange = (componentName) => {
         setActiveComponent(componentName);
@@ -20,26 +29,31 @@ const JobsTab = () => {
         setloadcomponent(!loadcomponent)
     };
     useEffect(() => {
-        axios.get(`${APP_URL}/api/jobs-catgeories`)
+        setCatisLoader(true)
+        axios.get(`${APP_URL}/api/jobs-catgeories?search=${SearchCategory}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
             .then(response => {
                 console.log('setJobCategory', response);
                 setJobCategory(response)
+                setCatisLoader(false)
             })
             .catch(error => {
                 console.error(error);
+                setCatisLoader(false)
+                if (error.response.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
             });
-    }, [loadcomponent])
+    }, [loadcomponent, SearchCategory])
 
-    useEffect(() => {
-        axios.get(`${APP_URL}/api/all-jobs`)
-            .then(response => {
-                console.log('alljobs', response);
-                setGetAllJobs(response)
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, [loadcomponent])
+
+
+
     return (
         <>
             <div className="activity-tabs mt-5">
@@ -59,14 +73,16 @@ const JobsTab = () => {
 
                 </ul>
                 <div className="tab-content ">
-                    <div className="tab-pane fade active show" id="AllJobs" role="tabpanel" aria-labelledby="AllJobs-tab">
-                        <AllJobs GetAllJobs={GetAllJobs} />
+                    <div className="tab-pane  fade active show" id="AllJobs" role="tabpanel" aria-labelledby="AllJobs-tab">
+                        <AllJobs loadcomponent={loadcomponent} />
+                        {/* <AllJobs GetAllJobs={GetAllJobs} AllJobisLoader={AllJobisLoader} setSearchTitle={setSearchTitle} SearchTitle={SearchTitle} /> */}
                     </div>
                     <div className="tab-pane fade " id="categories" role="tabpanel" aria-labelledby="categories-tab">
-                        <JobCategories JobCategory={JobCategory} />
+                        <JobCategories JobCategory={JobCategory} CatisLoader={CatisLoader} SearchCategory={SearchCategory} setSearchCategory={setSearchCategory} />
                     </div>
                     <div className="tab-pane fade " id="Manage" role="tabpanel" aria-labelledby="Manage-tab">
-                        <JobManage GetAllJobs={GetAllJobs} JobCategorydd={JobCategory}/>
+                        {/* <JobManage GetAllJobs={GetAllJobs} JobCategorydd={JobCategory} setSearchTitle={setSearchTitle} SearchTitle={SearchTitle} /> */}
+                        <JobManage JobCategorydd={JobCategory} loadcomponent={loadcomponent} />
                     </div>
                     <div className="tab-pane fade " id="Submit" role="tabpanel" aria-labelledby="Submit-tab">
                         <JobSubmit JobCategorydd={JobCategory} />

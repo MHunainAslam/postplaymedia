@@ -4,8 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config'
+import Loader from '../Loader'
 
-const JobCategories = ({ JobCategory }) => {
+const JobCategories = ({ JobCategory, CatisLoader, SearchCategory, setSearchCategory }) => {
     const [Filter, setFilter] = useState(false)
     const [Freelance, setFreelance] = useState(false)
     const [FullTime, setFullTime] = useState(false)
@@ -15,13 +16,15 @@ const JobCategories = ({ JobCategory }) => {
     const [JobByCat, setJobByCat] = useState([])
 
 
+
     return (
         <>
+
             <div className="border-bottom row justify-content-between">
                 <div className="col-sm-8 col-lg-6">
                     <form className="  my-3">
                         <div className="d-flex">
-                            <input type="text" className="form-control inp me-2 " placeholder="keywords" aria-label="Username" />
+                            <input type="text" className="form-control inp me-2 " placeholder="keywords" aria-label="Username" value={SearchCategory} onChange={(e) => { setSearchCategory(e.target.value) }} />
                             <input type="text" className="form-control inp me-2 " placeholder="Location" aria-label="Username" />
                             <button className='btn primary-btn rounded-5 '><p><i className="bi bi-search"></i></p></button>
                         </div>
@@ -57,20 +60,27 @@ const JobCategories = ({ JobCategory }) => {
                     </div>
                     : ''}
             </div>
-            <div className="row" >
-                {JobCategory?.data?.data?.map((item, i) => (
-                    <div className="col-lg-4 col-md-6" key={i}>
-                        <div className="card n-card my-4 py-3 "  >
-                            <div className="card-body text-center">
-                                <Link className='link-hov' href={`category/${item.id}`}>
-                                    <p className="heading mb-0 clr-text text-capitalize">{item.name}</p>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+            <div className="row position-relative" >
+                {CatisLoader ? <Loader /> :
+                    <>
+                        {JobCategory?.data?.data.length === 0 ? <div className='text-center heading-m text-black my-5'>No Result Found </div> :
+                            <>
+                                {JobCategory?.data?.data?.map((item, i) => (
+                                    <div className="col-lg-4 col-md-6" key={i}>
+                                        <div className="card n-card my-4 py-3 "  >
+                                            <div className="card-body text-center">
+                                                <Link className='link-hov' href={`category/${item.id}`}>
+                                                    <p className="heading mb-0 clr-text text-capitalize">{item.name}</p>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        }
+                    </>}
             </div>
-            
+
         </>
     )
 }

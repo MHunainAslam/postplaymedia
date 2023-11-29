@@ -1,10 +1,14 @@
 'use client'
+import { token } from '@/utils/Token'
+import { deleteCookie } from 'cookies-next'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const AllMembers = () => {
     const [CommentArea, setCommentArea] = useState(false)
+    const router = useRouter()
     const toggleComments = (postId) => {
         setCommentArea((prevState) => ({
             ...prevState,
@@ -18,6 +22,9 @@ const AllMembers = () => {
             [postId]: !prevState[postId]
         }));
     };
+
+    
+
     return (
         <>
             <ul className='post-border'>
@@ -150,7 +157,7 @@ const AllMembers = () => {
                                         <div className='w-100'>
                                             <input type="text" value={'Hello'} readOnly className='form-control back-border text-black inp' name="" id="" />
                                             <div className="d-flex mt-1 align-items-center">
-                                                <p className="para mb-0 ms-3 pointer text-black"  onClick={() => RplyComments(2)}>Rply</p>
+                                                <p className="para mb-0 ms-3 pointer text-black" onClick={() => RplyComments(2)}>Rply</p>
                                                 <p className="para mb-0 ms-3 pointer text-black" >Delete</p>
                                             </div>
                                         </div>

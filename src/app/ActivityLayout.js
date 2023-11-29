@@ -4,6 +4,7 @@ import ActivitySidebar from '@/components/layout/ActivitySidebar'
 import React from 'react'
 
 const ActivityLayout = ({ children, ActivityPages }) => {
+  
     return (
         <>
             {!ActivityPages ? <>{children}</> :

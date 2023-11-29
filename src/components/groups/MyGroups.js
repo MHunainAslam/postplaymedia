@@ -13,7 +13,7 @@ const MyGroups = () => {
                         <input type="text" className="form-control " placeholder="Search Member" aria-label="Username" />
                     </div>
                 </div>
-                <div className="col-lg-3 mb-3 col-md-6 ">
+                {/* <div className="col-lg-3 mb-3 col-md-6 ">
                     <div className=" search-inp mt-3 w-100">
                         <select name="" className='form-select mt-3 slct ' id="" >
                             <option value="">Last Active</option>
@@ -22,7 +22,7 @@ const MyGroups = () => {
                             <option value="">Alphabetical</option>
                         </select>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="row">
                 <div className="col-xl-4 col-md-6 mt-3">

@@ -3,9 +3,12 @@ import axios from 'axios';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config';
-import { message } from 'antd';
+import { DatePicker, message } from 'antd';
 import Editor from '../Editor';
 import AddCategory from './AddCategory';
+import { useRouter } from 'next/navigation';
+import { deleteCookie } from 'cookies-next';
+import { token } from '@/utils/Token';
 
 const JobSubmit = ({ JobCategorydd }) => {
     const [LogoImg, setLogoImg] = useState(null)
@@ -24,10 +27,11 @@ const JobSubmit = ({ JobCategorydd }) => {
     const [TwitterUsername, setTwitterUsername] = useState('')
     const [isLoading, setisLoading] = useState(false)
     const [ImgId, setImgId] = useState('')
+    const [Expdate, setExpdate] = useState('')
     const [Error, setError] = useState(false)
     const [UserName, setUserName] = useState('')
     const [editorLoaded, setEditorLoaded] = useState(false);
-
+    const router = useRouter()
 
     useEffect(() => {
         setEditorLoaded(true);
@@ -46,8 +50,12 @@ const JobSubmit = ({ JobCategorydd }) => {
             setisLoading(true)
             // console.log(UserName, Email, Password, C_Password, Name, MemberType)
             axios.post(`${APP_URL}/api/jobs-post`,
-                { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId }
-                // formData
+                { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            }
+
             )
                 .then(response => {
                     // Handle successful response here
@@ -74,9 +82,14 @@ const JobSubmit = ({ JobCategorydd }) => {
                 })
                 .catch(error => {
                     // Handle error here
-                    message.error(error.data.message)
+                    message.error(error.response.data.message)
                     console.error(error);
                     setisLoading(false)
+                    if (error.response.status === 401) {
+                        router.push('/')
+                        deleteCookie('logged');
+                        localStorage.removeItem('userdetail')
+                    }
                 });
 
             setError(false)
@@ -92,7 +105,11 @@ const JobSubmit = ({ JobCategorydd }) => {
             reader.onload = () => {
                 setLogoImg(reader.result);
                 console.log(e.target.files[0])
-                axios.post(`${APP_URL}/api/post-media`, formDataimg)
+                axios.post(`${APP_URL}/api/post-media`, formDataimg, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    }
+                })
                     .then(response => {
                         console.log('img', response);
                         setImgId(response.data.data.last_inserted_id)
@@ -100,6 +117,40 @@ const JobSubmit = ({ JobCategorydd }) => {
                     .catch(error => {
                         console.error(error);
                         message.error(error?.response.data?.message)
+                        if (error.response.status === 401) {
+                            router.push('/')
+                            deleteCookie('logged');
+                            localStorage.removeItem('userdetail')
+                        }
+                    });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    const handleVideoChange = (e) => {
+        const formDataVideo = new FormData();
+        formDataVideo.append('media', e.target.files[0]);
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                axios.post(`${APP_URL}/api/post-media`, formDataVideo, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    }
+                })
+                    .then(response => {
+                        console.log('img', response);
+
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        message.error(error?.response.data?.message)
+                        if (error.response.status === 401) {
+                            router.push('/')
+                            deleteCookie('logged');
+                            localStorage.removeItem('userdetail')
+                        }
                     });
             };
             reader.readAsDataURL(file);
@@ -115,6 +166,10 @@ const JobSubmit = ({ JobCategorydd }) => {
         }
     }
     console.log('JobCategorydd', JobCategorydd?.data?.data)
+
+    const onChange = (date, dateString) => {
+        setExpdate(dateString)
+    };
     return (
         <>
             <form action="" onSubmit={SubmitJob}>
@@ -138,6 +193,13 @@ const JobSubmit = ({ JobCategorydd }) => {
                                 <label htmlFor="" className='col-md-2'>Location <span>(optional)</span></label>
                                 <input type="text" name="" id="" placeholder='City' className='form-control inp me-md-2 mb-2 mb-md-0' value={CityLocation} onChange={(e) => setCityLocation(e.target.value)} />
                                 <input type="text" name="" id="" placeholder='Country' className='form-control inp' value={CountryLocation} onChange={(e) => setCountryLocation(e.target.value)} />
+                            </div>
+                            <div className='d-md-flex my-3'>
+                                <label htmlFor="" className='col-md-2'>Expires At</label>
+                                {/* <input type="text" name="" id="" className='form-control inp' value={Expdate} onChange={(e) => setExpdate(e.target.value)} /> */}
+                                <div className="col">
+                                    <DatePicker onChange={onChange} className='inp' />
+                                </div>
                             </div>
                             <div className='d-md-flex my-3'>
                                 <label htmlFor="" className='col-md-2'>Remote Position <span>(optional)</span></label>
@@ -229,7 +291,7 @@ const JobSubmit = ({ JobCategorydd }) => {
                             </div>
                             <div className='d-md-flex my-3'>
                                 <label htmlFor="" className='col-md-2'>Video  <span>(optional)</span></label>
-                                <input type="url" name="" id="" className='form-control inp' value={Video} onChange={(e) => setVideo(e.target.value)} />
+                                <input type="file" name="" id="" className='form-control inp' onChange={handleVideoChange} />
                             </div>
                             <div className='d-md-flex my-3'>
                                 <label htmlFor="" className='col-md-2'>Twitter username <span>(optional)</span></label>
@@ -247,7 +309,7 @@ const JobSubmit = ({ JobCategorydd }) => {
                                 </div>
                             </div>
 
-                            <button className='btn primary-btn px-md-5 px-2 me-3'><p>Preview</p></button>
+                            <button className='btn primary-btn px-md-5 px-2 me-3'><p>Preview {isLoading ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
                             {/* <button className='btn secondary-btn px-md-5 px-2'>Save Draft</button> */}
                         </div>
 

@@ -70,6 +70,7 @@ export const config = {
     '/jobs',
     '/jobs/:path*',
     '/people',
+    '/people/:path*',
     '/photos',
     '/watch',
   ]
