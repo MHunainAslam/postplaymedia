@@ -73,5 +73,6 @@ export const config = {
     '/people/:path*',
     '/photos',
     '/watch',
+    '/profile',
   ]
 }

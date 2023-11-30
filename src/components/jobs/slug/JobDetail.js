@@ -102,17 +102,10 @@ const JobDetail = () => {
                         </div>
                     </div>
                     <div className='mt-5 col-md-6 '>
-                        {/* <video width="320" height="240" controls>
-                    <source src="/https://youtu.be/WwTpfVQgkU0?si=OqqXV1rVIVh_Vr-u/video.mp4" type="video/mp4" />
-                </video>
-                <video src={'https://youtu.be/WwTpfVQgkU0?si=OqqXV1rVIVh_Vr-u/video.mp4'} width="320" height="240" controls ></video> */}
+                        {Jobdata?.video === null ? '' :
+                            <video width="640" height="380" src={` ${IMG_URL + Jobdata?.video?.url}`} controls> Sorry, your browser doesnt support HTML5 <code>video</code>, but you can download this video from the <a href="https://archive.org/details/Popeye_forPresident" target="_blank">Internet Archive</a>. </video>
+                        }
 
-                        <iframe width="100%" height="400" src="https://youtube.com/embed/WwTpfVQgkU0?si=OqqXV1rVIVh_Vr-u" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                        <video width="640" height="480" src="https://archive.org/download/Popeye_forPresident/Popeye_forPresident_512kb.mp4" controls> Sorry, your browser doesnt support HTML5 <code>video</code>, but you can download this video from the <a href="https://archive.org/details/Popeye_forPresident" target="_blank">Internet Archive</a>. </video>
-
-                        <video width="640" height="480" src="https://archive.org/download/Popeye_forPresident/Popeye_forPresident_512kb.mp4" controls> Sorry, your browser doesnt support HTML5 <code>video</code>, but you can download this video from the . </video>
-
-                        {/* Read more: https://html.com/tags/video/#ixzz8KNWm8sRR */}
                     </div>
                     <div className='mt-4'>
                         <p className="heading clr-text">

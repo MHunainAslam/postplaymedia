@@ -11,11 +11,11 @@ import { useRouter } from 'next/navigation'
 
 const AllJobs = ({ loadcomponent }) => {
     const [Filter, setFilter] = useState(false)
-    const [Freelance, setFreelance] = useState(false)
-    const [FullTime, setFullTime] = useState(false)
-    const [Internship, setInternship] = useState(false)
-    const [PartTime, setPartTime] = useState(false)
-    const [Temporary, setTemporary] = useState(false)
+    const [Freelance, setFreelance] = useState(true)
+    const [FullTime, setFullTime] = useState(true)
+    const [Internship, setInternship] = useState(true)
+    const [PartTime, setPartTime] = useState(true)
+    const [Temporary, setTemporary] = useState(true)
     const [AllJobisLoader, setAllJobisLoader] = useState(true)
     const [SearchTitle, setSearchTitle] = useState('')
     const [GetAllJobs, setGetAllJobs] = useState([])
@@ -23,7 +23,7 @@ const AllJobs = ({ loadcomponent }) => {
 
     useEffect(() => {
         setAllJobisLoader(true)
-        axios.get(`${APP_URL}/api/all-jobs?search=${SearchTitle}&type=${!Freelance ? '' : 'Freelance'}`, {
+        axios.get(`${APP_URL}/api/all-jobs?search=${SearchTitle}&type[]=${!Freelance ? '' : 'Freelance'}&type[]=${!FullTime ? '' : 'FullTime'}&type[]=${!Internship ? '' : 'Internship'}&type[]=${!PartTime ? '' : 'PartTime'}&type[]=${!Temporary ? '' : 'Temporary'}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -42,7 +42,7 @@ const AllJobs = ({ loadcomponent }) => {
                 }
                 setAllJobisLoader(false)
             });
-    }, [loadcomponent, SearchTitle, Freelance, FullTime])
+    }, [loadcomponent, SearchTitle, Freelance, FullTime, Internship, PartTime, Temporary])
 
 
     const imgurl = ({ src }) => {

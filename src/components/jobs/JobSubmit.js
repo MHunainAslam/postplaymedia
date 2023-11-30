@@ -43,14 +43,14 @@ const JobSubmit = ({ JobCategorydd }) => {
     }, [])
     const SubmitJob = (e) => {
         e.preventDefault()
-        if (JobTitle === '' || JobType === '' || JobDesc === '' || ApplicationUrl === '' || CompanyName === '') {
+        if (JobTitle === '' || JobType === '' || JobDesc === '' || ApplicationUrl === '' || CompanyName === '' || Expdate === '') {
             setError(true)
         }
         else {
             setisLoading(true)
             // console.log(UserName, Email, Password, C_Password, Name, MemberType)
             axios.post(`${APP_URL}/api/jobs-post`,
-                { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId }, {
+                { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId, expiry_date: Expdate }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -141,6 +141,8 @@ const JobSubmit = ({ JobCategorydd }) => {
                 })
                     .then(response => {
                         console.log('img', response);
+                        setVideo(response?.data?.data?.last_inserted_id)
+                        message.success(response?.data?.message)
 
                     })
                     .catch(error => {
@@ -168,7 +170,8 @@ const JobSubmit = ({ JobCategorydd }) => {
     console.log('JobCategorydd', JobCategorydd?.data?.data)
 
     const onChange = (date, dateString) => {
-        setExpdate(dateString)
+        setExpdate(date)
+        console.log('expdate', dateString, date)
     };
     return (
         <>
@@ -199,6 +202,7 @@ const JobSubmit = ({ JobCategorydd }) => {
                                 {/* <input type="text" name="" id="" className='form-control inp' value={Expdate} onChange={(e) => setExpdate(e.target.value)} /> */}
                                 <div className="col">
                                     <DatePicker onChange={onChange} className='inp' />
+                                    {Error ? Expdate === '' ? <p className='mb-0 para text-danger'>Required*</p> : '' : ''}
                                 </div>
                             </div>
                             <div className='d-md-flex my-3'>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config';
-import { message } from 'antd';
+import { DatePicker, message } from 'antd';
 import Editor from '../Editor';
 import AddCategory from './AddCategory';
 import { token } from '@/utils/Token';
@@ -58,7 +58,7 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
             setisLoading(true)
             // console.log(UserName, Email, Password, C_Password, Name, MemberType)
             axios.put(`${APP_URL}/api/job/${JobId}/update`,
-                { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId }, {
+                { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId, expiry_date: Expdate }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -136,7 +136,37 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
             reader.readAsDataURL(file);
         }
     };
+    const handleVideoChange = (e) => {
+        const formDataVideo = new FormData();
+        formDataVideo.append('media', e.target.files[0]);
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                axios.post(`${APP_URL}/api/post-media`, formDataVideo, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    }
+                })
+                    .then(response => {
+                        console.log('img', response);
+                        setVideo(response?.data?.data?.last_inserted_id)
+                        message.success(response?.data?.message)
 
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        message.error(error?.response.data?.message)
+                        if (error.response.status === 401) {
+                            router.push('/')
+                            deleteCookie('logged');
+                            localStorage.removeItem('userdetail')
+                        }
+                    });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     const addcat = (e) => {
         if (e.target.value === 'addcat') {
             document.querySelector('.addcat').click()
@@ -145,6 +175,10 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
             setJobCategory(e.target.value)
         }
     }
+    const onChange = (date, dateString) => {
+        setExpdate(date)
+        console.log('expdate', dateString, date)
+    };
     console.log('JobCategorydd', JobCategorydd?.data?.data)
     return (
         <>
@@ -172,6 +206,14 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
                                 <label htmlFor="" className='col-md-2'>Location <span>(optional)</span></label>
                                 <input type="text" name="" id="" placeholder='City' className='form-control inp me-md-2 mb-2 mb-md-0' value={CityLocation} onChange={(e) => setCityLocation(e.target.value)} />
                                 <input type="text" name="" id="" placeholder='Country' className='form-control inp' value={CountryLocation} onChange={(e) => setCountryLocation(e.target.value)} />
+                            </div>
+                            <div className='d-md-flex my-3'>
+                                <label htmlFor="" className='col-md-2'>Expires At</label>
+                                {/* <input type="text" name="" id="" className='form-control inp' value={Expdate} onChange={(e) => setExpdate(e.target.value)} /> */}
+                                <div className="col">
+                                    <DatePicker onChange={onChange} className='inp' />
+                                    {Error ? Expdate === '' ? <p className='mb-0 para text-danger'>Required*</p> : '' : ''}
+                                </div>
                             </div>
                             <div className='d-md-flex my-3'>
                                 <label htmlFor="" className='col-md-2'>Remote Position <span>(optional)</span></label>
@@ -263,7 +305,7 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
                             </div>
                             <div className='d-md-flex my-3'>
                                 <label htmlFor="" className='col-md-2'>Video  <span>(optional)</span></label>
-                                <input type="url" name="" id="" className='form-control inp' value={Video} onChange={(e) => setVideo(e.target.value)} />
+                                <input type="file" name="" id="" className='form-control inp' onChange={handleVideoChange} />
                             </div>
                             <div className='d-md-flex my-3'>
                                 <label htmlFor="" className='col-md-2'>Twitter username <span>(optional)</span></label>

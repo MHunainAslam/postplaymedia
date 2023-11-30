@@ -1,13 +1,8 @@
 'use client'
-import { token } from '@/utils/Token'
-import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import { APP_URL } from '../../../config'
+import React from 'react'
 import Loader from '../Loader'
-
 const ActiveMembers = ({ UserData, UserDataLoader }) => {
 
     return (

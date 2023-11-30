@@ -105,7 +105,7 @@ const JobManage = ({ JobCategorydd, loadcomponent }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {GetAllJobs?.data?.data.length === 0 ? <tr  className='text-center heading-m text-black my-5'><td colspan="4">No Result Found </td></tr> :
+                                {GetAllJobs?.data?.data.length === 0 ? <tr className='text-center heading-m text-black my-5'><td colspan="4">No Result Found </td></tr> :
                                     <>
                                         {GetAllJobs?.data?.data?.map((item, i) => (
                                             <tr key={i}>
@@ -122,7 +122,7 @@ const JobManage = ({ JobCategorydd, loadcomponent }) => {
                                                 </td>
                                                 {/* <td><i className="bi bi-check-circle text-danger"></i></td> */}
                                                 <td>{item.created_at.slice(0, 10)}</td>
-                                                <td>January 1, 2026 </td>
+                                                <td>{item.expiry_date ? item.expiry_date.slice(0, 10) : '--'} </td>
                                             </tr>
                                         ))}
 
