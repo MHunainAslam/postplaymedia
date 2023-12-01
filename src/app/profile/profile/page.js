@@ -15,7 +15,7 @@ const page = () => {
                         <p className="para clr-text mb-0">Edit</p>
                     </li>
 
-                    <li className="nav-item nav-link text-center" id="UserProfileChangeProfilePic-tab" data-bs-toggle="tab" data-bs-target="#UserProfileChangeProfilePic" type="button" role="tab" aria-controls="UserProfileChangeProfilePic" aria-selected="false" tabIndex="-1">
+                    <li className="nav-item nav-link text-center UserProfileChangeProfilePic-tab" id="UserProfileChangeProfilePic-tab" data-bs-toggle="tab" data-bs-target="#UserProfileChangeProfilePic" type="button" role="tab" aria-controls="UserProfileChangeProfilePic" aria-selected="false" tabIndex="-1">
                         <p className="para clr-text mb-0">Change Profile Photo</p>
                     </li>
                     <li className="nav-item nav-link text-center" id="UserProfileChangeCoverPic-tab" data-bs-toggle="tab" data-bs-target="#UserProfileChangeCoverPic" type="button" role="tab" aria-controls="UserProfileChangeCoverPic" aria-selected="false" tabIndex="-1">

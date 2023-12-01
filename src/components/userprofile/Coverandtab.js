@@ -23,8 +23,9 @@ const Coverandtab = ({ Userdata }) => {
     }
     const movetochangedp = () => {
         router.push('/profile/profile')
-        document.getElementById('UserProfileChangeProfilePic-tab').click()
+        document.querySelector('.UserProfileChangeProfilePic-tab').click()
     }
+    
     return (
         <>
             <div className="position-relative">
