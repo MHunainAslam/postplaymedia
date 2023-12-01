@@ -1,18 +1,16 @@
-import ProfileLayout from '@/app/ProfileLayout'
-import UserProfileLayout from '@/app/UserProfileLayout'
-import FriendsTab from '@/components/userprofile/PeopleActivity/FriendsTab'
-import GroupsTab from '@/components/userprofile/PeopleActivity/GroupsTab'
-import MentionTab from '@/components/userprofile/PeopleActivity/MentionTab'
-import PersonalTab from '@/components/userprofile/PeopleActivity/PersonalTab'
 import React from 'react'
+import PersonalTab from './PersonalTab'
+import MentionTab from './MentionTab'
+import FriendsTab from './FriendsTab'
+import GroupsTab from './GroupsTab'
 
-const page = () => {
+const PeopleActivityTab = () => {
     return (
-        <UserProfileLayout ProfilePages>
+        <>
             <div className="mt-3 profile-tabs">
                 <ul className="peopletab nav nav-tabs border-0 border-b-0  " role="tablist">
                     <li className="nav-item nav-link active text-center" id="PeopleActivityPersonal-tab" data-bs-toggle="tab" data-bs-target="#PeopleActivityPersonal" type="button" role="tab" aria-controls="PeopleActivityPersonal" aria-selected="false" tabIndex="-1">
-                        <p className="para clr-text mb-0">Personal</p>
+                        <p className="para clr-text mb-0">Personal sss</p>
                     </li>
                     <li className="nav-item nav-link text-center" id="PeopleActivityMention-tab" data-bs-toggle="tab" data-bs-target="#PeopleActivityMention" type="button" role="tab" aria-controls="PeopleActivityMention" aria-selected="false" tabIndex="-1">
                         <p className="para clr-text mb-0">Mentions</p>
@@ -41,8 +39,8 @@ const page = () => {
                     <GroupsTab />
                 </div>
             </div>
-        </UserProfileLayout>
+        </>
     )
 }
 
-export default page
+export default PeopleActivityTab

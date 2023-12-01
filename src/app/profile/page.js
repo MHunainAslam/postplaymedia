@@ -1,14 +1,11 @@
 import React from 'react'
-import ActivityLayout from '../ActivityLayout'
-import PeopleTab from '@/components/people/PeopleTab'
-import ProfileTabPane from '@/components/profile/ProfileTabPane'
-import ProfileLayout from '../ProfileLayout'
 import UserProfileLayout from '../UserProfileLayout'
+import UserProfileTabPane from '@/components/userprofile/UserProfileTabPane'
 
 const page = () => {
     return (
         <UserProfileLayout ProfilePages>
-            <ProfileTabPane />
+            <UserProfileTabPane /> ggg
         </UserProfileLayout>
     )
 }

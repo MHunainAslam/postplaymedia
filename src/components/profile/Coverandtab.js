@@ -41,7 +41,7 @@ const Coverandtab = () => {
                                         </div>
                                     </div>
                                     <div className=" profile-tabs d-md-flex d-none  my-3">
-                                        <UserProfileTabs /> 
+                                        <ProfileTabs /> 
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@ const Coverandtab = () => {
             </div>
             <div className="container d-md-none">
                 <div className="profile-tabs  " style={{ marginTop: '150px' }}>
-                    <UserProfileTabs />
+                    <ProfileTabs />
                 </div>
             </div>
         

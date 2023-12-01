@@ -4,8 +4,9 @@ import React, { useEffect } from 'react'
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
+import Link from 'next/link';
 
-const ActivityHeader = () => {
+const ActivityHeader = ({ Userdata }) => {
     const router = useRouter()
     const logout = () => {
         deleteCookie('logged');
@@ -82,19 +83,18 @@ const ActivityHeader = () => {
                                 <li><button className="btn secondary-btn w-100"  >All Request</button></li>
                             </ul>
                         </li>
-                        <a className='d-flex align-items-center nav-link ' data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        {/* <div className='d-flex'> */}
+                        <Link className='d-flex align-items-center ' href="/profile/activity">
                             <li className=" list-unstyled header-btns">
-                                <div className="" href="#" >
+                                <div className="" >
                                     <Image className='post-profile-sm' src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                 </div>
 
 
                             </li>
-                            {/* <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" >Dropdown</a> */}
-                            {/* </li> */}
-                            <p className='para-sm fw-bold mb-0 '>@admin</p>
-                        </a>
+                        </Link>
+                        <Link class="nav-link fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">@{Userdata?.data?.username}</Link>
+                        {/* </div> */}
                         <ul className="dropdown-menu " style={{ zIndex: 9999 }}>
                             <li onClick={logout}><p className="dropdown-item pointer mb-0" >logout</p></li>
                         </ul>

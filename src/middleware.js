@@ -74,5 +74,6 @@ export const config = {
     '/photos',
     '/watch',
     '/profile',
+    '/profile/:path*',
   ]
 }

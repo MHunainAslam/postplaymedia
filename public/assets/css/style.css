@@ -1641,6 +1641,9 @@ h5 {
 .max-w-100{
     max-width: 100%;
 }
+.img-preview{
+    background: rgb(0 0 0 / 30%);
+}
 @media (min-width: 1200px) {
     .sidebar-offcanvas {
         width: 100% !important;

@@ -23,7 +23,7 @@ const PeopleProfileEdit = () => {
                     </div>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Member Type <span>(Required)</span></label>
+                    <label htmlFor="" className='col-md-2'>Member Type  <span>(Required)</span></label>
                     <div className="col">
                         <select name="" className='slct form-select' id="" value={MemberType} onChange={(e) => setMemberType(e.target.value)}>
                             <option value="student">Student</option>

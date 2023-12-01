@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
-const UserProfileTabs = () => {
+const UserProfileTabs = ({ Userdata }) => {
     const pathname = usePathname()
     const segments = pathname.split('/');
     const lastSegment = segments[segments.length - 1];
@@ -16,7 +16,7 @@ const UserProfileTabs = () => {
                 <li className={`nav-item nav-link text-center ${lastSegment === 'activity' ? 'active' : ''}`}>
                     <Link className='text-decoration-none' href={'/profile/activity'}>
                         <i className="clr-text heading-m mb-2 bi bi-activity"></i>
-                        <p className="para clr-text mb-0">Activity</p>
+                        <p className="para clr-text mb-0">Activity </p>
                     </Link>
                 </li>
                 <li className={`nav-item nav-link text-center ${lastSegment === 'profile' ? 'active' : ''}`} >
