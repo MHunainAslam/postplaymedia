@@ -15,14 +15,14 @@ const ActiveMembers = ({ UserData, UserDataLoader }) => {
     const sendreq = (e) => {
         setReceiverid(e)
         console.log(e)
-        axios.post(`${APP_URL}/api/friend-requests/send`, { receiver_id: Receiverid }, {
+        axios.post(`${APP_URL}/api/friend-requests/send`, { receiver_id: e }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
                 console.log('img', response);
-                setImgId(response.data.data.last_inserted_id)
+
             })
             .catch(error => {
                 console.error(error);
@@ -54,32 +54,39 @@ const ActiveMembers = ({ UserData, UserDataLoader }) => {
                 </div> */}
             </div>
             <div className="row position-relative">
+
                 {UserDataLoader ? <Loader /> :
                     <>
-                        {UserData?.data?.data?.map((item, i) => (
-                            <div className="col-xl-4 col-md-6 mt-3" key={i}>
-                                <div className="card people-card">
-                                    <div className="card-body">
-                                        <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
-                                        <Link className='link-hov' href={'/people/slug/activity'}><p className="heading text-black mb-2 mt-4">{item.name}</p></Link>
-                                        <p className="para clr-light">Active 2 minutes ago</p>
-                                        <div className="d-flex fng justify-content-center">
-                                            <div className='mx-2'>
-                                                <p className="heading mb-0">1</p>
-                                                <p className="para">Friends</p>
+                        {UserData?.data?.data?.length ?
+                            <>
+                                {UserData?.data?.data?.map((item, i) => (
+                                    <div className="col-xl-4 col-md-6 mt-3" key={i}>
+                                        <div className="card people-card">
+                                            <div className="card-body">
+                                                <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
+                                                <Link className='link-hov' href={'/people/slug/activity'}><p className="heading text-black mb-2 mt-4">{item.name}</p></Link>
+                                                <p className="para clr-light">Active 2 minutes ago</p>
+                                                <div className="d-flex fng justify-content-center">
+                                                    <div className='mx-2'>
+                                                        <p className="heading mb-0">1</p>
+                                                        <p className="para">Friends</p>
+                                                    </div>
+                                                    <div className='mx-2'>
+                                                        <p className="heading mb-0">1</p>
+                                                        <p className="para">Groups</p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className='mx-2'>
-                                                <p className="heading mb-0">1</p>
-                                                <p className="para">Groups</p>
+                                            <div className="card-footer">
+                                                <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>Add Friend</p></button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="card-footer">
-                                        <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>Add Friend</p></button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                                ))}
+                            </>
+                            : <div className="alert-box">
+                                <p>0 Member Registered</p>
+                            </div>}
                     </>
                 }
             </div>

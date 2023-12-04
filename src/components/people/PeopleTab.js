@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config'
+import { deleteCookie } from 'cookies-next'
 
 const PeopleTab = () => {
     const [UserData, setUserData] = useState([])
@@ -39,7 +40,7 @@ const PeopleTab = () => {
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">
                     <li className="nav-item nav-link active" id="ActiveMembers-tab" data-bs-toggle="tab" data-bs-target="#ActiveMembers" type="button" role="tab" aria-controls="ActiveMembers" aria-selected="false" tabIndex="-1">
-                        Active Members <span className='comment-active ms-1'>{UserData?.data?.data?.length}</span>
+                        Active Members <span className='comment-active ms-1'>{UserData?.data?.data?.length ? UserData?.data?.data?.length : '0' }</span>
                     </li>
                     <li className="nav-item nav-link " id="MyFriends-tab" data-bs-toggle="tab" data-bs-target="#MyFriends" type="button" role="tab" aria-controls="MyFriends" aria-selected="false" tabIndex="-1">
                         My Friends <span className='comment-active ms-1'>7</span>

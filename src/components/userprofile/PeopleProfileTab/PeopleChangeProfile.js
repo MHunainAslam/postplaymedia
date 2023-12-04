@@ -53,7 +53,7 @@ const PeopleChangeProfile = () => {
     const ChangeProfile = (e) => {
         setisloading(true)
         e.preventDefault()
-        axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { profile_photo: ChangeDP.toString() }, {
+        axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { profile_photo: ChangeDP?.toString() }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }

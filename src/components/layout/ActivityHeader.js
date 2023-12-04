@@ -1,13 +1,20 @@
 'use client'
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
-import { userlocaldata } from '@/utils/Token';
+import { token, username } from '@/utils/Token';
+import UserDataLayout from '@/app/UserDataLayout';
+import axios from 'axios';
+import { APP_URL, IMG_URL } from '../../../config';
+import Loader from '../Loader';
 
 const ActivityHeader = ({ Userdata }) => {
+    const [UserProfiledata, setUserProfiledata] = useState()
+    const [UserProfileloader, setUserProfileloader] = useState(true)
+    const [FrndReq, setFrndReq] = useState([])
     const router = useRouter()
     const logout = () => {
         deleteCookie('logged');
@@ -15,7 +22,7 @@ const ActivityHeader = ({ Userdata }) => {
         router.push('/')
         console.log(deleteCookie())
     }
-  
+
     useEffect(() => {
         const getCookie = (cookieName) => {
             const name = cookieName + "=";
@@ -47,85 +54,186 @@ const ActivityHeader = ({ Userdata }) => {
         }
     }, [])
 
+    useEffect(() => {
+        axios.get(`${APP_URL}/api/authMe`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('authMe', response);
+                setUserProfiledata(response?.data)
+                setUserProfileloader(false)
+
+            })
+            .catch(error => {
+                setUserProfileloader(false)
+                console.error(error);
+                if (error.response.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }, [])
+    useEffect(() => {
+        axios.get(`${APP_URL}/api/friend-requests/received`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('FrndReq', response);
+                setFrndReq(response?.data?.received_friend_requests)
+
+
+            })
+            .catch(error => {
+
+                console.error(error);
+                if (error.response.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }, [])
+    const imgurl = ({ src }) => {
+        return `${IMG_URL}${src}`
+    }
+
+    const accptfrndreq = (e) => {
+        axios.patch(`${APP_URL}/api/friend-requests/accept/${e}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('profile edit', response);
+
+            })
+            .catch(error => {
+                console.error(error);
+                message.error(error?.response?.data?.message)
+                if (error.response.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+
+
+
+            });
+    }
     return (
         <>
-            <div className="activity-header">
-                <div className="row justify-content-between px-md-3 px-0 w-100">
-                    <div className="col-md-3 col-12 py-md-0 py-2">
-                        <div className="input-group header-search ">
-                            <i className="bi bi-text-left clr-primary fs-4 d-md-none" data-bs-toggle="offcanvas" data-bs-target="#ActivitySidebar" aria-controls="ActivitySidebar"></i>
-                            <span className="input-group-text border-0 bg-transparent" id="basic-addon1"><i className="bi bi-search"></i></span>
-                            <input type="text" className="form-control border-0 bg-transparent" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
+
+            {UserProfileloader ? <Loader /> :
+
+                <div className="activity-header">
+                    <div className="row justify-content-between px-md-3 px-0 w-100">
+                        <div className="col-md-3 col-12 py-md-0 py-2">
+                            <div className="input-group header-search ">
+                                <i className="bi bi-text-left clr-primary fs-4 d-md-none" data-bs-toggle="offcanvas" data-bs-target="#ActivitySidebar" aria-controls="ActivitySidebar"></i>
+                                <span className="input-group-text border-0 bg-transparent" id="basic-addon1"><i className="bi bi-search"></i></span>
+                                <input type="text" className="form-control border-0 bg-transparent" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
+                            </div>
+                        </div>
+                        <div className="col d-flex justify-content-md-end justify-content-between align-items-center py-md-0 py-3">
+                            <li className="nav-item dropdown list-unstyled header-btns">
+                                <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i className="bi bi-person-plus"></i>
+                                </a>
+                                <ul className="dropdown-menu py-1 border-0 ">
+                                    <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Friend Requests</a></li>
+                                    <hr />
+                                    {FrndReq?.length === 0 ?
+                                        <li>
+                                            <div className="no-msg-req">
+                                                No Friend Request
+                                            </div>
+                                        </li>
+                                        :
+                                        <>
+                                            {FrndReq?.map((item, i) => (
+                                                <li key={i}>
+                                                    <div className="no-msg-req d-flex justify-content-between">
+                                                        <div className="d-flex align-items-center">
+                                                            <Image className='post-profile-sm' src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
+                                                            <p className='mb-0 para text-black ms-2 fw-bold'>{item.sender_id} <span className='fw-normal'>Send you a friend request</span></p>
+                                                        </div>
+
+                                                        <div className="d-flex">
+                                                            <button className='btn secondary-btn-rounded p-1 rounded-5'>
+                                                                <i class="bi bi-x-lg"></i>
+                                                            </button>
+                                                            <input className='btn secondary-btn-rounded ms-2 accpt-btn' type='button' value={``} onClick={() => accptfrndreq(item.sender_id)} />
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </>
+                                    }
+                                    <hr />
+                                    <li><button className="btn secondary-btn w-100"  >All Request</button></li>
+                                </ul>
+                            </li>
+                            <li className="nav-item dropdown list-unstyled header-btns">
+                                <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i className="bi bi-bell"></i>
+                                </a>
+                                <ul className="dropdown-menu py-1 border-0 ">
+                                    <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Friend Requests</a></li>
+                                    <hr />
+                                    <li>
+                                        <div className="no-msg-req">
+                                            No Message Request
+                                        </div>
+                                    </li>
+                                    <hr />
+                                    <li><button className="btn secondary-btn w-100"  >All Request</button></li>
+                                </ul>
+                            </li>
+                            <li className="nav-item dropdown list-unstyled header-btns">
+                                <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i className="bi bi-envelope-open"></i>
+                                </a>
+                                <ul className="dropdown-menu py-1 border-0 ">
+                                    <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Friend Requests</a></li>
+                                    <hr />
+                                    <li>
+                                        <div className="no-msg-req">
+                                            No Message Request
+                                        </div>
+                                    </li>
+                                    <hr />
+                                    <li><button className="btn secondary-btn w-100"  >All Request</button></li>
+                                </ul>
+                            </li>
+                            {/* <div className='d-flex'> */}
+                            <Link className='d-flex align-items-center ' href="/profile/activity">
+                                <li className=" list-unstyled header-btns">
+                                    <div className="" >
+                                        {UserProfiledata?.data?.profile_photo === null ?
+                                            <Image className='post-profile-sm' src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
+                                            :
+                                            <Image className='post-profile-sm' loader={imgurl} src={UserProfiledata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
+                                        }
+                                    </div>
+
+
+                                </li>
+                            </Link>
+                            <Link class="nav-link fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{UserProfiledata?.data?.name}</Link>
+                            {/* </div> */}
+                            <ul className="dropdown-menu " style={{ zIndex: 9999 }}>
+                                <li onClick={logout}><p className="dropdown-item pointer mb-0" >logout</p></li>
+                            </ul>
+
                         </div>
                     </div>
-                    <div className="col d-flex justify-content-md-end justify-content-between align-items-center py-md-0 py-3">
-                        <li className="nav-item dropdown list-unstyled header-btns">
-                            <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i className="bi bi-person-plus"></i>
-                            </a>
-                            <ul className="dropdown-menu py-1 border-0 ">
-                                <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Friend Requests</a></li>
-                                <hr />
-                                <li>
-                                    <div className="no-msg-req">
-                                        No Message Request
-                                    </div>
-                                </li>
-                                <hr />
-                                <li><button className="btn secondary-btn w-100"  >All Request</button></li>
-                            </ul>
-                        </li>
-                        <li className="nav-item dropdown list-unstyled header-btns">
-                            <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i className="bi bi-bell"></i>
-                            </a>
-                            <ul className="dropdown-menu py-1 border-0 ">
-                                <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Friend Requests</a></li>
-                                <hr />
-                                <li>
-                                    <div className="no-msg-req">
-                                        No Message Request
-                                    </div>
-                                </li>
-                                <hr />
-                                <li><button className="btn secondary-btn w-100"  >All Request</button></li>
-                            </ul>
-                        </li>
-                        <li className="nav-item dropdown list-unstyled header-btns">
-                            <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i className="bi bi-envelope-open"></i>
-                            </a>
-                            <ul className="dropdown-menu py-1 border-0 ">
-                                <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Friend Requests</a></li>
-                                <hr />
-                                <li>
-                                    <div className="no-msg-req">
-                                        No Message Request
-                                    </div>
-                                </li>
-                                <hr />
-                                <li><button className="btn secondary-btn w-100"  >All Request</button></li>
-                            </ul>
-                        </li>
-                        {/* <div className='d-flex'> */}
-                        <Link className='d-flex align-items-center ' href="/profile/activity">
-                            <li className=" list-unstyled header-btns">
-                                <div className="" >
-                                    <Image className='post-profile-sm' src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
-                                </div>
-
-
-                            </li>
-                        </Link>
-                        <Link class="nav-link fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{Userdata?.data?.name ? Userdata.data?.name : userlocaldata?.name}</Link>
-                        {/* </div> */}
-                        <ul className="dropdown-menu " style={{ zIndex: 9999 }}>
-                            <li onClick={logout}><p className="dropdown-item pointer mb-0" >logout</p></li>
-                        </ul>
-
-                    </div>
-                </div>
-            </div>
+                </div >
+            }
         </>
     )
 }

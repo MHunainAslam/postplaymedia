@@ -1,3 +1,4 @@
+
 export const GetToken = (key) => {
     if (typeof window !== 'undefined') {
         const item = JSON.parse(localStorage.getItem(key));
@@ -8,9 +9,10 @@ export const GetToken = (key) => {
 export const GetLocaldata = (key) => {
     if (typeof window !== 'undefined') {
         const item = JSON.parse(localStorage.getItem(key));
-        return item?.response?.data?.data;
+        return item?.response?.data?.data?.name;
     }
     return null;
 };
 export const token = GetToken('userdetail')
-export const userlocaldata = GetLocaldata('userdetail')
+export const username = GetLocaldata('userdetail')
+

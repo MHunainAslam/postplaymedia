@@ -15,7 +15,8 @@
     --spot: #68EBBC;
 
 }
-body{
+
+body {
     overflow: auto !important;
 }
 
@@ -138,6 +139,21 @@ body{
 }
 
 .secondary-btn:hover {
+    border: 1px solid var(--primary);
+    background-color: var(--primary) !important;
+    color: white !important;
+}
+
+.secondary-btn-rounded {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--primary) !important;
+    border-radius: 100% !important;
+    color: var(--primary);
+    background-color: transparent;
+}
+
+.secondary-btn-rounded:hover {
     border: 1px solid var(--primary);
     background-color: var(--primary) !important;
     color: white !important;
@@ -870,9 +886,10 @@ h5 {
 }
 
 .header-btns ul {
-    top: 100% !important;
+    top: 85% !important;
     box-shadow: 0 15px 100px rgba(58, 46, 68, 0.322);
     min-width: 210px;
+    width: calc(280px + (500 - 280) * ((100vw - 320px) / (1920 - 320)));
     z-index: 999999;
 }
 
@@ -1628,22 +1645,29 @@ h5 {
     justify-content: center;
     color: white;
 }
-.underline-tab.profile-tabs .peopletab .active i, .underline-tab.profile-tabs .peopletab .active p{
+
+.underline-tab.profile-tabs .peopletab .active i,
+.underline-tab.profile-tabs .peopletab .active p {
     color: var(--primary) !important;
 }
-.underline-tab.profile-tabs .peopletab .active::after{
-    height: 5px ;
+
+.underline-tab.profile-tabs .peopletab .active::after {
+    height: 5px;
 }
-.changeprofile-card{
+
+.changeprofile-card {
     border: 2px dashed var(--border) !important;
     border-radius: 15px !important;
 }
-.max-w-100{
+
+.max-w-100 {
     max-width: 100%;
 }
-.img-preview{
+
+.img-preview {
     background: rgb(0 0 0 / 30%);
 }
+
 @media (min-width: 1200px) {
     .sidebar-offcanvas {
         width: 100% !important;
@@ -2048,6 +2072,7 @@ h5 {
 
 
 }
-.min-vh-50{
+
+.min-vh-50 {
     min-height: 50vh;
 }
