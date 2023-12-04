@@ -5,6 +5,7 @@ import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
+import { userlocaldata } from '@/utils/Token';
 
 const ActivityHeader = ({ Userdata }) => {
     const router = useRouter()
@@ -14,12 +15,35 @@ const ActivityHeader = ({ Userdata }) => {
         router.push('/')
         console.log(deleteCookie())
     }
-    // console.log('ss',document.cookie.split('=')[0], JSON.parse(localStorage.getItem('userdetail')).response.data.data)
+  
     useEffect(() => {
+        const getCookie = (cookieName) => {
+            const name = cookieName + "=";
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookieArray = decodedCookie.split(';');
 
-        if (!document.cookie.split('=')[0] || document.cookie.split('=')[1] != JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.token) {
+            for (let i = 0; i < cookieArray.length; i++) {
+                let cookie = cookieArray[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(name) === 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return ""; // If the cookie is not found
+        };
+
+        // Usage:
+        const myCookieValue = getCookie('logged');
+        console.log(myCookieValue, 'myCookieValue');
+
+
+        if (!myCookieValue || myCookieValue != JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.token) {
             router.replace('/login')
             deleteCookie('logged');
+            console.log(document.cookie.split('=')[0])
+            console.log('eroor')
         }
     }, [])
 
@@ -93,7 +117,7 @@ const ActivityHeader = ({ Userdata }) => {
 
                             </li>
                         </Link>
-                        <Link class="nav-link fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">@{Userdata?.data?.username}</Link>
+                        <Link class="nav-link fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{Userdata?.data?.name ? Userdata.data?.name : userlocaldata?.name}</Link>
                         {/* </div> */}
                         <ul className="dropdown-menu " style={{ zIndex: 9999 }}>
                             <li onClick={logout}><p className="dropdown-item pointer mb-0" >logout</p></li>

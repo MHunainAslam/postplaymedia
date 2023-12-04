@@ -1,10 +1,39 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import Loader from '../Loader'
+import { APP_URL } from '../../../config'
+import axios from 'axios'
+import { deleteCookie } from 'cookies-next'
+import { token } from '@/utils/Token'
+import { useRouter } from 'next/navigation'
+import { message } from 'antd'
 const ActiveMembers = ({ UserData, UserDataLoader }) => {
-
+    const [Receiverid, setReceiverid] = useState()
+    const router = useRouter()
+    const sendreq = (e) => {
+        setReceiverid(e)
+        console.log(e)
+        axios.post(`${APP_URL}/api/friend-requests/send`, { receiver_id: Receiverid }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('img', response);
+                setImgId(response.data.data.last_inserted_id)
+            })
+            .catch(error => {
+                console.error(error);
+                message.error(error?.response.data?.message)
+                if (error.response.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
     return (
         <>
             <div className="border-bottom row justify-content-between">
@@ -46,7 +75,7 @@ const ActiveMembers = ({ UserData, UserDataLoader }) => {
                                         </div>
                                     </div>
                                     <div className="card-footer">
-                                        <button className='btn secondary-btn '><p className='mb-0 px-4'>My Profile</p></button>
+                                        <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>Add Friend</p></button>
                                     </div>
                                 </div>
                             </div>

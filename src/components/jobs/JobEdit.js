@@ -29,6 +29,7 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
     const [ImgId, setImgId] = useState('')
     const [Error, setError] = useState(false)
     const [UserName, setUserName] = useState('')
+    const [Expdate, setExpdate] = useState('')
 
     const [editorLoaded, setEditorLoaded] = useState(false);
 

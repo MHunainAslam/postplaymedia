@@ -9,7 +9,7 @@ const page = () => {
 
     return (
         <UserProfileLayout ProfilePages>
-            setting
+         setting
         </UserProfileLayout>
     )
 }

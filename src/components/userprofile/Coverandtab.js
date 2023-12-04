@@ -14,18 +14,15 @@ const Coverandtab = ({ Userdata }) => {
         return `${IMG_URL}${src}`
     }
     const movetoedit = () => {
-        router.push('/profile/profile')
-        document.getElementById('UserProfileEdit-tab').click()
+        router.push('/profile/profile?profile-tab=editprofile')
     }
     const movetochangecover = () => {
-        router.push('/profile/profile')
-        document.getElementById('UserProfileChangeCoverPic-tab').click()
+        router.push('/profile/profile?profile-tab=changecover')
     }
     const movetochangedp = () => {
-        router.push('/profile/profile')
-        document.querySelector('.UserProfileChangeProfilePic-tab').click()
+        router.push('/profile/profile?profile-tab=changeprofile')
     }
-    
+
     return (
         <>
             <div className="position-relative">
