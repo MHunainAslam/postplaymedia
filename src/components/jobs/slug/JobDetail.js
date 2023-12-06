@@ -5,11 +5,12 @@ import React, { useEffect, useState } from 'react'
 import { APP_URL, IMG_URL } from '../../../../config';
 import Link from 'next/link';
 import Image from 'next/image';
-import { token } from '@/utils/Token';
+import { GetToken } from '@/utils/Token';
 import { deleteCookie } from 'cookies-next';
 import Loader from '@/components/Loader';
 
 const JobDetail = () => {
+    const token = GetToken('userdetail')
     const [Jobdata, setJobdata] = useState('')
     const [isLoading, setisLoading] = useState(true)
     const { JobDetail } = useParams()

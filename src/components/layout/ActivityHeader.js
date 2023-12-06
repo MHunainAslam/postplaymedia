@@ -5,12 +5,13 @@ import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
-import { token, username } from '@/utils/Token';
+import { GetToken, username } from '@/utils/Token';
 import UserDataLayout from '@/app/UserDataLayout';
 import axios from 'axios';
 import { APP_URL, IMG_URL } from '../../../config';
 import Loader from '../Loader';
 import { message } from 'antd';
+import LogoutConfirmation from './LogoutConfirmation';
 
 const ActivityHeader = ({ Userdata }) => {
     const [UserProfiledata, setUserProfiledata] = useState()
@@ -24,7 +25,7 @@ const ActivityHeader = ({ Userdata }) => {
         router.push('/')
         console.log(deleteCookie())
     }
-
+    const token = GetToken('userdetail')
 
     const ref = useRef(null);
 
@@ -277,13 +278,14 @@ const ActivityHeader = ({ Userdata }) => {
                             <Link className="nav-link fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{UserProfiledata?.data?.name}</Link>
                             {/* </div> */}
                             <ul className="dropdown-menu " style={{ zIndex: 9999 }}>
-                                <li onClick={logout}><p className="dropdown-item pointer mb-0" >logout</p></li>
+                                <li data-bs-toggle="modal" data-bs-target="#logoutModal" ><p className="dropdown-item pointer mb-0" >logout</p></li>
                             </ul>
 
                         </div>
                     </div>
                 </div >
             }
+            <LogoutConfirmation logout={logout} />
         </>
     )
 }

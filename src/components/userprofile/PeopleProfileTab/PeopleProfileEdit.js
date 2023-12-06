@@ -1,5 +1,5 @@
 'use client'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 import { DatePicker, message } from 'antd'
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 
 const PeopleProfileEdit = ({ }) => {
+    const token = GetToken('userdetail')
     const { Userdata } = useContext(UserContext);
     const [Name, setName] = useState()
     const [DateofBirth, setDateofBirth] = useState()

@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import axios from 'axios'
 import { APP_URL, IMG_URL } from '../../../config'
 import Loader from '../Loader'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 
 const ActivitySidebar = () => {
@@ -16,6 +16,7 @@ const ActivitySidebar = () => {
     const router = useRouter()
     const [UserProfiledata, setUserProfiledata] = useState()
     const [UserProfileloader, setUserProfileloader] = useState(true)
+    const token = GetToken('userdetail')
     useEffect(() => {
         axios.get(`${APP_URL}/api/authMe`, {
             headers: {

@@ -6,11 +6,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useContext, useRef, useState } from 'react'
 import { APP_URL } from '../../../../config';
-import { token } from '@/utils/Token';
+import { GetToken } from '@/utils/Token';
 import { UserContext } from '@/app/UserProfileLayout';
 import Webcam from 'react-webcam';
 
 const PeopleChangeProfile = () => {
+    const token = GetToken('userdetail')
     const { Userdata } = useContext(UserContext);
     const [isloading, setisloading] = useState(false)
     const [ProfileImage, setProfileImage] = useState('')

@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import ActiveMembers from './ActiveMembers'
 import MyFriends from './MyFriends'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -11,7 +11,7 @@ import { APP_URL } from '../../../config'
 import { deleteCookie } from 'cookies-next'
 
 const PeopleTab = () => {
-    
+    const token = GetToken('userdetail')
     const [UserData, setUserData] = useState([])
     const [UserDataLoader, setUserDataLoader] = useState(true)
     const [AllFrndsData, setAllFrndsData] = useState([])

@@ -2,12 +2,13 @@
 import React, { createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { APP_URL } from '../../config'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 export const UserContext = createContext();
 const UserDataLayout = ({ children }) => {
+    const token = GetToken('userdetail')
     const router = useRouter()
     const [UserProfiledata, setUserProfiledata] = useState()
     useEffect(() => {
@@ -17,7 +18,7 @@ const UserDataLayout = ({ children }) => {
             }
         })
             .then(response => {
-                console.log('authMe layout', response.data.data.name, UserProfiledata , 'll');
+                console.log('authMe layout', response.data.data.name, UserProfiledata, 'll');
                 setUserProfiledata(response.data)
             })
             .catch(error => {

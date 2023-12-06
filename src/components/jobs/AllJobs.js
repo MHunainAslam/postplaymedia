@@ -5,11 +5,12 @@ import React, { useEffect, useState } from 'react'
 import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
 import Loader from '../Loader'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 
 const AllJobs = ({ loadcomponent }) => {
+    const token = GetToken('userdetail')
     const [Filter, setFilter] = useState(false)
     const [Freelance, setFreelance] = useState(true)
     const [FullTime, setFullTime] = useState(true)

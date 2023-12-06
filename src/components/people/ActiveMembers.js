@@ -6,10 +6,11 @@ import Loader from '../Loader'
 import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
 import { deleteCookie } from 'cookies-next'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 import { useRouter } from 'next/navigation'
 import { message } from 'antd'
 const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
+    const token = GetToken('userdetail')
     const [Receiverid, setReceiverid] = useState()
     const router = useRouter()
     const unfriend = (e) => {
@@ -57,7 +58,7 @@ const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
     }
 
     const accptfrndreq = (e) => {
-        
+
         console.log(e, token, 'cjeck')
         axios.patch(`${APP_URL}/api/friend-requests/accept/${e}`, null, {
             headers: {
@@ -126,7 +127,7 @@ const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
                                                 {item.friendship_status === 'send-request' ?
                                                     <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>Add Friend</p></button>
                                                     : item.friendship_status === 'pending' ?
-                                                        <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>Pending</p></button>
+                                                        <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>Cancel</p></button>
                                                         : item.friendship_status === 'friends' ?
                                                             <button className='btn secondary-btn' onClick={() => unfriend(item.id)}><p className='mb-0 px-4'>Unfriend</p></button>
                                                             : item.friendship_status === 'accept-request' ?

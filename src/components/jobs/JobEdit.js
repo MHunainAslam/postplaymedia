@@ -6,11 +6,12 @@ import { APP_URL } from '../../../config';
 import { DatePicker, message } from 'antd';
 import Editor from '../Editor';
 import AddCategory from './AddCategory';
-import { token } from '@/utils/Token';
+import { GetToken } from '@/utils/Token';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
 
 const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
+    const token = GetToken('userdetail')
     const [LogoImg, setLogoImg] = useState(null)
     const [JobTitle, setJobTitle] = useState('')
     const [CityLocation, setCityLocation] = useState('')

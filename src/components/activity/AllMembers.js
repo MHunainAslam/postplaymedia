@@ -1,5 +1,5 @@
 'use client'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const AllMembers = () => {
+    const token = GetToken('userdetail')
     const [CommentArea, setCommentArea] = useState(false)
     const router = useRouter()
     const toggleComments = (postId) => {

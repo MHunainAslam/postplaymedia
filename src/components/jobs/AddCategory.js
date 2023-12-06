@@ -5,9 +5,10 @@ import { APP_URL } from '../../../config';
 import { message } from 'antd';
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import { token } from '@/utils/Token';
+import { GetToken } from '@/utils/Token';
 
 const AddCategory = () => {
+    const token = GetToken('userdetail')
     const [name, setname] = useState('')
     const [isLoading, setisLoading] = useState(false)
     // const [slug, setname] = useState('')

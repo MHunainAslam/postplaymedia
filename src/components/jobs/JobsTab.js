@@ -8,10 +8,11 @@ import axios from 'axios'
 import { APP_URL } from '../../../config'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 
 
 const JobsTab = () => {
+    const token = GetToken('userdetail')
     const router = useRouter()
     const [JobCategory, setJobCategory] = useState(' AllJobs')
     const [activeComponent, setActiveComponent] = useState('AllJobs');

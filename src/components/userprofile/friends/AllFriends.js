@@ -3,13 +3,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { APP_URL, IMG_URL } from '../../../../config'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 import axios from 'axios'
 import Loader from '@/components/Loader'
 
 const AllFriends = ({ xl, md }) => {
+    const token = GetToken('userdetail')
     const router = useRouter()
     const [AllFrndsData, setAllFrndsData] = useState([])
     const [UserDataLoader, setUserDataLoader] = useState(true)
@@ -74,7 +75,7 @@ const AllFriends = ({ xl, md }) => {
                                             {item.friend.profile_photo === null ?
                                                 <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                                 :
-                                                <Image loader={imgurl} src={item.friend.profile_photo} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
+                                                <Image loader={imgurl} src={item.friend.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                             }
                                             <Link className='link-hov' href={'/people/slug/activity'}><p className="heading text-black mb-2 mt-4">{item?.friend?.name}</p></Link>

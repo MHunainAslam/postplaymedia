@@ -8,9 +8,10 @@ import Editor from '../Editor';
 import AddCategory from './AddCategory';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
-import { token } from '@/utils/Token';
+import { GetToken } from '@/utils/Token';
 
 const JobSubmit = ({ JobCategorydd }) => {
+    const token = GetToken('userdetail')
     const [LogoImg, setLogoImg] = useState(null)
     const [JobTitle, setJobTitle] = useState('')
     const [CityLocation, setCityLocation] = useState('')

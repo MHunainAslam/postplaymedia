@@ -4,11 +4,12 @@ import { message } from 'antd'
 import axios from 'axios'
 import React, { useState } from 'react'
 import { APP_URL } from '../../../../config'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 
 const General = () => {
+    const token = GetToken('userdetail')
     const [currentPass, setcurrentPass] = useState('')
     const [NewPass, setNewPass] = useState('')
     const [CNewPass, setCNewPass] = useState('')

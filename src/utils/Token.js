@@ -14,5 +14,7 @@ export const GetLocaldata = (key) => {
     return null;
 };
 export const token = GetToken('userdetail')
+// export const token =  (JSON.parse(localStorage.getItem('userdetail')?.response?.data?.data?.token))
+// export const token =  JSON.parse(localStorage.getItem("userdetail"))
 export const username = GetLocaldata('userdetail')
 

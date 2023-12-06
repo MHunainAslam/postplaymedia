@@ -8,9 +8,11 @@ import Loader from '../Loader'
 import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
 import { deleteCookie } from 'cookies-next'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 
 const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
+
+    const token = GetToken('userdetail')
     const [Receiverid, setReceiverid] = useState()
     const router = useRouter()
 
@@ -65,7 +67,7 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                                                 {item.friend.profile_photo === null ?
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                                     :
-                                                    <Image loader={imgurl} src={item.friend.profile_photo} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
+                                                    <Image loader={imgurl} src={item.friend.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                 }
                                                 <Link className='link-hov' href={'/people/slug/activity'}><p className="heading text-black mb-2 mt-4">{item?.friend?.name}</p></Link>

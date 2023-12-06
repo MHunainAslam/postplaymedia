@@ -6,10 +6,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useContext, useRef, useState } from 'react'
 import { APP_URL } from '../../../../config';
-import { token } from '@/utils/Token';
+import { GetToken } from '@/utils/Token';
 import { UserContext } from '@/app/UserProfileLayout';
 
 const ChangeCoverPhoto = () => {
+    const token = GetToken('userdetail')
     const { Userdata } = useContext(UserContext);
     const [isloading, setisloading] = useState(false)
     const [ProfileImage, setProfileImage] = useState('')
@@ -120,7 +121,7 @@ const ChangeCoverPhoto = () => {
                             <p className="para clr-text mb-0">Upload Picture</p>
                         </li>
 
-                       
+
                         <li className="nav-item nav-link text-center" id="DeleteCoverPicture-tab" data-bs-toggle="tab" data-bs-target="#DeleteCoverPicture" type="button" role="tab" aria-controls="DeleteCoverPicture" aria-selected="false" tabIndex="-1">
                             <p className="para clr-text mb-0">Delete Picture</p>
                         </li>
@@ -151,7 +152,7 @@ const ChangeCoverPhoto = () => {
                             </div>
                         </div>
                     </div>
-         
+
                     <div className="tab-pane fade " id="DeleteCoverPicture" role="tabpanel" aria-labelledby="DeleteCoverPicture-tab">
                         <div className="row">
                             <div className="col">

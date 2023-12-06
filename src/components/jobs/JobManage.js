@@ -6,10 +6,11 @@ import { message } from 'antd'
 import JobEdit from './JobEdit'
 import { deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
-import { token } from '@/utils/Token'
+import { GetToken } from '@/utils/Token'
 import Loader from '../Loader'
 
 const JobManage = ({ JobCategorydd, loadcomponent }) => {
+    const token = GetToken('userdetail')
     const [activeComponent, setActiveComponent] = useState('table');
     const [JobId, setJobId] = useState('')
     const [ManageJobisLoader, setManageJobisLoader] = useState(true)
