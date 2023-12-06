@@ -8,7 +8,13 @@ import React, { useContext, useRef, useState } from 'react'
 import { APP_URL } from '../../../../config';
 import { GetToken } from '@/utils/Token';
 import { UserContext } from '@/app/UserProfileLayout';
-import Webcam from 'react-webcam';
+import Webcam from 'react-webcam'
+const WebcamComponent = () => <Webcam />
+const videoConstraints = {
+    width: 400,
+    height: 400,
+    facingMode: 'user',
+}
 
 const PeopleChangeProfile = () => {
     const token = GetToken('userdetail')
@@ -108,14 +114,12 @@ const PeopleChangeProfile = () => {
 
 
 
-
-    const webcamRef = React.useRef(null);
-    const [imgSrc, setImgSrc] = React.useState(null);
-
+    const [picture, setPicture] = useState('')
+    const webcamRef = React.useRef(null)
     const capture = React.useCallback(() => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        setImgSrc(imageSrc);
-    }, [webcamRef, setImgSrc]);
+        const pictureSrc = webcamRef.current.getScreenshot()
+        setPicture(pictureSrc)
+    })
 
 
 
@@ -171,24 +175,46 @@ const PeopleChangeProfile = () => {
                                     <div className="card-body py-5 mx-auto ">
                                         <button className='btn secondary-btn px-md-3'><i className="bi bi-camera me-2"></i> Take A Picture</button>
                                         <div>
-
-                                            <>
-                                                <Webcam
-                                                    audio={false}
-                                                    ref={webcamRef}
-                                                    screenshotFormat="image/jpeg"
-                                                />
-                                                <button onClick={capture}>Capture photo</button>
-                                                {imgSrc && (
-                                                    <img
-                                                        src={imgSrc}
+                                            <h2 className="mb-5 text-center">
+                                                React Photo Capture using Webcam Examle
+                                            </h2>
+                                            <div>
+                                                {picture == '' ? (
+                                                    <Webcam
+                                                        audio={false}
+                                                        height={400}
+                                                        ref={webcamRef}
+                                                        width={400}
+                                                        screenshotFormat="image/jpeg"
+                                                        videoConstraints={videoConstraints}
                                                     />
+                                                ) : (
+                                                    <img src={picture} />
                                                 )}
-                                            </>
-                                            {/* <button onClick={startCamera}>Start Camera</button>
-                                            <button onClick={takePicture}>Take Picture</button> */}
-
-                                            {/* {imageSrc && <img src={imageSrc} alt="Captured" />} */}
+                                            </div>
+                                            <div>
+                                                {picture != '' ? (
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            setPicture()
+                                                        }}
+                                                        className="btn btn-primary"
+                                                    >
+                                                        Retake
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            capture()
+                                                        }}
+                                                        className="btn btn-danger"
+                                                    >
+                                                        Capture
+                                                    </button>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

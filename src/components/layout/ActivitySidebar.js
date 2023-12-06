@@ -127,12 +127,12 @@ const ActivitySidebar = () => {
                                         <p>Jobs</p>
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link href={'/forums'} className={pathname === '/forums' ? 'active-nav' : ''}>
                                         <i className="bi bi-chat"></i> <br />
                                         <p>Forums</p>
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li>
                                     <Link href={'/blog'} className={pathname === '/blog' ? 'active-nav' : ''}>
                                         <i className="bi bi-newspaper"></i> <br />

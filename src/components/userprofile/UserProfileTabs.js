@@ -37,12 +37,12 @@ const UserProfileTabs = ({ Userdata }) => {
                         <p className="para clr-text mb-0">Groups</p>
                     </Link>
                 </li>
-                <li className={`nav-item nav-link text-center ${lastSegment === 'forums' ? 'active' : ''}`}>
+                {/* <li className={`nav-item nav-link text-center ${lastSegment === 'forums' ? 'active' : ''}`}>
                     <Link className='text-decoration-none' href={'/profile/forums'}>
                         <i className="clr-text heading-m mb-2 bi bi-chat"></i>
                         <p className="para clr-text mb-0">Forums</p>
                     </Link>
-                </li>
+                </li> */}
                 <li className={`nav-item nav-link text-center ${lastSegment === 'media' ? 'active' : ''}`}>
                     <Link className='text-decoration-none' href={'/profile/media'}>
                         <i className="clr-text heading-m mb-2 bi bi-image-fill"></i>

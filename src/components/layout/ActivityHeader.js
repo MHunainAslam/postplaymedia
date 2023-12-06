@@ -278,14 +278,15 @@ const ActivityHeader = ({ Userdata }) => {
                             <Link className="nav-link fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{UserProfiledata?.data?.name}</Link>
                             {/* </div> */}
                             <ul className="dropdown-menu " style={{ zIndex: 9999 }}>
-                                <li data-bs-toggle="modal" data-bs-target="#logoutModal" ><p className="dropdown-item pointer mb-0" >logout</p></li>
+                                {/* <li data-bs-toggle="modal" data-bs-target="#logoutModal" ><p className="dropdown-item pointer mb-0" >logout</p></li> */}
+                                <li onClick={logout} ><p className="dropdown-item pointer mb-0" >logout</p></li>
                             </ul>
 
                         </div>
                     </div>
                 </div >
             }
-            <LogoutConfirmation logout={logout} />
+            {/* <LogoutConfirmation logout={logout} /> */}
         </>
     )
 }

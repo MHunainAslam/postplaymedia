@@ -64,25 +64,25 @@ const CreateGroups = () => {
         } else {
             seterror(false)
             setSetting(false)
-            setForum(true)
+            setPhoto(true)
         }
     }
     const backtosetting = (e) => {
         e.preventDefault()
         setSetting(true)
-        setForum(false)
-    }
-    const ForumSubmit = (e) => {
-        e.preventDefault()
-        setForum(false)
-        setPhoto(true)
-
-    }
-    const backtoforum = (e) => {
-        e.preventDefault()
-        setForum(true)
         setPhoto(false)
     }
+    // const ForumSubmit = (e) => {
+    //     e.preventDefault()
+    //     setForum(false)
+    //     setPhoto(true)
+
+    // }
+    // const backtoforum = (e) => {
+    //     e.preventDefault()
+    //     setForum(true)
+    //     setPhoto(false)
+    // }
     const PhotoSubmit = (e) => {
         e.preventDefault()
         setPhoto(false)
@@ -126,11 +126,11 @@ const CreateGroups = () => {
             <ul className='create-grp-step'>
                 <li className={`${Detail ? 'active-step' : ''}`}>1. Detail</li>
                 <li className={`${Setting ? 'active-step' : ''}`}>2. Settings</li>
-                <li className={`${Forum ? 'active-step' : ''}`}>3. Forum</li>
-                <li className={`${Photo ? 'active-step' : ''}`}>4. Photo</li>
+                {/* <li className={`${Forum ? 'active-step' : ''}`}>3. Forum</li> */}
+                <li className={`${Photo ? 'active-step' : ''}`}>3. Photo</li>
                 {/* <li className={`${Media ? 'active-step' : ''}`}>5. Media</li> */}
-                <li className={`${CoverImage ? 'active-step' : ''}`}>5. Cover Image</li>
-                <li className={`${Invite ? 'active-step' : ''}`}>6. Invite</li>
+                <li className={`${CoverImage ? 'active-step' : ''}`}>4. Cover Image</li>
+                <li className={`${Invite ? 'active-step' : ''}`}>5. Invite</li>
             </ul >
             {
                 Detail ?
@@ -222,7 +222,7 @@ const CreateGroups = () => {
                     </>
                     : ''
             }
-            {
+            {/* {
                 Forum ?
                     <>
                         <p className="heading clr-text">
@@ -251,7 +251,7 @@ const CreateGroups = () => {
                         </form>
                     </>
                     : ''
-            }
+            } */}
             {
                 Photo ?
                     <>
@@ -289,7 +289,7 @@ const CreateGroups = () => {
 
 
                             <div className="d-flex justify-content-between">
-                                <button className='btn secondary-btn mt-4' onClick={backtoforum}><>Back to Previous Step</></button>
+                                <button className='btn secondary-btn mt-4' onClick={backtosetting}><>Back to Previous Step</></button>
                                 <button className='btn primary-btn mt-4' type="submit"><p>Create Group and Continue</p></button>
                             </div>
                         </form>
