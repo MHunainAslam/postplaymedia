@@ -145,7 +145,7 @@ const ChangeCoverPhoto = () => {
                                         <div className='w-100 text-center img-preview mt-4'>
                                             <Image className=' rounded-0 my-3 object-fit-cover max-w-100' src={ProfileImage} alt="Selected" height={500} width={500} />
                                         </div>
-                                        <button className='btn primary-btn mt-4' onClick={ChangeProfile}><p>Save Changes {isloading ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
+                                        <button className='btn primary-btn mt-4' onClick={ChangeProfile}><p>Save Changes {isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
                                     </>
                                 )}
                             </div>
@@ -157,7 +157,7 @@ const ChangeCoverPhoto = () => {
                             <div className="col">
                                 <div className="card changeprofile-card mt-5">
                                     <div className="card-body py-5 mx-auto ">
-                                        <button className='btn rounded-5 btn-outline-danger px-md-3' onClick={DeleteProfile}>Delete My Profile Photo {isloading ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</button>
+                                        <button className='btn rounded-5 btn-outline-danger px-md-3' onClick={DeleteProfile}>Delete My Profile Photo {isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</button>
                                     </div>
                                 </div>
 

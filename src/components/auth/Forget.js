@@ -140,7 +140,7 @@ const Forget = () => {
                                                         <form action="" onSubmit={SendEmail}>
                                                             <label className='para-sm clr-text mt-4' htmlFor="">Email</label>
                                                             <input type="email" className="form-control inp" value={Email} onChange={(e) => { setEmail(e.target.value) }} />
-                                                            <button type='submit' className='btn primary-btn mt-4 w-100' ><p>Send OTP {isLoading ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button> <br />
+                                                            <button type='submit' className='btn primary-btn mt-4 w-100' ><p>Send OTP {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button> <br />
                                                         </form>
                                                     </>}
                                                     {activeComponent === 'OTP' && <>
@@ -148,8 +148,8 @@ const Forget = () => {
                                                         <form action="" onSubmit={SendOTP}>
                                                             <label className='para-sm clr-text mt-4' htmlFor="">OTP</label>
                                                             <input type="text" className="form-control inp" value={OTP} onChange={(e) => { setOTP(e.target.value) }} />
-                                                            <Link href={'#'} onClick={ReSendOTP} className='link-hov para clr-primary text-center d-inline-block w-100 mt-3 mb-0'>Resend OTP {isLoading2 ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</Link>
-                                                            <button type='submit' className='btn primary-btn mt-4 w-100'><p>Verify {isLoading ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button> <br />
+                                                            <Link href={'#'} onClick={ReSendOTP} className='link-hov para clr-primary text-center d-inline-block w-100 mt-3 mb-0'>Resend OTP {isLoading2 ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</Link>
+                                                            <button type='submit' className='btn primary-btn mt-4 w-100'><p>Verify {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button> <br />
                                                         </form>
                                                     </>}
                                                     {activeComponent === 'PassWord' && <>
@@ -165,7 +165,7 @@ const Forget = () => {
                                                                 <input type={ShowPass2 ? 'text' : 'password'} className="form-control inp" value={Password2} onChange={(e) => { setPassword2(e.target.value) }} />
                                                                 <i className={`bi ${ShowPass2 ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowPass2(!ShowPass2) }}></i>
                                                             </div>
-                                                            <button type='submit' className='btn primary-btn mt-4 w-100'><p>Confirm Password {isLoading ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button> <br />
+                                                            <button type='submit' className='btn primary-btn mt-4 w-100'><p>Confirm Password {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button> <br />
                                                         </form>
                                                     </>}
                                                     <Link className='text-decoration-none para-sm clr-primary d-inline-block w-100 mt-4 text-center' href={'/'}>Back to Login </Link>

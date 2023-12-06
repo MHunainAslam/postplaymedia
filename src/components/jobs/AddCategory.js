@@ -44,26 +44,26 @@ const AddCategory = () => {
     }
     return (
         <>
-            <button type="button" class="btn btn-primary d-none addcat" data-bs-toggle="modal" data-bs-target="#AddCategory">
+            <button type="button" className="btn btn-primary d-none addcat" data-bs-toggle="modal" data-bs-target="#AddCategory">
                 Launch demo modal
             </button>
 
 
-            <div class="modal fade " id="AddCategory" tabindex="-1" aria-labelledby="AddCategoryLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content modal-bg py-4">
-                        <div class="modal-header border-0 justify-content-center">
-                            <h1 class="heading text-white" id="AddCategoryLabel">Add Category</h1>
-                            {/* <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> */}
+            <div className="modal fade " id="AddCategory" tabindex="-1" aria-labelledby="AddCategoryLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content modal-bg py-4">
+                        <div className="modal-header border-0 justify-content-center">
+                            <h1 className="heading text-white" id="AddCategoryLabel">Add Category</h1>
+                            {/* <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> */}
                         </div>
                         <form action="" onSubmit={submitcat}>
-                            <div class="modal-body">
+                            <div className="modal-body">
                                 <input type="text" className='form-control inp' name="" value={name} onChange={(e) => setname(e.target.value)} id="" />
                                 {/* <input type="text" className='form-control mt-3 inp' name="" id="" /> */}
                             </div>
-                            <div class="modal-footer justify-content-center border-0">
-                                <button type="button" class="btn secondary-btn text-white px-3" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn primary-btn"><p>Save changes {isLoading ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
+                            <div className="modal-footer justify-content-center border-0">
+                                <button type="button" className="btn secondary-btn text-white px-3" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" className="btn primary-btn"><p>Save changes {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
                             </div>
                         </form>
                     </div>

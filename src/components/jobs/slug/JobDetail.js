@@ -59,9 +59,9 @@ const JobDetail = () => {
                             <div className="col-lg-2 col-md-3 profile-page-user  position-static ">
                                 <div className="icons d-flex align-items-center  justify-content-evenly justify-content-md-end">
                                     {Jobdata.website ?
-                                        <div><Link href={`${Jobdata.website}`}><i class="bi bi-globe-americas text-white"></i></Link></div> : ''}
+                                        <div><Link href={`${Jobdata.website}`}><i className="bi bi-globe-americas text-white"></i></Link></div> : ''}
                                     {Jobdata.twitter_username ?
-                                        <div><Link href={`${Jobdata.twitter_username}`}><i class="bi bi-twitter text-white"></i></Link></div> : ''}
+                                        <div><Link href={`${Jobdata.twitter_username}`}><i className="bi bi-twitter text-white"></i></Link></div> : ''}
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@ const JobDetail = () => {
                             <div className="p-2 align-items-center d-flex">
                                 <div className="col-md-4 col-3 d-flex align-items-center">
                                     <div className="square-icon">
-                                        <i class="bi bi-briefcase-fill clr-text fw-bold "></i>
+                                        <i className="bi bi-briefcase-fill clr-text fw-bold "></i>
                                     </div>
                                     <p className="para clr-text mb-0 ms-3">
                                         Job Type
@@ -87,7 +87,7 @@ const JobDetail = () => {
                             <div className="p-2 align-items-center d-flex">
                                 <div className="col-md-4 col-3 d-flex align-items-center">
                                     <div className="square-icon">
-                                        <i class="bi bi-geo-alt fw-bold clr-text"></i>
+                                        <i className="bi bi-geo-alt fw-bold clr-text"></i>
                                     </div>
                                     <p className="para clr-text mb-0 ms-3">
                                         Location
@@ -115,11 +115,11 @@ const JobDetail = () => {
                             {/* {Jobdata.description} */}
                         </div>
                     </div>
-                    <button class="btn secondary-btn " type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <button className="btn secondary-btn " type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                         Apply For Job
                     </button>
-                    <div class="collapse my-3" id="collapseExample">
-                        <div class="card card-body ">
+                    <div className="collapse my-3" id="collapseExample">
+                        <div className="card card-body ">
                             <div className="d-flex flex-wrap">
                                 <p className="para clr-text  mb-0">To apply for this job email your details to &nbsp;</p> <Link href={`mailto:${Jobdata.email_url}`} className='link-hov para clr-primary' > {Jobdata.email_url}</Link>
                             </div>

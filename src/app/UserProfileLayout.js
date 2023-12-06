@@ -11,10 +11,12 @@ import axios from 'axios'
 import { APP_URL } from '../../config'
 import { token } from '@/utils/Token'
 import Loader from '@/components/Loader'
+import { useRouter } from 'next/navigation'
+import { deleteCookie } from 'cookies-next'
 export const UserContext = createContext();
 const UserProfileLayout = ({ children, ProfilePages }) => {
     const images = [{ url: '/assets/images/posts/covers.jpg', comment: '123' }, { url: '/assets/images/posts/cover.jpeg', comment: '321' }, { url: '/assets/images/Modal/Avatar.png', comment: '567' }]; // Replace with your image URLs
-
+    const router = useRouter()
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [Userdata, setUserdata] = useState('')

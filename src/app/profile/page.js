@@ -1,13 +1,20 @@
-import React from 'react'
+'use client'
+import React, { useEffect } from 'react'
 import UserProfileLayout from '../UserProfileLayout'
 import UserProfileTabPane from '@/components/userprofile/UserProfileTabPane'
+import { useRouter } from 'next/navigation'
 
-const page = () => {
+const Page = () => {
+    const router = useRouter()
+    useEffect(() => {
+        router.push('/profile/activity')
+    }, [])
+
     return (
         <UserProfileLayout ProfilePages>
-            <UserProfileTabPane /> ggg
+            <UserProfileTabPane />
         </UserProfileLayout>
     )
 }
 
-export default page
+export default Page

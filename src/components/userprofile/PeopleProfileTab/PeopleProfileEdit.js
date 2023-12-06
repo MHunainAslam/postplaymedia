@@ -75,7 +75,7 @@ const PeopleProfileEdit = ({ }) => {
 
             });
     }
-    console.log(Userdata.data.role.id.toString(), 'lol')
+    console.log(Userdata?.data?.role?.id?.toString(), 'lol')
     return (
         <>
             <p className="heading mt-3 clr-text">Edit Profile</p>
@@ -127,7 +127,7 @@ const PeopleProfileEdit = ({ }) => {
                         <input type="text" name="" id="" className='form-control inp col-m' value={Country} onChange={(e) => setCountry(e.target.value)} />
                     </div>
                 </div>
-                <button type='submit' className='btn primary-btn mt-3' ><p className='px-3'>Save Changes {isloading ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p> </button>
+                <button type='submit' className='btn primary-btn mt-3' ><p className='px-3'>Save Changes {isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p> </button>
             </form>
         </>
     )

@@ -2,10 +2,10 @@ import React from 'react'
 
 const Loader = () => {
     return (
-        <div class="main">
-            <p class="loadertext">
+        <div className="main">
+            <p className="loadertext">
                 Preloader
-                <span class="preloader"></span>
+                <span className="preloader"></span>
             </p>
         </div>
     )

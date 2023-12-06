@@ -313,7 +313,7 @@ const JobSubmit = ({ JobCategorydd }) => {
                                 </div>
                             </div>
 
-                            <button className='btn primary-btn px-md-5 px-2 me-3'><p>Preview {isLoading ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
+                            <button className='btn primary-btn px-md-5 px-2 me-3'><p>Preview {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
                             {/* <button className='btn secondary-btn px-md-5 px-2'>Save Draft</button> */}
                         </div>
 

@@ -82,7 +82,7 @@ const LoginForm = () => {
           </div>
           <button type='button' className='text-decoration-none text-black para-sm align-items-center bg-transparent border-0' onClick={LostPass}>Lost Password?</button>
         </div>
-        <button type='submit' className='btn primary-btn mt-3 w-100'><p>Log into your account   {isLoading ? <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
+        <button type='submit' className='btn primary-btn mt-3 w-100'><p>Log into your account   {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
       </form>
       <button className='text-decoration-none para-sm clr-primary d-inline-block w-100 mt-3 text-center bg-transparent border-0' onClick={RegisterYourSelf}>Create an Account</button>
     </>

@@ -1010,6 +1010,20 @@ h5 {
     transition: 0.3s;
 }
 
+.post-profile-sm-req {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--primary);
+    object-fit: cover;
+    border-radius: 100%;
+    transition: 0.3s;
+}
+
+.post-profile-sm-req:hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
 
 .ShowAttachedFile {
     background-color: var(--border);
@@ -1031,11 +1045,14 @@ h5 {
 }
 
 .activity-tabs ul.nav li {
+    /* lol  */
     border: 0 !important;
     margin: 0 !important;
     font-size: calc(12px + (15 - 12) * ((100vw - 320px) / (1920 - 320)));
     color: black;
     padding: calc(6px + (15 - 6) * ((100vw - 320px) / (1920 - 320)));
+    display: flex ;
+    align-items: center;
 }
 
 .activity-tabs ul.nav li:hover {
@@ -1257,10 +1274,13 @@ h5 {
     border-radius: 100%;
     /* padding: 5px; */
     text-align: center;
-    font-size: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))) !important;
-    width: 20px;
+    font-size: calc(8px + (10 - 8) * ((100vw - 320px) / (1920 - 320))) !important;
+    width: 25px;
     display: inline-block;
-    height: 20px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close-canva {
@@ -1596,6 +1616,7 @@ h5 {
     bottom: -120px;
     width: 100%;
     left: 0;
+    padding-inline: 12px;
 }
 
 .profile-page-user .card {
@@ -1666,6 +1687,38 @@ h5 {
 
 .img-preview {
     background: rgb(0 0 0 / 30%);
+}
+
+.accpt-btn {
+    position: relative;
+}
+
+.accpt-btn::after {
+    content: 'hun';
+    position: absolute;
+}
+
+.show-c {
+    position: absolute;
+    inset: 0px 0px auto auto;
+    margin: 0px;
+    transform: translate(-7px, 29px);
+    display: block !important;
+}
+
+.main-loader .main {
+    z-index: 999999999999999;
+}
+
+.header-btns-active::after {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background-color: #4f5261 ;
+    top: 1px;
+    right: -1px;
+    border-radius: 100%;
 }
 
 @media (min-width: 1200px) {

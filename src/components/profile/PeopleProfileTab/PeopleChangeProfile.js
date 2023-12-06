@@ -88,7 +88,7 @@ const PeopleChangeProfile = () => {
                             <div className="col">
                                 <div className="card changeprofile-card mt-5">
                                     <div className="card-body py-5 mx-auto ">
-                                        <button className='btn secondary-btn px-md-3'><i class="bi bi-camera me-2"></i> Take A Picture</button>
+                                        <button className='btn secondary-btn px-md-3'><i className="bi bi-camera me-2"></i> Take A Picture</button>
                                         <div>
                                             <button onClick={startCamera}>Start Camera</button>
                                             <button onClick={takePicture}>Take Picture</button>

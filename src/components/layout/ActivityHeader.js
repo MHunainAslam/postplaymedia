@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
@@ -10,10 +10,12 @@ import UserDataLayout from '@/app/UserDataLayout';
 import axios from 'axios';
 import { APP_URL, IMG_URL } from '../../../config';
 import Loader from '../Loader';
+import { message } from 'antd';
 
 const ActivityHeader = ({ Userdata }) => {
     const [UserProfiledata, setUserProfiledata] = useState()
     const [UserProfileloader, setUserProfileloader] = useState(true)
+    const [NotiShow, setNotiShow] = useState(false)
     const [FrndReq, setFrndReq] = useState([])
     const router = useRouter()
     const logout = () => {
@@ -22,6 +24,22 @@ const ActivityHeader = ({ Userdata }) => {
         router.push('/')
         console.log(deleteCookie())
     }
+
+
+    const ref = useRef(null);
+
+
+
+    const handleClickOutside = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) setNotiShow(false);
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    }, []);
 
     useEffect(() => {
         const getCookie = (cookieName) => {
@@ -76,15 +94,15 @@ const ActivityHeader = ({ Userdata }) => {
                 }
             });
     }, [])
-    useEffect(() => {
+    const receivefrndreq = () => {
         axios.get(`${APP_URL}/api/friend-requests/received`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('FrndReq', response);
-                setFrndReq(response?.data?.received_friend_requests)
+                console.log('FrndReq', response.data?.data);
+                setFrndReq(response?.data?.data)
 
 
             })
@@ -97,20 +115,25 @@ const ActivityHeader = ({ Userdata }) => {
                     localStorage.removeItem('userdetail')
                 }
             });
+    }
+    useEffect(() => {
+        receivefrndreq()
     }, [])
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
     }
 
     const accptfrndreq = (e) => {
-        axios.patch(`${APP_URL}/api/friend-requests/accept/${e}`, {
+        setNotiShow(true)
+        console.log(e, token, 'cjeck')
+        axios.patch(`${APP_URL}/api/friend-requests/accept/${e}`, null, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
                 console.log('profile edit', response);
-
+                receivefrndreq()
             })
             .catch(error => {
                 console.error(error);
@@ -120,15 +143,34 @@ const ActivityHeader = ({ Userdata }) => {
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
                 }
-
-
-
+            });
+    }
+    const dltfrndreq = (e) => {
+        setNotiShow(true)
+        console.log(e, token, 'cjeck')
+        axios.delete(`${APP_URL}/api/friend-requests/${e}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('profile edit', response);
+                receivefrndreq()
+            })
+            .catch(error => {
+                console.error(error);
+                message.error(error?.response?.data?.message)
+                if (error.response.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
             });
     }
     return (
         <>
 
-            {UserProfileloader ? <Loader /> :
+            {UserProfileloader ? <div className="main-loader"> <Loader /></div> :
 
                 <div className="activity-header">
                     <div className="row justify-content-between px-md-3 px-0 w-100">
@@ -140,11 +182,11 @@ const ActivityHeader = ({ Userdata }) => {
                             </div>
                         </div>
                         <div className="col d-flex justify-content-md-end justify-content-between align-items-center py-md-0 py-3">
-                            <li className="nav-item dropdown list-unstyled header-btns">
+                            <li className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
                                 <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-person-plus"></i>
                                 </a>
-                                <ul className="dropdown-menu py-1 border-0 ">
+                                <ul className={`dropdown-menu py-1 border-0 ${NotiShow ? 'show show-c' : ''}`} ref={ref}>
                                     <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Friend Requests</a></li>
                                     <hr />
                                     {FrndReq?.length === 0 ?
@@ -159,15 +201,23 @@ const ActivityHeader = ({ Userdata }) => {
                                                 <li key={i}>
                                                     <div className="no-msg-req d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
-                                                            <Image className='post-profile-sm' src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
-                                                            <p className='mb-0 para text-black ms-2 fw-bold'>{item.sender_id} <span className='fw-normal'>Send you a friend request</span></p>
+                                                            {item?.sender?.profile_photo === null ?
+                                                                <Image className='post-profile-sm' src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image> :
+                                                                <Link href={'#'}>
+                                                                    <Image loader={imgurl} className='post-profile-sm-req object-fit-cover ' src={item?.sender?.profile_photo?.url} alt="" width={100} height={100}></Image>
+                                                                </Link>
+                                                            }
+                                                            <p className='mb-0 para text-black ms-2 fw-normal'> <span className='fw-bold text-capitalize'>{item.sender.name}</span>  Send you a friend request</p>
                                                         </div>
 
                                                         <div className="d-flex">
-                                                            <button className='btn secondary-btn-rounded p-1 rounded-5'>
-                                                                <i class="bi bi-x-lg"></i>
+                                                            <button className='btn secondary-btn-rounded p-1 rounded-5 mx-2' onClick={() => dltfrndreq(item.id)}>
+                                                                <i className="bi bi-x-lg"></i>
                                                             </button>
-                                                            <input className='btn secondary-btn-rounded ms-2 accpt-btn' type='button' value={``} onClick={() => accptfrndreq(item.sender_id)} />
+                                                            <button onClick={() => accptfrndreq(item.id)} className='btn secondary-btn-rounded p-1 rounded-5 mx-2'>
+                                                                <i className="bi bi-check2"></i>
+                                                            </button>
+
                                                         </div>
                                                     </div>
                                                 </li>
@@ -175,7 +225,7 @@ const ActivityHeader = ({ Userdata }) => {
                                         </>
                                     }
                                     <hr />
-                                    <li><button className="btn secondary-btn w-100"  >All Request</button></li>
+                                    {/* <li><button className="btn secondary-btn w-100"  >All Request</button></li> */}
                                 </ul>
                             </li>
                             <li className="nav-item dropdown list-unstyled header-btns">
@@ -224,7 +274,7 @@ const ActivityHeader = ({ Userdata }) => {
 
                                 </li>
                             </Link>
-                            <Link class="nav-link fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{UserProfiledata?.data?.name}</Link>
+                            <Link className="nav-link fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{UserProfiledata?.data?.name}</Link>
                             {/* </div> */}
                             <ul className="dropdown-menu " style={{ zIndex: 9999 }}>
                                 <li onClick={logout}><p className="dropdown-item pointer mb-0" >logout</p></li>
