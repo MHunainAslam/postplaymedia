@@ -45,7 +45,7 @@ const ActivitySidebar = () => {
     }
     return (
         <>
-            {UserProfileloader ? <Loader /> :
+            {UserProfileloader ? <div className="main-loader"> <Loader /></div>  :
                 <>
                     {/* <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#ActivitySidebar" aria-controls="ActivitySidebar">
                 Button with data-bs-target

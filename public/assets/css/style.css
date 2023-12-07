@@ -1740,7 +1740,14 @@ h5 {
 .logout-modal {
     background-image: linear-gradient(180deg, #4f5261 3%, #383A44 100%, var(--secondary) 48%);
 }
-
+.backbtn{
+    cursor: pointer;
+    transition: 0.3s;
+}
+.backbtn:hover{
+    margin-right: 10px;
+    transition: 0.3s;
+}
 @media (min-width: 1200px) {
     .sidebar-offcanvas {
         width: 100% !important;

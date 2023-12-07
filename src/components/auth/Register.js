@@ -22,7 +22,13 @@ const Register = () => {
     const [ShowCPass, setShowCPass] = useState(false)
     const [isLoading, setisLoading] = useState(false)
     const [Roles, setRoles] = useState([])
+    const [activeComponent, setActiveComponent] = useState('buttons');
     const router = useRouter()
+
+    const handleComponentChange = (componentName) => {
+        setActiveComponent(componentName);
+    };
+
 
     useEffect(() => {
         axios.get(`${APP_URL}/api/roles`)
@@ -69,7 +75,9 @@ const Register = () => {
         }
     }
 
-
+    const back = () => {
+        handleComponentChange('buttons')
+    }
 
     const bgRef = useRef();
 
@@ -98,52 +106,259 @@ const Register = () => {
                                                 {/* <div className="login-logo text-center">
                                                     <Image src={'/assets/images/logo/Logo.png'} alt='' width={100} height={100}></Image>
                                                 </div> */}
-                                                <p className='heading text-center  text-dark'>Account Details</p>
-                                                <form action="" onSubmit={RegistrationSubmit}>
-
-                                                    <label className='para-sm clr-text mt-4' htmlFor="">Username (required)</label>
-                                                    <input type="text" className="form-control inp" placeholder="Username" value={UserName} onChange={(e) => { setUserName(e.target.value) }} />
-                                                    {Error ? UserName === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
-
-                                                    <label className='para-sm clr-text mt-4' htmlFor="">Email Address (required)</label>
-                                                    <input type="email" className="form-control inp" placeholder="Email" value={Email} onChange={(e) => { setEmail(e.target.value) }} />
-                                                    {Error ? Email === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
-
-                                                    <label className='para-sm clr-text mt-4' htmlFor=""> Choose a Password (required)</label>
-                                                    <div className="showpass">
-                                                        <input type={ShowPass ? 'text' : 'password'} className="form-control inp" placeholder="Password" value={Password} onChange={(e) => { setPassword(e.target.value) }} />
-                                                        <i className={`bi ${ShowPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowPass(!ShowPass) }}></i>
+                                                {activeComponent === 'buttons' && <>
+                                                    <p className='heading text-center mb-5 text-dark'>Who Are You?</p>
+                                                    <div className="text-center">
+                                                        <button className='btn primary-btn m-1 px-md-5' onClick={() => handleComponentChange('Coach')}><p>Coach</p></button>
+                                                        <button className='btn primary-btn m-1 px-md-5' onClick={() => handleComponentChange('Athletes')}><p>Athletes</p></button>
                                                     </div>
-                                                    {Error ? Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                </>}
+                                                {activeComponent === 'Coach' && <>
+                                                    <form action="" onSubmit={RegistrationSubmit}>
+                                                        <p className='heading text-center  text-dark'> <i class="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Username  </label>
+                                                                <input type="text" className="form-control inp" placeholder="Username" value={UserName} onChange={(e) => { setUserName(e.target.value) }} />
+                                                                {Error ? UserName === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Email Address  </label>
+                                                                <input type="email" className="form-control inp" placeholder="Email" value={Email} onChange={(e) => { setEmail(e.target.value) }} />
+                                                                {Error ? Email === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor=""> Choose a Password  </label>
+                                                                <div className="showpass">
+                                                                    <input type={ShowPass ? 'text' : 'password'} className="form-control inp" placeholder="Password" value={Password} onChange={(e) => { setPassword(e.target.value) }} />
+                                                                    <i className={`bi ${ShowPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowPass(!ShowPass) }}></i>
+                                                                </div>
+                                                                {Error ? Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor=""> Confirm Password  </label>
+                                                                <div className="showpass">
+                                                                    <input type={ShowCPass ? 'text' : 'password'} className="form-control inp" placeholder="Re-Type Password" value={C_Password} onChange={(e) => { setC_Password(e.target.value) }} />
+                                                                    <i className={`bi ${ShowCPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowCPass(!ShowPass) }}></i>
+                                                                </div>
+                                                                {Error ? C_Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                        </div>
+                                                        <p className='heading text-center mb-4 mt-5 text-dark'>Profile Details</p>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Name  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
-                                                    <label className='para-sm clr-text mt-4' htmlFor=""> Confirm Password (required)</label>
-                                                    <div className="showpass">
-                                                        <input type={ShowCPass ? 'text' : 'password'} className="form-control inp" placeholder="Re-Type Password" value={C_Password} onChange={(e) => { setC_Password(e.target.value) }} />
-                                                        <i className={`bi ${ShowCPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowCPass(!ShowPass) }}></i>
-                                                    </div>
-                                                    {Error ? C_Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Number (optional)</label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
-                                                    <p className='heading text-center mt-4 text-dark'>Profile Details</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Email  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
-                                                    <label className='para-sm clr-text mt-4' htmlFor="">Name (required)</label>
-                                                    <input type="text" className="form-control inp" placeholder="Name" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                    {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Adress  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
-                                                    <label className='para-sm clr-text mt-4' htmlFor="">Member Type</label>
-                                                    <select name="" className='form-select slct' id="" onChange={(e) => { setMemberType(e.target.value) }} value={MemberType}>
-                                                        {Roles?.data?.data?.map((item, i) => (
-                                                            <>
-                                                                <option value='' selected hidden>--select Member Type--</option>
-                                                                <option value={item.id}>{item.name}</option>
-                                                            </>
-                                                        ))}
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institude  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
-                                                    </select>
-                                                    {Error ? MemberType === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institude website  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
-                                                    <button type='submit' className='btn primary-btn mt-4 w-100'><p>Complete Sign Up {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
-                                                    <Link className='text-decoration-none para-sm clr-primary d-inline-block w-100 mt-3 text-center' href={'/'}>Already Have Account</Link>
-                                                </form>
+                                                            </div>
+                                                        </div>
+                                                      
+                                                        <div className="row">
+                                                           
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Job title</label>
+                                                                <select name="" className='form-select slct' id="" onChange={(e) => { setMemberType(e.target.value) }} value={MemberType}>
+                                                                    {/* {Roles?.data?.data?.map((item, i) => (
+                                                                        <>
+                                                                            <option value='' selected hidden>--select Member Type--</option>
+                                                                            <option value={item.id}>{item.name}</option>
+                                                                        </>
+                                                                    ))} */}
+
+                                                                    <option value='' selected hidden>--select Job Title --</option>
+                                                                    <option value=''>Head coach</option>
+                                                                    <option value=''>Girls Basketball</option>
+                                                                    <option value=''>Boys Baseball</option>
+                                                                    <option value=''>Girls Baseball</option>
+                                                                    <option value=''>Boys Football</option>
+                                                                    <option value=''>Girls Football</option>
+                                                                </select>
+                                                                {Error ? MemberType === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                        </div>
+                                                      
+
+                                                        <button type='submit' className='btn primary-btn mt-4 w-100'><p>Complete Sign Up {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
+                                                        <Link className='text-decoration-none para-sm clr-primary d-inline-block w-100 mt-3 text-center' href={'/'}>Already Have Account</Link>
+                                                    </form>
+                                                </>}
+                                                {activeComponent === 'Athletes' && <>
+                                                    <form action="" onSubmit={RegistrationSubmit}>
+                                                        <p className='heading text-center  text-dark'> <i class="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Username  </label>
+                                                                <input type="text" className="form-control inp" placeholder="Username" value={UserName} onChange={(e) => { setUserName(e.target.value) }} />
+                                                                {Error ? UserName === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Email Address  </label>
+                                                                <input type="email" className="form-control inp" placeholder="Email" value={Email} onChange={(e) => { setEmail(e.target.value) }} />
+                                                                {Error ? Email === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor=""> Choose a Password  </label>
+                                                                <div className="showpass">
+                                                                    <input type={ShowPass ? 'text' : 'password'} className="form-control inp" placeholder="Password" value={Password} onChange={(e) => { setPassword(e.target.value) }} />
+                                                                    <i className={`bi ${ShowPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowPass(!ShowPass) }}></i>
+                                                                </div>
+                                                                {Error ? Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor=""> Confirm Password  </label>
+                                                                <div className="showpass">
+                                                                    <input type={ShowCPass ? 'text' : 'password'} className="form-control inp" placeholder="Re-Type Password" value={C_Password} onChange={(e) => { setC_Password(e.target.value) }} />
+                                                                    <i className={`bi ${ShowCPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowCPass(!ShowPass) }}></i>
+                                                                </div>
+                                                                {Error ? C_Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                            </div>
+                                                        </div>
+                                                        <p className='heading text-center mb-4 mt-5 text-dark'>Profile Details</p>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Name  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Number (optional)</label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Email  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Adress  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institude  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institude website  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Class Year  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Height  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Weight</label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Sprots</label>
+                                                                <select name="" className='form-select slct' id="" onChange={(e) => { setMemberType(e.target.value) }} value={MemberType}>
+                                                                    {/* {Roles?.data?.data?.map((item, i) => (
+                                                                        <>
+                                                                            <option value='' selected hidden>--select Member Type--</option>
+                                                                            <option value={item.id}>{item.name}</option>
+                                                                        </>
+                                                                    ))} */}
+
+                                                                    <option value='' selected hidden>--select Sports--</option>
+                                                                    <option value=''>Boys Basketball</option>
+                                                                    <option value=''>Girls Basketball</option>
+                                                                    <option value=''>Boys Baseball</option>
+                                                                    <option value=''>Girls Baseball</option>
+                                                                    <option value=''>Boys Football</option>
+                                                                    <option value=''>Girls Football</option>
+                                                                </select>
+                                                                {Error ? MemberType === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Position </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">AAU/Travel Team Name  </label>
+                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
+                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <button type='submit' className='btn primary-btn mt-4 w-100'><p>Complete Sign Up {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
+                                                        <Link className='text-decoration-none para-sm clr-primary d-inline-block w-100 mt-3 text-center' href={'/'}>Already Have Account</Link>
+                                                    </form>
+                                                </>}
                                             </div>
                                         </div>
                                     </div>

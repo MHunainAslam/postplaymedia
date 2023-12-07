@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
@@ -290,6 +290,7 @@ const ActivityHeader = ({ Userdata }) => {
                         </div>
                     </div>
                 </div >
+
             }
             <LogoutConfirmation logout={logout} />
         </>
