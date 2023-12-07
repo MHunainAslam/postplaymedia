@@ -203,12 +203,10 @@ const Register = () => {
                                                                     ))} */}
 
                                                                     <option value='' selected hidden>--select Job Title --</option>
-                                                                    <option value=''>Head coach</option>
-                                                                    <option value=''>Girls Basketball</option>
-                                                                    <option value=''>Boys Baseball</option>
-                                                                    <option value=''>Girls Baseball</option>
-                                                                    <option value=''>Boys Football</option>
-                                                                    <option value=''>Girls Football</option>
+                                                                    <option value=''>Head Coach</option>
+                                                                    <option value=''>Assistant Coach</option>
+                                                                    <option value=''>Graduate Assistant</option>
+                                                                   
                                                                 </select>
                                                                 {Error ? MemberType === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
@@ -318,7 +316,7 @@ const Register = () => {
 
                                                             </div>
                                                             <div className="col-md-6">
-                                                                <label className='para-sm clr-text mt-4' htmlFor="">Sprots</label>
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Sports</label>
                                                                 <select name="" className='form-select slct' id="" onChange={(e) => { setMemberType(e.target.value) }} value={MemberType}>
                                                                     {/* {Roles?.data?.data?.map((item, i) => (
                                                                         <>
