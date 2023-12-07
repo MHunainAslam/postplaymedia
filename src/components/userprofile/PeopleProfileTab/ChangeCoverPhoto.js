@@ -15,6 +15,7 @@ const ChangeCoverPhoto = () => {
     const [isloading, setisloading] = useState(false)
     const [ProfileImage, setProfileImage] = useState('')
     const [ChangeCover, setChangeCover] = useState()
+    const [btnActive, setbtnActive] = useState(false)
     const router = useRouter()
     const handleImageChange = (e) => {
         const formDataimg = new FormData();
@@ -34,7 +35,7 @@ const ChangeCoverPhoto = () => {
                     .then(response => {
                         console.log('img', response);
                         setChangeCover(response.data.data.last_inserted_id)
-
+                        setbtnActive(true)
                     })
                     .catch(error => {
                         console.error(error);
@@ -144,9 +145,9 @@ const ChangeCoverPhoto = () => {
                                 {ProfileImage && (
                                     <>
                                         <div className='w-100 text-center img-preview mt-4'>
-                                            <Image className=' rounded-0 my-3 object-fit-cover max-w-100' src={ProfileImage} alt="Selected" height={500} width={500} />
+                                            <Image className='w-auto rounded-0 my-3 object-fit-cover max-w-100' src={ProfileImage} alt="Selected" height={500} width={100} />
                                         </div>
-                                        <button className='btn primary-btn mt-4' onClick={ChangeProfile}><p>Save Changes {isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
+                                        <button className='btn primary-btn mt-4' disabled={!btnActive} onClick={ChangeProfile}><p>Save Changes {isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
                                     </>
                                 )}
                             </div>

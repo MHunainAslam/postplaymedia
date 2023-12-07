@@ -1,13 +1,19 @@
+'use client'
 import Image from 'next/image'
-import React from 'react'
+import React, { useContext } from 'react'
 import AllMembers from './AllMembers'
 import MyFriends from './MyFriends'
 import MyGroups from './MyGroups'
 import Mention from './Mention'
+import { UserContext } from '@/app/ActivityLayout'
+import PostArea from '../posts/PostArea'
 
 const ActivityTabs = () => {
+    const { Userdata } = useContext(UserContext);
+    console.log('post area cu', Userdata)
     return (
         <>
+            <PostArea Userdata={Userdata} />
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">
                     <li className="nav-item nav-link active" id="AllMembers-tab" data-bs-toggle="tab" data-bs-target="#AllMembers" type="button" role="tab" aria-controls="AllMembers" aria-selected="false" tabIndex="-1">

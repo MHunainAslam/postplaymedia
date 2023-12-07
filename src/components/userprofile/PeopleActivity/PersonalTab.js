@@ -1,10 +1,13 @@
 'use client'
+
+
+import { UserContext } from '@/app/UserProfileLayout'
 import FancyBox from '@/components/FancyBox'
 import FancyBoxPost from '@/components/FancyBoxPost'
 import PostArea from '@/components/posts/PostArea'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 const PersonalTab = () => {
     // for comment area 
@@ -41,10 +44,12 @@ const PersonalTab = () => {
         setPostSelectedImage(null);
         setPostModalOpen(false);
     };
+    const { Userdata } = useContext(UserContext);
+    console.log('post area cu', Userdata)
     return (
         <>
             <div className="mt-3">
-                <PostArea />
+                <PostArea Userdata={Userdata}/>
             </div>
             <div className="border-bottom d-flex justify-content-end ">
                 <div className="col-lg-4 col-md-6">

@@ -1,12 +1,19 @@
 'use client'
-import Image from 'next/image'
-import React, { useState } from 'react'
 
-const PostArea = () => {
+
+import { UserContext } from '@/app/ActivityLayout'
+import Image from 'next/image'
+import React, { useContext, useState } from 'react'
+import { IMG_URL } from '../../../config'
+import Link from 'next/link'
+
+const PostArea = ({ Userdata }) => {
     const [PostArea, setPostArea] = useState(false)
     const [PostinGrp, setPostinGrp] = useState('profile')
     const [images, setImages] = useState([]);
-
+    const imgurl = ({ src }) => {
+        return `${IMG_URL}${src}`
+    }
     const handleImageChange = (e) => {
         const selectedFiles = e.target.files;
 
@@ -31,14 +38,20 @@ const PostArea = () => {
         const newImages = [...images];
         newImages.splice(index, 1);
         setImages(newImages);
-      };
+    };
 
     return (
         <>
             <div className="card c-card">
                 <div className="card-body p-md-4">
                     <div className="d-flex">
-                        <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
+                        <Link href='/profile'>
+                            {Userdata?.data?.profile_photo === null ?
+                                <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
+                                :
+                                <Image className='post-profile object-fit-cover' loader={imgurl} src={Userdata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
+                            }
+                        </Link>
                         {PostArea === true ?
                             <textarea name="" className='form-control ms-3 t-area' id="" cols="30" rows="4" placeholder='Whats new, admin?'></textarea> :
                             <input type="text" placeholder='Whats new, admin?' onClick={() => { setPostArea(true) }} className='form-control ms-3 inp' name="" id="" />
@@ -62,7 +75,7 @@ const PostArea = () => {
                                 {images.map((item, i) => (
                                     <div className='ShowAttachedFile' key={i}>
                                         <div className='d-flex align-items-center'>
-                                         
+
                                             <Image src={item.dataURL} alt="" width={100} height={100} className='post-profile'></Image>
                                             <p className="para clr-text mb-0 ms-2">{item.name}</p>
                                         </div>
@@ -73,7 +86,7 @@ const PostArea = () => {
                                         </div>
                                     </div>
                                 ))}
-                                
+
                             </div>
                             <div className="d-flex border-top  mt-3 align-items-center justify-content-between">
                                 <div>
@@ -86,7 +99,7 @@ const PostArea = () => {
                                         : ''}
                                 </div>
                                 <div className='mt-3 d-flex align-items-center'>
-                                    <p className='para clr-primary me-3 mb-0 pointer' onClick={(e)=>{setPostArea(false)}}>Cancel</p>
+                                    <p className='para clr-primary me-3 mb-0 pointer' onClick={(e) => { setPostArea(false) }}>Cancel</p>
                                     <button className='btn primary-btn px-md-5'><p className='para'>Post Update</p></button>
                                 </div>
                             </div>

@@ -24,6 +24,7 @@ const ActivityHeader = ({ Userdata }) => {
         localStorage.removeItem('userdetail')
         router.push('/')
         console.log(deleteCookie())
+        document.querySelector('.close-logout-modal').click()
     }
     const token = GetToken('userdetail')
 
@@ -261,32 +262,36 @@ const ActivityHeader = ({ Userdata }) => {
                                     <li><button className="btn secondary-btn w-100"  >All Request</button></li>
                                 </ul>
                             </li>
-                            {/* <div className='d-flex'> */}
-                            <Link className='d-flex align-items-center ' href="/profile/activity">
+
+                            {/* <Link className='d-flex align-items-center ' href="/profile/activity"> */}
+                            <Link className="nav-link d-flex fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <li className=" list-unstyled header-btns">
                                     <div className="" >
                                         {UserProfiledata?.data?.profile_photo === null ?
                                             <Image className='post-profile-sm' src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                             :
-                                            <Image className='post-profile-sm' loader={imgurl} src={UserProfiledata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
+                                            <Image className='post-profile-sm object-fit-cover' loader={imgurl} src={UserProfiledata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
                                         }
+
                                     </div>
 
-
                                 </li>
+                                {/* </Link> */}
+                                {UserProfiledata?.data?.name}
                             </Link>
-                            <Link className="nav-link fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{UserProfiledata?.data?.name}</Link>
-                            {/* </div> */}
+
+
                             <ul className="dropdown-menu " style={{ zIndex: 9999 }}>
-                                {/* <li data-bs-toggle="modal" data-bs-target="#logoutModal" ><p className="dropdown-item pointer mb-0" >logout</p></li> */}
-                                <li onClick={logout} ><p className="dropdown-item pointer mb-0" >logout</p></li>
+                                <li ><Link href="/profile/activity" className="dropdown-item pointer mb-0" > <i class="bi bi-person-fill me-2"></i>Profile</Link></li>
+                                <li data-bs-toggle="modal" data-bs-target="#logoutModal" ><p className="dropdown-item pointer mb-0" ><i class="bi bi-power me-2"></i> logout</p></li>
+
                             </ul>
 
                         </div>
                     </div>
                 </div >
             }
-            {/* <LogoutConfirmation logout={logout} /> */}
+            <LogoutConfirmation logout={logout} />
         </>
     )
 }

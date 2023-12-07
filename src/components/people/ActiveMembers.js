@@ -125,13 +125,13 @@ const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
                                             </div>
                                             <div className="card-footer">
                                                 {item.friendship_status === 'send-request' ?
-                                                    <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>Add Friend</p></button>
+                                                    <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>{item.friendship_status} Add Friend</p></button>
                                                     : item.friendship_status === 'pending' ?
-                                                        <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>Cancel</p></button>
+                                                        <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>{item.friendship_status} Cancel</p></button>
                                                         : item.friendship_status === 'friends' ?
-                                                            <button className='btn secondary-btn' onClick={() => unfriend(item.id)}><p className='mb-0 px-4'>Unfriend</p></button>
+                                                            <button className='btn secondary-btn' onClick={() => unfriend(item.id)}><p className='mb-0 px-4'>{item.friendship_status} Unfriend</p></button>
                                                             : item.friendship_status === 'accept-request' ?
-                                                                <button className='btn secondary-btn' onClick={() => accptfrndreq(item.id)}><p className='mb-0 px-4'>Accept</p></button>
+                                                                <button className='btn secondary-btn' onClick={() => accptfrndreq(item.id)}><p className='mb-0 px-4'>{item.friendship_status} Accept</p></button>
                                                                 : ''
                                                 }
                                             </div>

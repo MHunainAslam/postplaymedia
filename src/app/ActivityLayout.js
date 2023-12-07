@@ -1,10 +1,40 @@
+'use client'
 import ChatSideBar from '@/components/chatcomponents/ChatSideBar'
 import ActivityHeader from '@/components/layout/ActivityHeader'
 import ActivitySidebar from '@/components/layout/ActivitySidebar'
-import React from 'react'
-
+import axios from 'axios'
+import React, { createContext, useEffect, useState } from 'react'
+import { APP_URL } from '../../config'
+import { GetToken } from '@/utils/Token'
+import { useRouter } from 'next/navigation'
+import { deleteCookie } from 'cookies-next'
+export const UserContext = createContext();
 const ActivityLayout = ({ children, ActivityPages }) => {
-  
+    const router = useRouter()
+    const token = GetToken('userdetail')
+    const [Userdata, setUserdata] = useState('')
+    const [UserdataLoader, setUserdataLoader] = useState(true)
+    useEffect(() => {
+        axios.get(`${APP_URL}/api/authMe`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('authMe', response);
+                setUserdata(response?.data)
+                setUserdataLoader(false)
+            })
+            .catch(error => {
+                setUserdataLoader(false)
+                console.error(error);
+                if (error.response.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }, [])
     return (
         <>
             {!ActivityPages ? <>{children}</> :
@@ -18,7 +48,9 @@ const ActivityLayout = ({ children, ActivityPages }) => {
                                 <div className="">
                                     <ActivityHeader />
                                     <div className="container py-5">
-                                        {children}
+                                        <UserContext.Provider value={{ Userdata, setUserdata }}>
+                                            {children}
+                                        </UserContext.Provider>
                                     </div>
                                 </div>
                             </div>

@@ -6,18 +6,15 @@ const LogoutConfirmation = ({ logout }) => {
 
 
             <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="logoutModalLabel">Modal title</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content logout-modal py-4">
+                       
+                        <div class="modal-body heading text-center">
+                            Are you sure ?
                         </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" onClick={logout} class="btn btn-primary">Save changes</button>
+                        <div class="modal-footer bg-transparent justify-content-center border-0 pt-4">
+                            <button type="button" class="btn secondary-btn close-logout-modal px-5 text-white" data-bs-dismiss="modal">No</button>
+                            <button type="button" onClick={logout} class="btn primary-btn px-5"><p>Yes</p></button>
                         </div>
                     </div>
                 </div>

@@ -1,15 +1,16 @@
-import React from 'react'
+
+import React, { useContext } from 'react'
 import RootLayout from '../layout'
-import ActivityLayout from '../ActivityLayout'
 import PostArea from '@/components/posts/PostArea'
 import ActivityTabs from '@/components/activity/ActivityTabs'
+import ActivityLayout from '../ActivityLayout'
 
 const Page = () => {
+
     return (
         <>
             <ActivityLayout ActivityPages>
 
-                <PostArea />
                 <ActivityTabs />
 
             </ActivityLayout>

@@ -20,6 +20,7 @@ const PeopleChangeProfile = () => {
     const token = GetToken('userdetail')
     const { Userdata } = useContext(UserContext);
     const [isloading, setisloading] = useState(false)
+    const [btnActive, setbtnActive] = useState(false)
     const [ProfileImage, setProfileImage] = useState('')
     const [ChangeDP, setChangeDP] = useState()
     const router = useRouter()
@@ -41,7 +42,7 @@ const PeopleChangeProfile = () => {
                     .then(response => {
                         console.log('img', response);
                         setChangeDP(response.data.data.last_inserted_id)
-
+                        setbtnActive(true)
                     })
                     .catch(error => {
                         console.error(error);
@@ -162,7 +163,7 @@ const PeopleChangeProfile = () => {
                                         <div className='w-100 text-center img-preview mt-4'>
                                             <Image className=' rounded-0 my-3 object-fit-cover max-w-100' src={ProfileImage} alt="Selected" height={500} width={500} />
                                         </div>
-                                        <button className='btn primary-btn mt-4' onClick={ChangeProfile}><p>Save Changes {isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
+                                        <button className='btn primary-btn mt-4' disabled={!btnActive} onClick={ChangeProfile}><p>Save Changes {isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
                                     </>
                                 )}
                             </div>

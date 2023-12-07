@@ -56,7 +56,7 @@ const Coverandtab = ({ Userdata }) => {
                                         <div className="card-body ">
                                             <div className="icons d-flex align-items-center  justify-content-evenly justify-content-md-end">
                                                 <div> <i className="bi bi-pencil-square pointer" onClick={movetoedit}></i></div>
-                                                <div><i className="bi bi-card-image" onClick={movetochangecover}></i></div>
+                                                <div><i className="bi bi-card-image pointer" onClick={movetochangecover}></i></div>
                                             </div>
                                         </div>
                                     </div>

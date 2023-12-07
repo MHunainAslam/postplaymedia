@@ -14,7 +14,7 @@ const page = () => {
     return (
         <UserProfileLayout ProfilePages>
 
-            <div className="row position-relative">
+            <div className="row position-relative w-100 mx-auto mt-2">
 
                 <AllFriends xl={'xl-4'} md={'lg-6'} />
 

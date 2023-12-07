@@ -69,7 +69,7 @@ const PeopleTab = () => {
         <>
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">
-                    <li className="nav-item nav-link active" onClick={getallfrnds} id="ActiveMembers-tab" data-bs-toggle="tab" data-bs-target="#ActiveMembers" type="button" role="tab" aria-controls="ActiveMembers" aria-selected="false" tabIndex="-1">
+                    <li className="nav-item nav-link active" onClick={grtallactivenenber} id="ActiveMembers-tab" data-bs-toggle="tab" data-bs-target="#ActiveMembers" type="button" role="tab" aria-controls="ActiveMembers" aria-selected="false" tabIndex="-1">
                         Active Members <span className='comment-active ms-1'>{UserData?.data?.data?.length ? UserData?.data?.data?.length : '0'}</span>
                     </li>
                     <li className="nav-item nav-link " onClick={getallfrnds} id="MyFriends-tab" data-bs-toggle="tab" data-bs-target="#MyFriends" type="button" role="tab" aria-controls="MyFriends" aria-selected="false" tabIndex="-1">

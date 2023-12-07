@@ -658,6 +658,7 @@ h5 {
     width: 60px;
     border-radius: 100%;
     height: 60px;
+    object-fit: cover;
 }
 
 .fng .heading {
@@ -895,6 +896,7 @@ h5 {
 
 .header-btns ul li {
     padding-inline: 5px;
+    margin-block: 5px;
 }
 
 .header-btns a img {
@@ -916,7 +918,7 @@ h5 {
 
 .no-msg-req {
     background-color: #ffeeba;
-    padding: 15px;
+    padding: 10px;
     font-size: 13px;
     font-weight: 600;
     color: red;
@@ -1051,7 +1053,7 @@ h5 {
     font-size: calc(12px + (15 - 12) * ((100vw - 320px) / (1920 - 320)));
     color: black;
     padding: calc(6px + (15 - 6) * ((100vw - 320px) / (1920 - 320)));
-    display: flex ;
+    display: flex;
     align-items: center;
 }
 
@@ -1283,6 +1285,18 @@ h5 {
     justify-content: center;
 }
 
+.comment-active-2 {
+    border: 1px solid var(--border);
+    border-radius: 100%;
+    /* padding: 5px; */
+    text-align: center;
+    font-size: calc(8px + (10 - 8) * ((100vw - 320px) / (1920 - 320))) !important;
+    width: 20px;
+    display: inline-block;
+    height: 20px;
+    padding-top: 2px;
+}
+
 .close-canva {
     top: 10px;
     position: absolute;
@@ -1307,7 +1321,7 @@ h5 {
     border-radius: 15px;
 }
 
-.gallery-card .gallery-img img {
+.gallery-card .gallery-img img,.gallery-card .gallery-img video {
     height: 250px;
     width: 100%;
     object-fit: cover;
@@ -1315,7 +1329,8 @@ h5 {
     transition: 0.3s;
 }
 
-.gallery-card:hover .gallery-img img {
+.gallery-card:hover .gallery-img img,
+.gallery-card:hover .gallery-img video {
     transform: scale(1.4);
     transition: 0.3s;
 }
@@ -1716,10 +1731,14 @@ h5 {
     position: absolute;
     width: 7px;
     height: 7px;
-    background-color: #4f5261 ;
+    background-color: #4f5261;
     top: 1px;
     right: -1px;
     border-radius: 100%;
+}
+
+.logout-modal {
+    background-image: linear-gradient(180deg, #4f5261 3%, #383A44 100%, var(--secondary) 48%);
 }
 
 @media (min-width: 1200px) {

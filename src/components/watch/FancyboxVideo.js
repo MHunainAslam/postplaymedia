@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import InputEmoji from "react-input-emoji";
-const FancyBox = ({ images, modalOpen, closeModal, selectedImage, setSelectedImage }) => {
+const FancyboxVideo = ({ images, modalOpen, closeModal, selectedImage, setSelectedImage }) => {
 
 
 
@@ -28,7 +28,7 @@ const FancyBox = ({ images, modalOpen, closeModal, selectedImage, setSelectedIma
                                 <>
                                     <div className={`row`}>
                                         <div className="col-md fancyimgsec position-relative d-flex align-items-center">
-                                            <Image width={5000} height={5000} src={images[selectedImage].url} className='w-100 object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
+                                            <video autoPlay controls width={5000} height={5000} src={images[selectedImage].url} className='w-100 object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
                                             <button className='post-back-btn' onClick={prevImage}><i className="bi bi-chevron-left"></i></button>
                                             <button className='post-next-btn' onClick={nextImage}><i className="bi bi-chevron-right"></i></button>
                                         </div>
@@ -85,4 +85,4 @@ const FancyBox = ({ images, modalOpen, closeModal, selectedImage, setSelectedIma
     );
 };
 
-export default FancyBox;
+export default FancyboxVideo;
