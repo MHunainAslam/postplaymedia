@@ -33,7 +33,7 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
             .catch(error => {
                 console.error(error);
                 message.error(error?.response.data?.message)
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
@@ -46,9 +46,9 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
     return (
         <>
             <div className="border-bottom row justify-content-between">
-                <div className="col-lg-3 mb-3 col-md-6 ">
+                <div className="col-lg-3 mb-3 col-md-6  ">
                     <div className=" search-inp mt-3">
-                        <span className="input-group-text right-0" ><i className="bi bi-search"></i></span>
+                        <span className="input-group-text right-0 " ><i className="bi bi-search"></i></span>
                         <input type="text" className="form-control " placeholder="Search Member" aria-label="Username" />
                     </div>
                 </div>
@@ -85,14 +85,14 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                                             </div>
                                             <div className="card-footer">
                                                
-                                                    <button className='btn secondary-btn' onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'>Unfriend</p></button>
+                                                    <button className='btn secondary-btn'  id={item.user_id} onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'>Unfriend</p></button>
                                          
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </>
-                            : <div className="alert-box">
+                            : <div className="alert-box mt-3">
                                 <p>You don&apos;t have friends</p>
                             </div>}
                     </>

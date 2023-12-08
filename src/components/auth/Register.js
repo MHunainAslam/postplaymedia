@@ -16,7 +16,17 @@ const Register = () => {
     const [Password, setPassword] = useState('')
     const [C_Password, setC_Password] = useState('')
     const [Name, setName] = useState('')
+    const [Number, setNumber] = useState('')
+    const [Address, setAddress] = useState('')
+    const [CInstitute, setCInstitute] = useState('')
+    const [CInstituteweb, setCInstituteweb] = useState('')
     const [MemberType, setMemberType] = useState('')
+    const [ClassYear, setClassYear] = useState('')
+    const [Height, setHeight] = useState('')
+    const [weight, setweight] = useState('')
+    const [Sports, setSports] = useState('')
+    const [AAUTrav, setAAUTrav] = useState('')
+    const [Position, setPosition] = useState('')
     const [Error, setError] = useState(false)
     const [ShowPass, setShowPass] = useState(false)
     const [ShowCPass, setShowCPass] = useState(false)
@@ -28,7 +38,7 @@ const Register = () => {
     const handleComponentChange = (componentName) => {
         setActiveComponent(componentName);
     };
-
+    console.log('activeComponent', activeComponent)
 
     useEffect(() => {
         axios.get(`${APP_URL}/api/roles`)
@@ -156,63 +166,55 @@ const Register = () => {
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Number (optional)</label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
-
+                                                                <input type="text" className="form-control inp" placeholder="" value={Number} onChange={(e) => { setNumber(e.target.value) }} />
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-md-6">
-                                                                <label className='para-sm clr-text mt-4' htmlFor="">Email  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
-
-                                                            </div>
-                                                            <div className="col-md-6">
+                                                            <div className="col-md-12">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Adress  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <textarea type="text" className="form-control  area" rows={'5'} placeholder="" value={Address} onChange={(e) => { setAddress(e.target.value) }} />
+                                                                {Error ? Address === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Current institude  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <input type="text" className="form-control inp" placeholder="" value={CInstitute} onChange={(e) => { setCInstitute(e.target.value) }} />
+                                                                {Error ? CInstitute === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Current institude website  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <input type="text" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
+                                                                {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                         </div>
-                                                      
+
                                                         <div className="row">
-                                                           
+
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Job title</label>
                                                                 <select name="" className='form-select slct' id="" onChange={(e) => { setMemberType(e.target.value) }} value={MemberType}>
-                                                                    {/* {Roles?.data?.data?.map((item, i) => (
+                                                                    <option value='' selected hidden>--select Job Title --</option>
+                                                                    {Roles?.data?.data?.map((item, i) => (
                                                                         <>
                                                                             <option value='' selected hidden>--select Member Type--</option>
                                                                             <option value={item.id}>{item.name}</option>
                                                                         </>
-                                                                    ))} */}
+                                                                    ))}
 
-                                                                    <option value='' selected hidden>--select Job Title --</option>
-                                                                    <option value=''>Head Coach</option>
+                                                                    {/* <option value=''>Head Coach</option>
                                                                     <option value=''>Assistant Coach</option>
                                                                     <option value=''>Graduate Assistant</option>
-                                                                   
+                                                                    */}
                                                                 </select>
                                                                 {Error ? MemberType === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                         </div>
-                                                      
+
 
                                                         <button type='submit' className='btn primary-btn mt-4 w-100'><p>Complete Sign Up {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
                                                         <Link className='text-decoration-none para-sm clr-primary d-inline-block w-100 mt-3 text-center' href={'/'}>Already Have Account</Link>
@@ -261,63 +263,58 @@ const Register = () => {
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Number (optional)</label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <input type="text" className="form-control inp" placeholder="" value={Number} onChange={(e) => { setNumber(e.target.value) }} />
+
 
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-md-6">
-                                                                <label className='para-sm clr-text mt-4' htmlFor="">Email  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
-                                                            </div>
-                                                            <div className="col-md-6">
+                                                            <div className="col-md-12">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Adress  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <textarea type="text" className="form-control  area" rows={'5'} placeholder="" value={Address} onChange={(e) => { setAddress(e.target.value) }} />
+                                                                {Error ? Address === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Current institude  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <input type="text" className="form-control inp" placeholder="" value={CInstitute} onChange={(e) => { setCInstitute(e.target.value) }} />
+                                                                {Error ? CInstitute === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Current institude website  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <input type="text" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
+                                                                {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Class Year  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <input type="text" className="form-control inp" placeholder="" value={ClassYear} onChange={(e) => { setClassYear(e.target.value) }} />
+                                                                {Error ? ClassYear === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Height  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <input type="text" className="form-control inp" placeholder="" value={Height} onChange={(e) => { setHeight(e.target.value) }} />
+                                                                {Error ? Height === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Weight</label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <input type="text" className="form-control inp" placeholder="" value={weight} onChange={(e) => { setweight(e.target.value) }} />
+                                                                {Error ? weight === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Sports</label>
-                                                                <select name="" className='form-select slct' id="" onChange={(e) => { setMemberType(e.target.value) }} value={MemberType}>
+                                                                <select name="" className='form-select slct' id="" onChange={(e) => { setSports(e.target.value) }} value={Sports}>
                                                                     {/* {Roles?.data?.data?.map((item, i) => (
                                                                         <>
                                                                             <option value='' selected hidden>--select Member Type--</option>
@@ -326,28 +323,28 @@ const Register = () => {
                                                                     ))} */}
 
                                                                     <option value='' selected hidden>--select Sports--</option>
-                                                                    <option value=''>Boys Basketball</option>
-                                                                    <option value=''>Girls Basketball</option>
-                                                                    <option value=''>Boys Baseball</option>
-                                                                    <option value=''>Girls Baseball</option>
-                                                                    <option value=''>Boys Football</option>
-                                                                    <option value=''>Girls Football</option>
+                                                                    <option value='BoysBasketball'>Boys Basketball</option>
+                                                                    <option value='GirlsBasketball'>Girls Basketball</option>
+                                                                    <option value='BoysBaseball'>Boys Baseball</option>
+                                                                    <option value='GirlsBaseball'>Girls Baseball</option>
+                                                                    <option value='BoysFootball'>Boys Football</option>
+                                                                    <option value='GirlsFootball'>Girls Football</option>
                                                                 </select>
-                                                                {Error ? MemberType === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                {Error ? Sports === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Position </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <input type="text" className="form-control inp" placeholder="" value={Position} onChange={(e) => { setPosition(e.target.value) }} />
+                                                                {Error ? Position === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">AAU/Travel Team Name  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
-                                                                {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                <input type="text" className="form-control inp" placeholder="" value={AAUTrav} onChange={(e) => { setAAUTrav(e.target.value) }} />
+                                                                {Error ? AAUTrav === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                         </div>

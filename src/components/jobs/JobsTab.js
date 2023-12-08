@@ -44,7 +44,7 @@ const JobsTab = () => {
             .catch(error => {
                 console.error(error);
                 setCatisLoader(false)
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')

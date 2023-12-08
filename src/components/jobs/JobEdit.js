@@ -96,7 +96,7 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
                     message.error(error.response.data.message)
                     console.error(error);
                     setisLoading(false)
-                    if (error.response.status === 401) {
+                    if (error?.response?.status === 401) {
                         router.push('/')
                         deleteCookie('logged');
                         localStorage.removeItem('userdetail')
@@ -128,7 +128,7 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
                     .catch(error => {
                         console.error(error);
                         message.error(error?.response.data?.message)
-                        if (error.response.status === 401) {
+                        if (error?.response?.status === 401) {
                             router.push('/')
                             deleteCookie('logged');
                             localStorage.removeItem('userdetail')
@@ -159,7 +159,7 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
                     .catch(error => {
                         console.error(error);
                         message.error(error?.response.data?.message)
-                        if (error.response.status === 401) {
+                        if (error?.response?.status === 401) {
                             router.push('/')
                             deleteCookie('logged');
                             localStorage.removeItem('userdetail')

@@ -19,7 +19,7 @@ const FancyboxVideo = ({ images, modalOpen, closeModal, selectedImage, setSelect
     return (
 
        
-            <div className="modal fade fancy-box-modal" id={"selectedImage"} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade fancy-box-modal" id={"selectedVideo"} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog  modal-dialog-scrollable mx-auto d-flex align-items-center  fanncybox-body ">
                     <div className="modal-content border-0 bg-transparent">
 

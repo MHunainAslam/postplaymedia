@@ -9,10 +9,11 @@ import { deleteCookie } from 'cookies-next'
 import { GetToken } from '@/utils/Token'
 import { useRouter } from 'next/navigation'
 import { message } from 'antd'
-const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
+const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
     const token = GetToken('userdetail')
     const [Receiverid, setReceiverid] = useState()
     const router = useRouter()
+    console.log('first', UserData)
     const unfriend = (e) => {
         console.log(e)
         axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
@@ -22,7 +23,7 @@ const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
         })
             .then(response => {
                 console.log('unfriend', response);
-                grtallactivenenber()
+                grtallactivemember()
             })
             .catch(error => {
                 console.error(error);
@@ -45,11 +46,12 @@ const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
         })
             .then(response => {
                 console.log('img', response);
+                grtallactivemember()
             })
             .catch(error => {
                 console.error(error);
                 message.error(error?.response.data?.message)
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
@@ -67,7 +69,7 @@ const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
         })
             .then(response => {
                 console.log('profile edit', response);
-                grtallactivenenber()
+                grtallactivemember()
             })
             .catch(error => {
                 console.error(error);
@@ -79,7 +81,28 @@ const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
                 }
             });
     }
+    const dltfrndreq = (e) => {
 
+        console.log(e, token, 'cjeck')
+        axios.delete(`${APP_URL}/api/friend-requests/${e}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('profile edit', response);
+                grtallactivemember()
+            })
+            .catch(error => {
+                console.error(error);
+                message.error(error?.response?.data?.message)
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
     }
@@ -107,7 +130,7 @@ const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
                                                 {item.profile_photo === null ?
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                                     :
-                                                    <Image loader={imgurl} src={item.profile_photo} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
+                                                    <Image loader={imgurl} src={item.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                 }
                                                 <Link className='link-hov' href={'/people/slug/activity'}><p className="heading text-black mb-2 mt-4">{item.name}</p></Link>
@@ -123,15 +146,18 @@ const ActiveMembers = ({ grtallactivenenber, UserData, UserDataLoader }) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="card-footer">
+                                            <div className="card-footer justify-content-center">
                                                 {item.friendship_status === 'send-request' ?
                                                     <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>{item.friendship_status} Add Friend</p></button>
                                                     : item.friendship_status === 'pending' ?
-                                                        <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>{item.friendship_status} Cancel</p></button>
+                                                        <button className='btn secondary-btn' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'>{item.friendship_status} Cancel</p></button>
                                                         : item.friendship_status === 'friends' ?
-                                                            <button className='btn secondary-btn' onClick={() => unfriend(item.id)}><p className='mb-0 px-4'>{item.friendship_status} Unfriend</p></button>
+                                                            <button className='btn secondary-btn' onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'>{item.friendship_status} Unfriend</p></button>
                                                             : item.friendship_status === 'accept-request' ?
-                                                                <button className='btn secondary-btn' onClick={() => accptfrndreq(item.id)}><p className='mb-0 px-4'>{item.friendship_status} Accept</p></button>
+                                                                <div className='d-md-flex w-100 mx-auto justify-content-center'>
+                                                                    <button className='btn secondary-btn m-1' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                                    <button className='btn secondary-btn m-1' id={item.id} onClick={() => accptfrndreq(item.frp_id)}><p className='mb-0 px-4' > Accept</p></button>
+                                                                </div>
                                                                 : ''
                                                 }
                                             </div>

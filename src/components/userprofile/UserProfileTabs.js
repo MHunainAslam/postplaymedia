@@ -49,18 +49,18 @@ const UserProfileTabs = ({ Userdata }) => {
                         <p className="para clr-text mb-0">Media</p>
                     </Link>
                 </li>
-                <li className={`nav-item nav-link text-center ${lastSegment === 'notification' ? 'active' : ''}`}>
+                {/* <li className={`nav-item nav-link text-center ${lastSegment === 'notification' ? 'active' : ''}`}>
                     <Link className='text-decoration-none' href={'/profile/notification'}>
                         <i className="clr-text heading-m mb-2 bi bi-bell"></i>
                         <p className="para clr-text mb-0">Notifications</p>
                     </Link>
-                </li>
-                <li className={`nav-item nav-link text-center ${lastSegment === 'messages' ? 'active' : ''}`}>
+                </li> */}
+                {/* <li className={`nav-item nav-link text-center ${lastSegment === 'messages' ? 'active' : ''}`}>
                     <Link className='text-decoration-none' href={'/profile/messages'}>
                         <i className="clr-text heading-m mb-2 bi bi-envelope-open"></i>
                         <p className="para clr-text mb-0">Messages</p>
                     </Link>
-                </li>
+                </li> */}
                 <li className={`nav-item nav-link text-center ${lastSegment === 'setting' ? 'active' : ''}`}>
                     <Link className='text-decoration-none' href={'/profile/setting'}>
                         <i className="clr-text heading-m mb-2 bi bi-gear"></i>

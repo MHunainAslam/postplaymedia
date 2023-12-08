@@ -36,7 +36,7 @@ const PeopleProfileEdit = ({ }) => {
             })
             .catch(error => {
                 console.error('roles', error);
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
@@ -66,7 +66,7 @@ const PeopleProfileEdit = ({ }) => {
             .catch(error => {
                 console.error(error);
                 message.error(error?.response?.data?.message)
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')

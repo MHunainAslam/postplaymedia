@@ -40,7 +40,7 @@ const JobManage = ({ JobCategorydd, loadcomponent }) => {
             })
             .catch(error => {
                 console.error(error);
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
@@ -63,7 +63,7 @@ const JobManage = ({ JobCategorydd, loadcomponent }) => {
             })
             .catch(error => {
                 console.error(error);
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')

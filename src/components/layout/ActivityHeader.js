@@ -22,7 +22,7 @@ const ActivityHeader = ({ Userdata }) => {
     const logout = () => {
         deleteCookie('logged');
         localStorage.removeItem('userdetail')
-        router.push('/')
+        router.replace('/')
         console.log(deleteCookie())
         document.querySelector('.close-logout-modal').click()
     }
@@ -89,7 +89,7 @@ const ActivityHeader = ({ Userdata }) => {
             .catch(error => {
                 setUserProfileloader(false)
                 console.error(error);
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
@@ -111,7 +111,7 @@ const ActivityHeader = ({ Userdata }) => {
             .catch(error => {
 
                 console.error(error);
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
@@ -140,7 +140,7 @@ const ActivityHeader = ({ Userdata }) => {
             .catch(error => {
                 console.error(error);
                 message.error(error?.response?.data?.message)
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
@@ -162,7 +162,7 @@ const ActivityHeader = ({ Userdata }) => {
             .catch(error => {
                 console.error(error);
                 message.error(error?.response?.data?.message)
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
@@ -213,10 +213,10 @@ const ActivityHeader = ({ Userdata }) => {
                                                         </div>
 
                                                         <div className="d-flex">
-                                                            <button className='btn secondary-btn-rounded p-1 rounded-5 mx-2' onClick={() => dltfrndreq(item.id)}>
+                                                            <button className='btn secondary-btn-rounded p-1 rounded-5 mx-2' id={item.id} onClick={() => dltfrndreq(item.id)}>
                                                                 <i className="bi bi-x-lg"></i>
                                                             </button>
-                                                            <button onClick={() => accptfrndreq(item.id)} className='btn secondary-btn-rounded p-1 rounded-5 mx-2'>
+                                                            <button id={item.id} onClick={() => accptfrndreq(item.id)} className='btn secondary-btn-rounded p-1 rounded-5 mx-2'>
                                                                 <i className="bi bi-check2"></i>
                                                             </button>
 

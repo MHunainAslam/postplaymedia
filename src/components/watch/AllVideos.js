@@ -56,7 +56,7 @@ const AllVideos = () => {
                                         src={image.url}
                                         alt={`Image ${index + 1}`}
                                         onClick={() => openModal(index)}
-                                        data-bs-toggle="modal" data-bs-target={`#selectedImage`}
+                                        data-bs-toggle="modal" data-bs-target={`#selectedVideo`}
                                         width={500} height={500}
                                     />
                                 </div>

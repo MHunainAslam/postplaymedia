@@ -47,7 +47,7 @@ const PeopleChangeProfile = () => {
                     .catch(error => {
                         console.error(error);
                         message.error(error?.response.data?.message)
-                        if (error.response.status === 401) {
+                        if (error?.response?.status === 401) {
                             router.push('/')
                             deleteCookie('logged');
                             localStorage.removeItem('userdetail')
@@ -75,7 +75,7 @@ const PeopleChangeProfile = () => {
             .catch(error => {
                 console.error(error);
                 message.error(error?.response?.data?.message)
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
@@ -102,7 +102,7 @@ const PeopleChangeProfile = () => {
             .catch(error => {
                 console.error(error);
                 message.error(error?.response?.data?.message)
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')

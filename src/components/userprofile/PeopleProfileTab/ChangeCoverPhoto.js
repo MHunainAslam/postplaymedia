@@ -40,7 +40,7 @@ const ChangeCoverPhoto = () => {
                     .catch(error => {
                         console.error(error);
                         message.error(error?.response.data?.message)
-                        if (error.response.status === 401) {
+                        if (error?.response?.status === 401) {
                             router.push('/')
                             deleteCookie('logged');
                             localStorage.removeItem('userdetail')
@@ -68,7 +68,7 @@ const ChangeCoverPhoto = () => {
             .catch(error => {
                 console.error(error);
                 message.error(error?.response?.data?.message)
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
@@ -95,7 +95,7 @@ const ChangeCoverPhoto = () => {
             .catch(error => {
                 console.error(error);
                 message.error(error?.response?.data?.message)
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
