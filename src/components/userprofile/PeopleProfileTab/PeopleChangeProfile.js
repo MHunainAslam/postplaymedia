@@ -190,12 +190,16 @@ const PeopleChangeProfile = () => {
                         <div className="row">
                             <div className="col">
                                 <div className="card changeprofile-card mt-5">
-                                    <div className="card-body py-5 mx-auto ">
-                                        <button className='btn secondary-btn px-md-3'><i className="bi bi-camera me-2"></i> Take A Picture</button>
-                                        <button onClick={startCamera}>Start Camera</button>
-                                        <button onClick={takePicture}>Take Picture</button>
-                                        <video ref={videoRef} autoPlay muted style={{ width: '100%', maxWidth: '400px' }} />
-                                        {imageData && <img src={imageData} alt="Captured" />}
+                                    <div className="card-body py-5 mx-auto text-center">
+                                        <button className='btn secondary-btn px-md-3' onClick={startCamera}><i className="bi bi-camera me-2"></i> Take A Picture</button>
+
+
+                                        <div className='w-100 text-center img-preview mt-4'>
+                                            <video ref={videoRef} autoPlay muted style={{ width: '100%', maxWidth: '400px' }} />
+                                            {imageData && <Image src={imageData} className=' rounded-0 my-3 object-fit-cover max-w-100' alt="Captured" />}
+                                        </div>
+                                        <button className='btn secondary-btn px-md-3 mt-3' onClick={takePicture}><i className="bi bi-camera "></i> </button>
+
                                     </div>
                                 </div>
 
