@@ -217,7 +217,7 @@ const Register = () => {
 
 
                                                         <button type='submit' className='btn primary-btn mt-4 w-100'><p>Complete Sign Up {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
-                                                        <Link className='text-decoration-none para-sm clr-primary d-inline-block w-100 mt-3 text-center' href={'/'}>Already Have Account</Link>
+                                                     
                                                     </form>
                                                 </>}
                                                 {activeComponent === 'Athletes' && <>
@@ -351,9 +351,10 @@ const Register = () => {
 
 
                                                         <button type='submit' className='btn primary-btn mt-4 w-100'><p>Complete Sign Up {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
-                                                        <Link className='text-decoration-none para-sm clr-primary d-inline-block w-100 mt-3 text-center' href={'/'}>Already Have Account</Link>
+
                                                     </form>
                                                 </>}
+                                                <Link className='text-decoration-none para-sm clr-primary d-inline-block w-100 mt-3 text-center' href={'/'}>Already Have Account</Link>
                                             </div>
                                         </div>
                                     </div>

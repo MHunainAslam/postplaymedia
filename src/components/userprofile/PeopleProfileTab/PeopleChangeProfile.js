@@ -114,14 +114,31 @@ const PeopleChangeProfile = () => {
     }
 
 
+    const videoRef = useRef(null);
+    const [imageData, setImageData] = useState(null);
 
-    const [picture, setPicture] = useState('')
-    const webcamRef = React.useRef(null)
-    const capture = React.useCallback(() => {
-        const pictureSrc = webcamRef.current.getScreenshot()
-        setPicture(pictureSrc)
-    })
+    const startCamera = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            if (videoRef.current) {
+                videoRef.current.srcObject = stream;
+            }
+        } catch (err) {
+            console.error('Error accessing the camera:', err);
+        }
+    };
 
+    const takePicture = () => {
+        if (videoRef.current) {
+            const canvas = document.createElement('canvas');
+            canvas.width = videoRef.current.videoWidth;
+            canvas.height = videoRef.current.videoHeight;
+            canvas.getContext('2d').drawImage(videoRef.current, 0, 0);
+
+            const data = canvas.toDataURL('image/png');
+            setImageData(data);
+        }
+    };
 
 
     return (
@@ -175,48 +192,10 @@ const PeopleChangeProfile = () => {
                                 <div className="card changeprofile-card mt-5">
                                     <div className="card-body py-5 mx-auto ">
                                         <button className='btn secondary-btn px-md-3'><i className="bi bi-camera me-2"></i> Take A Picture</button>
-                                        <div>
-                                            <h2 className="mb-5 text-center">
-                                                React Photo Capture using Webcam Examle
-                                            </h2>
-                                            <div>
-                                                {picture == '' ? (
-                                                    <Webcam
-                                                        audio={false}
-                                                        height={400}
-                                                        ref={webcamRef}
-                                                        width={400}
-                                                        screenshotFormat="image/jpeg"
-                                                        videoConstraints={videoConstraints}
-                                                    />
-                                                ) : (
-                                                    <img src={picture} />
-                                                )}
-                                            </div>
-                                            <div>
-                                                {picture != '' ? (
-                                                    <button
-                                                        onClick={(e) => {
-                                                            e.preventDefault()
-                                                            setPicture()
-                                                        }}
-                                                        className="btn btn-primary"
-                                                    >
-                                                        Retake
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        onClick={(e) => {
-                                                            e.preventDefault()
-                                                            capture()
-                                                        }}
-                                                        className="btn btn-danger"
-                                                    >
-                                                        Capture
-                                                    </button>
-                                                )}
-                                            </div>
-                                        </div>
+                                        <button onClick={startCamera}>Start Camera</button>
+                                        <button onClick={takePicture}>Take Picture</button>
+                                        <video ref={videoRef} autoPlay muted style={{ width: '100%', maxWidth: '400px' }} />
+                                        {imageData && <img src={imageData} alt="Captured" />}
                                     </div>
                                 </div>
 

@@ -2,23 +2,28 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Loader from '../Loader'
 import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
 import { deleteCookie } from 'cookies-next'
-import { GetToken } from '@/utils/Token'
+import { GetLocaldata, GetToken } from '@/utils/Token'
+import { UserContext } from '@/app/ActivityLayout'
 
 const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
-
+    const [authme, setauthme] = useState('')
     const token = GetToken('userdetail')
+    const [btndisable, setbtndisable] = useState(false)
     const [Receiverid, setReceiverid] = useState()
     const router = useRouter()
+    const userdata = GetLocaldata('userdetail')
 
 
+
+console.log(userdata)
 
     const unfriend = (e) => {
+        setbtndisable(true)
         setReceiverid(e)
         console.log(e)
         axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
@@ -29,10 +34,12 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
             .then(response => {
                 console.log('unfriend', response);
                 getallfrnds()
+                setbtndisable(false)
             })
             .catch(error => {
                 console.error(error);
                 message.error(error?.response.data?.message)
+                setbtndisable(false)
                 if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
@@ -64,29 +71,28 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                                     <div className="col-xl-4 col-md-6 mt-3" key={i}>
                                         <div className="card people-card">
                                             <div className="card-body">
-                                                {item.friend.profile_photo === null ?
+                                                {item.user.profile_photo === null ?
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                                     :
-                                                    <Image loader={imgurl} src={item.friend.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
+                                                    <Image loader={imgurl} src={item.user.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                 }
-                                                <Link className='link-hov' href={'/people/slug/activity'}><p className="heading text-black mb-2 mt-4">{item?.friend?.name}</p></Link>
+                                                <Link className='link-hov' href={'/people/slug/activity'}><p className="heading text-black mb-2 mt-4 text-capitalize">{item?.user?.name}</p></Link>
                                                 <p className="para clr-light">Active 2 minutes ago</p>
                                                 <div className="d-flex fng justify-content-center">
                                                     <div className='mx-2'>
-                                                        <p className="heading mb-0">1</p>
+                                                        {/* <p className="heading mb-0">{Userdata.data.id === item.user?.id ? item.friend.friends_count : item.user.friends_count}</p> */}
+                                                        <p className="heading mb-0">{item.user.friends_count}</p>
                                                         <p className="para">Friends</p>
                                                     </div>
                                                     <div className='mx-2'>
-                                                        <p className="heading mb-0">1</p>
+                                                        <p className="heading mb-0">{item.user.group_count}</p>
                                                         <p className="para">Groups</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="card-footer">
-                                               
-                                                    <button className='btn secondary-btn'  id={item.user_id} onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'>Unfriend</p></button>
-                                         
+                                                <button className='btn secondary-btn' disabled={btndisable} onClick={() => unfriend(item.user_id)}><p className='mb-0 px-4'>Unfriend</p></button>
                                             </div>
                                         </div>
                                     </div>

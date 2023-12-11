@@ -68,8 +68,8 @@ const ActivitySidebar = () => {
                                                 }
 
                                             </div>
-                                            <Link href={'/profile/profile'} className="heading mb-0 text-decoration-none">
-                                                {UserProfiledata?.data?.name}
+                                            <Link href={'/profile/profile'} className="heading mb-0 text-decoration-none text-capitalize">
+                                                {UserProfiledata?.data?.name} 
                                             </Link>
                                             <p className="para">
                                                 {UserProfiledata?.data?.role?.name}

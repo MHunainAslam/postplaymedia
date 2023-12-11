@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import { message } from 'antd'
 const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
     const token = GetToken('userdetail')
+    const [btndisable, setbtndisable] = useState(false)
     const [Receiverid, setReceiverid] = useState()
     const router = useRouter()
     console.log('first', UserData)

@@ -264,7 +264,7 @@ const ActivityHeader = ({ Userdata }) => {
                             </li>
 
                             {/* <Link className='d-flex align-items-center ' href="/profile/activity"> */}
-                            <Link className="nav-link d-flex fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <Link className="nav-link d-flex fw-bold text-capitalize" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <li className=" list-unstyled header-btns">
                                     <div className="" >
                                         {UserProfiledata?.data?.profile_photo === null ?
