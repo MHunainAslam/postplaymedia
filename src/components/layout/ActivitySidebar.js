@@ -77,11 +77,11 @@ const ActivitySidebar = () => {
                                             <hr />
                                             <div className="d-flex justify-content-center">
                                                 <div className='mx-2'>
-                                                    <p className="heading mb-0">1</p>
+                                                    <p className="heading mb-0">{UserProfiledata?.data?.friends_count}</p>
                                                     <p className="para">Friends</p>
                                                 </div>
                                                 <div className='mx-2'>
-                                                    <p className="heading mb-0">1</p>
+                                                    <p className="heading mb-0">{UserProfiledata?.data?.group_count}</p>
                                                     <p className="para">Groups</p>
                                                 </div>
                                             </div>
