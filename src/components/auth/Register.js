@@ -21,6 +21,7 @@ const Register = () => {
     const [CInstitute, setCInstitute] = useState('')
     const [CInstituteweb, setCInstituteweb] = useState('')
     const [MemberType, setMemberType] = useState('')
+    const [jobtitle, setjobtitle] = useState('')
     const [ClassYear, setClassYear] = useState('')
     const [Height, setHeight] = useState('')
     const [weight, setweight] = useState('')
@@ -32,13 +33,23 @@ const Register = () => {
     const [ShowCPass, setShowCPass] = useState(false)
     const [isLoading, setisLoading] = useState(false)
     const [Roles, setRoles] = useState([])
+    const [RoleId, setRoleId] = useState('')
+    const [JobType, setJobType] = useState([])
+    const [emp, setemp] = useState()
     const [activeComponent, setActiveComponent] = useState('buttons');
     const router = useRouter()
 
     const handleComponentChange = (componentName) => {
         setActiveComponent(componentName);
+        if (componentName === 'Coach') {
+            setRoleId('2')
+            console.log(componentName, RoleId)
+        } else if (componentName === 'Athletes') {
+            setRoleId('3')
+            console.log(componentName, RoleId)
+        }
     };
-    console.log('activeComponent', activeComponent)
+
 
     useEffect(() => {
         axios.get(`${APP_URL}/api/roles`)
@@ -50,33 +61,62 @@ const Register = () => {
                 console.error(error);
             });
     }, [])
+    useEffect(() => {
+        axios.get(`${APP_URL}/api/sub-roles`)
+            .then(response => {
+                console.log(response);
+                setJobType(response)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [])
 
 
-    const RegistrationSubmit = (e) => {
+    const CoachRegistrationSubmit = (e) => {
         e.preventDefault()
-        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || MemberType === '') {
+        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || Address === '' || CInstitute === '' || CInstituteweb === '' || jobtitle === '') {
             setError(true)
         }
         else {
             setisLoading(true)
             console.log(UserName, Email, Password, C_Password, Name, MemberType)
-            axios.post(`${APP_URL}/api/register`, { name: Name, username: UserName, email: Email, password: Password, c_password: C_Password, role_id: MemberType })
+            axios.post(`${APP_URL}/api/register`, { name: Name, username: UserName, email: Email, password: Password, c_password: C_Password, role_id: RoleId, Number: Number, Address: Address, current_institute: CInstitute, current_ins_website: CInstituteweb, job_title: jobtitle, class_year: null, height: null, weight: null, sports: null, position: null, travel_team_name: null })
                 .then(response => {
                     // Handle successful response here
                     message.success(response.data.message)
                     console.log(response.data);
                     router.push('/')
-                    setUserName('')
-                    setEmail('')
-                    setPassword('')
-                    setC_Password('')
-                    setName('')
-                    setMemberType('')
                     setisLoading(false)
                 })
                 .catch(error => {
                     // Handle error here
-                    message.error(error.data.message)
+                    message.error(error.response?.data?.message)
+                    console.error(error);
+                    setisLoading(false)
+                });
+
+            setError(false)
+        }
+    }
+    const AthleteRegistrationSubmit = (e) => {
+        e.preventDefault()
+        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || Address === '' || CInstitute === '' || CInstituteweb === '' || ClassYear === '' || Height === '' || weight === '' || Sports === '' || Position === '' || AAUTrav === '') {
+            setError(true)
+        }
+        else {
+            setisLoading(true)
+            axios.post(`${APP_URL}/api/register`, { name: Name, username: UserName, email: Email, password: Password, c_password: C_Password, role_id: RoleId, Number: Number, Address: Address, current_institute: CInstitute, current_ins_website: CInstituteweb, class_year: ClassYear, height: Height, weight: weight, sports: Sports, position: Position, travel_team_name: AAUTrav, job_title: '1' })
+                .then(response => {
+                    // Handle successful response here
+                    message.success(response.data.message)
+                    console.log(response.data);
+                    router.push('/')
+                    setisLoading(false)
+                })
+                .catch(error => {
+                    // Handle error here
+                    message.error(error.response?.data?.message)
                     console.error(error);
                     setisLoading(false)
                 });
@@ -90,7 +130,6 @@ const Register = () => {
     }
 
     const bgRef = useRef();
-
     useEffect(() => { bgRef.current.play(); }, []);
     return (
         <>
@@ -124,7 +163,7 @@ const Register = () => {
                                                     </div>
                                                 </>}
                                                 {activeComponent === 'Coach' && <>
-                                                    <form action="" onSubmit={RegistrationSubmit}>
+                                                    <form action="" onSubmit={CoachRegistrationSubmit}>
                                                         <p className='heading text-center  text-dark'> <i class="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
                                                         <div className="row">
                                                             <div className="col-md-6">
@@ -146,6 +185,11 @@ const Register = () => {
                                                                     <i className={`bi ${ShowPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowPass(!ShowPass) }}></i>
                                                                 </div>
                                                                 {Error ? Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                {Password ?
+                                                                    <>
+                                                                        {Password.length < 6 ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> password field must be at least 6 characters*</p> : ''}
+                                                                    </>
+                                                                    : ''}
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor=""> Confirm Password  </label>
@@ -186,7 +230,7 @@ const Register = () => {
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Current institude website  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
+                                                                <input type="url" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
                                                                 {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
@@ -196,19 +240,18 @@ const Register = () => {
 
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Job title</label>
-                                                                <select name="" className='form-select slct' id="" onChange={(e) => { setMemberType(e.target.value) }} value={MemberType}>
+                                                                <select name="" className='form-select slct' id="" onChange={(e) => { setjobtitle(e.target.value) }} value={jobtitle}>
                                                                     <option value='' selected hidden>--select Job Title --</option>
-                                                                    {Roles?.data?.data?.map((item, i) => (
+                                                                    {JobType?.data?.data?.map((item, i) => (
                                                                         <>
-                                                                            <option value='' selected hidden>--select Member Type--</option>
                                                                             <option value={item.id}>{item.name}</option>
                                                                         </>
                                                                     ))}
 
                                                                     {/* <option value=''>Head Coach</option>
                                                                     <option value=''>Assistant Coach</option>
-                                                                    <option value=''>Graduate Assistant</option>
-                                                                    */}
+                                                                    <option value=''>Graduate Assistant</option> */}
+
                                                                 </select>
                                                                 {Error ? MemberType === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
@@ -217,11 +260,11 @@ const Register = () => {
 
 
                                                         <button type='submit' className='btn primary-btn mt-4 w-100'><p>Complete Sign Up {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
-                                                     
+
                                                     </form>
                                                 </>}
                                                 {activeComponent === 'Athletes' && <>
-                                                    <form action="" onSubmit={RegistrationSubmit}>
+                                                    <form action="" onSubmit={AthleteRegistrationSubmit}>
                                                         <p className='heading text-center  text-dark'> <i class="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
                                                         <div className="row">
                                                             <div className="col-md-6">
@@ -243,6 +286,11 @@ const Register = () => {
                                                                     <i className={`bi ${ShowPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowPass(!ShowPass) }}></i>
                                                                 </div>
                                                                 {Error ? Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                                                                {Password ?
+                                                                    <>
+                                                                        {Password.length < 6 ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> password field must be at least 6 characters*</p> : ''}
+                                                                    </>
+                                                                    : ''}
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor=""> Confirm Password  </label>
@@ -286,7 +334,7 @@ const Register = () => {
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <label className='para-sm clr-text mt-4' htmlFor="">Current institude website  </label>
-                                                                <input type="text" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
+                                                                <input type="url" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
                                                                 {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
