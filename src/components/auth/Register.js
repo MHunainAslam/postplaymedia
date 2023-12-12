@@ -223,13 +223,13 @@ const Register = () => {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-md-6">
-                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institude  </label>
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institute  </label>
                                                                 <input type="text" className="form-control inp" placeholder="" value={CInstitute} onChange={(e) => { setCInstitute(e.target.value) }} />
                                                                 {Error ? CInstitute === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                             <div className="col-md-6">
-                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institude website  </label>
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institute website  </label>
                                                                 <input type="url" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
                                                                 {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
@@ -327,13 +327,13 @@ const Register = () => {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-md-6">
-                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institude  </label>
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institute  </label>
                                                                 <input type="text" className="form-control inp" placeholder="" value={CInstitute} onChange={(e) => { setCInstitute(e.target.value) }} />
                                                                 {Error ? CInstitute === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                                                             </div>
                                                             <div className="col-md-6">
-                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institude website  </label>
+                                                                <label className='para-sm clr-text mt-4' htmlFor="">Current institute website  </label>
                                                                 <input type="url" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
                                                                 {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
@@ -373,10 +373,8 @@ const Register = () => {
                                                                     <option value='' selected hidden>--select Sports--</option>
                                                                     <option value='BoysBasketball'>Boys Basketball</option>
                                                                     <option value='GirlsBasketball'>Girls Basketball</option>
-                                                                    <option value='BoysBaseball'>Boys Baseball</option>
-                                                                    <option value='GirlsBaseball'>Girls Baseball</option>
-                                                                    <option value='BoysFootball'>Boys Football</option>
-                                                                    <option value='GirlsFootball'>Girls Football</option>
+                                                                    <option value='BoysBaseball'>Baseball</option>
+                                                                    <option value='GirlsFootball'>Football</option>
                                                                 </select>
                                                                 {Error ? Sports === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 

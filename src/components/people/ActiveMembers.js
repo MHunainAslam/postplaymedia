@@ -118,7 +118,7 @@ const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
                 </div>
 
             </div>
-            <div className="row position-relative">
+            <div className="row position-relative w-100 mx-auto">
 
                 {UserDataLoader ? <Loader /> :
                     <>

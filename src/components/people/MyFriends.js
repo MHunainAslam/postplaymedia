@@ -61,7 +61,7 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                 </div>
 
             </div>
-            <div className="row position-relative">
+            <div className="row position-relative w-100 mx-auto">
 
                 {UserDataLoader ? <Loader /> :
                     <>

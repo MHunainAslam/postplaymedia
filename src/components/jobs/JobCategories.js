@@ -60,7 +60,7 @@ const JobCategories = ({ JobCategory, CatisLoader, SearchCategory, setSearchCate
                     </div>
                     : ''}
             </div>
-            <div className="row position-relative" >
+            <div className="row position-relative w-100 mx-auto" >
                 {CatisLoader ? <Loader /> :
                     <>
                         {JobCategory?.data?.data.length === 0 ? <div className='text-center heading-m text-black my-5'>No Result Found </div> :
