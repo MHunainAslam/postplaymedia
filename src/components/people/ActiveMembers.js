@@ -149,11 +149,11 @@ const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
                                             </div>
                                             <div className="card-footer justify-content-center">
                                                 {item.friendship_status === 'send-request' ?
-                                                    <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'>{item.friendship_status} Add Friend</p></button>
+                                                    <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'> Add Friend</p></button>
                                                     : item.friendship_status === 'pending' ?
-                                                        <button className='btn secondary-btn' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'>{item.friendship_status} Cancel</p></button>
+                                                        <button className='btn secondary-btn' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
                                                         : item.friendship_status === 'friends' ?
-                                                            <button className='btn secondary-btn' onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'>{item.friendship_status} Unfriend</p></button>
+                                                            <button className='btn secondary-btn' onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'> Unfriend</p></button>
                                                             : item.friendship_status === 'accept-request' ?
                                                                 <div className='d-md-flex w-100 mx-auto justify-content-center'>
                                                                     <button className='btn secondary-btn m-1' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
