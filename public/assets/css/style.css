@@ -1806,6 +1806,7 @@ h5 {
 
 @media (min-width: 768px) {
 
+
     .post-border::after {
         content: '';
         position: absolute;
@@ -1902,6 +1903,24 @@ h5 {
 
 
 @media (max-width: 767px) {
+    .resposive-search-header {
+        background: var(--primary);
+    }
+
+    .resposive-search-header i {
+        color: white !important;
+    }
+
+    .resposive-search-header input::placeholder {
+        color: white !important;
+    }
+
+    .resposive-search-header input {
+        color: white !important;
+        border-bottom: 1px solid white !important;
+        border-radius: 0;
+    }
+
     .Login-panel {
         height: auto;
         flex-direction: column-reverse;

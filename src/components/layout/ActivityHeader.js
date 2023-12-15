@@ -176,7 +176,7 @@ const ActivityHeader = ({ Userdata }) => {
 
                 <div className="activity-header">
                     <div className="row justify-content-between px-md-3 px-0 w-100">
-                        <div className="col-md-3 col-12 py-md-0 py-2">
+                        <div className="col-md-3 col-12 py-md-0 py-2 resposive-search-header">
                             <div className="input-group header-search ">
                                 <i className="bi bi-text-left clr-primary fs-4 d-md-none" data-bs-toggle="offcanvas" data-bs-target="#ActivitySidebar" aria-controls="ActivitySidebar"></i>
                                 <span className="input-group-text border-0 bg-transparent" id="basic-addon1"><i className="bi bi-search"></i></span>
