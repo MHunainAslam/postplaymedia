@@ -45,7 +45,7 @@ const ActivitySidebar = () => {
     }
     return (
         <>
-            {UserProfileloader ? <div className="main-loader"> <Loader /></div>  :
+            {UserProfileloader ? <div className="main-loader"> <Loader /></div> :
                 <>
                     {/* <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#ActivitySidebar" aria-controls="ActivitySidebar">
                 Button with data-bs-target
@@ -69,7 +69,7 @@ const ActivitySidebar = () => {
 
                                             </div>
                                             <Link href={'/profile/profile'} className="heading mb-0 text-decoration-none text-capitalize">
-                                                {UserProfiledata?.data?.name} 
+                                                {UserProfiledata?.data?.name}
                                             </Link>
                                             <p className="para">
                                                 {UserProfiledata?.data?.role?.name}
@@ -123,8 +123,8 @@ const ActivitySidebar = () => {
                                 </li>
                                 <li>
                                     <Link href={'/jobs'} className={pathname === '/jobs' ? 'active-nav' : ''}>
-                                        <i className="bi bi-briefcase-fill "></i> <br />
-                                        <p>Jobs</p>
+                                        <i class="bi bi-person-arms-up"></i> <br />
+                                        <p>Athelete</p>
                                     </Link>
                                 </li>
                                 {/* <li>

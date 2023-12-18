@@ -60,8 +60,8 @@ const AllJobs = ({ loadcomponent }) => {
                 <div className="col-sm-8 col-lg-6">
                     <form className="  my-3">
                         <div className="d-flex">
-                            <input type="text" className="form-control inp me-2 " placeholder="keywords" aria-label="Username" value={SearchTitle} onChange={(e) => { setSearchTitle(e.target.value) }} />
-                            <input type="text" className="form-control inp me-2 " placeholder="Location" aria-label="Username" />
+                            <input type="text" className="form-control w-50 inp me-2 " placeholder="keywords" aria-label="Username" value={SearchTitle} onChange={(e) => { setSearchTitle(e.target.value) }} />
+                            {/* <input type="text" className="form-control inp me-2 " placeholder="Location" aria-label="Username" /> */}
                             <button className='btn primary-btn rounded-5 '><p><i className="bi bi-search"></i></p></button>
                         </div>
                     </form>
@@ -71,27 +71,59 @@ const AllJobs = ({ loadcomponent }) => {
                 </div>
                 {Filter ?
                     <div className="border-top row justify-content-between">
-                        <div className="d-flex py-3 justify-content-center flex-wrap">
-                            <div className='mx-2'>
-                                <input className=' form-check-input' type="checkbox" name="" id="Freelance" value={'freelance'} onChange={(e => { setFreelance(!Freelance) })} checked={Freelance} />
-                                <label className='para clr-text ms-2' htmlFor="Freelance">Freelance</label>
+                        <div className="d-flex flex-wrap py-3 justify-content-center flex-wrap">
+                            <div className='m-2'>
+                                {/* <input className=' form-check-input' type="checkbox" name="" id="Freelance" value={'freelance'} onChange={(e => { setFreelance(!Freelance) })} checked={Freelance} /> */}
+                                {/* <label className='para clr-text ms-2' htmlFor="Freelance"></label> */}
+                                <select name="" className='form-select slct' id="" >
+                                    <option value='' selected hidden>Level</option>
+                                    <option value='NCAAD1'> NCAA D1</option>
+                                    <option value='NCAAD2'>NCAA D2</option>
+                                    <option value='NCAAD3'>NCAA D3</option>
+                                    <option value='USPORTS'>U SPORTS</option>
+                                    <option value='NAIA'> NAIA</option>
+                                    <option value='USCAA'>USCAA</option>
+                                    <option value='NCCAA'>NCCAA</option>
+                                    <option value='CWPA'>CWPA</option>
+                                    <option value='MCLA'> MCLA</option>
+                                    <option value='High-School'> High School</option>
+                                    <option value='Club/Travel'>Club/Travel</option>
+                                    <option value='Junior-College'>Junior College</option>
+                                </select>
                             </div>
-                            <div className='mx-2'>
-                                <input className=' form-check-input' type="checkbox" name="" id="FullTime" value={'FullTime'} onChange={(e => { setFullTime(!FullTime) })} checked={FullTime} />
-                                <label className='para clr-text ms-2' htmlFor="FullTime">Full Time</label>
+                            <div className='m-2'>
+                                {/* <input className=' form-check-input' type="checkbox" name="" id="FullTime" value={'FullTime'} onChange={(e => { setFullTime(!FullTime) })} checked={FullTime} />
+                                <label className='para clr-text ms-2' htmlFor="FullTime">Full Time</label> */}
+                                <select name="" className='form-select slct' id="" >
+                                    <option value='' selected hidden>Sports</option>
+                                    <option value='BoysBasketball'>Boys Basketball</option>
+                                    <option value='GirlsBasketball'>Girls Basketball</option>
+                                    <option value='BoysBaseball'>Baseball</option>
+                                    <option value='GirlsFootball'>Football</option>
+                                </select>
                             </div>
-                            <div className='mx-2'>
-                                <input className=' form-check-input' type="checkbox" name="" id="Internship" value={'Internship'} onChange={(e => { setInternship(!Internship) })} checked={Internship} />
-                                <label className='para clr-text ms-2' htmlFor="Internship">Internship</label>
+                            <div className='m-2'>
+                                {/* <input className=' form-check-input' type="checkbox" name="" id="Internship" value={'Internship'} onChange={(e => { setInternship(!Internship) })} checked={Internship} />
+                                <label className='para clr-text ms-2' htmlFor="Internship">Internship</label> */}
+                                <select name="" className='form-select slct' id="">
+                                    <option value='' selected hidden>select State</option>
+                                    <option value='city1'>State 1</option>
+                                    <option value='city2'>State 2</option>
+                                </select>
                             </div>
-                            <div className='mx-2'>
-                                <input className=' form-check-input' type="checkbox" name="" id="PartTime" value={'PartTime'} onChange={(e => { setPartTime(!PartTime) })} checked={PartTime} />
-                                <label className='para clr-text ms-2' htmlFor="PartTime">Part Time</label>
+                            <div className='m-2'>
+                                {/* <input className=' form-check-input' type="checkbox" name="" id="PartTime" value={'PartTime'} onChange={(e => { setPartTime(!PartTime) })} checked={PartTime} />
+                                <label className='para clr-text ms-2' htmlFor="PartTime">Part Time</label> */}
+                                <select name="" className='form-select slct' id="">
+                                    <option value='' selected hidden>Conference</option>
+                                    <option value='Conference1'>Conference 1</option>
+                                    <option value='Conference2'>Conference 2</option>
+                                </select>
                             </div>
-                            <div className='mx-2'>
+                            {/* <div className='m-2'>
                                 <input className=' form-check-input' type="checkbox" name="" id="Temporary" value={'Temporary'} onChange={(e => { setTemporary(!Temporary) })} checked={Temporary} />
                                 <label className='para clr-text ms-2' htmlFor="Temporary">Temporary</label>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     : ''}

@@ -60,9 +60,9 @@ const JobsTab = () => {
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">
                     <li className="nav-item nav-link active" id="AllJobs-tab" onClick={() => handleComponentChange('AllJobs')} data-bs-toggle="tab" data-bs-target="#AllJobs" type="button" role="tab" aria-controls="AllJobs" aria-selected="false" tabIndex="-1">
-                        All Jobs
+                        Athelete
                     </li>
-                    <li className="nav-item nav-link " id="categories-tab" onClick={() => handleComponentChange('Categories')} data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab" aria-controls="categories" aria-selected="false" tabIndex="-1">
+                    {/* <li className="nav-item nav-link " id="categories-tab" onClick={() => handleComponentChange('Categories')} data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab" aria-controls="categories" aria-selected="false" tabIndex="-1">
                         Categories
                     </li>
                     <li className="nav-item nav-link " id="Manage-tab" onClick={() => handleComponentChange('Manage')} data-bs-toggle="tab" data-bs-target="#Manage" type="button" role="tab" aria-controls="Manage" aria-selected="false" tabIndex="-1">
@@ -70,7 +70,7 @@ const JobsTab = () => {
                     </li>
                     <li className="nav-item nav-link " id="Submit-tab" onClick={() => handleComponentChange('Submit')} data-bs-toggle="tab" data-bs-target="#Submit" type="button" role="tab" aria-controls="Submit" aria-selected="false" tabIndex="-1">
                         Submit
-                    </li>
+                    </li> */}
 
                 </ul>
                 <div className="tab-content ">
