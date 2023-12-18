@@ -9,6 +9,7 @@ import Head from 'next/head';
 import ActivityHeader from '@/components/layout/ActivityHeader';
 import ActivityLayout from './ActivityLayout';
 import Script from 'next/script';
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata = {
   title: 'Post Play Media',
@@ -25,8 +26,10 @@ export default function RootLayout({ children, ActivityPages }) {
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         </Head>
         <body className={inter.className}>
-        
-            {children}
+          <NextTopLoader color="#383a45"
+            showSpinner={false}
+            crawlSpeed={1} />
+          {children}
 
           <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></Script>
         </body>

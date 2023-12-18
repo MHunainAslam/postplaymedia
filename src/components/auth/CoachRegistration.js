@@ -17,7 +17,9 @@ const CoachRegistration = ({ back, RoleId }) => {
     const [CInstitute, setCInstitute] = useState('')
     const [CInstituteweb, setCInstituteweb] = useState('')
     const [MemberType, setMemberType] = useState('')
-
+    const [state, setstate] = useState('')
+    const [city, setcity] = useState('')
+    const [Country, setCountry] = useState('')
     const [Error, setError] = useState(false)
     const [ShowPass, setShowPass] = useState(false)
     const [ShowCPass, setShowCPass] = useState(false)
@@ -113,9 +115,42 @@ const CoachRegistration = ({ back, RoleId }) => {
                 </div>
             </div>
             <div className="row">
+
+                <div className="col-md-4">
+                    <label className='para-sm clr-text mt-4' htmlFor="">City  </label>
+                    <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
+                        <option value='' selected hidden>select City</option>
+                        <option value='city1'>City 1</option>
+                        <option value='city2'>City 2</option>
+                    </select>
+                    {Error ? city === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                </div>
+                <div className="col-md-4">
+                    <label className='para-sm clr-text mt-4' htmlFor="">State  </label>
+                    <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
+                        <option value='' selected hidden>select State</option>
+                        <option value='city1'>State 1</option>
+                        <option value='city2'>State 2</option>
+                    </select>
+                    {Error ? state === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                </div>
+                <div className="col-md-4">
+                    <label className='para-sm clr-text mt-4' htmlFor="">Country  </label>
+                    <select name="" className='form-select slct' id="" value={Country} onChange={(e) => { setCountry(e.target.value) }}>
+                        <option value='' selected hidden>select Country</option>
+                        <option value='city1'>Country 1</option>
+                        <option value='city2'>Country 2</option>
+                    </select>
+                    {Error ? Country === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                </div>
+            </div>
+            <div className="row">
                 <div className="col-md-12">
-                    <label className='para-sm clr-text mt-4' htmlFor="">Adress  </label>
-                    <textarea type="text" className="form-control  area" rows={'5'} placeholder="" value={Address} onChange={(e) => { setAddress(e.target.value) }} />
+                    <label className='para-sm clr-text mt-4' htmlFor="">Address  </label>
+                    <textarea type="text" className="form-control  area" rows={'3'} placeholder="" value={Address} onChange={(e) => { setAddress(e.target.value) }} />
                     {Error ? Address === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                 </div>

@@ -14,6 +14,9 @@ const AtheleteRegistration = ({ back, RoleId }) => {
     const [Name, setName] = useState('')
     const [Number, setNumber] = useState('')
     const [Address, setAddress] = useState('')
+    const [state, setstate] = useState('')
+    const [city, setcity] = useState('')
+    const [Country, setCountry] = useState('')
     const [CInstitute, setCInstitute] = useState('')
     const [CInstituteweb, setCInstituteweb] = useState('')
     const [ClassYear, setClassYear] = useState('')
@@ -117,13 +120,45 @@ const AtheleteRegistration = ({ back, RoleId }) => {
 
                         </div>
                     </div>
+
                     <div className="row">
 
+                        <div className="col-md-4">
+                            <label className='para-sm clr-text mt-4' htmlFor="">City  </label>
+                            <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
+                                <option value='' selected hidden>select City</option>
+                                <option value='city1'>City 1</option>
+                                <option value='city2'>City 2</option>
+                            </select>
+                            {Error ? city === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                        </div>
+                        <div className="col-md-4">
+                            <label className='para-sm clr-text mt-4' htmlFor="">State  </label>
+                            <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
+                                <option value='' selected hidden>select State</option>
+                                <option value='city1'>State 1</option>
+                                <option value='city2'>State 2</option>
+                            </select>
+                            {Error ? state === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                        </div>
+                        <div className="col-md-4">
+                            <label className='para-sm clr-text mt-4' htmlFor="">Country  </label>
+                            <select name="" className='form-select slct' id="" value={Country} onChange={(e) => { setCountry(e.target.value) }}>
+                                <option value='' selected hidden>select Country</option>
+                                <option value='city1'>Country 1</option>
+                                <option value='city2'>Country 2</option>
+                            </select>
+                            {Error ? Country === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                        </div>
+                    </div>
+                    <div className="row">
                         <div className="col-md-12">
                             <label className='para-sm clr-text mt-4' htmlFor="">Adress  </label>
-                            <textarea type="text" className="form-control  area" rows={'5'} placeholder="" value={Address} onChange={(e) => { setAddress(e.target.value) }} />
+                            <textarea type="text" className="form-control  area" rows={'3'} placeholder="" value={Address} onChange={(e) => { setAddress(e.target.value) }} />
                             {Error ? Address === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
-
                         </div>
                     </div>
                     <div className="row">
@@ -164,13 +199,6 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Sports</label>
                             <select name="" className='form-select slct' id="" onChange={(e) => { setSports(e.target.value) }} value={Sports}>
-                                {/* {Roles?.data?.data?.map((item, i) => (
-                    <>
-                        <option value='' selected hidden>--select Member Type--</option>
-                        <option value={item.id}>{item.name}</option>
-                    </>
-                ))} */}
-
                                 <option value='' selected hidden>--select Sports--</option>
                                 <option value='BoysBasketball'>Boys Basketball</option>
                                 <option value='GirlsBasketball'>Girls Basketball</option>
@@ -183,9 +211,25 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                     </div>
                     <div className="row">
                         <div className="col-md-6">
-                            <label className='para-sm clr-text mt-4' htmlFor="">Position </label>
-                            <input type="text" className="form-control inp" placeholder="" value={Position} onChange={(e) => { setPosition(e.target.value) }} />
+                            <label className='para-sm clr-text mt-4' htmlFor="">Level </label>
+                            <select name="" className='form-select slct' id="" value={Position} onChange={(e) => { setPosition(e.target.value) }}>
+                                <option value='' selected hidden>--select Level--</option>
+                                <option value='NCAAD1'> NCAA D1</option>
+                                <option value='NCAAD2'>NCAA D2</option>
+                                <option value='NCAAD3'>NCAA D3</option>
+                                <option value='USPORTS'>U SPORTS</option>
+                                <option value='NAIA'> NAIA</option>
+                                <option value='USCAA'>USCAA</option>
+                                <option value='NCCAA'>NCCAA</option>
+                                <option value='CWPA'>CWPA</option>
+                                <option value='MCLA'> MCLA</option>
+                                <option value='High-School'> High School</option>
+                                <option value='Club/Travel'>Club/Travel</option>
+                                <option value='Junior-College'>Junior College</option>
+                            </select>
                             {Error ? Position === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+
+                          
 
                         </div>
                         <div className="col-md-6">
