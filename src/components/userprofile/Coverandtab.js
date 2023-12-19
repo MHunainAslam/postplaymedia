@@ -1,10 +1,8 @@
 'use client'
 import Image from 'next/image'
 import React, { useState } from 'react'
-
 import UserProfileTabs from '../userprofile/UserProfileTabs'
 import { IMG_URL } from '../../../config'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Skeleton } from 'antd'
 

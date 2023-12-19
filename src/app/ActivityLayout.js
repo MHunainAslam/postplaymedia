@@ -45,7 +45,6 @@ const ActivityLayout = ({ children, ActivityPages }) => {
                                 <ActivitySidebar />
                             </div>
                             <div className="col px-0">
-                                
                                 <div className="">
                                     <ActivityHeader Userdata={Userdata?.data} />
                                     <div className="container py-5">
