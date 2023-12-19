@@ -65,7 +65,7 @@ const CoachRegistration = ({ back, RoleId }) => {
     }, [])
     return (
         <>  <form action="" onSubmit={CoachRegistrationSubmit}>
-            <p className='heading text-center  text-dark'> <i class="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
+            <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
             <div className="row">
                 <div className="col-md-6">
                     <label className='para-sm clr-text mt-4' htmlFor="">Username  </label>

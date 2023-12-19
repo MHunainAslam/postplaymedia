@@ -21,7 +21,7 @@ const ActivityLayout = ({ children, ActivityPages }) => {
             }
         })
             .then(response => {
-                console.log('authMe', response);
+                console.log('authMelayout', response);
                 setUserdata(response?.data)
                 setUserdataLoader(false)
             })
@@ -45,8 +45,9 @@ const ActivityLayout = ({ children, ActivityPages }) => {
                                 <ActivitySidebar />
                             </div>
                             <div className="col px-0">
+                                
                                 <div className="">
-                                    <ActivityHeader />
+                                    <ActivityHeader Userdata={Userdata?.data} />
                                     <div className="container py-5">
                                         <UserContext.Provider value={{ Userdata, setUserdata }}>
                                             {children}
