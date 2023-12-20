@@ -5,6 +5,7 @@ import { APP_URL } from '../../../config'
 import { useRouter } from 'next/navigation'
 import { message } from 'antd'
 import PayPalPay from './PayPalPay'
+import AtheletePackages from './AtheletePackages'
 
 const AtheleteRegistration = ({ back, RoleId }) => {
     const [UserName, setUserName] = useState('')
@@ -30,8 +31,9 @@ const AtheleteRegistration = ({ back, RoleId }) => {
     const [Error, setError] = useState(false)
     const [ShowPass, setShowPass] = useState(false)
     const [ShowCPass, setShowCPass] = useState(false)
+    const [pkgprice, setpkgprice] = useState('')
     const [isLoading, setisLoading] = useState(false)
-    const [ActiveComponentpay, setActiveComponentpay] = useState('')
+    const [ActiveComponentpay, setActiveComponentpay] = useState('pkg')
     const [Roles, setRoles] = useState([])
     const handleComponentChangepay = (componentName) => {
         setActiveComponentpay(componentName);
@@ -54,7 +56,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                     console.log(response.data);
                     // router.push('/')
                     setisLoading(false)
-                    handleComponentChangepay('pay')
+                    handleComponentChangepay('pkg')
                 })
                 .catch(error => {
                     // Handle error here
@@ -292,8 +294,12 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                 </form>
             </>}
 
+            {ActiveComponentpay === 'pkg' && <>
+                <AtheletePackages handleComponentChangepay={handleComponentChangepay} setpkgprice={setpkgprice}/>
+            </>}
+
             {ActiveComponentpay === 'pay' && <>
-                <PayPalPay />
+                <PayPalPay pkgprice={pkgprice}/>
             </>}
         </>
     )

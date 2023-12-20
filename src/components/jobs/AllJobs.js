@@ -8,7 +8,7 @@ import Loader from '../Loader'
 import { GetToken } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
-
+import conferencefield from '../../utils/Confrences.json'
 const AllJobs = ({ loadcomponent }) => {
     const token = GetToken('userdetail')
     const [Filter, setFilter] = useState(false)
@@ -24,8 +24,8 @@ const AllJobs = ({ loadcomponent }) => {
     const [GetAllJobs, setGetAllJobs] = useState([])
     const [state, setstate] = useState('')
     const router = useRouter()
-    // console.log(confrences)
-    
+    console.log(conferencefield)
+
     useEffect(() => {
         setAllJobisLoader(true)
         axios.get(`${APP_URL}/api/all-jobs?search=${SearchTitle}&type[]=${!Freelance ? '' : 'Freelance'}&type[]=${!FullTime ? '' : 'FullTime'}&type[]=${!Internship ? '' : 'Internship'}&type[]=${!PartTime ? '' : 'PartTime'}&type[]=${!Temporary ? '' : 'Temporary'}`, {
@@ -162,8 +162,9 @@ const AllJobs = ({ loadcomponent }) => {
                                 <label className='para clr-text ms-2' htmlFor="PartTime">Part Time</label> */}
                                 <select name="" className='form-select slct' id="">
                                     <option value='' selected hidden>Conference</option>
-                                    <option value='Conference1'>Conference 1</option>
-                                    <option value='Conference2'>Conference 2</option>
+                                    {conferencefield?.confrences.map((item, i) => (
+                                        <option value={item.value} key={i}>{item.name}</option>
+                                    ))}
                                 </select>
                             </div>
                             {/* <div className='m-2'>

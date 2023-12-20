@@ -1,6 +1,6 @@
 import React from 'react'
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
-const PayPalPay = () => {
+const PayPalPay = ({ pkgprice }) => {
     // const handleApprove = async (data, actions) => {
     //     const order = await actions.order.capture();
     //     if (order) {
@@ -53,7 +53,7 @@ const PayPalPay = () => {
                                 {
                                     amount: {
                                         currency_code: 'USD',
-                                        value: '10',
+                                        value: pkgprice,
                                     },
                                     // custom_id: paypalinfostate?.topOrder[0].systemOrderId,
                                 },

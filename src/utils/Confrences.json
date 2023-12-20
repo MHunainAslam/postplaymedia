@@ -1,210 +1,622 @@
 {
-    "confrences": {
-        "Alabama Community College Conference": "Alabama Community College Conference",
-        "Allegheny Mountain Collegiate Conference": "Allegheny Mountain Collegiate Conference",
-        "America East Conference": "America East Conference",
-        "American Athletic Conference": "American Athletic Conference",
-        "American Midwest Conference": "American Midwest Conference",
-        "American Southwest Conference": "American Southwest Conference",
-        "Appalachian Athletic Conference": "Appalachian Athletic Conference",
-        "Arizona Community College Athletic Conference": "Arizona Community College Athletic Conference",
-        "Arrowhead Conference": "Arrowhead Conference",
-        "ASUN Conference": "ASUN Conference",
-        "Atlantic 10 Conference": "Atlantic 10 Conference",
-        "Atlantic Coast Conference": "Atlantic Coast Conference",
-        "Bay Valley Conference (CCCAA)": "Bay Valley Conference (CCCAA)",
-        "Big 12 Conference": "Big 12 Conference",
-        "Big 8 Conference (CCCAA)": "Big 8 Conference (CCCAA)",
-        "Big East Conference": "Big East Conference",
-        "Big Sky Conference": "Big Sky Conference",
-        "Big South Conference": "Big South Conference",
-        "Big Ten Conference": "Big Ten Conference",
-        "Big West Conference": "Big West Conference",
-        "Bi-State Conference": "Bi-State Conference",
-        "California Collegiate Athletic Association": "California Collegiate Athletic Association",
-        "California Pacific Conference": "California Pacific Conference",
-        "Capital Athletic Conference": "Capital Athletic Conference",
-        "Carolinas Junior College Conference": "Carolinas Junior College Conference",
-        "Cascade Collegiate Conference": "Cascade Collegiate Conference",
-        "Centennial Conference": "Centennial Conference",
-        "Central Atlantic Collegiate Conference": "Central Atlantic Collegiate Conference",
-        "Central Intercollegiate Athletic Association": "Central Intercollegiate Athletic Association",
-        "Central States Football League": "Central States Football League",
-        "Central Valley Conference (CCCAA)": "Central Valley Conference (CCCAA)",
-        "Chicagoland Collegiate Athletic Conference": "Chicagoland Collegiate Athletic Conference",
-        "City University of New York Athletic Conference": "City University of New York Athletic Conference",
-        "Coast Conference (CCCAA)": "Coast Conference (CCCAA)",
-        "College Conference of Illinois &amp; Wisconsin": "College Conference of Illinois &amp; Wisconsin",
-        "Collegiate Water Polo Association": "Collegiate Water Polo Association",
-        "Colonial Athletic Association": "Colonial Athletic Association",
-        "Colonial States Athletic Conference": "Colonial States Athletic Conference",
-        "Colorado Community College Athletic Conference": "Colorado Community College Athletic Conference",
-        "Commonwealth Coast Conference": "Commonwealth Coast Conference",
-        "Conference Carolinas": "Conference Carolinas",
-        "Conference USA": "Conference USA",
-        "Continental Volleyball Conference": "Continental Volleyball Conference",
-        "Crossroads League": "Crossroads League",
-        "East Coast Conference": "East Coast Conference",
-        "Eastern College Athletic Conference": "Eastern College Athletic Conference",
-        "Eastern Collegiate Football Conference": "Eastern Collegiate Football Conference",
-        "Eastern Intercollegiate Volleyball Association": "Eastern Intercollegiate Volleyball Association",
-        "Eastern Pennsylvania Collegiate Conference": "Eastern Pennsylvania Collegiate Conference",
-        "Empire 8": "Empire 8",
-        "Frontier Conference": "Frontier Conference",
-        "Garden State Athletic Conference": "Garden State Athletic Conference",
-        "Georgia Junior College Athletic Association": "Georgia Junior College Athletic Association",
-        "Golden Coast Conference": "Golden Coast Conference",
-        "Golden State Athletic Conference": "Golden State Athletic Conference",
-        "Golden Valley Conference (CCCAA)": "Golden Valley Conference (CCCAA)",
-        "Great American Conference": "Great American Conference",
-        "Great Lakes Intercollegiate Athletic Conference": "Great Lakes Intercollegiate Athletic Conference",
-        "Great Lakes Valley Conference": "Great Lakes Valley Conference",
-        "Great Midwest Athletic Conference": "Great Midwest Athletic Conference",
-        "Great Northeast Athletic Conference": "Great Northeast Athletic Conference",
-        "Great Northwest Athletic Conference": "Great Northwest Athletic Conference",
-        "Great Plains Athletic Conference": "Great Plains Athletic Conference",
-        "Great Rivers Athletic Conference": "Great Rivers Athletic Conference",
-        "Great South Athletic Conference": "Great South Athletic Conference",
-        "Gulf Coast Athletic Conference": "Gulf Coast Athletic Conference",
-        "Gulf South Conference": "Gulf South Conference",
-        "Heart of America Athletic Conference": "Heart of America Athletic Conference",
-        "Heartland Collegiate Athletic Conference": "Heartland Collegiate Athletic Conference",
-        "Heartland Conference": "Heartland Conference",
-        "Horizon League": "Horizon League",
-        "Hudson Valley Intercollegiate Athletic Conference": "Hudson Valley Intercollegiate Athletic Conference",
-        "Illinois N4C Conference": "Illinois N4C Conference",
-        "Illinois Skyway Conference": "Illinois Skyway Conference",
-        "Independent": "Independent",
-        "Inland Empire Athletic Conference (CCCAA)": "Inland Empire Athletic Conference (CCCAA)",
-        "Iowa Community College Athletic Conference": "Iowa Community College Athletic Conference",
-        "Iowa Intercollegiate Athletic Conference": "Iowa Intercollegiate Athletic Conference",
-        "Kansas Collegiate Athletic Conference": "Kansas Collegiate Athletic Conference",
-        "Kansas Jayhawk Community College Conference": "Kansas Jayhawk Community College Conference",
-        "Landmark Conference": "Landmark Conference",
-        "Liberty League": "Liberty League",
-        "Little East Conference": "Little East Conference",
-        "Lone Star Conference": "Lone Star Conference",
-        "Maryland Junior College Athletic Conference": "Maryland Junior College Athletic Conference",
-        "Massachusetts Community College Athletic Association": "Massachusetts Community College Athletic Association",
-        "Massachusetts State Collegiate Athletic Conference": "Massachusetts State Collegiate Athletic Conference",
-        "Metro Athletic Conference": "Metro Athletic Conference",
-        "Metro Atlantic Athletic Conference": "Metro Atlantic Athletic Conference",
-        "Michigan Community College Athletic Association": "Michigan Community College Athletic Association",
-        "Michigan Intercollegiate Athletic Association": "Michigan Intercollegiate Athletic Association",
-        "Mid Hudson Conference": "Mid Hudson Conference",
-        "Mid-America Intercollegiate Athletics Association": "Mid-America Intercollegiate Athletics Association",
-        "Mid-American Conference": "Mid-American Conference",
-        "Middle Atlantic Conference Commonwealth": "Middle Atlantic Conference Commonwealth",
-        "Middle Atlantic Conference Freedom": "Middle Atlantic Conference Freedom",
-        "Middle Atlantic Conferences": "Middle Atlantic Conferences",
-        "Mid-Eastern Athletic Conference": "Mid-Eastern Athletic Conference",
-        "Mid-Florida Conference": "Mid-Florida Conference",
-        "Mid-South Conference": "Mid-South Conference",
-        "Mid-State Athletic Conference": "Mid-State Athletic Conference",
-        "Mid-States Football Association": "Mid-States Football Association",
-        "Mid-West Athletic Conference": "Mid-West Athletic Conference",
-        "Midwest Collegiate Volleyball League": "Midwest Collegiate Volleyball League",
-        "Midwest Community College Athletic Conference": "Midwest Community College Athletic Conference",
-        "Midwest Conference": "Midwest Conference",
-        "Midwest Football Conference": "Midwest Football Conference",
-        "Midwest Lacrosse Conference": "Midwest Lacrosse Conference",
-        "Midwestern Intercollegiate Volleyball Association": "Midwestern Intercollegiate Volleyball Association",
-        "Minnesota College Athletic Conference": "Minnesota College Athletic Conference",
-        "Minnesota Intercollegiate Athletic Conference": "Minnesota Intercollegiate Athletic Conference",
-        "Mississippi Association of Community &amp; Junior Colleges": "Mississippi Association of Community &amp; Junior Colleges",
-        "MISS-LOU Junior College Conference": "MISS-LOU Junior College Conference",
-        "Missouri Valley Conference": "Missouri Valley Conference",
-        "Missouri Valley Football Conference": "Missouri Valley Football Conference",
-        "Mon-Dak Conference": "Mon-Dak Conference",
-        "Mountain East Conference": "Mountain East Conference",
-        "Mountain Pacific Sports Federation": "Mountain Pacific Sports Federation",
-        "Mountain Valley Conference": "Mountain Valley Conference",
-        "Mountain West Conference": "Mountain West Conference",
-        "NCFC Conference (CCCAA)": "NCFC Conference (CCCAA)",
-        "Nebraska Community College Athletic Conference": "Nebraska Community College Athletic Conference",
-        "New England Collegiate Conference": "New England Collegiate Conference",
-        "New England Football Conference": "New England Football Conference",
-        "New England Small College Athletic Conference": "New England Small College Athletic Conference",
-        "New England Women's and Men's Athletic Conference": "New England Women's and Men's Athletic Conference",
-        "New Jersey Athletic Conference": "New Jersey Athletic Conference",
-        "NEWMAC Lacrosse League": "NEWMAC Lacrosse League",
-        "NJCAA Region 9": "NJCAA Region 9",
-        "North Atlantic Conference": "North Atlantic Conference",
-        "North Coast Athletic Conference": "North Coast Athletic Conference",
-        "North Eastern Athletic Conference": "North Eastern Athletic Conference",
-        "North Star Athletic Conference": "North Star Athletic Conference",
-        "North Texas Junior College Athletic Conference": "North Texas Junior College Athletic Conference",
-        "Northeast Conference": "Northeast Conference",
-        "Northeast JC Football Conference": "Northeast JC Football Conference",
-        "Northeast-10 Conference": "Northeast-10 Conference",
-        "Northern Athletics Collegiate Conference": "Northern Athletics Collegiate Conference",
-        "Northern Sun Intercollegiate Conference": "Northern Sun Intercollegiate Conference",
-        "Northwest Athletic Conference": "Northwest Athletic Conference",
-        "Northwest Conference": "Northwest Conference",
-        "Ohio Athletic Conference": "Ohio Athletic Conference",
-        "Ohio Community College Athletic Conference": "Ohio Community College Athletic Conference",
-        "Ohio River Men's Lacrosse Conference": "Ohio River Men's Lacrosse Conference",
-        "Ohio Valley Conference": "Ohio Valley Conference",
-        "Old Dominion Athletic Conference": "Old Dominion Athletic Conference",
-        "Orange Empire Conference": "Orange Empire Conference",
-        "Orange Empire Conference (CCCAA)": "Orange Empire Conference (CCCAA)",
-        "Pac-12 Conference": "Pac-12 Conference",
-        "Pacific Coast Conference": "Pacific Coast Conference",
-        "Pacific Coast Conference (CCCAA)": "Pacific Coast Conference (CCCAA)",
-        "Pacific West Conference": "Pacific West Conference",
-        "Panhandle Conference": "Panhandle Conference",
-        "Patriot League": "Patriot League",
-        "Peach Belt Conference": "Peach Belt Conference",
-        "Pennsylvania Collegiate Athletic Association": "Pennsylvania Collegiate Athletic Association",
-        "Pennsylvania State Athletic Conference": "Pennsylvania State Athletic Conference",
-        "Pioneer Football League": "Pioneer Football League",
-        "Presidents' Athletic Conference": "Presidents' Athletic Conference",
-        "Red River Athletic Conference": "Red River Athletic Conference",
-        "River States Conference": "River States Conference",
-        "Rocky Mountain Athletic Conference": "Rocky Mountain Athletic Conference",
-        "Scenic West Athletic Conference": "Scenic West Athletic Conference",
-        "SCFA Conference (CCCAA)": "SCFA Conference (CCCAA)",
-        "Skyline Conference": "Skyline Conference",
-        "Sooner Athletic Conference": "Sooner Athletic Conference",
-        "South Atlantic Conference": "South Atlantic Conference",
-        "South Coast Conference (CCCAA)": "South Coast Conference (CCCAA)",
-        "Southeastern Conference": "Southeastern Conference",
-        "Southern Athletic Association": "Southern Athletic Association",
-        "Southern California Intercollegiate Athletic Conference": "Southern California Intercollegiate Athletic Conference",
-        "Southern Collegiate Athletic Conference": "Southern Collegiate Athletic Conference",
-        "Southern Conference": "Southern Conference",
-        "Southern Conference (NJCAA)": "Southern Conference (NJCAA)",
-        "Southern Intercollegiate Athletic Conference": "Southern Intercollegiate Athletic Conference",
-        "Southern States Athletic Conference": "Southern States Athletic Conference",
-        "Southland Conference": "Southland Conference",
-        "Southwest Junior College Conference": "Southwest Junior College Conference",
-        "Southwest Junior College Football Conference": "Southwest Junior College Football Conference",
-        "Southwestern Athletic Conference": "Southwestern Athletic Conference",
-        "St. Louis Intercollegiate Athletic Conference": "St. Louis Intercollegiate Athletic Conference",
-        "State University of New York Athletic Conference": "State University of New York Athletic Conference",
-        "Sun Belt Conference": "Sun Belt Conference",
-        "Suncoast Conference": "Suncoast Conference",
-        "Sun-Lakes Conference": "Sun-Lakes Conference",
-        "Sunshine State Conference": "Sunshine State Conference",
-        "Tennessee Junior and Community College Athletic Association": "Tennessee Junior and Community College Athletic Association",
-        "The Ivy League": "The Ivy League",
-        "The Summit League": "The Summit League",
-        "The Sun Conference": "The Sun Conference",
-        "United Eastern Conference": "United Eastern Conference",
-        "United Volleyball Conference": "United Volleyball Conference",
-        "University Athletic Association": "University Athletic Association",
-        "Upper Midwest Athletic Conference": "Upper Midwest Athletic Conference",
-        "USA South Athletic Conference": "USA South Athletic Conference",
-        "West Coast Conference": "West Coast Conference",
-        "Western Athletic Conference": "Western Athletic Conference",
-        "Western Junior College Athletic Conference": "Western Junior College Athletic Conference",
-        "Western New York Athletic Conference": "Western New York Athletic Conference",
-        "Western Pennsylvania Collegiate Conference": "Western Pennsylvania Collegiate Conference",
-        "Western State (CCCAA)": "Western State (CCCAA)",
-        "Western States Football League": "Western States Football League",
-        "Wisconsin Intercollegiate Athletic Conference": "Wisconsin Intercollegiate Athletic Conference",
-        "Wolverine-Hoosier Athletic Conference": "Wolverine-Hoosier Athletic Conference",
-        "Wrestling Conference (CCCAA)": "Wrestling Conference (CCCAA)",
-        "Wyoming Community College Athletic Conference": "Wyoming Community College Athletic Conference"
-    }
+    "confrences": [
+        {
+            "name": "Alabama Community College Conference", "value": "Alabama Community College Conference"
+        },
+        {
+            "name": "Allegheny Mountain Collegiate Conference", "value": "Allegheny Mountain Collegiate Conference"
+        },
+        {
+            "name": "America East Conference", "value": "America East Conference"
+        },
+        {
+            "name": "American Athletic Conference", "value": "American Athletic Conference"
+        },
+        {
+            "name": "American Midwest Conference", "value": "American Midwest Conference"
+        },
+        {
+            "name": "American Southwest Conference", "value": "American Southwest Conference"
+        },
+        {
+            "name": "Appalachian Athletic Conference", "value": "Appalachian Athletic Conference"
+        },
+        {
+            "name": "Arizona Community College Athletic Conference", "value": "Arizona Community College Athletic Conference"
+        },
+        {
+            "name": "Arrowhead Conference", "value": "Arrowhead Conference"
+        },
+        {
+            "name": "ASUN Conference", "value": "ASUN Conference"
+        },
+        {
+            "name": "Atlantic 10 Conference", "value": "Atlantic 10 Conference"
+        },
+        {
+            "name": "Atlantic Coast Conference", "value": "Atlantic Coast Conference"
+        },
+        {
+            "name": "Bay Valley Conference (CCCAA)", "value": "Bay Valley Conference (CCCAA)"
+        },
+        {
+            "name": "Big 12 Conference", "value": "Big 12 Conference"
+        },
+        {
+            "name": "Big 8 Conference (CCCAA)", "value": "Big 8 Conference (CCCAA)"
+        },
+        {
+            "name": "Big East Conference", "value": "Big East Conference"
+        },
+        {
+            "name": "Big Sky Conference", "value": "Big Sky Conference"
+        },
+        {
+            "name": "Big South Conference", "value": "Big South Conference"
+        },
+        {
+            "name": "Big Ten Conference", "value": "Big Ten Conference"
+        },
+        {
+            "name": "Big West Conference", "value": "Big West Conference"
+        },
+        {
+            "name": "Bi-State Conference", "value": "Bi-State Conference"
+        },
+        {
+            "name": "California Collegiate Athletic Association", "value": "California Collegiate Athletic Association"
+        },
+        {
+            "name": "California Pacific Conference", "value": "California Pacific Conference"
+        },
+        {
+            "name": "Capital Athletic Conference", "value": "Capital Athletic Conference"
+        },
+        {
+            "name": "Carolinas Junior College Conference", "value": "Carolinas Junior College Conference"
+        },
+        {
+            "name": "Cascade Collegiate Conference", "value": "Cascade Collegiate Conference"
+        },
+        {
+            "name": "Centennial Conference", "value": "Centennial Conference"
+        },
+        {
+            "name": "Central Atlantic Collegiate Conference", "value": "Central Atlantic Collegiate Conference"
+        },
+        {
+            "name": "Central Intercollegiate Athletic Association", "value": "Central Intercollegiate Athletic Association"
+        },
+        {
+            "name": "Central States Football League", "value": "Central States Football League"
+        },
+        {
+            "name": "Central Valley Conference (CCCAA)", "value": "Central Valley Conference (CCCAA)"
+        },
+        {
+            "name": "Chicagoland Collegiate Athletic Conference", "value": "Chicagoland Collegiate Athletic Conference"
+        },
+        {
+            "name": "City University of New York Athletic Conference", "value": "City University of New York Athletic Conference"
+        },
+        {
+            "name": "Coast Conference (CCCAA)", "value": "Coast Conference (CCCAA)"
+        },
+        {
+            "name": "College Conference of Illinois &amp; Wisconsin", "value": "College Conference of Illinois &amp; Wisconsin"
+        },
+        {
+            "name": "Collegiate Water Polo Association", "value": "Collegiate Water Polo Association"
+        },
+        {
+            "name": "Colonial Athletic Association", "value": "Colonial Athletic Association"
+        },
+        {
+            "name": "Colonial States Athletic Conference", "value": "Colonial States Athletic Conference"
+        },
+        {
+            "name": "Colorado Community College Athletic Conference", "value": "Colorado Community College Athletic Conference"
+        },
+        {
+            "name": "Commonwealth Coast Conference", "value": "Commonwealth Coast Conference"
+        },
+        {
+            "name": "Conference Carolinas", "value": "Conference Carolinas"
+        },
+        {
+            "name": "Conference USA", "value": "Conference USA"
+        },
+        {
+            "name": "Continental Volleyball Conference", "value": "Continental Volleyball Conference"
+        },
+        {
+            "name": "Crossroads League", "value": "Crossroads League"
+        },
+        {
+            "name": "East Coast Conference", "value": "East Coast Conference"
+        },
+        {
+            "name": "Eastern College Athletic Conference", "value": "Eastern College Athletic Conference"
+        },
+        {
+            "name": "Eastern Collegiate Football Conference", "value": "Eastern Collegiate Football Conference"
+        },
+        {
+            "name": "Eastern Intercollegiate Volleyball Association", "value": "Eastern Intercollegiate Volleyball Association"
+        },
+        {
+            "name": "Eastern Pennsylvania Collegiate Conference", "value": "Eastern Pennsylvania Collegiate Conference"
+        },
+        {
+            "name": "Empire 8", "value": "Empire 8"
+        },
+        {
+            "name": "Frontier Conference", "value": "Frontier Conference"
+        },
+        {
+            "name": "Garden State Athletic Conference", "value": "Garden State Athletic Conference"
+        },
+        {
+            "name": "Georgia Junior College Athletic Association", "value": "Georgia Junior College Athletic Association"
+        },
+        {
+            "name": "Golden Coast Conference", "value": "Golden Coast Conference"
+        },
+        {
+            "name": "Golden State Athletic Conference", "value": "Golden State Athletic Conference"
+        },
+        {
+            "name": "Golden Valley Conference (CCCAA)", "value": "Golden Valley Conference (CCCAA)"
+        },
+        {
+            "name": "Great American Conference", "value": "Great American Conference"
+        },
+        {
+            "name": "Great Lakes Intercollegiate Athletic Conference", "value": "Great Lakes Intercollegiate Athletic Conference"
+        },
+        {
+            "name": "Great Lakes Valley Conference", "value": "Great Lakes Valley Conference"
+        },
+        {
+            "name": "Great Midwest Athletic Conference", "value": "Great Midwest Athletic Conference"
+        },
+        {
+            "name": "Great Northeast Athletic Conference", "value": "Great Northeast Athletic Conference"
+        },
+        {
+            "name": "Great Northwest Athletic Conference", "value": "Great Northwest Athletic Conference"
+        },
+        {
+            "name": "Great Plains Athletic Conference", "value": "Great Plains Athletic Conference"
+        },
+        {
+            "name": "Great Rivers Athletic Conference", "value": "Great Rivers Athletic Conference"
+        },
+        {
+            "name": "Great South Athletic Conference", "value": "Great South Athletic Conference"
+        },
+        {
+            "name": "Gulf Coast Athletic Conference", "value": "Gulf Coast Athletic Conference"
+        },
+        {
+            "name": "Gulf South Conference", "value": "Gulf South Conference"
+        },
+        {
+            "name": "Heart of America Athletic Conference", "value": "Heart of America Athletic Conference"
+        },
+        {
+            "name": "Heartland Collegiate Athletic Conference", "value": "Heartland Collegiate Athletic Conference"
+        },
+        {
+            "name": "Heartland Conference", "value": "Heartland Conference"
+        },
+        {
+            "name": "Horizon League", "value": "Horizon League"
+        },
+        {
+            "name": "Hudson Valley Intercollegiate Athletic Conference", "value": "Hudson Valley Intercollegiate Athletic Conference"
+        },
+        {
+            "name": "Illinois N4C Conference", "value": "Illinois N4C Conference"
+        },
+        {
+            "name": "Illinois Skyway Conference", "value": "Illinois Skyway Conference"
+        },
+        {
+            "name": "Independent", "value": "Independent"
+        },
+        {
+            "name": "Inland Empire Athletic Conference (CCCAA)", "value": "Inland Empire Athletic Conference (CCCAA)"
+        },
+        {
+            "name": "Iowa Community College Athletic Conference", "value": "Iowa Community College Athletic Conference"
+        },
+        {
+            "name": "Iowa Intercollegiate Athletic Conference", "value": "Iowa Intercollegiate Athletic Conference"
+        },
+        {
+            "name": "Kansas Collegiate Athletic Conference", "value": "Kansas Collegiate Athletic Conference"
+        },
+        {
+            "name": "Kansas Jayhawk Community College Conference", "value": "Kansas Jayhawk Community College Conference"
+        },
+        {
+            "name": "Landmark Conference", "value": "Landmark Conference"
+        },
+        {
+            "name": "Liberty League", "value": "Liberty League"
+        },
+        {
+            "name": "Little East Conference", "value": "Little East Conference"
+        },
+        {
+            "name": "Lone Star Conference", "value": "Lone Star Conference"
+        },
+        {
+            "name": "Maryland Junior College Athletic Conference", "value": "Maryland Junior College Athletic Conference"
+        },
+        {
+            "name": "Massachusetts Community College Athletic Association", "value": "Massachusetts Community College Athletic Association"
+        },
+        {
+            "name": "Massachusetts State Collegiate Athletic Conference", "value": "Massachusetts State Collegiate Athletic Conference"
+        },
+        {
+            "name": "Metro Athletic Conference", "value": "Metro Athletic Conference"
+        },
+        {
+            "name": "Metro Atlantic Athletic Conference", "value": "Metro Atlantic Athletic Conference"
+        },
+        {
+            "name": "Michigan Community College Athletic Association", "value": "Michigan Community College Athletic Association"
+        },
+        {
+            "name": "Michigan Intercollegiate Athletic Association", "value": "Michigan Intercollegiate Athletic Association"
+        },
+        {
+            "name": "Mid Hudson Conference", "value": "Mid Hudson Conference"
+        },
+        {
+            "name": "Mid-America Intercollegiate Athletics Association", "value": "Mid-America Intercollegiate Athletics Association"
+        },
+        {
+            "name": "Mid-American Conference", "value": "Mid-American Conference"
+        },
+        {
+            "name": "Middle Atlantic Conference Commonwealth", "value": "Middle Atlantic Conference Commonwealth"
+        },
+        {
+            "name": "Middle Atlantic Conference Freedom", "value": "Middle Atlantic Conference Freedom"
+        },
+        {
+            "name": "Middle Atlantic Conferences", "value": "Middle Atlantic Conferences"
+        },
+        {
+            "name": "Mid-Eastern Athletic Conference", "value": "Mid-Eastern Athletic Conference"
+        },
+        {
+            "name": "Mid-Florida Conference", "value": "Mid-Florida Conference"
+        },
+        {
+            "name": "Mid-South Conference", "value": "Mid-South Conference"
+        },
+        {
+            "name": "Mid-State Athletic Conference", "value": "Mid-State Athletic Conference"
+        },
+        {
+            "name": "Mid-States Football Association", "value": "Mid-States Football Association"
+        },
+        {
+            "name": "Mid-West Athletic Conference", "value": "Mid-West Athletic Conference"
+        },
+        {
+            "name": "Midwest Collegiate Volleyball League", "value": "Midwest Collegiate Volleyball League"
+        },
+        {
+            "name": "Midwest Community College Athletic Conference", "value": "Midwest Community College Athletic Conference"
+        },
+        {
+            "name": "Midwest Conference", "value": "Midwest Conference"
+        },
+        {
+            "name": "Midwest Football Conference", "value": "Midwest Football Conference"
+        },
+        {
+            "name": "Midwest Lacrosse Conference", "value": "Midwest Lacrosse Conference"
+        },
+        {
+            "name": "Midwestern Intercollegiate Volleyball Association", "value": "Midwestern Intercollegiate Volleyball Association"
+        },
+        {
+            "name": "Minnesota College Athletic Conference", "value": "Minnesota College Athletic Conference"
+        },
+        {
+            "name": "Minnesota Intercollegiate Athletic Conference", "value": "Minnesota Intercollegiate Athletic Conference"
+        },
+        {
+            "name": "Mississippi Association of Community &amp; Junior Colleges", "value": "Mississippi Association of Community &amp; Junior Colleges"
+        },
+        {
+            "name": "MISS-LOU Junior College Conference", "value": "MISS-LOU Junior College Conference"
+        },
+        {
+            "name": "Missouri Valley Conference", "value": "Missouri Valley Conference"
+        },
+        {
+            "name": "Missouri Valley Football Conference", "value": "Missouri Valley Football Conference"
+        },
+        {
+            "name": "Mon-Dak Conference", "value": "Mon-Dak Conference"
+        },
+        {
+            "name": "Mountain East Conference", "value": "Mountain East Conference"
+        },
+        {
+            "name": "Mountain Pacific Sports Federation", "value": "Mountain Pacific Sports Federation"
+        },
+        {
+            "name": "Mountain Valley Conference", "value": "Mountain Valley Conference"
+        },
+        {
+            "name": "Mountain West Conference", "value": "Mountain West Conference"
+        },
+        {
+            "name": "NCFC Conference (CCCAA)", "value": "NCFC Conference (CCCAA)"
+        },
+        {
+            "name": "Nebraska Community College Athletic Conference", "value": "Nebraska Community College Athletic Conference"
+        },
+        {
+            "name": "New England Collegiate Conference", "value": "New England Collegiate Conference"
+        },
+        {
+            "name": "New England Football Conference", "value": "New England Football Conference"
+        },
+        {
+            "name": "New England Small College Athletic Conference", "value": "New England Small College Athletic Conference"
+        },
+        {
+            "name": "New England Women's and Men's Athletic Conference", "value": "New England Women's and Men's Athletic Conference"
+        },
+        {
+            "name": "New Jersey Athletic Conference", "value": "New Jersey Athletic Conference"
+        },
+        {
+            "name": "NEWMAC Lacrosse League", "value": "NEWMAC Lacrosse League"
+        },
+        {
+            "name": "NJCAA Region 9", "value": "NJCAA Region 9"
+        },
+        {
+            "name": "North Atlantic Conference", "value": "North Atlantic Conference"
+        },
+        {
+            "name": "North Coast Athletic Conference", "value": "North Coast Athletic Conference"
+        },
+        {
+            "name": "North Eastern Athletic Conference", "value": "North Eastern Athletic Conference"
+        },
+        {
+            "name": "North Star Athletic Conference", "value": "North Star Athletic Conference"
+        },
+        {
+            "name": "North Texas Junior College Athletic Conference", "value": "North Texas Junior College Athletic Conference"
+        },
+        {
+            "name": "Northeast Conference", "value": "Northeast Conference"
+        },
+        {
+            "name": "Northeast JC Football Conference", "value": "Northeast JC Football Conference"
+        },
+        {
+            "name": "Northeast-10 Conference", "value": "Northeast-10 Conference"
+        },
+        {
+            "name": "Northern Athletics Collegiate Conference", "value": "Northern Athletics Collegiate Conference"
+        },
+        {
+            "name": "Northern Sun Intercollegiate Conference", "value": "Northern Sun Intercollegiate Conference"
+        },
+        {
+            "name": "Northwest Athletic Conference", "value": "Northwest Athletic Conference"
+        },
+        {
+            "name": "Northwest Conference", "value": "Northwest Conference"
+        },
+        {
+            "name": "Ohio Athletic Conference", "value": "Ohio Athletic Conference"
+        },
+        {
+            "name": "Ohio Community College Athletic Conference", "value": "Ohio Community College Athletic Conference"
+        },
+        {
+            "name": "Ohio River Men's Lacrosse Conference", "value": "Ohio River Men's Lacrosse Conference"
+        },
+        {
+            "name": "Ohio Valley Conference", "value": "Ohio Valley Conference"
+        },
+        {
+            "name": "Old Dominion Athletic Conference", "value": "Old Dominion Athletic Conference"
+        },
+        {
+            "name": "Orange Empire Conference", "value": "Orange Empire Conference"
+        },
+        {
+            "name": "Orange Empire Conference (CCCAA)", "value": "Orange Empire Conference (CCCAA)"
+        },
+        {
+            "name": "Pac-12 Conference", "value": "Pac-12 Conference"
+        },
+        {
+            "name": "Pacific Coast Conference", "value": "Pacific Coast Conference"
+        },
+        {
+            "name": "Pacific Coast Conference (CCCAA)", "value": "Pacific Coast Conference (CCCAA)"
+        },
+        {
+            "name": "Pacific West Conference", "value": "Pacific West Conference"
+        },
+        {
+            "name": "Panhandle Conference", "value": "Panhandle Conference"
+        },
+        {
+            "name": "Patriot League", "value": "Patriot League"
+        },
+        {
+            "name": "Peach Belt Conference", "value": "Peach Belt Conference"
+        },
+        {
+            "name": "Pennsylvania Collegiate Athletic Association", "value": "Pennsylvania Collegiate Athletic Association"
+        },
+        {
+            "name": "Pennsylvania State Athletic Conference", "value": "Pennsylvania State Athletic Conference"
+        },
+        {
+            "name": "Pioneer Football League", "value": "Pioneer Football League"
+        },
+        {
+            "name": "Presidents' Athletic Conference", "value": "Presidents' Athletic Conference"
+        },
+        {
+            "name": "Red River Athletic Conference", "value": "Red River Athletic Conference"
+        },
+        {
+            "name": "River States Conference", "value": "River States Conference"
+        },
+        {
+            "name": "Rocky Mountain Athletic Conference", "value": "Rocky Mountain Athletic Conference"
+        },
+        {
+            "name": "Scenic West Athletic Conference", "value": "Scenic West Athletic Conference"
+        },
+        {
+            "name": "SCFA Conference (CCCAA)", "value": "SCFA Conference (CCCAA)"
+        },
+        {
+            "name": "Skyline Conference", "value": "Skyline Conference"
+        },
+        {
+            "name": "Sooner Athletic Conference", "value": "Sooner Athletic Conference"
+        },
+        {
+            "name": "South Atlantic Conference", "value": "South Atlantic Conference"
+        },
+        {
+            "name": "South Coast Conference (CCCAA)", "value": "South Coast Conference (CCCAA)"
+        },
+        {
+            "name": "Southeastern Conference", "value": "Southeastern Conference"
+        },
+        {
+            "name": "Southern Athletic Association", "value": "Southern Athletic Association"
+        },
+        {
+            "name": "Southern California Intercollegiate Athletic Conference", "value": "Southern California Intercollegiate Athletic Conference"
+        },
+        {
+            "name": "Southern Collegiate Athletic Conference", "value": "Southern Collegiate Athletic Conference"
+        },
+        {
+            "name": "Southern Conference", "value": "Southern Conference"
+        },
+        {
+            "name": "Southern Conference (NJCAA)", "value": "Southern Conference (NJCAA)"
+        },
+        {
+            "name": "Southern Intercollegiate Athletic Conference", "value": "Southern Intercollegiate Athletic Conference"
+        },
+        {
+            "name": "Southern States Athletic Conference", "value": "Southern States Athletic Conference"
+        },
+        {
+            "name": "Southland Conference", "value": "Southland Conference"
+        },
+        {
+            "name": "Southwest Junior College Conference", "value": "Southwest Junior College Conference"
+        },
+        {
+            "name": "Southwest Junior College Football Conference", "value": "Southwest Junior College Football Conference"
+        },
+        {
+            "name": "Southwestern Athletic Conference", "value": "Southwestern Athletic Conference"
+        },
+        {
+            "name": "St. Louis Intercollegiate Athletic Conference", "value": "St. Louis Intercollegiate Athletic Conference"
+        },
+        {
+            "name": "State University of New York Athletic Conference", "value": "State University of New York Athletic Conference"
+        },
+        {
+            "name": "Sun Belt Conference", "value": "Sun Belt Conference"
+        },
+        {
+            "name": "Suncoast Conference", "value": "Suncoast Conference"
+        },
+        {
+            "name": "Sun-Lakes Conference", "value": "Sun-Lakes Conference"
+        },
+        {
+            "name": "Sunshine State Conference", "value": "Sunshine State Conference"
+        },
+        {
+            "name": "Tennessee Junior and Community College Athletic Association", "value": "Tennessee Junior and Community College Athletic Association"
+        },
+        {
+            "name": "The Ivy League", "value": "The Ivy League"
+        },
+        {
+            "name": "The Summit League", "value": "The Summit League"
+        },
+        {
+            "name": "The Sun Conference", "value": "The Sun Conference"
+        },
+        {
+            "name": "United Eastern Conference", "value": "United Eastern Conference"
+        },
+        {
+            "name": "United Volleyball Conference", "value": "United Volleyball Conference"
+        },
+        {
+            "name": "University Athletic Association", "value": "University Athletic Association"
+        },
+        {
+            "name": "Upper Midwest Athletic Conference", "value": "Upper Midwest Athletic Conference"
+        },
+        {
+            "name": "USA South Athletic Conference", "value": "USA South Athletic Conference"
+        },
+        {
+            "name": "West Coast Conference", "value": "West Coast Conference"
+        },
+        {
+            "name": "Western Athletic Conference", "value": "Western Athletic Conference"
+        },
+        {
+            "name": "Western Junior College Athletic Conference", "value": "Western Junior College Athletic Conference"
+        },
+        {
+            "name": "Western New York Athletic Conference", "value": "Western New York Athletic Conference"
+        },
+        {
+            "name": "Western Pennsylvania Collegiate Conference", "value": "Western Pennsylvania Collegiate Conference"
+        },
+        {
+            "name": "Western State (CCCAA)", "value": "Western State (CCCAA)"
+        },
+        {
+            "name": "Western States Football League", "value": "Western States Football League"
+        },
+        {
+            "name": "Wisconsin Intercollegiate Athletic Conference", "value": "Wisconsin Intercollegiate Athletic Conference"
+        },
+        {
+            "name": "Wolverine-Hoosier Athletic Conference", "value": "Wolverine-Hoosier Athletic Conference"
+        },
+        {
+            "name": "Wrestling Conference (CCCAA)", "value": "Wrestling Conference (CCCAA)"
+        },
+        {
+            "name": "Wyoming Community College Athletic Conference", "value": "Wyoming Community College Athletic Conference}"
+        }
+    ]
 }
