@@ -19,6 +19,8 @@ const CoachRegistration = ({ back, RoleId }) => {
     const [MemberType, setMemberType] = useState('')
     const [state, setstate] = useState('')
     const [city, setcity] = useState('')
+    const [Allcity, setAllcity] = useState([])
+    const [Allstate, setAllstate] = useState([])
     const [Country, setCountry] = useState('')
     const [Error, setError] = useState(false)
     const [ShowPass, setShowPass] = useState(false)
@@ -29,7 +31,7 @@ const CoachRegistration = ({ back, RoleId }) => {
     const [JobType, setJobType] = useState([])
     const CoachRegistrationSubmit = (e) => {
         e.preventDefault()
-        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || Address === '' || CInstitute === '' || CInstituteweb === '' || jobtitle === '') {
+        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || Address === '' || CInstitute === '' || CInstituteweb === '' || jobtitle === '' || state === '' || city === '') {
             setError(true)
         }
         else {
@@ -63,6 +65,48 @@ const CoachRegistration = ({ back, RoleId }) => {
                 console.error(error);
             });
     }, [])
+    useEffect(() => {
+        axios.post(`https://countriesnow.space/api/v0.1/countries/states`, {
+            "country": "United States",
+            // "state": "Kabul"
+        }, {
+            headers: {
+
+                'X-RapidAPI-Key': 'c1c3fb6c0cmsh4907d3e33341dbbp1078c6jsnd4b7038ff1c5',
+                'X-RapidAPI-Host': 'countries-states-cities-dataset.p.rapidapi.com'
+
+            }
+        })
+            .then(response => {
+                console.log('authMelayout', response);
+                setAllstate(response?.data?.data?.states)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [])
+
+    useEffect(() => {
+        axios.post(`https://countriesnow.space/api/v0.1/countries/state/cities`, {
+            "country": "United States",
+            "state": state
+        }, {
+            headers: {
+
+                'X-RapidAPI-Key': 'c1c3fb6c0cmsh4907d3e33341dbbp1078c6jsnd4b7038ff1c5',
+                'X-RapidAPI-Host': 'countries-states-cities-dataset.p.rapidapi.com'
+
+            }
+        })
+            .then(response => {
+                console.log('llll', response);
+                setAllcity(response?.data?.data)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [state])
+
     return (
         <>  <form action="" onSubmit={CoachRegistrationSubmit}>
             <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
@@ -96,7 +140,7 @@ const CoachRegistration = ({ back, RoleId }) => {
                     <label className='para-sm clr-text mt-4' htmlFor=""> Confirm Password  </label>
                     <div className="showpass">
                         <input type={ShowCPass ? 'text' : 'password'} className="form-control inp" placeholder="Re-Type Password" value={C_Password} onChange={(e) => { setC_Password(e.target.value) }} />
-                        <i className={`bi ${ShowCPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowCPass(!ShowPass) }}></i>
+                        <i className={`bi ${ShowCPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowCPass(!ShowCPass) }}></i>
                     </div>
                     {Error ? C_Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
                 </div>
@@ -116,36 +160,36 @@ const CoachRegistration = ({ back, RoleId }) => {
             </div>
             <div className="row">
 
-                <div className="col-md-4">
-                    <label className='para-sm clr-text mt-4' htmlFor="">City  </label>
-                    <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
-                        <option value='' selected hidden>select City</option>
-                        <option value='city1'>City 1</option>
-                        <option value='city2'>City 2</option>
-                    </select>
-                    {Error ? city === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
-                </div>
-                <div className="col-md-4">
+                <div className="col-md-6">
                     <label className='para-sm clr-text mt-4' htmlFor="">State  </label>
                     <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
                         <option value='' selected hidden>select State</option>
-                        <option value='city1'>State 1</option>
-                        <option value='city2'>State 2</option>
+                        {Allstate?.map((item, i) => (
+                            <option value={item.name} key={i}>{item.name}</option>
+                        ))}
+                        {/* <option value='city2'>State 2</option> */}
                     </select>
                     {Error ? state === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                 </div>
-                <div className="col-md-4">
-                    <label className='para-sm clr-text mt-4' htmlFor="">Country  </label>
-                    <select name="" className='form-select slct' id="" value={Country} onChange={(e) => { setCountry(e.target.value) }}>
-                        <option value='' selected hidden>select Country</option>
-                        <option value='city1'>Country 1</option>
-                        <option value='city2'>Country 2</option>
+                <div className="col-md-6">
+                    <label className='para-sm clr-text mt-4' htmlFor="">City  </label>
+                    <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
+                        <option value='' selected hidden>select City</option>
+                        {Allcity.length === 0 ?
+                            <option value=''>No City Available</option>
+                            :
+                            <>
+                                {Allcity?.map((item, i) => (
+                                    <option value={item} key={i}>{item}</option>
+                                ))}
+                            </>}
                     </select>
-                    {Error ? Country === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                    {Error ? city === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                 </div>
+
             </div>
             <div className="row">
                 <div className="col-md-12">

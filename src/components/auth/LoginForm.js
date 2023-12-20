@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { setCookie } from 'cookies-next';
 import { message } from 'antd';
 import axios from 'axios';
@@ -31,7 +31,7 @@ const LoginForm = () => {
           // setUserPass('')
           console.log(response.data.data.token)
           setCookie('logged', response.data.data.token);
-         
+
           localStorage.setItem('userdetail', JSON.stringify({ response }))
           router.push('/activity')
           setisLoading(false)
@@ -39,15 +39,12 @@ const LoginForm = () => {
         })
         .catch(error => {
           console.error(error);
-          message.error(error?.response.data?.message)
+          message.error(error?.response?.data?.message)
           setisLoading(false)
         });
 
     }
   }
-
-
-
   const LostPass = () => {
     document.querySelector('.closelogin-modal').click()
     console.log("first")
@@ -58,6 +55,7 @@ const LoginForm = () => {
     console.log("first")
     router.push('/register')
   }
+
   return (
     <>
       <form action="" onSubmit={loginuser}>

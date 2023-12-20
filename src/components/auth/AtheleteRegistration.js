@@ -1,6 +1,6 @@
 'use client'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config'
 import { useRouter } from 'next/navigation'
 import { message } from 'antd'
@@ -15,7 +15,9 @@ const AtheleteRegistration = ({ back, RoleId }) => {
     const [Number, setNumber] = useState('')
     const [Address, setAddress] = useState('')
     const [state, setstate] = useState('')
+    const [Allstate, setAllstate] = useState([])
     const [city, setcity] = useState('')
+    const [Allcity, setAllcity] = useState([])
     const [Country, setCountry] = useState('')
     const [CInstitute, setCInstitute] = useState('')
     const [CInstituteweb, setCInstituteweb] = useState('')
@@ -40,7 +42,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
     const router = useRouter()
     const AthleteRegistrationSubmit = (e) => {
         e.preventDefault()
-        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || Address === '' || CInstitute === '' || CInstituteweb === '' || ClassYear === '' || Height === '' || weight === '' || Sports === '' || Position === '' || AAUTrav === '') {
+        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || Address === '' || CInstitute === '' || CInstituteweb === '' || ClassYear === '' || Height === '' || weight === '' || Sports === '' || Position === '' || AAUTrav === '' || state === '' || city === '') {
             setError(true)
         }
         else {
@@ -64,6 +66,49 @@ const AtheleteRegistration = ({ back, RoleId }) => {
             setError(false)
         }
     }
+    useEffect(() => {
+        axios.post(`https://countriesnow.space/api/v0.1/countries/states`, {
+            "country": "United States",
+            // "state": "Kabul"
+        }, {
+            headers: {
+
+                'X-RapidAPI-Key': 'c1c3fb6c0cmsh4907d3e33341dbbp1078c6jsnd4b7038ff1c5',
+                'X-RapidAPI-Host': 'countries-states-cities-dataset.p.rapidapi.com'
+
+            }
+        })
+            .then(response => {
+                console.log('authMelayout', response);
+                setAllstate(response?.data?.data?.states)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [])
+
+    useEffect(() => {
+        axios.post(`https://countriesnow.space/api/v0.1/countries/state/cities`, {
+            "country": "United States",
+            "state": state
+        }, {
+            headers: {
+
+                'X-RapidAPI-Key': 'c1c3fb6c0cmsh4907d3e33341dbbp1078c6jsnd4b7038ff1c5',
+                'X-RapidAPI-Host': 'countries-states-cities-dataset.p.rapidapi.com'
+
+            }
+        })
+            .then(response => {
+                console.log('llll', response);
+                setAllcity(response?.data?.data)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [state])
+
+
     return (
         <>
             {ActiveComponentpay === '' && <>
@@ -123,36 +168,37 @@ const AtheleteRegistration = ({ back, RoleId }) => {
 
                     <div className="row">
 
-                        <div className="col-md-4">
-                            <label className='para-sm clr-text mt-4' htmlFor="">City  </label>
-                            <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
-                                <option value='' selected hidden>select City</option>
-                                <option value='city1'>City 1</option>
-                                <option value='city2'>City 2</option>
-                            </select>
-                            {Error ? city === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
-                        </div>
-                        <div className="col-md-4">
+                        <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">State  </label>
                             <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
                                 <option value='' selected hidden>select State</option>
-                                <option value='city1'>State 1</option>
-                                <option value='city2'>State 2</option>
+                                {Allstate?.map((item, i) => (
+                                    <option value={item.name} key={i}>{item.name}</option>
+                                ))}
+                                {/* <option value='city2'>State 2</option> */}
                             </select>
                             {Error ? state === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                         </div>
-                        <div className="col-md-4">
-                            <label className='para-sm clr-text mt-4' htmlFor="">Country  </label>
-                            <select name="" className='form-select slct' id="" value={Country} onChange={(e) => { setCountry(e.target.value) }}>
-                                <option value='' selected hidden>select Country</option>
-                                <option value='city1'>Country 1</option>
-                                <option value='city2'>Country 2</option>
+                        <div className="col-md-6">
+                            <label className='para-sm clr-text mt-4' htmlFor="">City  </label>
+                            <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
+                                <option value='' selected hidden>select City</option>
+                                {Allcity.length === 0 ?
+                                    <option value=''>No City Available</option>
+                                    :
+                                    <>
+                                        {Allcity?.map((item, i) => (
+                                            <option value={item} key={i}>{item}</option>
+                                        ))}
+                                    </>}
+
                             </select>
-                            {Error ? Country === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                            {Error ? city === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                         </div>
+
                     </div>
                     <div className="row">
                         <div className="col-md-12">
@@ -217,7 +263,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                                 <option value='NCAAD1'> NCAA D1</option>
                                 <option value='NCAAD2'>NCAA D2</option>
                                 <option value='NCAAD3'>NCAA D3</option>
-                                <option value='USPORTS'>U SPORTS</option>
+                                {/* <option value='USPORTS'>U SPORTS</option> */}
                                 <option value='NAIA'> NAIA</option>
                                 <option value='USCAA'>USCAA</option>
                                 <option value='NCCAA'>NCCAA</option>
@@ -229,7 +275,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                             </select>
                             {Error ? Position === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
-                          
+
 
                         </div>
                         <div className="col-md-6">

@@ -60,7 +60,7 @@ const JobsTab = () => {
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">
                     <li className="nav-item nav-link active" id="AllJobs-tab" onClick={() => handleComponentChange('AllJobs')} data-bs-toggle="tab" data-bs-target="#AllJobs" type="button" role="tab" aria-controls="AllJobs" aria-selected="false" tabIndex="-1">
-                        Athelete
+                        All Teams
                     </li>
                     {/* <li className="nav-item nav-link " id="categories-tab" onClick={() => handleComponentChange('Categories')} data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab" aria-controls="categories" aria-selected="false" tabIndex="-1">
                         Categories

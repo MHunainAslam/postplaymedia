@@ -19,9 +19,13 @@ const AllJobs = ({ loadcomponent }) => {
     const [Temporary, setTemporary] = useState(true)
     const [AllJobisLoader, setAllJobisLoader] = useState(true)
     const [SearchTitle, setSearchTitle] = useState('')
+    const [Allstate, setAllstate] = useState([])
+    const [Allcity, setAllcity] = useState([])
     const [GetAllJobs, setGetAllJobs] = useState([])
+    const [state, setstate] = useState('')
     const router = useRouter()
-
+    // console.log(confrences)
+    
     useEffect(() => {
         setAllJobisLoader(true)
         axios.get(`${APP_URL}/api/all-jobs?search=${SearchTitle}&type[]=${!Freelance ? '' : 'Freelance'}&type[]=${!FullTime ? '' : 'FullTime'}&type[]=${!Internship ? '' : 'Internship'}&type[]=${!PartTime ? '' : 'PartTime'}&type[]=${!Temporary ? '' : 'Temporary'}`, {
@@ -50,7 +54,47 @@ const AllJobs = ({ loadcomponent }) => {
         return `${IMG_URL}${src}`
     }
 
+    useEffect(() => {
+        axios.post(`https://countriesnow.space/api/v0.1/countries/states`, {
+            "country": "United States",
+            // "state": "Kabul"
+        }, {
+            headers: {
 
+                'X-RapidAPI-Key': 'c1c3fb6c0cmsh4907d3e33341dbbp1078c6jsnd4b7038ff1c5',
+                'X-RapidAPI-Host': 'countries-states-cities-dataset.p.rapidapi.com'
+
+            }
+        })
+            .then(response => {
+                console.log('authMelayout', response);
+                setAllstate(response?.data?.data?.states)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [])
+
+    // useEffect(() => {
+    //     axios.post(`https://countriesnow.space/api/v0.1/countries/state/cities`, {
+    //         "country": "United States",
+    //         "state": state
+    //     }, {
+    //         headers: {
+
+    //             'X-RapidAPI-Key': 'c1c3fb6c0cmsh4907d3e33341dbbp1078c6jsnd4b7038ff1c5',
+    //             'X-RapidAPI-Host': 'countries-states-cities-dataset.p.rapidapi.com'
+
+    //         }
+    //     })
+    //         .then(response => {
+    //             console.log('llll', response);
+    //             setAllcity(response?.data?.data)
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+    //         });
+    // }, [state])
     return (
         <>
 
@@ -80,7 +124,7 @@ const AllJobs = ({ loadcomponent }) => {
                                     <option value='NCAAD1'> NCAA D1</option>
                                     <option value='NCAAD2'>NCAA D2</option>
                                     <option value='NCAAD3'>NCAA D3</option>
-                                    <option value='USPORTS'>U SPORTS</option>
+                                    {/* <option value='USPORTS'>U SPORTS</option> */}
                                     <option value='NAIA'> NAIA</option>
                                     <option value='USCAA'>USCAA</option>
                                     <option value='NCCAA'>NCCAA</option>
@@ -105,10 +149,12 @@ const AllJobs = ({ loadcomponent }) => {
                             <div className='m-2'>
                                 {/* <input className=' form-check-input' type="checkbox" name="" id="Internship" value={'Internship'} onChange={(e => { setInternship(!Internship) })} checked={Internship} />
                                 <label className='para clr-text ms-2' htmlFor="Internship">Internship</label> */}
-                                <select name="" className='form-select slct' id="">
+                                <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
                                     <option value='' selected hidden>select State</option>
-                                    <option value='city1'>State 1</option>
-                                    <option value='city2'>State 2</option>
+                                    {Allstate?.map((item, i) => (
+                                        <option value={item.name} key={i}>{item.name}</option>
+                                    ))}
+                                    {/* <option value='city2'>State 2</option> */}
                                 </select>
                             </div>
                             <div className='m-2'>
