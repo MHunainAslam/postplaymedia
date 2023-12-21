@@ -8,7 +8,7 @@ import { UserContext } from '@/app/UserProfileLayout'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 
-const PeopleProfileEdit = ({ }) => {
+const Profiledetail = ({ }) => {
     const token = GetToken('userdetail')
     const { Userdata } = useContext(UserContext);
     const [Name, setName] = useState()
@@ -34,6 +34,7 @@ const PeopleProfileEdit = ({ }) => {
     const [getRoles, setgetRoles] = useState([])
     const [isloading, setisloading] = useState(false)
     const router = useRouter()
+    console.log("first", Userdata)
     const onChange = (date, dateString) => {
         console.log(date, dateString);
         setDateofBirth(date)
@@ -66,7 +67,7 @@ const PeopleProfileEdit = ({ }) => {
     const EditcoachProfile = (e) => {
         setisloading(true)
         e.preventDefault()
-        axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { name: Name, email: Userdata?.data?.email, role_id: Userdata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, state: state, JobType: JobType, current_institute: C_institute, current_ins_website: C_instituteweb, address: Address, number: number, job_title: JobType }, {
+        axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { name: Name, email: Userdata?.data?.email, role_id: Userdata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, country: Country, JobType: JobType, C_institute: C_institute, C_instituteweb: C_instituteweb }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -139,124 +140,106 @@ const PeopleProfileEdit = ({ }) => {
 
     return (
         <>
-            <p className="heading mt-3 clr-text">Edit Profile</p>
+            <p className="heading mt-3 clr-text">Profile</p>
 
             <div className="border-bottom mb-4"></div>
 
-            <form action="" onSubmit={Userdata?.data?.role?.slug != 'athlete' ? EditcoachProfile : EditAthleteProfile} className='job-detail'>
-                <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Name </label>
-                    <div className="col">
-                        <input type="text" name="" id="" className='form-control inp col-m' value={Name} onChange={(e) => setName(e.target.value)} />
-                    </div>
+            <div className='job-detail'>
+                <div className='d-md-flex align-items-center my-2'>
+                    <label htmlFor="" className='col-lg-4 col-md-6'>Name </label>
+                    <p className="para-lg text-dark mb-0 text-capitalize">
+                        {Userdata?.data?.name === null ? '--' : Userdata?.data?.name}
+                    </p>
                 </div>
 
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Date of Birth </label>
-                    <div className="col">
-                        <DatePicker onChange={onChange} className='inp' />
-                    </div>
+                    <label htmlFor="" className='col-lg-4 col-md-6'>Date of Birth </label>
+                    <p className="para-lg text-dark mb-0 text-capitalize">
+                        {Userdata?.data?.dob === null ? '--' : Userdata?.data?.dob.slice(0, 10)}
+                    </p>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Number </label>
-                    <div className="col">
-                        <input type="text" name="" id="" className='form-control inp col-m' value={number} onChange={(e) => setnumber(e.target.value)} />
-                    </div>
+                    <label htmlFor="" className='col-lg-4 col-md-6'>Number </label>
+                    <p className="para-lg text-dark mb-0" text-capitalize>
+                        {Userdata?.data?.number === null ? '--' : Userdata?.data?.number}
+                    </p>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Sex </label>
-                    <div className="col">
-                        <input type="radio" name="gender" className='form-check-input me-2' id="male" value={'male'} onChange={handlegender} />
-                        <label htmlFor="male" className='para clr-text'>Male</label>
-                        <input type="radio" name="gender" className='form-check-input mx-2' id="female" value={'female'} onChange={handlegender} />
-                        <label htmlFor="female" className='para clr-text'>Female</label>
-                        <input type="radio" name="gender" className='form-check-input mx-2' id="others" value={'others'} onChange={handlegender} />
-                        <label htmlFor="others" className='para clr-text'>others</label>
-                    </div>
+                    <label htmlFor="" className='col-lg-4 col-md-6'>Sex </label>
+                    <p className="para-lg text-dark mb-0 text-capitalize">
+                        {Userdata?.data?.gender === null ? '--' : Userdata?.data?.gender}
+                    </p>
 
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>State </label>
-                    <div className="col">
-                        <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
-                            <option value='' selected hidden>select State</option>
-                            {Allstate?.map((item, i) => (
-                                <option value={item.name} key={i}>{item.name}</option>
-                            ))}
-                        </select>
-                    </div>
+                    <label htmlFor="" className='col-lg-4 col-md-6'>State </label>
+
+                    <p className="para-lg text-dark mb-0 text-capitalize">
+                        {Userdata?.data?.state === null ? '--' : Userdata?.data?.state}
+                    </p>
+
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>City </label>
-                    <div className="col">
-                        <select name="" className='form-select slct' id="" value={City} onChange={(e) => { setCity(e.target.value) }}>
-                            <option value='' selected hidden>select City</option>
-                            {Allcity?.length === 0 ?
-                                <option value=''>No City Available</option>
-                                :
-                                <>
-                                    {Allcity?.map((item, i) => (
-                                        <option value={item} key={i}>{item}</option>
-                                    ))}
-                                </>}
-                        </select>
-                    </div>
+                    <label htmlFor="" className='col-lg-4 col-md-6'>City </label>
+
+                    <p className="para-lg text-dark mb-0 text-capitalize">
+                        {Userdata?.data?.city === null ? '--' : Userdata?.data?.city}
+                    </p>
+
                 </div>
 
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Address </label>
-                    <div className="col">
-                        <textarea type="text" className="form-control  area" rows={'3'} placeholder="" value={Address} onChange={(e) => { setAddress(e.target.value) }} />
+                    <label htmlFor="" className='col-lg-4 col-md-6'>Address </label>
 
-                    </div>
+                    <p className="para-lg text-dark mb-0 text-capitalize">
+                        {Userdata?.data?.address === null ? '--' : Userdata?.data?.address}
+                    </p>
+
+
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Current institute </label>
-                    <div className="col">
+                    <label htmlFor="" className='col-lg-4 col-md-6'>Current institute </label>
 
-                        <input type="text" name="" id="" className='form-control inp col-m' value={C_institute} onChange={(e) => setC_institute(e.target.value)} />
-                    </div>
+                    <p className="para-lg text-dark mb-0 text-capitalize">
+                        {Userdata?.data?.current_institute == "" ? '--' : Userdata?.data?.current_institute}
+                    </p>
+
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Current institute website</label>
-                    <div className="col">
-                        <input type="text" name="" id="" className='form-control inp col-m' value={C_instituteweb} onChange={(e) => setC_instituteweb(e.target.value)} />
-                    </div>
+                    <label htmlFor="" className='col-lg-4 col-md-6'>Current institute website</label>
+                    <p className="para-lg text-dark mb-0 text-capitalize">
+                        {Userdata?.data?.current_ins_website === '' ? '--' : Userdata?.data?.current_ins_website}
+                    </p>
                 </div>
                 {Userdata?.data?.role?.slug != 'athlete' ?
                     <div className='d-md-flex align-items-center my-3'>
-                        <label htmlFor="" className='col-md-2'>Job Title </label>
-                        <div className="col">
-                            <select name="" className='slct form-select' id="" value={JobType} onChange={(e) => setJobType(e.target.value)}>
-                                <option hidden value=''>Change Job Type</option>
-                                {getRoles?.data?.map((item, i) => (
-                                    <option value={item.id} key={i}>{item.name}</option>
-                                ))}
-                            </select>
-                        </div>
+                        <label htmlFor="" className='col-lg-4 col-md-6'>Job Title </label>
+                        <p className="para-lg text-dark mb-0 text-capitalize">
+                            {Userdata?.data?.job_title === '' ? '--' : Userdata?.data?.job_title}
+                        </p>
                     </div>
                     :
                     <>
                         <div className='d-md-flex align-items-center my-3'>
-                            <label htmlFor="" className='col-md-2'>Class Year</label>
+                            <label htmlFor="" className='col-lg-4 col-md-6'>Class Year</label>
                             <div className="col">
                                 <input type="text" name="" id="" className='form-control inp col-m' value={classyear} onChange={(e) => setclassyear(e.target.value)} />
                             </div>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
-                            <label htmlFor="" className='col-md-2'>Height</label>
+                            <label htmlFor="" className='col-lg-4 col-md-6'>Height</label>
                             <div className="col">
                                 <input type="text" name="" id="" className='form-control inp col-m' value={height} onChange={(e) => setheight(e.target.value)} />
                             </div>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
-                            <label htmlFor="" className='col-md-2'>Weight</label>
+                            <label htmlFor="" className='col-lg-4 col-md-6'>Weight</label>
                             <div className="col">
                                 <input type="text" name="" id="" className='form-control inp col-m' value={weight} onChange={(e) => setweight(e.target.value)} />
                             </div>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
-                            <label htmlFor="" className='col-md-2'>Sports </label>
+                            <label htmlFor="" className='col-lg-4 col-md-6'>Sports </label>
                             <div className="col">
                                 <select name="" className='slct form-select' id="" value={Sports} onChange={(e) => setSports(e.target.value)}>
                                     <option hidden value=''>Change Sports</option>
@@ -268,23 +251,22 @@ const PeopleProfileEdit = ({ }) => {
                             </div>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
-                            <label htmlFor="" className='col-md-2'>Position</label>
+                            <label htmlFor="" className='col-lg-4 col-md-6'>Position</label>
                             <div className="col">
                                 <input type="text" name="" id="" className='form-control inp col-m' value={Position} onChange={(e) => setPosition(e.target.value)} />
                             </div>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
-                            <label htmlFor="" className='col-md-2'>AAU/Travel Team Name</label>
+                            <label htmlFor="" className='col-lg-4 col-md-6'>AAU/Travel Team Name</label>
                             <div className="col">
                                 <input type="text" name="" id="" className='form-control inp col-m' value={AAUTravel} onChange={(e) => setAAUTravel(e.target.value)} />
                             </div>
                         </div>
                     </>
                 }
-                <button type='submit' className='btn primary-btn mt-3' ><p className='px-3'>Save Changes {isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p> </button>
-            </form>
+            </div>
         </>
     )
 }
 
-export default PeopleProfileEdit
+export default Profiledetail

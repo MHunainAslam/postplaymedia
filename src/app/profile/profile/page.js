@@ -4,6 +4,7 @@ import UserProfileLayout from '@/app/UserProfileLayout'
 import ChangeCoverPhoto from '@/components/userprofile/PeopleProfileTab/ChangeCoverPhoto'
 import PeopleChangeProfile from '@/components/userprofile/PeopleProfileTab/PeopleChangeProfile'
 import PeopleProfileEdit from '@/components/userprofile/PeopleProfileTab/PeopleProfileEdit'
+import Profiledetail from '@/components/userprofile/PeopleProfileTab/Profiledetail'
 import {  useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -14,10 +15,10 @@ const Page = () => {
     const param = searchParams.get('profile-tab')
 
     console.log('lol',  param)
-    const [TabState, setTabState] = useState('editprofile')
+    const [TabState, setTabState] = useState('profiledetail')
     useEffect(() => {
         if (param === null) {
-            setTabState('editprofile')
+            setTabState('profiledetail')
         } else {
             setTabState(param)
         }
@@ -29,6 +30,9 @@ const Page = () => {
             <div className="mt-3 profile-tabs">
                 <ul className="peopletab nav nav-tabs border-0 border-b-0  " role="tablist">
 
+                    <li className={`nav-item nav-link text-center ${TabState === 'profiledetail' ? 'active' : ''}`} onClick={() => router.push(`?profiledetail-tab=${'profiledetail'}`)} id="profiledetail-tab" data-bs-toggle="tab" data-bs-target="#profiledetail" type="button" role="tab" aria-controls="profiledetail" aria-selected="false" tabIndex="-1">
+                        <p className="para clr-text mb-0">General</p>
+                    </li>
                     <li className={`nav-item nav-link text-center ${TabState === 'editprofile' ? 'active' : ''}`} onClick={() => router.push(`?profile-tab=${'editprofile'}`)} id="UserProfileEdit-tab" data-bs-toggle="tab" data-bs-target="#UserProfileEdit" type="button" role="tab" aria-controls="UserProfileEdit" aria-selected="false" tabIndex="-1">
                         <p className="para clr-text mb-0">Edit</p>
                     </li>
@@ -43,6 +47,9 @@ const Page = () => {
             </div>
             <div className="tab-content ">
 
+                <div className={`tab-pane fade  ${TabState === 'profiledetail' ? 'active show' : ''}`} id="profiledetail" role="tabpanel" aria-labelledby="profiledetail-tab">
+                    <Profiledetail />
+                </div>
                 <div className={`tab-pane fade  ${TabState === 'editprofile' ? 'active show' : ''}`} id="UserProfileEdit" role="tabpanel" aria-labelledby="UserProfileEdit-tab">
                     <PeopleProfileEdit />
                 </div>

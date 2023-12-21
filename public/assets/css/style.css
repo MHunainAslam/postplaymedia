@@ -1673,12 +1673,9 @@ h5 {
 
 .profile-page-user .img-p {
     height: 200px !important;
-    border: 2px solid white;
+    outline: 2px solid white;
     border-radius: 10px !important;
-    box-shadow: var(--bs-box-shadow-sm) !important;
-}
-
-.profile-page-user .img-p {
+    /* box-shadow: var(--bs-box-shadow-sm) !important; */
     width: calc(150px + (200 - 150) * ((100vw - 320px) / (1920 - 320)));
 }
 
@@ -2027,6 +2024,7 @@ h5 {
     .profile-page-user .img-p {
         width: 100px;
         margin-top: -50px;
+        outline: 0;
     }
 
     .profile-page-user .profile-tabs {

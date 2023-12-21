@@ -32,31 +32,40 @@ const AtheleteRegistration = ({ back, RoleId }) => {
     const [ShowPass, setShowPass] = useState(false)
     const [ShowCPass, setShowCPass] = useState(false)
     const [pkgprice, setpkgprice] = useState('')
+    const [package_id, setpackage_id] = useState('')
     const [isLoading, setisLoading] = useState(false)
-    const [ActiveComponentpay, setActiveComponentpay] = useState('pkg')
-    const [Roles, setRoles] = useState([])
+    const [ActiveComponentpay, setActiveComponentpay] = useState('form')
+
+    {/* Component change function */ }
     const handleComponentChangepay = (componentName) => {
         setActiveComponentpay(componentName);
 
     };
-    const [JobType, setJobType] = useState([])
 
-    const router = useRouter()
+    {/* Coach registration api */ }
     const AthleteRegistrationSubmit = (e) => {
         e.preventDefault()
-        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || Address === '' || CInstitute === '' || CInstituteweb === '' || ClassYear === '' || Height === '' || weight === '' || Sports === '' || Position === '' || AAUTrav === '' || state === '' || city === '') {
+        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || state === '' || city === '' || Address === '' || CInstitute === '' || CInstituteweb === '' || ClassYear === '' || Height === '' || weight === '' || Sports === '' || Position === '' || AAUTrav === '') {
             setError(true)
         }
         else {
+            handleComponentChangepay('pkg')
+            setError(false)
+        }
+    }
+    const handleApprovepaypal = async (data, actions) => {
+        const order = await actions.order.capture();
+        if (order) {
+            console.log('Payment was approved!', order);
+            // const customId = data.orderID;
+            // console.log('Custom ID:', customId);
             setisLoading(true)
-            axios.post(`${APP_URL}/api/register`, { name: Name, username: UserName, email: Email, password: Password, c_password: C_Password, role_id: RoleId, phone: Number, address: Address, current_institute: CInstitute, current_ins_website: CInstituteweb, class_year: ClassYear, height: Height, weight: weight, sports: Sports, position: Position, travel_team_name: AAUTrav, job_title: '1' })
+            axios.post(`${APP_URL}/api/register`, { name: Name, email: Email, password: Password, c_password: C_Password, username: UserName, role_id: RoleId, city: city, country: 'United States', current_institute: CInstitute, current_ins_website: CInstituteweb, job_title: '1', class_year: ClassYear, height: Height, weight: weight, sports: Sports, position: Position, travel_team_name: AAUTrav, address: Address, number: Number, state: state, package_id: package_id, payment_status: 'paid' })
                 .then(response => {
                     // Handle successful response here
                     message.success(response.data.message)
                     console.log(response.data);
-                    // router.push('/')
                     setisLoading(false)
-                    handleComponentChangepay('pkg')
                 })
                 .catch(error => {
                     // Handle error here
@@ -64,10 +73,27 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                     console.error(error);
                     setisLoading(false)
                 });
-
-            setError(false)
         }
+    };
+
+    const submitform = () => {
+        setisLoading(true)
+        axios.post(`${APP_URL}/api/register`, { name: Name, email: Email, password: Password, c_password: C_Password, username: UserName, role_id: RoleId, city: city, country: 'United States', current_institute: CInstitute, current_ins_website: CInstituteweb, job_title: '1', class_year: ClassYear, height: Height, weight: weight, sports: Sports, position: Position, travel_team_name: AAUTrav, address: Address, number: Number, state: state })
+            .then(response => {
+                // Handle successful response here
+                message.success(response.data.message)
+                console.log(response.data);
+                setisLoading(false)
+            })
+            .catch(error => {
+                // Handle error here
+                message.error(error.response?.data?.message)
+                console.error(error);
+                setisLoading(false)
+            });
     }
+
+    {/* get states against country api */ }
     useEffect(() => {
         axios.post(`https://countriesnow.space/api/v0.1/countries/states`, {
             "country": "United States",
@@ -89,6 +115,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
             });
     }, [])
 
+    {/* get cities against state and country api */ }
     useEffect(() => {
         axios.post(`https://countriesnow.space/api/v0.1/countries/state/cities`, {
             "country": "United States",
@@ -113,23 +140,27 @@ const AtheleteRegistration = ({ back, RoleId }) => {
 
     return (
         <>
-            {ActiveComponentpay === '' && <>
-
+            {/* 1st step fill form */}
+            {ActiveComponentpay === 'form' && <>
+                <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
                 <form action="" onSubmit={AthleteRegistrationSubmit}>
-                    <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
                     <div className="row">
+
+                        {/* username */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Username  </label>
                             <input type="text" className="form-control inp" placeholder="Username" value={UserName} onChange={(e) => { setUserName(e.target.value) }} />
                             {Error ? UserName === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
                         </div>
+
+                        {/* email */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Email Address  </label>
                             <input type="email" className="form-control inp" placeholder="Email" value={Email} onChange={(e) => { setEmail(e.target.value) }} />
                             {Error ? Email === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
                         </div>
-                    </div>
-                    <div className="row">
+
+                        {/* choose pass */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor=""> Choose a Password  </label>
                             <div className="showpass">
@@ -143,6 +174,8 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                                 </>
                                 : ''}
                         </div>
+
+                        {/* confirm pass */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor=""> Confirm Password  </label>
                             <div className="showpass">
@@ -151,26 +184,24 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                             </div>
                             {Error ? C_Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
                         </div>
-                    </div>
-                    <p className='heading text-center mb-4 mt-5 text-dark'>Profile Details</p>
-                    <div className="row">
+
+                        <p className='heading text-center mb-4 mt-5 text-dark'>Profile Details</p>
+
+                        {/* name */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Name  </label>
                             <input type="text" className="form-control inp" placeholder="" value={Name} onChange={(e) => { setName(e.target.value) }} />
                             {Error ? Name === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                         </div>
+
+                        {/* number */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Number (optional)</label>
                             <input type="text" className="form-control inp" placeholder="" value={Number} onChange={(e) => { setNumber(e.target.value) }} />
-
-
                         </div>
-                    </div>
 
-                    <div className="row">
-
-
+                        {/* state */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">State  </label>
                             <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
@@ -183,6 +214,8 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                             {Error ? state === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                         </div>
+
+                        {/* city */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">City  </label>
                             <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
@@ -201,49 +234,50 @@ const AtheleteRegistration = ({ back, RoleId }) => {
 
                         </div>
 
-                    </div>
-                    <div className="row">
+                        {/* address */}
                         <div className="col-md-12">
                             <label className='para-sm clr-text mt-4' htmlFor="">Adress  </label>
                             <textarea type="text" className="form-control  area" rows={'3'} placeholder="" value={Address} onChange={(e) => { setAddress(e.target.value) }} />
                             {Error ? Address === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
                         </div>
-                    </div>
-                    <div className="row">
+
+                        {/* current institute */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Current institute  </label>
                             <input type="text" className="form-control inp" placeholder="" value={CInstitute} onChange={(e) => { setCInstitute(e.target.value) }} />
                             {Error ? CInstitute === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
-
                         </div>
+
+                        {/* current institute web url*/}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Current institute website  </label>
                             <input type="url" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
                             {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                         </div>
-                    </div>
-                    <div className="row">
+
+                        {/* class year */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Class Year  </label>
                             <input type="text" className="form-control inp" placeholder="" value={ClassYear} onChange={(e) => { setClassYear(e.target.value) }} />
                             {Error ? ClassYear === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
-
                         </div>
+
+                        {/* height */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Height  </label>
                             <input type="text" className="form-control inp" placeholder="" value={Height} onChange={(e) => { setHeight(e.target.value) }} />
                             {Error ? Height === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
-
                         </div>
-                    </div>
-                    <div className="row">
+
+                        {/* weight */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Weight</label>
                             <input type="text" className="form-control inp" placeholder="" value={weight} onChange={(e) => { setweight(e.target.value) }} />
                             {Error ? weight === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
-
                         </div>
+
+                        {/* sports */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Sports</label>
                             <select name="" className='form-select slct' id="" onChange={(e) => { setSports(e.target.value) }} value={Sports}>
@@ -256,16 +290,16 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                             {Error ? Sports === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                         </div>
-                    </div>
-                    <div className="row">
+
+                        {/* level */}
                         <div className="col-md-6">
-                            <label className='para-sm clr-text mt-4' htmlFor="">Level </label>
+                            {/* its define as a position in backend */}
+                            <label className='para-sm clr-text mt-4' htmlFor="">Level  </label>
                             <select name="" className='form-select slct' id="" value={Position} onChange={(e) => { setPosition(e.target.value) }}>
                                 <option value='' selected hidden>--select Level--</option>
                                 <option value='NCAAD1'> NCAA D1</option>
                                 <option value='NCAAD2'>NCAA D2</option>
                                 <option value='NCAAD3'>NCAA D3</option>
-                                {/* <option value='USPORTS'>U SPORTS</option> */}
                                 <option value='NAIA'> NAIA</option>
                                 <option value='USCAA'>USCAA</option>
                                 <option value='NCCAA'>NCCAA</option>
@@ -280,11 +314,12 @@ const AtheleteRegistration = ({ back, RoleId }) => {
 
 
                         </div>
+
+                        {/* AAU/Travel Team Name */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">AAU/Travel Team Name  </label>
                             <input type="text" className="form-control inp" placeholder="" value={AAUTrav} onChange={(e) => { setAAUTrav(e.target.value) }} />
                             {Error ? AAUTrav === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
-
                         </div>
                     </div>
 
@@ -294,12 +329,16 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                 </form>
             </>}
 
+            {/* 2nd step select package */}
             {ActiveComponentpay === 'pkg' && <>
-                <AtheletePackages handleComponentChangepay={handleComponentChangepay} setpkgprice={setpkgprice}/>
+                <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={() => handleComponentChangepay('form')}></i> Select Package</p>
+                <AtheletePackages setpackage_id={setpackage_id} handleComponentChangepay={handleComponentChangepay} setpkgprice={setpkgprice} />
             </>}
 
+            {/* 3rd step paypal */}
             {ActiveComponentpay === 'pay' && <>
-                <PayPalPay pkgprice={pkgprice}/>
+                <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={() => handleComponentChangepay('pkg')}></i> Almost Done!</p>
+                <PayPalPay pkgprice={pkgprice} handleApprovepaypal={handleApprovepaypal} />
             </>}
         </>
     )
