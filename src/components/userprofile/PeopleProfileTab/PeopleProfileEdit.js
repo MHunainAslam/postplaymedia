@@ -66,7 +66,7 @@ const PeopleProfileEdit = ({ }) => {
     const EditcoachProfile = (e) => {
         setisloading(true)
         e.preventDefault()
-        axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { name: Name, email: Userdata?.data?.email, role_id: Userdata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, state: state, JobType: JobType, current_institute: C_institute, current_ins_website: C_instituteweb, address: Address, number: number, job_title: JobType }, {
+        axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { name: Name, email: Userdata?.data?.email, role_id: Userdata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, state: state, JobType: JobType, current_institute: C_institute, current_ins_website: C_instituteweb, address: Address, number: number, job_title: JobType, travel_team_name: AAUTravel }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -91,7 +91,31 @@ const PeopleProfileEdit = ({ }) => {
             });
     }
     const EditAthleteProfile = (e) => {
+        setisloading(true)
         e.preventDefault()
+        axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { name: Name, email: Userdata?.data?.email, role_id: Userdata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, state: state, JobType: JobType, current_institute: C_institute, current_ins_website: C_instituteweb, address: Address, number: number, class_year: classyear, height: height, weight: weight, sports: Sports, position: Position, travel_team_name: AAUTravel }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('profile edit', response);
+                message.success(response.data?.message)
+                router.push('/profile/activity')
+                setisloading(false)
+            })
+            .catch(error => {
+                console.error(error);
+                message.error(error?.response?.data?.message)
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+                setisloading(false)
+
+
+            });
     }
     {/* get states against country api */ }
     useEffect(() => {
@@ -260,17 +284,30 @@ const PeopleProfileEdit = ({ }) => {
                             <div className="col">
                                 <select name="" className='slct form-select' id="" value={Sports} onChange={(e) => setSports(e.target.value)}>
                                     <option hidden value=''>Change Sports</option>
-                                    <option value="BoysBasketball">Boys Basketball</option>
-                                    <option value="GirlsBasketball">Girls Basketball</option>
-                                    <option value="BoysBaseball">Baseball</option>
-                                    <option value="GirlsFootball">Football</option>
+                                    <option value="Boys Basketball">Boys Basketball</option>
+                                    <option value="Girls Basketball">Girls Basketball</option>
+                                    <option value="Boys Baseball">Baseball</option>
+                                    <option value="Girls Football">Football</option>
                                 </select>
                             </div>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
-                            <label htmlFor="" className='col-md-2'>Position</label>
+                            <label htmlFor="" className='col-md-2'>Level</label>
                             <div className="col">
-                                <input type="text" name="" id="" className='form-control inp col-m' value={Position} onChange={(e) => setPosition(e.target.value)} />
+                                <select name="" className='form-select slct' id="" value={Position} onChange={(e) => setPosition(e.target.value)}>
+                                    <option value='' selected hidden>--select Level--</option>
+                                    <option value='NCAAD1'> NCAA D1</option>
+                                    <option value='NCAAD2'>NCAA D2</option>
+                                    <option value='NCAAD3'>NCAA D3</option>
+                                    <option value='NAIA'> NAIA</option>
+                                    <option value='USCAA'>USCAA</option>
+                                    <option value='NCCAA'>NCCAA</option>
+                                    <option value='CWPA'>CWPA</option>
+                                    <option value='MCLA'> MCLA</option>
+                                    <option value='High School'> High School</option>
+                                    <option value='Club/Travel'>Club/Travel</option>
+                                    <option value='Junior College'>Junior College</option>
+                                </select>
                             </div>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>

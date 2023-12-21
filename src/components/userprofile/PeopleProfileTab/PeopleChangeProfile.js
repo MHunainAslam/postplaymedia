@@ -41,12 +41,12 @@ const PeopleChangeProfile = () => {
                 })
                     .then(response => {
                         console.log('img', response);
-                        setChangeDP(response.data.data.last_inserted_id)
-                        setbtnActive(true)
+                        // setChangeDP(response.data.data.last_inserted_id)
+                        // setbtnActive(true)
                     })
                     .catch(error => {
                         console.error(error);
-                        message.error(error?.response.data?.message)
+                        message.error(error?.response?.data?.message)
                         if (error?.response?.status === 401) {
                             router.push('/')
                             deleteCookie('logged');

@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
 import Loader from '../Loader'
@@ -9,7 +9,11 @@ import { GetToken } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import conferencefield from '../../utils/Confrences.json'
-const AllJobs = ({ loadcomponent }) => {
+import { UserContext } from '@/app/ActivityLayout'
+import { message } from 'antd'
+import EditTeam from './EditTeam'
+const AllTeams = ({ loadcomponent }) => {
+    const { Userdata } = useContext(UserContext);
     const token = GetToken('userdetail')
     const [Filter, setFilter] = useState(false)
     const [Freelance, setFreelance] = useState(true)
@@ -23,12 +27,37 @@ const AllJobs = ({ loadcomponent }) => {
     const [Allcity, setAllcity] = useState([])
     const [GetAllJobs, setGetAllJobs] = useState([])
     const [state, setstate] = useState('')
+    const [EditTeamID, setEditTeamID] = useState('')
+    const [dlt, setdlt] = useState(true)
+
     const router = useRouter()
     console.log(conferencefield)
 
+    // useEffect(() => {
+    //     setAllJobisLoader(true)
+    //     axios.get(`${APP_URL}/api/all-jobs?search=${SearchTitle}&type[]=${!Freelance ? '' : 'Freelance'}&type[]=${!FullTime ? '' : 'FullTime'}&type[]=${!Internship ? '' : 'Internship'}&type[]=${!PartTime ? '' : 'PartTime'}&type[]=${!Temporary ? '' : 'Temporary'}`, {
+    //         headers: {
+    //             'Authorization': `Bearer ${token}`,
+    //         }
+    //     })
+    //         .then(response => {
+    //             console.log('alljobs', response);
+    //             setGetAllJobs(response)
+    //             setAllJobisLoader(false)
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+    //             if (error?.response?.status === 401) {
+    //                 router.push('/')
+    //                 deleteCookie('logged');
+    //                 localStorage.removeItem('userdetail')
+    //             }
+    //             setAllJobisLoader(false)
+    //         });
+    // }, [loadcomponent, SearchTitle, Freelance, FullTime, Internship, PartTime, Temporary])
     useEffect(() => {
         setAllJobisLoader(true)
-        axios.get(`${APP_URL}/api/all-jobs?search=${SearchTitle}&type[]=${!Freelance ? '' : 'Freelance'}&type[]=${!FullTime ? '' : 'FullTime'}&type[]=${!Internship ? '' : 'Internship'}&type[]=${!PartTime ? '' : 'PartTime'}&type[]=${!Temporary ? '' : 'Temporary'}`, {
+        axios.get(`${APP_URL}/api/teams`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -37,6 +66,7 @@ const AllJobs = ({ loadcomponent }) => {
                 console.log('alljobs', response);
                 setGetAllJobs(response)
                 setAllJobisLoader(false)
+
             })
             .catch(error => {
                 console.error(error);
@@ -47,7 +77,7 @@ const AllJobs = ({ loadcomponent }) => {
                 }
                 setAllJobisLoader(false)
             });
-    }, [loadcomponent, SearchTitle, Freelance, FullTime, Internship, PartTime, Temporary])
+    }, [dlt, loadcomponent, SearchTitle, Freelance, FullTime, Internship, PartTime, Temporary])
 
 
     const imgurl = ({ src }) => {
@@ -75,6 +105,27 @@ const AllJobs = ({ loadcomponent }) => {
             });
     }, [])
 
+    const dltteam = (e) => {
+        axios.delete(`${APP_URL}/api/teams/${e}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+                message.success(response.data.message)
+                setdlt(!dlt)
+                console.log(dlt)
+            })
+            .catch(error => {
+                console.error(error);
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
     // useEffect(() => {
     //     axios.post(`https://countriesnow.space/api/v0.1/countries/state/cities`, {
     //         "country": "United States",
@@ -124,31 +175,26 @@ const AllJobs = ({ loadcomponent }) => {
                                     <option value='NCAAD1'> NCAA D1</option>
                                     <option value='NCAAD2'>NCAA D2</option>
                                     <option value='NCAAD3'>NCAA D3</option>
-                                    {/* <option value='USPORTS'>U SPORTS</option> */}
                                     <option value='NAIA'> NAIA</option>
                                     <option value='USCAA'>USCAA</option>
                                     <option value='NCCAA'>NCCAA</option>
                                     <option value='CWPA'>CWPA</option>
                                     <option value='MCLA'> MCLA</option>
-                                    <option value='High-School'> High School</option>
+                                    <option value='High School'> High School</option>
                                     <option value='Club/Travel'>Club/Travel</option>
-                                    <option value='Junior-College'>Junior College</option>
+                                    <option value='Junior College'>Junior College</option>
                                 </select>
                             </div>
                             <div className='m-2'>
-                                {/* <input className=' form-check-input' type="checkbox" name="" id="FullTime" value={'FullTime'} onChange={(e => { setFullTime(!FullTime) })} checked={FullTime} />
-                                <label className='para clr-text ms-2' htmlFor="FullTime">Full Time</label> */}
                                 <select name="" className='form-select slct' id="" >
                                     <option value='' selected hidden>Sports</option>
-                                    <option value='BoysBasketball'>Boys Basketball</option>
-                                    <option value='GirlsBasketball'>Girls Basketball</option>
-                                    <option value='BoysBaseball'>Baseball</option>
-                                    <option value='GirlsFootball'>Football</option>
+                                    <option value='Boys Basketball'>Boys Basketball</option>
+                                    <option value='Girls Basketball'>Girls Basketball</option>
+                                    <option value='Boys Baseball'>Baseball</option>
+                                    <option value='Girls Football'>Football</option>
                                 </select>
                             </div>
                             <div className='m-2'>
-                                {/* <input className=' form-check-input' type="checkbox" name="" id="Internship" value={'Internship'} onChange={(e => { setInternship(!Internship) })} checked={Internship} />
-                                <label className='para clr-text ms-2' htmlFor="Internship">Internship</label> */}
                                 <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
                                     <option value='' selected hidden>select State</option>
                                     {Allstate?.map((item, i) => (
@@ -158,8 +204,6 @@ const AllJobs = ({ loadcomponent }) => {
                                 </select>
                             </div>
                             <div className='m-2'>
-                                {/* <input className=' form-check-input' type="checkbox" name="" id="PartTime" value={'PartTime'} onChange={(e => { setPartTime(!PartTime) })} checked={PartTime} />
-                                <label className='para clr-text ms-2' htmlFor="PartTime">Part Time</label> */}
                                 <select name="" className='form-select slct' id="">
                                     <option value='' selected hidden>Conference</option>
                                     {conferencefield?.confrences.map((item, i) => (
@@ -191,15 +235,31 @@ const AllJobs = ({ loadcomponent }) => {
                                         </div>
                                         <div className="col-lg col-md">
                                             <div className="card-body">
-                                                <Link href={`jobs/${item.id}`} className="link-hov heading-m fw-bold text-black">{item.title}</Link>
-                                                <p className="card-text para clr-text my-3">{item.location}</p>
-                                                <p className="clr-primary para mb-0">{item.company_name}</p>
+                                                <div className="d-flex justify-content-between">
+                                                    <Link href={`#`} className="link-hov heading-m fw-bold text-black">{item.name}</Link>
+
+                                                    {Userdata?.data?.role?.name === 'Admin' ?
+                                                        <li class=" nav-item list-unstyled fw-bold fs-4 text-end ">
+                                                            <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="bi bi-three-dots-vertical"></i>
+                                                            </a>
+                                                            <ul class="dropdown-menu" style={{ zIndex: '9999' }}>
+                                                                <li><Link class="dropdown-item" onClick={(e) => dltteam(item.id)} href="#">Delete</Link></li>
+                                                                <li><Link data-bs-toggle="modal" data-bs-target="#editTeam" class="dropdown-item" href="#" onClick={() => setEditTeamID(item.id)} >Edit Team</Link></li>
+
+                                                            </ul>
+                                                        </li>
+                                                        : ''}
+                                                </div>
+                                                <p className="card-text para clr-text my-3">{item.level} - {item.sports}</p>
+                                                <p className="clr-primary para mb-0">{item.state} - {item.city}</p>
 
                                             </div>
                                         </div>
-                                        <div className="col-lg-2 col-md-3 job-card-btn px-4 ">
+                                        {/* <div className="col-2  job-card-btn px-4 border-0">
                                             <p className=''>{item.job_type}</p>
-                                        </div>
+                                           
+                                        </div> */}
                                     </div>
                                 </div>
                             ))}
@@ -209,8 +269,9 @@ const AllJobs = ({ loadcomponent }) => {
 
                 }
             </div>
+            <EditTeam EditTeamID={EditTeamID} setdlt={setdlt} dlt={dlt}/>
         </>
     )
 }
 
-export default AllJobs
+export default AllTeams

@@ -1,6 +1,6 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import AllJobs from './AllJobs'
+import React, { useContext, useEffect, useState } from 'react'
+import AllTeams from './AllTeams'
 import JobCategories from './JobCategories'
 import JobManage from './JobManage'
 import JobSubmit from './JobSubmit'
@@ -9,18 +9,19 @@ import { APP_URL } from '../../../config'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 import { GetToken } from '@/utils/Token'
+import { UserContext } from '@/app/ActivityLayout'
+import CreateTeam from './CreateTeam'
 
 
 const JobsTab = () => {
+    const { Userdata } = useContext(UserContext);
     const token = GetToken('userdetail')
     const router = useRouter()
-    const [JobCategory, setJobCategory] = useState(' AllJobs')
-    const [activeComponent, setActiveComponent] = useState('AllJobs');
+    const [JobCategory, setJobCategory] = useState(' AllTeams')
+    const [activeComponent, setActiveComponent] = useState('AllTeams');
     const [loadcomponent, setloadcomponent] = useState(false)
     const [CatisLoader, setCatisLoader] = useState(true)
     const [SearchCategory, setSearchCategory] = useState('')
-
-
 
 
 
@@ -59,13 +60,15 @@ const JobsTab = () => {
         <>
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">
-                    <li className="nav-item nav-link active" id="AllJobs-tab" onClick={() => handleComponentChange('AllJobs')} data-bs-toggle="tab" data-bs-target="#AllJobs" type="button" role="tab" aria-controls="AllJobs" aria-selected="false" tabIndex="-1">
+                    <li className="nav-item nav-link active" id="AllTeams-tab" onClick={() => handleComponentChange('AllTeams')} data-bs-toggle="tab" data-bs-target="#AllTeams" type="button" role="tab" aria-controls="AllTeams" aria-selected="false" tabIndex="-1">
                         All Teams
                     </li>
-                    {/* <li className="nav-item nav-link " id="categories-tab" onClick={() => handleComponentChange('Categories')} data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab" aria-controls="categories" aria-selected="false" tabIndex="-1">
-                        Categories
-                    </li>
-                    <li className="nav-item nav-link " id="Manage-tab" onClick={() => handleComponentChange('Manage')} data-bs-toggle="tab" data-bs-target="#Manage" type="button" role="tab" aria-controls="Manage" aria-selected="false" tabIndex="-1">
+                    {Userdata?.data?.role?.name === 'Admin' ?
+                        <li className="nav-item nav-link " id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab" aria-controls="categories" aria-selected="false" tabIndex="-1">
+                            Create Team
+                        </li>
+                        : ''}
+                    {/* <li className="nav-item nav-link " id="Manage-tab" onClick={() => handleComponentChange('Manage')} data-bs-toggle="tab" data-bs-target="#Manage" type="button" role="tab" aria-controls="Manage" aria-selected="false" tabIndex="-1">
                         Manage
                     </li>
                     <li className="nav-item nav-link " id="Submit-tab" onClick={() => handleComponentChange('Submit')} data-bs-toggle="tab" data-bs-target="#Submit" type="button" role="tab" aria-controls="Submit" aria-selected="false" tabIndex="-1">
@@ -74,12 +77,13 @@ const JobsTab = () => {
 
                 </ul>
                 <div className="tab-content ">
-                    <div className="tab-pane  fade active show" id="AllJobs" role="tabpanel" aria-labelledby="AllJobs-tab">
-                        <AllJobs loadcomponent={loadcomponent} />
-                        {/* <AllJobs GetAllJobs={GetAllJobs} AllJobisLoader={AllJobisLoader} setSearchTitle={setSearchTitle} SearchTitle={SearchTitle} /> */}
+                    <div className="tab-pane  fade active show" id="AllTeams" role="tabpanel" aria-labelledby="AllTeams-tab">
+                        <AllTeams loadcomponent={loadcomponent} />
+                        {/* <AllTeams GetAllJobs={GetAllJobs} AllJobisLoader={AllJobisLoader} setSearchTitle={setSearchTitle} SearchTitle={SearchTitle} /> */}
                     </div>
                     <div className="tab-pane fade " id="categories" role="tabpanel" aria-labelledby="categories-tab">
-                        <JobCategories JobCategory={JobCategory} CatisLoader={CatisLoader} SearchCategory={SearchCategory} setSearchCategory={setSearchCategory} />
+                        {/* <JobCategories JobCategory={JobCategory} CatisLoader={CatisLoader} SearchCategory={SearchCategory} setSearchCategory={setSearchCategory} /> */}
+                        <CreateTeam />
                     </div>
                     <div className="tab-pane fade " id="Manage" role="tabpanel" aria-labelledby="Manage-tab">
                         {/* <JobManage GetAllJobs={GetAllJobs} JobCategorydd={JobCategory} setSearchTitle={setSearchTitle} SearchTitle={SearchTitle} /> */}

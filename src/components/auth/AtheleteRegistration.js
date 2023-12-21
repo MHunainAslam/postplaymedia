@@ -54,25 +54,25 @@ const AtheleteRegistration = ({ back, RoleId }) => {
         }
     }
     const handleApprovepaypal = async (data, actions) => {
-        const order = await actions.order.capture();
+        const order = await actions?.order?.capture();
         if (order) {
             console.log('Payment was approved!', order);
             // const customId = data.orderID;
             // console.log('Custom ID:', customId);
-            setisLoading(true)
-            axios.post(`${APP_URL}/api/register`, { name: Name, email: Email, password: Password, c_password: C_Password, username: UserName, role_id: RoleId, city: city, country: 'United States', current_institute: CInstitute, current_ins_website: CInstituteweb, job_title: '1', class_year: ClassYear, height: Height, weight: weight, sports: Sports, position: Position, travel_team_name: AAUTrav, address: Address, number: Number, state: state, package_id: package_id, payment_status: 'paid' })
-                .then(response => {
-                    // Handle successful response here
-                    message.success(response.data.message)
-                    console.log(response.data);
-                    setisLoading(false)
-                })
-                .catch(error => {
-                    // Handle error here
-                    message.error(error.response?.data?.message)
-                    console.error(error);
-                    setisLoading(false)
-                });
+            // setisLoading(true)
+            // axios.post(`${APP_URL}/api/register`, { name: Name, email: Email, password: Password, c_password: C_Password, username: UserName, role_id: RoleId, city: city, country: 'United States', current_institute: CInstitute, current_ins_website: CInstituteweb, job_title: '1', class_year: ClassYear, height: Height, weight: weight, sports: Sports, position: Position, travel_team_name: AAUTrav, address: Address, number: Number, state: state, package_id: package_id, payment_status: 'paid' })
+            //     .then(response => {
+            //         // Handle successful response here
+            //         message.success(response.data.message)
+            //         console.log(response.data);
+            //         setisLoading(false)
+            //     })
+            //     .catch(error => {
+            //         // Handle error here
+            //         message.error(error.response?.data?.message)
+            //         console.error(error);
+            //         setisLoading(false)
+            //     });
         }
     };
 
@@ -282,10 +282,10 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                             <label className='para-sm clr-text mt-4' htmlFor="">Sports</label>
                             <select name="" className='form-select slct' id="" onChange={(e) => { setSports(e.target.value) }} value={Sports}>
                                 <option value='' selected hidden>--select Sports--</option>
-                                <option value='BoysBasketball'>Boys Basketball</option>
-                                <option value='GirlsBasketball'>Girls Basketball</option>
-                                <option value='BoysBaseball'>Baseball</option>
-                                <option value='GirlsFootball'>Football</option>
+                                <option value='Boys Basketball'>Boys Basketball</option>
+                                <option value='Girls Basketball'>Girls Basketball</option>
+                                <option value='Boys Baseball'>Baseball</option>
+                                <option value='Girls Football'>Football</option>
                             </select>
                             {Error ? Sports === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
@@ -305,9 +305,9 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                                 <option value='NCCAA'>NCCAA</option>
                                 <option value='CWPA'>CWPA</option>
                                 <option value='MCLA'> MCLA</option>
-                                <option value='High-School'> High School</option>
+                                <option value='High School'> High School</option>
                                 <option value='Club/Travel'>Club/Travel</option>
-                                <option value='Junior-College'>Junior College</option>
+                                <option value='Junior College'>Junior College</option>
                             </select>
                             {Error ? Position === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 

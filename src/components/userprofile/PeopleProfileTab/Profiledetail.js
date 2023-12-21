@@ -35,10 +35,7 @@ const Profiledetail = ({ }) => {
     const [isloading, setisloading] = useState(false)
     const router = useRouter()
     console.log("first", Userdata)
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
-        setDateofBirth(date)
-    };
+
 
     useEffect(() => {
         axios.get(`${APP_URL}/api/sub-roles`, {
@@ -60,40 +57,7 @@ const Profiledetail = ({ }) => {
             });
     }, [])
 
-    const handlegender = (e) => {
-        setSex(e.target.value)
-        console.log(e.target.value)
-    }
-    const EditcoachProfile = (e) => {
-        setisloading(true)
-        e.preventDefault()
-        axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { name: Name, email: Userdata?.data?.email, role_id: Userdata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, country: Country, JobType: JobType, C_institute: C_institute, C_instituteweb: C_instituteweb }, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('profile edit', response);
-                message.success(response.data?.message)
-                router.push('/profile/activity')
-                setisloading(false)
-            })
-            .catch(error => {
-                console.error(error);
-                message.error(error?.response?.data?.message)
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-                setisloading(false)
 
-
-            });
-    }
-    const EditAthleteProfile = (e) => {
-        e.preventDefault()
-    }
     {/* get states against country api */ }
     useEffect(() => {
         axios.post(`https://countriesnow.space/api/v0.1/countries/states`, {
@@ -222,45 +186,39 @@ const Profiledetail = ({ }) => {
                     <>
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>Class Year</label>
-                            <div className="col">
-                                <input type="text" name="" id="" className='form-control inp col-m' value={classyear} onChange={(e) => setclassyear(e.target.value)} />
-                            </div>
+                            <p className="para-lg text-dark mb-0 text-capitalize">
+                                {Userdata?.data?.class_year === '' ? '--' : Userdata?.data?.class_year}
+                            </p>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>Height</label>
-                            <div className="col">
-                                <input type="text" name="" id="" className='form-control inp col-m' value={height} onChange={(e) => setheight(e.target.value)} />
-                            </div>
+                            <p className="para-lg text-dark mb-0 text-capitalize">
+                                {Userdata?.data?.height === '' ? '--' : Userdata?.data?.height}
+                            </p>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>Weight</label>
-                            <div className="col">
-                                <input type="text" name="" id="" className='form-control inp col-m' value={weight} onChange={(e) => setweight(e.target.value)} />
-                            </div>
+                            <p className="para-lg text-dark mb-0 text-capitalize">
+                                {Userdata?.data?.weight === '' ? '--' : Userdata?.data?.weight}
+                            </p>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>Sports </label>
-                            <div className="col">
-                                <select name="" className='slct form-select' id="" value={Sports} onChange={(e) => setSports(e.target.value)}>
-                                    <option hidden value=''>Change Sports</option>
-                                    <option value="BoysBasketball">Boys Basketball</option>
-                                    <option value="GirlsBasketball">Girls Basketball</option>
-                                    <option value="BoysBaseball">Baseball</option>
-                                    <option value="GirlsFootball">Football</option>
-                                </select>
-                            </div>
+                            <p className="para-lg text-dark mb-0 text-capitalize">
+                                {Userdata?.data?.sports === '' ? '--' : Userdata?.data?.sports}
+                            </p>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
-                            <label htmlFor="" className='col-lg-4 col-md-6'>Position</label>
-                            <div className="col">
-                                <input type="text" name="" id="" className='form-control inp col-m' value={Position} onChange={(e) => setPosition(e.target.value)} />
-                            </div>
+                            <label htmlFor="" className='col-lg-4 col-md-6'>Level</label>
+                            <p className="para-lg text-dark mb-0 text-capitalize">
+                                {Userdata?.data?.position === '' ? '--' : Userdata?.data?.position}
+                            </p>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>AAU/Travel Team Name</label>
-                            <div className="col">
-                                <input type="text" name="" id="" className='form-control inp col-m' value={AAUTravel} onChange={(e) => setAAUTravel(e.target.value)} />
-                            </div>
+                            <p className="para-lg text-dark mb-0 text-capitalize">
+                                {Userdata?.data?.travel_team_name === '' ? '--' : Userdata?.data?.travel_team_name}
+                            </p>
                         </div>
                     </>
                 }

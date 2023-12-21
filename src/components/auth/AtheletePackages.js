@@ -26,7 +26,7 @@ const AtheletePackages = ({ handleComponentChangepay, setpkgprice , setpackage_i
             <div className="row">
                 {data?.data?.data?.map((item, i) => (
 
-                    <div className="col-lg-6" key={i}>
+                    <div className="col-lg-6 mt-3" key={i}>
                         <div className="card">
                             <div className="card-body text-center pt-1">
                                 <div className="card-header heading text-center bg-transparent fw-bolder clr-primary">{item.name}</div>
