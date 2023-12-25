@@ -65,7 +65,7 @@ const CreateTeam = () => {
             message.error('All Fields Are Required!')
         } else {
             setisLoading(true)
-            axios.post(`${APP_URL}/api/teams`, { name: name, description: desc, city: city, state: states, country: 'United States', image: Logo, level: level, conference: conference, sports: sports, roster: null, alumni: '0' }, {
+            axios.post(`${APP_URL}/api/teams`, { name: name, description: desc, city: city, state: states, country: 'United States', image: Logo, level: level, conference: conference, sports: sports, roster: null, alumni: '0', link: teamWeb }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -172,7 +172,7 @@ const CreateTeam = () => {
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-md-2'>Team Website </label>
                     <div className="col">
-                        <input type="text" name="" id="" className='form-control inp col-m' value={teamWeb} onChange={(e) => setteamWeb(e.target.value)} />
+                        <input type="url" name="" id="" className='form-control inp col-m' value={teamWeb} onChange={(e) => setteamWeb(e.target.value)} />
                     </div>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>

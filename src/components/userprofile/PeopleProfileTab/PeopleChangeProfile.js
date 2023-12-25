@@ -41,8 +41,8 @@ const PeopleChangeProfile = () => {
                 })
                     .then(response => {
                         console.log('img', response);
-                        // setChangeDP(response.data.data.last_inserted_id)
-                        // setbtnActive(true)
+                        setChangeDP(response.data.data.last_inserted_id)
+                        setbtnActive(true)
                     })
                     .catch(error => {
                         console.error(error);
@@ -60,6 +60,7 @@ const PeopleChangeProfile = () => {
     };
     const ChangeProfile = (e) => {
         setisloading(true)
+        setbtnActive(true)
         e.preventDefault()
         axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { profile_photo: ChangeDP?.toString() }, {
             headers: {
@@ -71,9 +72,11 @@ const PeopleChangeProfile = () => {
                 message.success(response.data?.message)
                 router.push('/profile/activity')
                 setisloading(false)
+                setbtnActive(false)
             })
             .catch(error => {
                 console.error(error);
+                setbtnActive(false)
                 message.error(error?.response?.data?.message)
                 if (error?.response?.status === 401) {
                     router.push('/')

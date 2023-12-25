@@ -12,10 +12,12 @@ import conferencefield from '../../utils/Confrences.json'
 import { UserContext } from '@/app/ActivityLayout'
 import { message } from 'antd'
 import EditTeam from './EditTeam'
+import Pagination from './Pagination'
 const AllTeams = ({ loadcomponent }) => {
     const { Userdata } = useContext(UserContext);
     const token = GetToken('userdetail')
     const [Filter, setFilter] = useState(false)
+    const [Conference, setConference] = useState('')
     const [Freelance, setFreelance] = useState(true)
     const [FullTime, setFullTime] = useState(true)
     const [Internship, setInternship] = useState(true)
@@ -27,9 +29,18 @@ const AllTeams = ({ loadcomponent }) => {
     const [Allcity, setAllcity] = useState([])
     const [GetAllJobs, setGetAllJobs] = useState([])
     const [state, setstate] = useState('')
+    const [level, setlevel] = useState('')
+    const [sports, setsports] = useState('')
     const [EditTeamID, setEditTeamID] = useState('')
     const [dlt, setdlt] = useState(true)
-
+    const [dataOnPage, setdataOnPage] = useState(10)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [Search, setSearch] = useState('')
+    const itemsPerPage = dataOnPage;
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const a = parseInt(itemsPerPage);
+    const b = parseInt(indexOfFirstItem);
     const router = useRouter()
     console.log(conferencefield)
 
@@ -57,7 +68,7 @@ const AllTeams = ({ loadcomponent }) => {
     // }, [loadcomponent, SearchTitle, Freelance, FullTime, Internship, PartTime, Temporary])
     useEffect(() => {
         setAllJobisLoader(true)
-        axios.get(`${APP_URL}/api/teams`, {
+        axios.get(`${APP_URL}/api/teams?conference=${Conference}&state=${state}&level=${level}&sports=${sports}&per_page=${dataOnPage}&page=${currentPage}&search=${SearchTitle}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -77,13 +88,22 @@ const AllTeams = ({ loadcomponent }) => {
                 }
                 setAllJobisLoader(false)
             });
-    }, [dlt, loadcomponent, SearchTitle, Freelance, FullTime, Internship, PartTime, Temporary])
-
+    }, [dlt, loadcomponent, Conference, state, level, sports, currentPage, SearchTitle])
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        // setisLoading(true)
+        console.log(pageNumber);
+    };
 
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
     }
-
+    const clearfilter = () => {
+        setstate('')
+        setConference('')
+        setsports('')
+        setlevel('')
+    }
     useEffect(() => {
         axios.post(`https://countriesnow.space/api/v0.1/countries/states`, {
             "country": "United States",
@@ -170,7 +190,7 @@ const AllTeams = ({ loadcomponent }) => {
                             <div className='m-2'>
                                 {/* <input className=' form-check-input' type="checkbox" name="" id="Freelance" value={'freelance'} onChange={(e => { setFreelance(!Freelance) })} checked={Freelance} /> */}
                                 {/* <label className='para clr-text ms-2' htmlFor="Freelance"></label> */}
-                                <select name="" className='form-select slct' id="" >
+                                <select name="" className='form-select slct' id="" value={level} onChange={(e) => setlevel(e.target.value)}>
                                     <option value='' selected hidden>Level</option>
                                     <option value='NCAAD1'> NCAA D1</option>
                                     <option value='NCAAD2'>NCAA D2</option>
@@ -186,7 +206,7 @@ const AllTeams = ({ loadcomponent }) => {
                                 </select>
                             </div>
                             <div className='m-2'>
-                                <select name="" className='form-select slct' id="" >
+                                <select name="" className='form-select slct' id="" value={sports} onChange={(e) => setsports(e.target.value)}>
                                     <option value='' selected hidden>Sports</option>
                                     <option value='Boys Basketball'>Boys Basketball</option>
                                     <option value='Girls Basketball'>Girls Basketball</option>
@@ -204,12 +224,15 @@ const AllTeams = ({ loadcomponent }) => {
                                 </select>
                             </div>
                             <div className='m-2'>
-                                <select name="" className='form-select slct' id="">
+                                <select name="" className='form-select slct' id="" value={Conference} onChange={(e) => setConference(e.target.value)}>
                                     <option value='' selected hidden>Conference</option>
                                     {conferencefield?.confrences.map((item, i) => (
                                         <option value={item.value} key={i}>{item.name}</option>
                                     ))}
                                 </select>
+                            </div>
+                            <div className="m-2">
+                                <input type='button' className='form-control inp secondary-btn' onClick={clearfilter} value="Clear"></input>
                             </div>
                             {/* <div className='m-2'>
                                 <input className=' form-check-input' type="checkbox" name="" id="Temporary" value={'Temporary'} onChange={(e => { setTemporary(!Temporary) })} checked={Temporary} />
@@ -221,9 +244,9 @@ const AllTeams = ({ loadcomponent }) => {
             </div>
             <div className="position-relative">
                 {AllJobisLoader ? <Loader /> : <>
-                    {GetAllJobs?.data?.data.length === 0 ? <div className='text-center heading-m text-black my-5'>No Result Found </div> :
+                    {GetAllJobs?.data?.data?.data?.length === 0 ? <div className='text-center heading-m text-black my-5'>No Result Found </div> :
                         <>
-                            {GetAllJobs?.data?.data?.map((item, i) => (
+                            {GetAllJobs?.data?.data?.data?.map((item, i) => (
                                 <div className="card n-card my-4 py-3 " key={i} >
                                     <div className="row g-0">
                                         <div className="col-lg-1 col-md-2 text-center my-auto">
@@ -236,7 +259,7 @@ const AllTeams = ({ loadcomponent }) => {
                                         <div className="col-lg col-md">
                                             <div className="card-body">
                                                 <div className="d-flex justify-content-between">
-                                                    <Link href={`#`} className="link-hov heading-m fw-bold text-black">{item.name}</Link>
+                                                    <Link href={`${item.link}`} target='_blank' className="link-hov heading-m fw-bold text-black">{item.name}</Link>
 
                                                     {Userdata?.data?.role?.name === 'Admin' ?
                                                         <li class=" nav-item list-unstyled fw-bold fs-4 text-end ">
@@ -266,10 +289,20 @@ const AllTeams = ({ loadcomponent }) => {
                         </>
                     }
                 </>
-
                 }
+                <Pagination
+                    dataOnPage={dataOnPage}
+                    currentPage={currentPage}
+                    totalPages={Math.ceil(GetAllJobs?.data?.data?.total / itemsPerPage)}
+                    tabledata={GetAllJobs?.data?.data?.data}
+                    onPageChange={handlePageChange}
+                    indexOfFirstItem={indexOfFirstItem}
+                    // currentData={currentData}
+                    itemsPerPage={itemsPerPage}
+                    indexOfLastItem={indexOfLastItem}
+                />
             </div>
-            <EditTeam EditTeamID={EditTeamID} setdlt={setdlt} dlt={dlt}/>
+            <EditTeam EditTeamID={EditTeamID} setdlt={setdlt} dlt={dlt} />
         </>
     )
 }

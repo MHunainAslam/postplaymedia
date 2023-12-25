@@ -84,14 +84,16 @@ const ActivitySidebar = () => {
                                                 </>
                                             }
                                         </div>
-                                        {UserProfileloader ? <div className='text-skeleton-2'> <Skeleton  active paragraph={{ rows: 0 }} height={50} /> </div> :
+                                        {UserProfileloader ? <div className='text-skeleton-2'> <Skeleton active paragraph={{ rows: 0 }} height={50} /> </div> :
                                             <Link href={'/profile/profile'} className="heading mb-0 text-decoration-none text-capitalize">
                                                 {UserProfiledata?.data?.name}
                                             </Link>
                                         }
-                                        {UserProfileloader ? <div className='text-skeleton-2'> <Skeleton  active paragraph={{ rows: 0 }} height={50} /> </div> :
+                                        {UserProfileloader ? <div className='text-skeleton-2'> <Skeleton active paragraph={{ rows: 0 }} height={50} /> </div> :
                                             <p className="para">
-                                                {UserProfiledata?.data?.role?.name}
+                                                {UserProfiledata?.data?.role?.name === "Admin" ? UserProfiledata?.data?.role?.name : UserProfiledata?.data?.role?.name === "Athlete" ? UserProfiledata?.data?.role?.name :
+                                                    UserProfiledata?.data?.sub_role?.name}
+
                                             </p>
                                         }
                                         <hr />
@@ -100,7 +102,7 @@ const ActivitySidebar = () => {
 
 
                                             <div className='mx-2'>
-                                                {UserProfileloader ? <div className='text-skeleton'> <Skeleton  active paragraph={{ rows: 0 }} height={50} /> </div> :
+                                                {UserProfileloader ? <div className='text-skeleton'> <Skeleton active paragraph={{ rows: 0 }} height={50} /> </div> :
                                                     <>
                                                         <p className="heading mb-0">{UserProfiledata?.data?.friends_count}</p>
                                                     </>
@@ -108,7 +110,7 @@ const ActivitySidebar = () => {
                                                 <p className="para">Friends</p>
                                             </div>
                                             <div className='mx-2'>
-                                                {UserProfileloader ? <div className='text-skeleton'> <Skeleton  active paragraph={{ rows: 0 }} height={50} /> </div> :
+                                                {UserProfileloader ? <div className='text-skeleton'> <Skeleton active paragraph={{ rows: 0 }} height={50} /> </div> :
                                                     <p className="heading mb-0">{UserProfiledata?.data?.group_count}</p>
                                                 }
                                                 <p className="para">Groups</p>

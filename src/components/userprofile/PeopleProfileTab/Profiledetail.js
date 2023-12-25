@@ -7,6 +7,7 @@ import { APP_URL } from '../../../../config'
 import { UserContext } from '@/app/UserProfileLayout'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
+import Loader from '@/components/Loader'
 
 const Profiledetail = ({ }) => {
     const token = GetToken('userdetail')
@@ -32,12 +33,13 @@ const Profiledetail = ({ }) => {
     const [C_institute, setC_institute] = useState()
     const [C_instituteweb, setC_instituteweb] = useState()
     const [getRoles, setgetRoles] = useState([])
-    const [isloading, setisloading] = useState(false)
+    const [isloading, setisloading] = useState(true)
     const router = useRouter()
     console.log("first", Userdata)
 
 
     useEffect(() => {
+
         axios.get(`${APP_URL}/api/sub-roles`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -46,9 +48,11 @@ const Profiledetail = ({ }) => {
             .then(response => {
                 console.log('roles', response);
                 setgetRoles(response?.data)
+                setisloading(false)
             })
             .catch(error => {
                 console.error('roles', error);
+                setisloading(false)
                 if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
@@ -108,7 +112,8 @@ const Profiledetail = ({ }) => {
 
             <div className="border-bottom mb-4"></div>
 
-            <div className='job-detail'>
+            <div className='job-detail position-relative'>
+
                 <div className='d-md-flex align-items-center my-2'>
                     <label htmlFor="" className='col-lg-4 col-md-6'>Name </label>
                     <p className="para-lg text-dark mb-0 text-capitalize">
@@ -179,7 +184,7 @@ const Profiledetail = ({ }) => {
                     <div className='d-md-flex align-items-center my-3'>
                         <label htmlFor="" className='col-lg-4 col-md-6'>Job Title </label>
                         <p className="para-lg text-dark mb-0 text-capitalize">
-                            {Userdata?.data?.job_title === '' ? '--' : Userdata?.data?.job_title}
+                            {Userdata?.data?.sub_role?.name === null ? '--' : Userdata?.data?.sub_role?.name}
                         </p>
                     </div>
                     :
@@ -222,6 +227,7 @@ const Profiledetail = ({ }) => {
                         </div>
                     </>
                 }
+
             </div>
         </>
     )
