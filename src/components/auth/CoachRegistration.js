@@ -17,6 +17,7 @@ const CoachRegistration = ({ back, RoleId }) => {
     const [CInstitute, setCInstitute] = useState('')
     const [CInstituteweb, setCInstituteweb] = useState('')
     const [MemberType, setMemberType] = useState('')
+    const [Position, setPosition] = useState('')
     const [state, setstate] = useState('')
     const [city, setcity] = useState('')
     const [Allcity, setAllcity] = useState([])
@@ -32,13 +33,13 @@ const CoachRegistration = ({ back, RoleId }) => {
     {/* Coach registration api */ }
     const CoachRegistrationSubmit = (e) => {
         e.preventDefault()
-        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || Address === '' || CInstitute === '' || CInstituteweb === '' || jobtitle === '' || state === '' || city === '') {
+        if (UserName === '' || Email === '' || Password === '' || C_Password === '' || Name === '' || Address === '' || CInstitute === '' || CInstituteweb === '' || jobtitle === '' || state === '' || city === '' || Position === '') {
             setError(true)
         }
         else {
             setisLoading(true)
             console.log(UserName, Email, Password, C_Password, Name, MemberType)
-            axios.post(`${APP_URL}/api/register`, { name: Name, username: UserName, email: Email, password: Password, c_password: C_Password, role_id: RoleId, phone: Number, address: Address, current_institute: CInstitute, current_ins_website: CInstituteweb, job_title: jobtitle, class_year: null, height: null, weight: null, sports: null, position: null, travel_team_name: null, city: city, country: 'United States',  })
+            axios.post(`${APP_URL}/api/register`, { name: Name, username: UserName, email: Email, password: Password, c_password: C_Password, role_id: RoleId, phone: Number, address: Address, current_institute: CInstitute, current_ins_website: CInstituteweb, job_title: jobtitle, class_year: null, height: null, weight: null, sports: null, position: Position, travel_team_name: null, city: city, country: 'United States', })
                 .then(response => {
                     // Handle successful response here
                     message.success(response.data.message)
@@ -243,6 +244,29 @@ const CoachRegistration = ({ back, RoleId }) => {
                         </select>
                         {Error ? jobtitle === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
                     </div>
+
+                    {/* level */}
+                    <div className="col-md-6">
+                        {/* its define as a position in backend */}
+                        <label className='para-sm clr-text mt-4' htmlFor="">Level  </label>
+                        <select name="" className='form-select slct' id="" value={Position} onChange={(e) => { setPosition(e.target.value) }}>
+                            <option value='' selected hidden>--select Level--</option>
+                            <option value='NCAAD1'> NCAA D1</option>
+                            <option value='NCAAD2'>NCAA D2</option>
+                            <option value='NCAAD3'>NCAA D3</option>
+                            <option value='NAIA'> NAIA</option>
+                            <option value='USCAA'>USCAA</option>
+                            <option value='NCCAA'>NCCAA</option>
+                            <option value='CWPA'>CWPA</option>
+                            <option value='MCLA'> MCLA</option>
+                            <option value='High School'> High School</option>
+                            <option value='Club/Travel'>Club/Travel</option>
+                            <option value='Junior College'>Junior College</option>
+                        </select>
+                        {Error ? Position === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
+                    </div>
+
+
                 </div>
 
 
