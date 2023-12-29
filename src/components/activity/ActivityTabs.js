@@ -13,6 +13,7 @@ const ActivityTabs = () => {
     console.log('post area cu', Userdata)
     return (
         <>
+        
             <PostArea Userdata={Userdata} />
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">
