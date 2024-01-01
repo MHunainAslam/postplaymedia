@@ -1,5 +1,6 @@
 "use client"
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useState } from 'react'
 
 const ChatSideBar = () => {
@@ -23,7 +24,7 @@ const ChatSideBar = () => {
                                 <i className="bi bi-three-dots"></i>
                             </a>
                             <ul className="dropdown-menu py-1">
-                                <li onClick={(e) => { setmute(!mute)} }><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >{mute === false ? "unmute" : 'mute'}</a></li>
+                                <li onClick={(e) => { setmute(!mute) }}><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >{mute === false ? "unmute" : 'mute'}</a></li>
                             </ul>
                         </li>
                     </div>
@@ -45,12 +46,19 @@ const ChatSideBar = () => {
                                 </span>
                                 <input type="text" className="form-control border" placeholder="Find Friends" aria-label="Friends" />
                             </div>
-                            <div className="d-flex align-items-center">
+                            <Link href={'/messages/1?chat=1'} className="d-flex align-items-center text-decoration-none">
                                 <div className="MsgIcon MsgIconActive ">
                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                 </div>
                                 <p className="para text-black fw-bold mb-0 chat-detail">Scott</p>
-                            </div>
+                            </Link>
+
+                            <Link href={'/messages/1?chat=2'} className="d-flex align-items-center text-decoration-none">
+                                <div className="MsgIcon MsgIconActive ">
+                                    <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
+                                </div>
+                                <p className="para text-black fw-bold mb-0 chat-detail">Scott</p>
+                            </Link>
                         </div>
 
                         <div className="tab-pane fade" id="groups" role="tabpanel" aria-labelledby="groups-tab">
@@ -60,24 +68,30 @@ const ChatSideBar = () => {
                                 </span>
                                 <input type="text" className="form-control border" placeholder="Find Groups" aria-label="Groups" />
                             </div>
-                            <div className="d-flex align-items-center">
+                            <Link href={'/messages/1?chat=3'} className="d-flex align-items-center  text-decoration-none">
                                 <div className="MsgIcon MsgIconActive ">
                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                 </div>
                                 <p className="para text-black fw-bold mb-0 chat-detail">Group</p>
-                            </div>
+                            </Link>
 
                         </div>
                     </div>
 
+                    <button type="button" class="btn-close closechatmodal d-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div className="offcanvas-footer py-4 d-flex justify-content-center text-center">
-                    <div className='chatarrow primary-btn' data-bs-toggle="offcanvas" data-bs-target="#chatSidebar" aria-controls="chatSidebar"><p><i className="bi bi-chevron-left"></i></p></div>
+                    <div className='chatarrow primary-btn' data-bs-toggle="offcanvas" data-bs-target="#chatSidebar" aria-controls="chatSidebar">
+                        <p><i className="bi bi-chevron-left"></i></p>
+                    </div>
                     <p className="heading text-black chat-detail ms-2">Collapse</p>
                 </div>
-            </div>
-            <div className=' primary-btn d-md-none chatcanvasm' data-bs-toggle="offcanvas" data-bs-target="#chatSidebar" aria-controls="chatSidebar"><p><i className="bi bi-chevron-left"></i></p></div>
+            </div >
 
+
+            <div className=' primary-btn d-md-none chatcanvasm  ' data-bs-toggle="offcanvas" data-bs-target="#chatSidebar" aria-controls="chatSidebar">
+                <p><i className="bi bi-chevron-left"></i></p>
+            </div>
         </>
     )
 }

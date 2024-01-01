@@ -198,7 +198,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                         {/* number */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Number (optional)</label>
-                            <input type="text" className="form-control inp" placeholder="" value={Number} onChange={(e) => { setNumber(e.target.value) }} />
+                            <input type="text" className="form-control inp" placeholder="" onKeyPress={(e) => !/[+0-9]/.test(e.key) && e.preventDefault()} value={Number} onChange={(e) => { setNumber(e.target.value) }} />
                         </div>
 
                         {/* state */}

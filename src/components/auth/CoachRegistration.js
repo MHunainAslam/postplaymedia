@@ -172,7 +172,7 @@ const CoachRegistration = ({ back, RoleId }) => {
                     {/* number */}
                     <div className="col-md-6">
                         <label className='para-sm clr-text mt-4' htmlFor="">Number (optional)</label>
-                        <input type="text" className="form-control inp" placeholder="" value={Number} onChange={(e) => { setNumber(e.target.value) }} />
+                        <input type="text" className="form-control inp" onKeyPress={(e) => !/[+0-9]/.test(e.key) && e.preventDefault()} placeholder="" value={Number} onChange={(e) => { setNumber(e.target.value) }} />
                     </div>
 
                     {/* state */}
@@ -226,7 +226,7 @@ const CoachRegistration = ({ back, RoleId }) => {
                     {/* current institute weburl*/}
                     <div className="col-md-6">
                         <label className='para-sm clr-text mt-4' htmlFor="">Current institute website  </label>
-                        <input type="url" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
+                        <input type="text" className="form-control inp" onKeyPress={(e) => /^[^.]*\.(?=.*\.)[^.\s]+$/.test(e.key) && e.preventDefault()} placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
                         {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                     </div>

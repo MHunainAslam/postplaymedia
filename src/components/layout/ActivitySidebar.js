@@ -155,7 +155,7 @@ const ActivitySidebar = () => {
                             <li>
                                 <Link href={'/jobs'} className={pathname === '/jobs' ? 'active-nav' : ''}>
                                     <i className="bi bi-person-arms-up"></i> <br />
-                                    <p>Athelete</p>
+                                    <p>Teams</p>
                                 </Link>
                             </li>
                             {/* <li>
@@ -164,12 +164,12 @@ const ActivitySidebar = () => {
                                         <p>Forums</p>
                                     </Link>
                                 </li> */}
-                            <li>
+                            {/* <li>
                                 <Link href={'/blog'} className={pathname === '/blog' ? 'active-nav' : ''}>
                                     <i className="bi bi-newspaper"></i> <br />
                                     <p>Blog</p>
                                 </Link>
-                            </li>
+                            </li> */}
 
                         </div>
                     </div>
