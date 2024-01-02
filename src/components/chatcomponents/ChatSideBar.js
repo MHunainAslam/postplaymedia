@@ -46,14 +46,14 @@ const ChatSideBar = () => {
                                 </span>
                                 <input type="text" className="form-control border" placeholder="Find Friends" aria-label="Friends" />
                             </div>
-                            <Link href={'/messages/1?chat=1'} className="d-flex align-items-center text-decoration-none">
+                            <Link href={'/messages?chat=1'} className="d-flex align-items-center text-decoration-none">
                                 <div className="MsgIcon MsgIconActive ">
                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                 </div>
                                 <p className="para text-black fw-bold mb-0 chat-detail">Scott</p>
                             </Link>
 
-                            <Link href={'/messages/1?chat=2'} className="d-flex align-items-center text-decoration-none">
+                            <Link href={'/messages?chat=2'} className="d-flex align-items-center text-decoration-none">
                                 <div className="MsgIcon MsgIconActive ">
                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                 </div>
@@ -68,7 +68,7 @@ const ChatSideBar = () => {
                                 </span>
                                 <input type="text" className="form-control border" placeholder="Find Groups" aria-label="Groups" />
                             </div>
-                            <Link href={'/messages/1?chat=3'} className="d-flex align-items-center  text-decoration-none">
+                            <Link href={'/messages?chat=3'} className="d-flex align-items-center  text-decoration-none">
                                 <div className="MsgIcon MsgIconActive ">
                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                 </div>

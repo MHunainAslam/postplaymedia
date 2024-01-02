@@ -42,19 +42,7 @@ const MentionTab = () => {
     return (
         <>
             <div className="border-bottom d-flex justify-content-end ">
-                <div className="col-lg-4 col-md-6">
-                    <select className='form-select slct my-4'>
-                        <option value="0">— Everything —</option>
-                        <option value="Updates">Updates</option>
-                        <option value="rtMedia">rtMedia Updates</option>
-                        <option value="Friendships">Friendships</option>
-                        <option value="NewGroups">New Groups</option>
-                        <option value="GroupMemberships">Group Memberships</option>
-                        <option value="GroupUpdates">Group Updates</option>
-                        <option value="Topics">Topics</option>
-                        <option value="Replies">Replies</option>
-                    </select>
-                </div>
+                
             </div>
             <ul className='post-border mt-5'>
              

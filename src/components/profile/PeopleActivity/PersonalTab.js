@@ -1,5 +1,6 @@
 'use client'
-import { UserContext } from '@/app/UserProfileLayout'
+
+import { UserContext } from '@/app/ProfileLayout'
 import FancyBox from '@/components/FancyBox'
 import FancyBoxPost from '@/components/FancyBoxPost'
 import PostArea from '@/components/posts/PostArea'
@@ -46,23 +47,9 @@ const PersonalTab = () => {
     console.log('post area cu', Userdata)
     return (
         <>
-            <div className="mt-3">
-                <PostArea  Userdata={Userdata}/>
-            </div>
+          
             <div className="border-bottom d-flex justify-content-end ">
-                <div className="col-lg-4 col-md-6">
-                    <select className='form-select slct my-4'>
-                        <option value="0">— Everything —</option>
-                        <option value="Updates">Updates</option>
-                        <option value="rtMedia">rtMedia Updates</option>
-                        <option value="Friendships">Friendships</option>
-                        <option value="NewGroups">New Groups</option>
-                        <option value="GroupMemberships">Group Memberships</option>
-                        <option value="GroupUpdates">Group Updates</option>
-                        <option value="Topics">Topics</option>
-                        <option value="Replies">Replies</option>
-                    </select>
-                </div>
+               
             </div>
             <ul className='post-border mt-5'>
                 <div className='post-card mt-4'>

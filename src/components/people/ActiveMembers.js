@@ -134,7 +134,7 @@ const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
                                                     <Image loader={imgurl} src={item.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                 }
-                                                <Link className='link-hov' href={'/people/slug/activity'}><p className="heading text-black mb-2 mt-4">{item.name}</p></Link>
+                                                <Link className='link-hov' href={`/people/${item.id}/activity`}><p className="heading text-black mb-2 mt-4">{item.name}</p></Link>
                                                 <p className="para clr-light">Active 2 minutes ago</p>
                                                 <div className="d-flex fng justify-content-center">
                                                     <div className='mx-2'>

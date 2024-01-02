@@ -13,8 +13,9 @@ const ActivityTabs = () => {
     console.log('post area cu', Userdata)
     return (
         <>
-        
-            <PostArea Userdata={Userdata} />
+            <div className="pt-5 pb-3">
+                <PostArea Userdata={Userdata} />
+            </div>
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">
                     <li className="nav-item nav-link active" id="AllMembers-tab" data-bs-toggle="tab" data-bs-target="#AllMembers" type="button" role="tab" aria-controls="AllMembers" aria-selected="false" tabIndex="-1">

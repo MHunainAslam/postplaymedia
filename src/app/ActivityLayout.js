@@ -47,7 +47,7 @@ const ActivityLayout = ({ children, ActivityPages }) => {
                             <div className="col px-0">
                                 <div className="">
                                     <ActivityHeader Userdata={Userdata?.data} />
-                                    <div className="container py-5">
+                                    <div className="container py-0">
                                         <UserContext.Provider value={{ Userdata, setUserdata }}>
                                             {children}
                                         </UserContext.Provider>

@@ -1,4 +1,5 @@
 import ProfileLayout from '@/app/ProfileLayout'
+import UserProfileLayout from '@/app/UserProfileLayout'
 import FriendsTab from '@/components/profile/PeopleActivity/FriendsTab'
 import GroupsTab from '@/components/profile/PeopleActivity/GroupsTab'
 import MentionTab from '@/components/profile/PeopleActivity/MentionTab'
@@ -17,12 +18,6 @@ const page = () => {
                         <p className="para clr-text mb-0">Mentions</p>
                     </li>
 
-                    <li className="nav-item nav-link text-center" id="PeopleActivityFriends-tab" data-bs-toggle="tab" data-bs-target="#PeopleActivityFriends" type="button" role="tab" aria-controls="PeopleActivityFriends" aria-selected="false" tabIndex="-1">
-                        <p className="para clr-text mb-0">Friends</p>
-                    </li>
-                    <li className="nav-item nav-link text-center" id="PeopleActivityGroup-tab" data-bs-toggle="tab" data-bs-target="#PeopleActivityGroup" type="button" role="tab" aria-controls="PeopleActivityGroup" aria-selected="false" tabIndex="-1">
-                        <p className="para clr-text mb-0">Groups</p>
-                    </li>
                 </ul>
             </div>
             <div className="tab-content ">
@@ -32,13 +27,7 @@ const page = () => {
                 <div className="tab-pane fade " id="PeopleActivityMention" role="tabpanel" aria-labelledby="PeopleActivityMention-tab">
                     <MentionTab />
                 </div>
-                <div className="tab-pane fade " id="PeopleActivityFriends" role="tabpanel" aria-labelledby="PeopleActivityFriends-tab">
-                    <FriendsTab />
-
-                </div>
-                <div className="tab-pane fade " id="PeopleActivityGroup" role="tabpanel" aria-labelledby="PeopleActivityGroup-tab">
-                    <GroupsTab />
-                </div>
+               
             </div>
         </ProfileLayout>
     )

@@ -1,9 +1,6 @@
 'use client'
 import ActivityLayout from '@/app/ActivityLayout'
 import Chat from '@/components/chat/Chat'
-import ChatSideBar from '@/components/chatcomponents/ChatSideBar'
-import ActivityHeader from '@/components/layout/ActivityHeader'
-import ActivitySidebar from '@/components/layout/ActivitySidebar'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -31,7 +28,7 @@ const Page = () => {
     return (
         <>
             <ActivityLayout ActivityPages>
-                <div className="tab-content ">
+                <div className="tab-content bg-dark ">
 
                     <div className={`tab-pane fade  ${TabState === '1' ? 'active show' : ''}`} id="1" role="tabpanel" aria-labelledby="1-tab">
                         <Chat TabState={TabState} />
