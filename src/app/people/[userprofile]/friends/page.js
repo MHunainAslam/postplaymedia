@@ -2,7 +2,7 @@
 import ProfileLayout from '@/app/ProfileLayout'
 import UserProfileLayout from '@/app/UserProfileLayout'
 import MyFriends from '@/components/people/MyFriends'
-import AllFriends from '@/components/userprofile/friends/AllFriends'
+import AllFriends from '@/components/profile/friends/AllFriends'
 
 import Image from 'next/image'
 import Link from 'next/link'

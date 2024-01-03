@@ -10,6 +10,7 @@ import ProfileTabs from './ProfileTabs'
 const Coverandtab = ({ Userdata, UserdataLoader }) => {
     const { userprofile } = useParams()
     const router = useRouter()
+    console.log('Userdata', Userdata)
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
     }
@@ -48,7 +49,7 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                                 <Image loader={imgurl} src={Userdata?.data?.profile_photo.url} width={500} height={500} alt='' className="img-fluid rounded-start user-img" />
                                             }
                                         </>}
-                                   
+
                                     {UserdataLoader ? <div className='text-skeleton-2 skel-w-100 my-auto w-50 mx-auto mt-3' > <Skeleton active paragraph={{ rows: 0 }} height={50} /> </div> :
                                         <p className="heading text-center mt-2 clr-dark text-capitalize">{Userdata?.data?.name}</p>
                                     }
@@ -61,11 +62,26 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                                     <p className="heading mb-0 text-md-white">@{Userdata?.data?.username}</p>
                                                     <span className='para mb-0 ms-3'>Active Now </span>
                                                 </>}
+
                                         </div>
-                                       
+
                                     </div>
-                                    <div className=" profile-tabs d-md-flex d-none  my-3">
+                                    <div className=" profile-tabs d-md-flex d-none justify-content-between my-3 align-items-center">
                                         <ProfileTabs Userdata={Userdata} />
+                                        <button className='btn secondary-btn h-100 px-lg-5'>Add Friend</button>
+                                        {Userdata?.friendship_status === 'send-request' ?
+                                            <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'> Add Friend</p></button>
+                                            : Userdata.friendship_status === 'pending' ?
+                                                <button className='btn secondary-btn' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                : Userdata.friendship_status === 'friends' ?
+                                                    <button className='btn secondary-btn' onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'> Unfriend</p></button>
+                                                    : Userdata.friendship_status === 'accept-request' ?
+                                                        <div className='d-md-flex w-100 mx-auto justify-content-center'>
+                                                            <button className='btn secondary-btn m-1' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                            <button className='btn secondary-btn m-1' id={item.id} onClick={() => accptfrndreq(item.frp_id)}><p className='mb-0 px-4' > Accept</p></button>
+                                                        </div>
+                                                        : ''
+                                        }
                                     </div>
                                 </div>
                             </div>

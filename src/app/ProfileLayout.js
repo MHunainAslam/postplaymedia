@@ -43,7 +43,7 @@ const ProfileLayout = ({ children, ProfilePages }) => {
             }
         })
             .then(response => {
-                console.log('authMe', response);
+                console.log('profile', response);
                 setUserdata(response?.data)
                 setUserdataLoader(false)
             })
