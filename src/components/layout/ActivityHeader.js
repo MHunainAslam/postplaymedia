@@ -184,7 +184,7 @@ const ActivityHeader = ({ Userdata }) => {
                         </div>
                     </div>
                     <div className="col d-flex justify-content-md-end justify-content-between align-items-center py-md-0 py-3">
-                        <li className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
+                        <li onClick={receivefrndreq} className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
                             <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i className="bi bi-person-plus"></i>
                             </a>
@@ -204,8 +204,10 @@ const ActivityHeader = ({ Userdata }) => {
                                                 <div className="no-msg-req d-flex justify-content-between">
                                                     <div className="d-flex align-items-center">
                                                         {item?.sender?.profile_photo === null ?
-                                                            <Image className='post-profile-sm' src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image> :
-                                                            <Link href={'#'}>
+                                                            <Link href={`/people/${item.sender?.id}/friends`}>
+                                                                <Image className='post-profile-sm' src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
+                                                            </Link> :
+                                                            <Link href={`/people/${item.sender?.id}/friends`}>
                                                                 <Image loader={imgurl} className='post-profile-sm-req object-fit-cover ' src={item?.sender?.profile_photo?.url} alt="" width={100} height={100}></Image>
                                                             </Link>
                                                         }
@@ -230,7 +232,7 @@ const ActivityHeader = ({ Userdata }) => {
                                 {/* <li><button className="btn secondary-btn w-100"  >All Request</button></li> */}
                             </ul>
                         </li>
-                        <li className="nav-item dropdown list-unstyled header-btns">
+                        {/* <li className="nav-item dropdown list-unstyled header-btns">
                             <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i className="bi bi-bell"></i>
                             </a>
@@ -245,8 +247,8 @@ const ActivityHeader = ({ Userdata }) => {
                                 <hr />
                                 <li><button className="btn secondary-btn w-100"  >All Request</button></li>
                             </ul>
-                        </li>
-                        <li className="nav-item dropdown list-unstyled header-btns">
+                        </li> */}
+                        {/* <li className="nav-item dropdown list-unstyled header-btns">
                             <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i className="bi bi-envelope-open"></i>
                             </a>
@@ -261,7 +263,7 @@ const ActivityHeader = ({ Userdata }) => {
                                 <hr />
                                 <li><button className="btn secondary-btn w-100"  >All Request</button></li>
                             </ul>
-                        </li>
+                        </li> */}
 
                         {/* <Link className='d-flex align-items-center ' href="/profile/activity"> */}
                         <Link className="nav-link d-flex fw-bold text-capitalize" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

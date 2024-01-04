@@ -137,12 +137,19 @@ const AtheleteRegistration = ({ back, RoleId }) => {
             });
     }, [state])
 
-
+    const checkURL = (event) => {
+        let string = event.target.value;
+        if (!~string.indexOf("http")) {
+            string = "http://" + string;
+        }
+       
+        setCInstituteweb(string);
+    }
     return (
         <>
             {/* 1st step fill form */}
             {ActiveComponentpay === 'form' && <>
-                <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
+                <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={back}></i>Athelete Account Details</p>
                 <form action="" onSubmit={AthleteRegistrationSubmit}>
                     <div className="row">
 
@@ -251,7 +258,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                         {/* current institute web url*/}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">Current institute website  </label>
-                            <input type="url" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
+                            <input type="url" className="form-control inp" placeholder="" onBlur={CInstituteweb === '' ? (e) => { setCInstituteweb(e.target.value) } : checkURL} value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
                             {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                         </div>

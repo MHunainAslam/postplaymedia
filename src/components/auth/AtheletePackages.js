@@ -8,12 +8,10 @@ const AtheletePackages = ({ handleComponentChangepay, setpkgprice , setpackage_i
         setpkgprice(e.target.value)
         setpackage_id(e.target.id)
         handleComponentChangepay('pay')
-        console.log(e.target.id, e.target.value)
     }
     useEffect(() => {
         axios.get(`${APP_URL}/api/packages`)
             .then(response => {
-                console.log(response);
                 setdata(response)
             })
             .catch(error => {

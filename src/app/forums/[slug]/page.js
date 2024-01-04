@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation'
 import React from 'react'
 
 const Page = () => {
-  console.log(useParams())
   const { slug } = useParams()
   return (
     <ActivityLayout ActivityPages>

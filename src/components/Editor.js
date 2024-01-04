@@ -24,7 +24,6 @@ const Editor = ({ onChange, editorLoaded, name, value }) => {
                         data={value}
                         onChange={(event, editor) => {
                             const data = editor.getData();
-                            // console.log({ event, editor, data })
                             onChange(data);
                         }}
                     />

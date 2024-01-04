@@ -18,7 +18,7 @@ const UserDataLayout = ({ children }) => {
             }
         })
             .then(response => {
-                console.log('authMe layout', response.data.data.name, UserProfiledata, 'll');
+                console.log('userdata layout', response.data.data.name, UserProfiledata);
                 setUserProfiledata(response.data)
             })
             .catch(error => {

@@ -35,7 +35,6 @@ const PeopleProfileEdit = ({ }) => {
     const [isloading, setisloading] = useState(false)
     const router = useRouter()
     const onChange = (date, dateString) => {
-        console.log(date, dateString);
         setDateofBirth(date)
     };
 
@@ -61,7 +60,6 @@ const PeopleProfileEdit = ({ }) => {
 
     const handlegender = (e) => {
         setSex(e.target.value)
-        console.log(e.target.value)
     }
     const EditcoachProfile = (e) => {
         setisloading(true)
@@ -153,7 +151,6 @@ const PeopleProfileEdit = ({ }) => {
             }
         })
             .then(response => {
-                console.log('llll', response);
                 setAllcity(response?.data?.data)
             })
             .catch(error => {

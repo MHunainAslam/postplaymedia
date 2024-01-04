@@ -13,8 +13,6 @@ const Page = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
     const param = searchParams.get('profile-tab')
-
-    console.log('lol',  param)
     const [TabState, setTabState] = useState('profiledetail')
     useEffect(() => {
         if (param === null) {
@@ -22,7 +20,6 @@ const Page = () => {
         } else {
             setTabState(param)
         }
-        console.log(TabState, 'TabState')
     }, [param, TabState])
 
     return (

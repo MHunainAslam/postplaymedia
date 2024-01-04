@@ -23,12 +23,7 @@ const ProfileLayout = ({ children, ProfilePages }) => {
     const [Userdata, setUserdata] = useState('')
     const [UserdataLoader, setUserdataLoader] = useState(true)
     const { userprofile } = useParams()
-    console.log(userprofile)
-    const openModal = (index) => {
-        setSelectedImage(index);
-        setModalOpen(true);
-        console.log(selectedImage, index)
-    };
+   
 
     const closeModal = () => {
         setSelectedImage(null);
@@ -43,7 +38,7 @@ const ProfileLayout = ({ children, ProfilePages }) => {
             }
         })
             .then(response => {
-                console.log('profile', response);
+                console.log('profilelayout', response);
                 setUserdata(response?.data)
                 setUserdataLoader(false)
             })
@@ -60,7 +55,8 @@ const ProfileLayout = ({ children, ProfilePages }) => {
     const childrenWithProps = React.Children.map(children, (child, i) => {
         return React.cloneElement(child, { foo: Userdata })
     })
-    console.log(childrenWithProps[0].props.foo, 'child')
+  
+    
 
     return (
         <>
@@ -87,7 +83,7 @@ const ProfileLayout = ({ children, ProfilePages }) => {
                                                     <div className="d-flex justify-content-center pt-4 border-bottom">
                                                         <div className='mx-2'>
                                                             <p className="heading-m mb-0 clr-primary text-center">{Userdata?.data?.friends_count}</p>
-                                                            <p className="para clr-text text-center">Friends</p>
+                                                            <p className="para clr-text text-center">Friends </p>
                                                         </div>
                                                         <div className='mx-2'>
                                                             <p className="heading-m mb-0 clr-primary text-center">{Userdata?.data?.group_count}</p>

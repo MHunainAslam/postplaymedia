@@ -15,7 +15,7 @@ const Page = () => {
     const searchParams = useSearchParams()
     const param = searchParams.get('chat')
 
-    console.log('lol', param)
+  
     const [TabState, setTabState] = useState('1')
     useEffect(() => {
         if (param === null) {
@@ -23,7 +23,6 @@ const Page = () => {
         } else {
             setTabState(param)
         }
-        console.log(TabState, 'TabState')
     }, [param, TabState])
     useEffect(() => {
         document.querySelector('.closechatmodal').click()

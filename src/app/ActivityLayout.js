@@ -21,7 +21,7 @@ const ActivityLayout = ({ children, ActivityPages }) => {
             }
         })
             .then(response => {
-                console.log('authMelayout', response);
+                console.log('activity', response);
                 setUserdata(response?.data)
                 setUserdataLoader(false)
             })

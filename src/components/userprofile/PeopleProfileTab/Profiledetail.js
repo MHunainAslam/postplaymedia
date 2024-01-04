@@ -23,19 +23,9 @@ const Profiledetail = ({ }) => {
     const [Address, setAddress] = useState()
     const [state, setstate] = useState()
     const [Allstate, setAllstate] = useState()
-    const [Sex, setSex] = useState()
-    const [classyear, setclassyear] = useState()
-    const [height, setheight] = useState()
-    const [weight, setweight] = useState()
-    const [Sports, setSports] = useState()
-    const [Position, setPosition] = useState()
-    const [AAUTravel, setAAUTravel] = useState()
-    const [C_institute, setC_institute] = useState()
-    const [C_instituteweb, setC_instituteweb] = useState()
     const [getRoles, setgetRoles] = useState([])
     const [isloading, setisloading] = useState(true)
     const router = useRouter()
-    console.log("first", Userdata)
 
 
     useEffect(() => {
@@ -46,7 +36,6 @@ const Profiledetail = ({ }) => {
             }
         })
             .then(response => {
-                console.log('roles', response);
                 setgetRoles(response?.data)
                 setisloading(false)
             })
@@ -76,7 +65,6 @@ const Profiledetail = ({ }) => {
             }
         })
             .then(response => {
-                console.log('authMelayout', response);
                 setAllstate(response?.data?.data?.states)
             })
             .catch(error => {
@@ -98,7 +86,6 @@ const Profiledetail = ({ }) => {
             }
         })
             .then(response => {
-                console.log('llll', response);
                 setAllcity(response?.data?.data)
             })
             .catch(error => {

@@ -84,7 +84,7 @@ const CoachRegistration = ({ back, RoleId }) => {
             }
         })
             .then(response => {
-                console.log('authMelayout', response);
+                console.log('coachregistration', response);
                 setAllstate(response?.data?.data?.states)
             })
             .catch(error => {
@@ -106,18 +106,25 @@ const CoachRegistration = ({ back, RoleId }) => {
             }
         })
             .then(response => {
-                console.log('llll', response);
+                console.log('cities', response);
                 setAllcity(response?.data?.data)
             })
             .catch(error => {
                 console.error(error);
             });
     }, [state])
+    const checkURL = (event) => {
+        let string = event.target.value;
+        if (!~string.indexOf("http")) {
+            string = "http://" + string;
+        }
 
+        setCInstituteweb(string);
+    }
     return (
         <>
             <form action="" onSubmit={CoachRegistrationSubmit}>
-                <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={back}></i> Account Details</p>
+                <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={back}></i>Coach Account Details</p>
                 <div className="row">
 
                     {/* username */}
@@ -226,7 +233,7 @@ const CoachRegistration = ({ back, RoleId }) => {
                     {/* current institute weburl*/}
                     <div className="col-md-6">
                         <label className='para-sm clr-text mt-4' htmlFor="">Current institute website  </label>
-                        <input type="text" className="form-control inp" onKeyPress={(e) => /^[^.]*\.(?=.*\.)[^.\s]+$/.test(e.key) && e.preventDefault()} placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
+                        <input type="url" className="form-control inp" onBlur={CInstituteweb === '' ? (e) => { setCInstituteweb(e.target.value) } : checkURL} placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
                         {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                     </div>

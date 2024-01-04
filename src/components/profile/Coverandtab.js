@@ -1,19 +1,30 @@
 'use client'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UserProfileTabs from '../userprofile/UserProfileTabs'
-import { IMG_URL } from '../../../config'
+import { APP_URL, IMG_URL } from '../../../config'
 import { useParams, useRouter } from 'next/navigation'
-import { Skeleton } from 'antd'
+import { Skeleton, message } from 'antd'
 import ProfileTabs from './ProfileTabs'
+import { GetToken } from '@/utils/Token'
+import { deleteCookie } from 'cookies-next'
+import axios from 'axios'
 
 const Coverandtab = ({ Userdata, UserdataLoader }) => {
     const { userprofile } = useParams()
     const router = useRouter()
-    console.log('Userdata', Userdata)
+    const [frndstatus, setfrndstatus] = useState('')
+    const [isDisable, setisDisable] = useState(false)
+    const token = GetToken('userdetail')
+    console.log('Userdata profiletab', Userdata, Userdata?.data?.friendship_status)
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
     }
+    useEffect(() => {
+        setfrndstatus(Userdata?.data?.friendship_status)
+        console.log(frndstatus, 'frndstatus')
+    }, [Userdata])
+
     const movetoedit = () => {
         router.push('/profile/profile?profile-tab=editprofile')
     }
@@ -23,7 +34,101 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
     const movetochangedp = () => {
         router.push('/profile/profile?profile-tab=changeprofile')
     }
+    const unfriend = (e) => {
+        setisDisable(true)
+        console.log(e)
+        axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('unfriend', response);
+                setfrndstatus('send-request')
+                setisDisable(false)
+            })
+            .catch(error => {
+                console.error(error);
+                setisDisable(false)
+                message.error(error?.response.data?.message)
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
+    const sendreq = (e) => {
+        setisDisable(true)
+        console.log(e)
+        axios.post(`${APP_URL}/api/friend-requests/send`, { receiver_id: e }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log(response);
+                setfrndstatus('pending')
+                setisDisable(false)
+            })
+            .catch(error => {
+                console.error(error);
+                setisDisable(false)
+                message.error(error?.response.data?.message)
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
+    const accptfrndreq = (e) => {
 
+        setisDisable(true)
+        axios.patch(`${APP_URL}/api/friend-requests/accept/${e}`, null, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                setfrndstatus('friends')
+                console.log('profile edit', response);
+                setisDisable(false)
+            })
+            .catch(error => {
+                console.error(error);
+                setisDisable(false)
+                message.error(error?.response?.data?.message)
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
+    const dltfrndreq = (e) => {
+        setisDisable(true)
+        axios.delete(`${APP_URL}/api/friend-requests/${e}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('profile edit', response);
+                setfrndstatus('send-request')
+                setisDisable(false)
+            })
+            .catch(error => {
+                console.error(error);
+                setisDisable(false)
+                message.error(error?.response?.data?.message)
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
     return (
         <>
             <div className="position-relative">
@@ -68,20 +173,33 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                     </div>
                                     <div className=" profile-tabs d-md-flex d-none justify-content-between my-3 align-items-center">
                                         <ProfileTabs Userdata={Userdata} />
-                                        <button className='btn secondary-btn h-100 px-lg-5'>Add Friend</button>
-                                        {Userdata?.friendship_status === 'send-request' ?
-                                            <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'> Add Friend</p></button>
-                                            : Userdata.friendship_status === 'pending' ?
-                                                <button className='btn secondary-btn' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
-                                                : Userdata.friendship_status === 'friends' ?
-                                                    <button className='btn secondary-btn' onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'> Unfriend</p></button>
-                                                    : Userdata.friendship_status === 'accept-request' ?
-                                                        <div className='d-md-flex w-100 mx-auto justify-content-center'>
-                                                            <button className='btn secondary-btn m-1' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
-                                                            <button className='btn secondary-btn m-1' id={item.id} onClick={() => accptfrndreq(item.frp_id)}><p className='mb-0 px-4' > Accept</p></button>
+
+                                        {frndstatus === 'send-request' ?
+                                            <button className='btn secondary-btn ' disabled={isDisable} onClick={() => sendreq(Userdata?.data?.id)}><p className='mb-0 px-4'> Add Friend</p></button>
+                                            : frndstatus === 'pending' ?
+                                                <button className='btn secondary-btn' disabled={isDisable} onClick={() => dltfrndreq(Userdata?.data?.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                : frndstatus === 'friends' ?
+                                                    <button className='btn secondary-btn ' disabled={isDisable} onClick={() => unfriend(Userdata?.data?.id)}><p className='mb-0 px-4'> Unfriend</p></button>
+                                                    : frndstatus === 'accept-request' ?
+                                                        <div className='d-md-flex justify-content-center'>
+                                                            <button className='btn secondary-btn m-1' disabled={isDisable} onClick={() => dltfrndreq(Userdata?.data.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                            <button className='btn secondary-btn m-1' disabled={isDisable} id={Userdata?.data?.id} onClick={() => accptfrndreq(Userdata?.data?.frp_id)}><p className='mb-0 px-4' > Accept</p></button>
                                                         </div>
                                                         : ''
                                         }
+                                        {/* {Userdata?.data?.friendship_status === 'send-request' ?
+                                            <button className='btn secondary-btn ' onClick={() => sendreq(Userdata?.data?.id)}><p className='mb-0 px-4'> Add Friend</p></button>
+                                            : Userdata.data?.friendship_status === 'pending' ?
+                                                <button className='btn secondary-btn' onClick={() => dltfrndreq(Userdata?.data?.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                : Userdata.data?.friendship_status === 'friends' ?
+                                                    <button className='btn secondary-btn ' onClick={() => unfriend(Userdata?.data?.id)}><p className='mb-0 px-4'> Unfriend</p></button>
+                                                    : Userdata.data?.friendship_status === 'accept-request' ?
+                                                        <div className='d-md-flex justify-content-center'>
+                                                            <button className='btn secondary-btn m-1' onClick={() => dltfrndreq(Userdata?.data.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                            <button className='btn secondary-btn m-1' id={Userdata?.data?.id} onClick={() => accptfrndreq(Userdata?.data?.frp_id)}><p className='mb-0 px-4' > Accept</p></button>
+                                                        </div>
+                                                        : ''
+                                        } */}
                                     </div>
                                 </div>
                             </div>

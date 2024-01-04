@@ -10,7 +10,6 @@ import PostArea from '../posts/PostArea'
 
 const ActivityTabs = () => {
     const { Userdata } = useContext(UserContext);
-    console.log('post area cu', Userdata)
     return (
         <>
             <div className="pt-5 pb-3">

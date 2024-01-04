@@ -26,7 +26,6 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
     const openModal = (index) => {
         setSelectedImage(index);
         setModalOpen(true);
-        console.log(selectedImage, index)
     };
 
     const closeModal = () => {
@@ -42,7 +41,7 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
             }
         })
             .then(response => {
-                console.log('authMe', response);
+                console.log('userprofile authme', response);
                 setUserdata(response?.data)
                 setUserdataLoader(false)
             })
@@ -59,7 +58,7 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
     const childrenWithProps = React.Children.map(children, (child, i) => {
         return React.cloneElement(child, { foo: Userdata })
     })
-    console.log(childrenWithProps[0].props.foo, 'child')
+
 
     return (
         <>

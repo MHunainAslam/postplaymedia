@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
 import Loader from '../Loader'
 import { APP_URL, IMG_URL } from '../../../config'
@@ -17,10 +17,11 @@ const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
     const [Receiverid, setReceiverid] = useState()
     const router = useRouter()
     const userdata = GetLocaldata('userdetail')
+    const { userprofile } = useParams()
 
 
 
-    console.log(userdata)
+    console.log('userdetail', userdata?.user_id)
 
     const unfriend = (e) => {
         setbtndisable(true)
@@ -73,42 +74,56 @@ const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                                             <div className="card-body">
 
 
-                                                {userdata.user_id === item.friend?.id ?
+                                                {userprofile == item.user?.id ?
                                                     <>
                                                         {
-                                                            item.friend?.profile_photo === null ?
+                                                            item.friend.profile_photo == null ?
                                                                 <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                                                 :
-                                                                <Image loader={imgurl} src={item.friend?.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
+                                                                <Image loader={imgurl} src={item.friend.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                         }
                                                     </>
                                                     :
                                                     <>
                                                         {
-                                                            item.friend?.profile_photo === null ?
+                                                            item.user.profile_photo == null ?
                                                                 <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                                                 :
-                                                                <Image loader={imgurl} src={item.friend?.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
+                                                                <Image loader={imgurl} src={item.user.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                         }
                                                     </>
                                                 }
-                                                <Link className='link-hov' href={`/people/${item?.friend?.id}/activity`}><p className="heading text-black mb-2 mt-4 text-capitalize">{item.friend?.name}</p></Link>
-                                                <p className="para clr-light">Active 2 minutes ago</p>
+
+                                                {userprofile == item.user?.id ?
+                                                  
+                                                        <p className="heading text-black mb-2 mt-4 text-capitalize">{item?.friend?.name}</p>
+                                                  
+                                                    :
+                                                   
+                                                        <p className="heading text-black mb-2 mt-4 text-capitalize">{item?.user?.name}</p>
+                                                   
+                                                }
+
+                                                <p className="para clr-light">Active 2 minutes ago </p>
                                                 <div className="d-flex fng justify-content-center">
                                                     <div className='mx-2'>
-                                                        <p className="heading mb-0">{item.friend?.friends_count}</p>
+                                                        <p className="heading mb-0">{userprofile == item.user?.id ? item.friend.friends_count : item.user.friends_count}</p>
                                                         <p className="para">Friends</p>
                                                     </div>
                                                     <div className='mx-2'>
-                                                        <p className="heading mb-0">{item.friend?.group_count}</p>
+                                                        <p className="heading mb-0">{userprofile == item.user?.id ? item.friend.group_count : item.user.group_count}</p>
                                                         <p className="para">Groups</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="card-footer">
-                                                <button className='btn secondary-btn' disabled={btndisable} onClick={() => unfriend(item.friend?.id)}><p className='mb-0 px-4'>Unfriend</p></button>
+                                                {userdata.user_id == item.user?.id ?
+                                                    <Link href={'/profile/profile'} className='btn secondary-btn px-4'>Profile</Link>
+                                                    :
+                                                    <Link href={`/people/${item?.user?.id}/activity`} className='btn secondary-btn px-4'>Profile</Link>
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -125,4 +140,5 @@ const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
 }
 
 export default Peoplefriend
+
 

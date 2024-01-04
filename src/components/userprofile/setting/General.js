@@ -18,21 +18,18 @@ const General = () => {
     const [ShowPass3, setShowPass3] = useState(false)
     const [isloading, setisloading] = useState(false)
     const router = useRouter()
-    console.log(token, 'token')
     const changepass = (e) => {
         e.preventDefault()
         if (currentPass === '' || NewPass === '' || CNewPass === '') {
             message.error('All fields are required')
         } else {
             setisloading(true)
-            console.log('pass changing start')
             axios.post(`${APP_URL}/api/change-password`, { current_password: currentPass, password: NewPass, password_confirmation: CNewPass }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
             })
                 .then(response => {
-                    console.log('pass', response);
                     message.success(response.data?.message)
                     setisloading(false)
                     setcurrentPass('')
