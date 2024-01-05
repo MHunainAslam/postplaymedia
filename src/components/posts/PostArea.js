@@ -1,7 +1,5 @@
 'use client'
 
-
-import { UserContext } from '@/app/ActivityLayout'
 import Image from 'next/image'
 import React, { useContext, useState } from 'react'
 import { IMG_URL } from '../../../config'

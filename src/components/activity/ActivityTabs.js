@@ -1,15 +1,30 @@
 'use client'
 import Image from 'next/image'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AllMembers from './AllMembers'
 import MyFriends from './MyFriends'
 import MyGroups from './MyGroups'
 import Mention from './Mention'
 import { UserContext } from '@/app/ActivityLayout'
 import PostArea from '../posts/PostArea'
+import { Authme, GetToken } from '@/utils/Token'
 
 const ActivityTabs = () => {
-    const { Userdata } = useContext(UserContext);
+    const token = GetToken('userdetail')
+    // const { Userdata } = useContext(UserContext);
+    const [Userdata, setUserdata] = useState([])
+    useEffect(() => {
+
+        Authme(token)
+            .then(data => {
+                console.log('Data from Authme:', data);
+                setUserdata(data)
+            })
+            .catch(error => {
+                console.error('Error from Authme:', error);
+            });
+    }, [])
+
     return (
         <>
             <div className="pt-5 pb-3">

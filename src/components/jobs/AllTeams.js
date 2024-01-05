@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
 import Loader from '../Loader'
-import { GetToken } from '@/utils/Token'
+import { Authme, GetToken } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import conferencefield from '../../utils/Confrences.json'
@@ -14,7 +14,7 @@ import { message } from 'antd'
 import EditTeam from './EditTeam'
 import Pagination from './Pagination'
 const AllTeams = ({ loadcomponent }) => {
-    const { Userdata } = useContext(UserContext);
+    // const { Userdata } = useContext(UserContext);
     const token = GetToken('userdetail')
     const [Filter, setFilter] = useState(false)
     const [Conference, setConference] = useState('')
@@ -44,28 +44,18 @@ const AllTeams = ({ loadcomponent }) => {
     const router = useRouter()
     console.log(conferencefield)
 
-    // useEffect(() => {
-    //     setAllJobisLoader(true)
-    //     axios.get(`${APP_URL}/api/all-jobs?search=${SearchTitle}&type[]=${!Freelance ? '' : 'Freelance'}&type[]=${!FullTime ? '' : 'FullTime'}&type[]=${!Internship ? '' : 'Internship'}&type[]=${!PartTime ? '' : 'PartTime'}&type[]=${!Temporary ? '' : 'Temporary'}`, {
-    //         headers: {
-    //             'Authorization': `Bearer ${token}`,
-    //         }
-    //     })
-    //         .then(response => {
-    //             console.log('alljobs', response);
-    //             setGetAllJobs(response)
-    //             setAllJobisLoader(false)
-    //         })
-    //         .catch(error => {
-    //             console.error(error);
-    //             if (error?.response?.status === 401) {
-    //                 router.push('/')
-    //                 deleteCookie('logged');
-    //                 localStorage.removeItem('userdetail')
-    //             }
-    //             setAllJobisLoader(false)
-    //         });
-    // }, [loadcomponent, SearchTitle, Freelance, FullTime, Internship, PartTime, Temporary])
+    const [Userdata, setUserdata] = useState([])
+    useEffect(() => {
+
+        Authme(token)
+            .then(data => {
+                console.log('Data from Authme:', data);
+                setUserdata(data)
+            })
+            .catch(error => {
+                console.error('Error from Authme:', error);
+            });
+    }, [])
     useEffect(() => {
         setAllJobisLoader(true)
         axios.get(`${APP_URL}/api/teams?conference=${Conference}&state=${state}&level=${level}&sports=${sports}&per_page=${dataOnPage}&page=${currentPage}&search=${SearchTitle}`, {
@@ -260,8 +250,7 @@ const AllTeams = ({ loadcomponent }) => {
                                             <div className="card-body">
                                                 <div className="d-flex justify-content-between">
                                                     <Link href={`${item.link}`} target='_blank' className="link-hov heading-m fw-bold text-black">{item.name}</Link>
-
-                                                    {Userdata?.data?.role?.name === 'Admin' ?
+                                                   {Userdata?.data?.role?.name === 'Admin' ?
                                                         <li class=" nav-item list-unstyled fw-bold fs-4 text-end ">
                                                             <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                 <i class="bi bi-three-dots-vertical"></i>

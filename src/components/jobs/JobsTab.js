@@ -8,13 +8,25 @@ import axios from 'axios'
 import { APP_URL } from '../../../config'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
-import { GetToken } from '@/utils/Token'
+import { Authme, GetToken } from '@/utils/Token'
 import { UserContext } from '@/app/ActivityLayout'
 import CreateTeam from './CreateTeam'
 
 
 const JobsTab = () => {
-    const { Userdata } = useContext(UserContext);
+    // const { Userdata } = useContext(UserContext);
+    const [Userdata, setUserdata] = useState([])
+    useEffect(() => {
+
+        Authme(token)
+            .then(data => {
+                console.log('Data from Authme:', data);
+                setUserdata(data)
+            })
+            .catch(error => {
+                console.error('Error from Authme:', error);
+            });
+    }, [])
     const token = GetToken('userdetail')
     const router = useRouter()
     const [JobCategory, setJobCategory] = useState(' AllTeams')

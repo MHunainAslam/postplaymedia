@@ -3,6 +3,7 @@ import axios from "axios";
 import { APP_URL } from "../../config";
 import React, { useState } from "react";
 // const [authData, setauthData] = useState('')
+// const [authData, setauthData] = useState('')
 
 export const GetToken = (key) => {
     if (typeof window !== 'undefined') {
@@ -19,33 +20,28 @@ export const GetLocaldata = (key) => {
     return null;
 };
 const token = GetToken('userdetail')
-var aaa
-const Authme = (key) => {
-    axios.get(`${APP_URL}/api/authMe`, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        }
-    })
+var authdata
+
+
+export const Authme = (key) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${APP_URL}/api/authMe`, {
+            headers: {
+                'Authorization': `Bearer ${key}`,
+            }
+        })
         .then(response => {
             console.log('authMe utils', response);
-            aaa = response?.data
-            // setUserProfiledata(response?.data)
-            // setUserProfileloader(false)
-
+            resolve(response.data); // Resolve with the data from the API call
         })
         .catch(error => {
-            // setUserProfileloader(false)
-
             console.error(error);
-            // if (error?.response?.status === 401) {
-            //     router.push('/')
-            //     deleteCookie('logged');
-            //     localStorage.removeItem('userdetail')
-            // }
+            reject(error); // Reject with the error for handling it in the caller function
         });
+    });
 };
 
-export const authMeData = aaa?.data
+export const authMeData = authdata
 // export const token = GetToken('userdetail')
 // export const token =  (JSON.parse(localStorage.getItem('userdetail')?.response?.data?.data?.token))
 // export const token =  JSON.parse(localStorage.getItem("userdetail"))

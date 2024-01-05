@@ -8,7 +8,6 @@ import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
 import { deleteCookie } from 'cookies-next'
 import { GetLocaldata, GetToken } from '@/utils/Token'
-import { UserContext } from '@/app/ActivityLayout'
 
 const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
     const [authme, setauthme] = useState('')
