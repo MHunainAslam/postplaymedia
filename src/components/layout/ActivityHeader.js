@@ -63,7 +63,7 @@ const ActivityHeader = ({ Userdata }) => {
 
         // Usage:
         const myCookieValue = getCookie('logged');
-        console.log(myCookieValue, 'myCookieValue');
+     
 
 
         if (!myCookieValue || myCookieValue != JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.token) {

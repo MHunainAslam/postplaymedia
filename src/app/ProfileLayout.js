@@ -70,7 +70,7 @@ const ProfileLayout = ({ children, ProfilePages }) => {
                             </div>
                             <div className="col px-0">
                                 <div className="">
-                                    <ActivityHeader Userdata={Userdata} />
+                                    <ActivityHeader />
                                     <div className="col">
                                         <Coverandtab Userdata={Userdata} UserdataLoader={UserdataLoader} />
                                     </div>
@@ -96,8 +96,6 @@ const ProfileLayout = ({ children, ProfilePages }) => {
                                                     <UserContext.Provider value={{ Userdata, setUserdata }}>
                                                         {children}
                                                     </UserContext.Provider>
-                                                    {/* {childrenWithProps} */}
-                                                    {/* {React.cloneElement(children, { Userdata })} */}
                                                 </div>
                                             </div>
                                         </div>

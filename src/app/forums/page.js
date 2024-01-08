@@ -1,13 +1,14 @@
 import React from 'react'
 import ActivityLayout from '../ActivityLayout'
 import ForumsTab from '@/components/forums/ForumsTab'
+import RootLayout from '../layout'
 
 const page = () => {
     return (
-        <ActivityLayout ActivityPages>
+        <RootLayout Activity>
             <ForumsTab />
             
-        </ActivityLayout>
+        </RootLayout>
     )
 }
 

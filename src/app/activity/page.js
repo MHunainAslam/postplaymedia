@@ -4,16 +4,20 @@ import RootLayout from '../layout'
 import PostArea from '@/components/posts/PostArea'
 import ActivityTabs from '@/components/activity/ActivityTabs'
 import ActivityLayout from '../ActivityLayout'
+import { useRouter } from 'next/navigation'
 
-const Page = () => {
+const Page = ({ Activity }) => {
+
+   
+
 
     return (
         <>
-            <ActivityLayout ActivityPages>
+            <RootLayout Activity>
 
-                <ActivityTabs />
+            <ActivityTabs />
 
-            </ActivityLayout>
+            </RootLayout>
         </>
     )
 }

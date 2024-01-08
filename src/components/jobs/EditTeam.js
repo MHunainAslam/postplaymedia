@@ -148,14 +148,14 @@ const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
         <>
 
 
-            <div class="modal fade" id="editTeam" tabindex="-1" aria-labelledby="editTeamLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <form onSubmit={createAteam} class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="editTeamLabel">Edit Team </h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal fade" id="editTeam" tabIndex="-1" aria-labelledby="editTeamLabel" aria-hidden="true">
+                <div className="modal-dialog modal-lg modal-dialog-centered">
+                    <form onSubmit={createAteam} className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="editTeamLabel">Edit Team </h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
 
 
                             <div className='d-md-flex align-items-center my-3'>
@@ -271,9 +271,9 @@ const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
                             </div>
 
                         </div>
-                        <div class="modal-footer justify-content-center">
-                            <button type="button" class="btn primary-btn px-3 closeteamedit" data-bs-dismiss="modal"><p>Close</p></button>
-                            <button type="submit" class="btn primary-btn px-3" disabled={isLoading}><p>Save {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
+                        <div className="modal-footer justify-content-center">
+                            <button type="button" className="btn primary-btn px-3 closeteamedit" data-bs-dismiss="modal"><p>Close</p></button>
+                            <button type="submit" className="btn primary-btn px-3" disabled={isLoading}><p>Save {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
                         </div>
                     </form>
                 </div>

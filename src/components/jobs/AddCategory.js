@@ -50,7 +50,7 @@ const AddCategory = () => {
             </button>
 
 
-            <div className="modal fade " id="AddCategory" tabindex="-1" aria-labelledby="AddCategoryLabel" aria-hidden="true">
+            <div className="modal fade " id="AddCategory" tabIndex="-1" aria-labelledby="AddCategoryLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content modal-bg py-4">
                         <div className="modal-header border-0 justify-content-center">

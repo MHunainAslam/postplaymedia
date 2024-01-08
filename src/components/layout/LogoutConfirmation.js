@@ -5,7 +5,7 @@ const LogoutConfirmation = ({ logout }) => {
         <>
 
 
-            <div className="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div className="modal fade" id="logoutModal" tabIndex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content logout-modal py-4">
 

@@ -251,13 +251,13 @@ const AllTeams = ({ loadcomponent }) => {
                                                 <div className="d-flex justify-content-between">
                                                     <Link href={`${item.link}`} target='_blank' className="link-hov heading-m fw-bold text-black">{item.name}</Link>
                                                    {Userdata?.data?.role?.name === 'Admin' ?
-                                                        <li class=" nav-item list-unstyled fw-bold fs-4 text-end ">
-                                                            <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <i class="bi bi-three-dots-vertical"></i>
+                                                        <li className=" nav-item list-unstyled fw-bold fs-4 text-end ">
+                                                            <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i className="bi bi-three-dots-vertical"></i>
                                                             </a>
-                                                            <ul class="dropdown-menu" style={{ zIndex: '9999' }}>
-                                                                <li><Link class="dropdown-item" onClick={(e) => dltteam(item.id)} href="#">Delete</Link></li>
-                                                                <li><Link data-bs-toggle="modal" data-bs-target="#editTeam" class="dropdown-item" href="#" onClick={() => setEditTeamID(item.id)} >Edit Team</Link></li>
+                                                            <ul className="dropdown-menu" style={{ zIndex: '9999' }}>
+                                                                <li><Link className="dropdown-item" onClick={(e) => dltteam(item.id)} href="#">Delete</Link></li>
+                                                                <li><Link data-bs-toggle="modal" data-bs-target="#editTeam" className="dropdown-item" href="#" onClick={() => setEditTeamID(item.id)} >Edit Team</Link></li>
 
                                                             </ul>
                                                         </li>

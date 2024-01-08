@@ -1,12 +1,14 @@
 import ActivityLayout from '@/app/ActivityLayout'
 import WatchPhotosTab from '@/components/watch/WatchVideosTab'
 import React from 'react'
+import RootLayout from '../layout'
 
 const page = () => {
   return (
-    <ActivityLayout ActivityPages>
+
+    <RootLayout Activity>
       <WatchPhotosTab />
-    </ActivityLayout>
+    </RootLayout>
   )
 }
 

@@ -1,6 +1,6 @@
 'use client'
 import axios from "axios";
-import { APP_URL } from "../../config";
+import { APP_URL, IMG_URL } from "../../config";
 import React, { useState } from "react";
 // const [authData, setauthData] = useState('')
 // const [authData, setauthData] = useState('')
@@ -40,7 +40,9 @@ export const Authme = (key) => {
         });
     });
 };
-
+export const imgurl = ({ src }) => {
+    return `${IMG_URL}${src}`
+}
 export const authMeData = authdata
 // export const token = GetToken('userdetail')
 // export const token =  (JSON.parse(localStorage.getItem('userdetail')?.response?.data?.data?.token))

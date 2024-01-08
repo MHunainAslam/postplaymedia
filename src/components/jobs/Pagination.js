@@ -36,13 +36,13 @@ const Pagination = ({
             </p>
             <div >
                 <ul className="pagination p-0 m-0 justify-content-center">
-                    <li class="page-item my-auto">
+                    <li className="page-item my-auto">
                         <button
                             onClick={() => onPageChange(currentPage - 1)}
                             disabled={currentPage === 1}
                             className="bg-transparent border-0"
                         >
-                            <i class="bi bi-caret-left-fill clr-primary"></i>
+                            <i className="bi bi-caret-left-fill clr-primary"></i>
                         </button>
                     </li>
                     {buttonsToDisplay.map((pageNumber) => (
@@ -57,13 +57,13 @@ const Pagination = ({
                             </li>
                         </Link>
                     ))}
-                    <li class="page-item my-auto">
+                    <li className="page-item my-auto">
                         <button
                             onClick={() => onPageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
                             className="bg-transparent border-0"
                         >
-                            <i class="bi bi-caret-right-fill clr-primary"></i>
+                            <i className="bi bi-caret-right-fill clr-primary"></i>
                         </button>
                         {/* <li>  <button onClick={() => onPageChange(currentPage + 1, indexOfLastItem)} > <img src={next} alt="icon" /></button> */}
                     </li>
