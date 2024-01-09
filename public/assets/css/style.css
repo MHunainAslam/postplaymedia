@@ -1855,7 +1855,9 @@ h5 {
 .chat-body {
     height: 0;
     overflow: auto;
+   
 }
+
 
 .message-box {
     background: var(--primary);

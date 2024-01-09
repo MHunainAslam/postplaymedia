@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ActivityHeader from '../layout/ActivityHeader'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -14,9 +14,20 @@ const Chat = ({ TabState }) => {
     const searchParams = useSearchParams()
     const router = useRouter()
     const profile = JSON.parse(searchParams.get('profile'))
-    const [Messages, setMessages] = useState([])
+    // const [Messages, setMessages] = useState([])
     const [Userprofile, setUserprofile] = useState([])
     const [NewMessages, setNewMessages] = useState('')
+    const [pp, setpp] = useState(20)
+    const chatBodyRefa = useRef(null);
+    const [pageTop, setPageTop] = useState(1);
+    const [pageBottom, setPageBottom] = useState(1);
+
+
+    const [Messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const messagesPerPage = 20;
+    const chatBodyRef = useRef(null);
     useEffect(() => {
         Authme(token)
             .then(data => {
@@ -28,13 +39,13 @@ const Chat = ({ TabState }) => {
             });
     }, [])
     const getallmsg = () => {
-        axios.get(`${APP_URL}/api/messages?room_${TabState}`, {
+        axios.get(`${APP_URL}/api/messages?room_${TabState}&per_page=${pp}&page=${pageBottom}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('GetAllMsgs', response.data?.data?.data.reverse());
+                console.log('GetAllMsgs', response);
                 setMessages(response)
             })
             .catch(error => {
@@ -46,40 +57,123 @@ const Chat = ({ TabState }) => {
                 }
             });
     }
-    useEffect(() => {
-        getallmsg()
-        const interval = setInterval(() => {
-            getallmsg()
-        }, 10000);
-        return () => clearInterval(interval);
-    }, [TabState])
 
-
-
+    // useEffect(() => {
+    //     getallmsg()
+    //     const interval = setInterval(() => {
+    //         getallmsg()
+    //     }, 10000);
+    //     return () => clearInterval(interval);
+    // }, [TabState, pp, pageBottom])
     const appendCustomDay = (e) => {
         e.preventDefault()
         if (NewMessages === '') {
-
         } else {
             const newMessage = { body: NewMessages, created_at: new Date().toLocaleString(), sender: { profile_photo: Userprofile ? { url: Userprofile?.url } : null } }; // Creating a new object to append
-
-
-            setMessages(prevMessages => {
-                return {
-                    ...prevMessages,
-                    data: {
-                        ...prevMessages.data,
-                        data: {
-                            ...prevMessages.data.data,
-                            data: [...prevMessages.data.data.data, newMessage],
-                        },
-                    },
-                };
-            });
+            const newArray = [...Messages, newMessage];
+            setMessages(newArray)
+            // setMessages(prevMessages => {
+            //     return {
+            //         ...prevMessages,
+            //         data: {
+            //             ...prevMessages.data,
+            //             data: {
+            //                 ...prevMessages.data.data,
+            //                 data: [...prevMessages.data.data.data, newMessage],
+            //             },
+            //         },
+            //     };
+            // });
+            axios.post(`${APP_URL}/api/messages`, { body: NewMessages, room_id: TabState }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+                .then(response => {
+                    console.log('msg send', response);
+                })
+                .catch(error => {
+                    console.error(error);
+                    if (error?.response?.status === 401) {
+                        router.push('/')
+                        deleteCookie('logged');
+                        localStorage.removeItem('userdetail')
+                    }
+                });
             setNewMessages('')
             console.log(newMessage)
         }
     };
+    const fetchInitialMessages = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${APP_URL}/api/messages?room_5&page=${page}&per_page=${messagesPerPage}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json', // adjust Content-Type if needed
+                }
+            });
+            console.log(response, 'allmsg')
+            setMessages(response.data.data.data.reverse());
+            setPage(page + 1);
+        } catch (error) {
+            console.error('Error fetching initial messages:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+
+    const fetchMoreMessages = async () => {
+        if (!loading) {
+            setLoading(true);
+            try {
+                const response = await axios.get(`${APP_URL}/api/messages?room_5&page=${page}&per_page=${messagesPerPage}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json', // adjust Content-Type if needed
+                    }
+                });
+                console.log(response, 'allmsg')
+                setMessages(prevMessages => [...prevMessages, ...response.data.data.data.reverse()]);
+                setPage(page + 1);
+            } catch (error) {
+                console.error('Error fetching more messages:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+    };
+
+    const handleScroll = () => {
+        const chatBody = chatBodyRef.current;
+        if (
+            chatBody &&
+            // chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight
+            chatBody.scrollTop === chatBody.scrollHeight - chatBody.clientHeight
+        ) {
+
+            fetchMoreMessages();
+        }
+    };
+
+    useEffect(() => {
+        const chatBody = chatBodyRef.current;
+        chatBody.addEventListener('scroll', handleScroll);
+        return () => {
+            chatBody.removeEventListener('scroll', handleScroll);
+        };
+    }, [loading, page, messagesPerPage]);
+
+    useEffect(() => {
+        fetchInitialMessages()
+        const interval = setInterval(() => {
+            fetchInitialMessages()
+        }, 10000);
+        return () => clearInterval(interval);
+    }, [TabState, pp, pageBottom])
+
     return (
         <>
             <div className='px-3 chat-header'>
@@ -95,8 +189,9 @@ const Chat = ({ TabState }) => {
                 </Link>
             </div>
 
-            <div className='px-3 flex-1 chat-body pt-2'>
-                {Messages?.data?.data?.data?.reverse().map((item, i) => {
+
+            <div className='px-3 flex-1 chat-body pt-2' ref={chatBodyRef}>
+                {Messages?.map((item, i) => {
                     const date = new Date(item.created_at);
                     const formattedDate = date.toLocaleString();
                     return <div className={`d-flex py-1 text-decoration-none ${profile.id != item.sender_id ? ' flex-row-reverse' : ''}`} key={i}>
@@ -125,7 +220,7 @@ const Chat = ({ TabState }) => {
                     </div>
                 })}
 
-                <div id='chat-div'></div>
+
 
             </div>
             <div className='p-3 chat-footer'>

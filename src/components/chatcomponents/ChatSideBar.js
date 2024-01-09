@@ -11,7 +11,7 @@ import { deleteCookie } from 'cookies-next'
 const ChatSideBar = () => {
     const userdata = GetLocaldata('userdetail')
     const token = GetToken('userdetail')
-    const router = useRouter
+    const router = useRouter()
     const [mute, setmute] = useState(false)
     const [recentchat, setrecentchat] = useState([])
     const [spamchat, setspamchat] = useState([])
