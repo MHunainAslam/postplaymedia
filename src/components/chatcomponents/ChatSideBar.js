@@ -7,16 +7,19 @@ import { APP_URL } from '../../../config'
 import { GetLocaldata, GetToken, imgurl } from '@/utils/Token'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
+import { message } from 'antd'
 
 const ChatSideBar = () => {
     const userdata = GetLocaldata('userdetail')
     const token = GetToken('userdetail')
     const router = useRouter()
     const [mute, setmute] = useState(false)
+    const [isDisable, setisDisable] = useState(false)
     const [recentchat, setrecentchat] = useState([])
     const [spamchat, setspamchat] = useState([])
     const [AllFrndsData, setAllFrndsData] = useState([])
-    useEffect(() => {
+
+    const recentchatfunc = () => {
         axios.get(`${APP_URL}/api/get-my-recent-chats?status=accepted`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -34,8 +37,11 @@ const ChatSideBar = () => {
                     localStorage.removeItem('userdetail')
                 }
             });
-    }, [])
+    }
     useEffect(() => {
+        recentchatfunc()
+    }, [])
+    const spamchatfunc = () => {
         axios.get(`${APP_URL}/api/get-my-recent-chats?status=pending`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -53,6 +59,9 @@ const ChatSideBar = () => {
                     localStorage.removeItem('userdetail')
                 }
             });
+    }
+    useEffect(() => {
+        spamchatfunc()
     }, [])
     const getallfrnds = () => {
         axios.get(`${APP_URL}/api/friendships`, {
@@ -77,6 +86,29 @@ const ChatSideBar = () => {
         getallfrnds()
     }, [])
 
+    const cancelspam = (e) => {
+        setisDisable(true)
+        axios.put(`${APP_URL}/api/room/${e}`, { status: 'rejected' }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log(response);
+                setisDisable(false)
+            })
+            .catch(error => {
+                console.error(error);
+                setisDisable(false)
+                message.error(error?.response.data?.message)
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
+
     return (
         <>
 
@@ -99,13 +131,13 @@ const ChatSideBar = () => {
                 </div>
                 <div className="offcanvas-body">
                     <ul className="nav nav-tabs border-0  chat-detail-flex" id="myTab" role="tablist">
-                        <li className="nav-item " role="presentation">
+                        <li className="nav-item " role="presentation" onClick={recentchatfunc}>
                             <button className="nav-link active" id="recentchat-tab" data-bs-toggle="tab" data-bs-target="#recentchat" type="button" role="tab" aria-controls="recentchat" aria-selected="false" tabIndex="-1">Chats</button>
                         </li>
                         <li className="nav-item" role="presentation" onClick={getallfrnds}>
                             <button className="nav-link " id="friends-tab" data-bs-toggle="tab" data-bs-target="#friends" type="button" role="tab" aria-controls="friends" aria-selected="false" tabIndex="-1">Friends</button>
                         </li>
-                        <li className="nav-item" role="presentation">
+                        <li className={`nav-item  ${spamchat?.data?.data?.length > 0 ? 'chatactive' : ''}`} role="presentation" onClick={spamchatfunc}>
                             <button className="nav-link " id="spam-tab" data-bs-toggle="tab" data-bs-target="#spam" type="button" role="tab" aria-controls="spam" aria-selected="false" tabIndex="-1">Spam</button>
                         </li>
                         {/* <li className="nav-item" role="presentation">
@@ -120,7 +152,7 @@ const ChatSideBar = () => {
                                 <span className="input-group-text bg-transparent">
                                     <i className="bi bi-search "></i>
                                 </span>
-                                <input type="text" className="form-control border" placeholder="Find Groups" aria-label="Groups" />
+                                <input type="text" className="form-control border" placeholder="Find Chat" aria-label="Groups" />
                             </div>
                             {recentchat?.data?.data.length === 0 ?
                                 <p className="para text-center text-dark fw-bold">No Chat Found</p> :
@@ -153,7 +185,7 @@ const ChatSideBar = () => {
                                 <p className="para text-center text-dark fw-bold">No Friend Found</p> :
                                 <>
                                     {AllFrndsData?.data?.message?.map((item, i) => (
-                                        <Link href={`/messages?chat=${userdata.user_id == item.friend?.id ? item.user?.id : item.friend?.id}`} className="d-flex align-items-center text-decoration-none" key={i}>
+                                        <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(item?.friend) } }} className="d-flex align-items-center text-decoration-none" key={i}>
                                             <div className="MsgIcon MsgIconActive ">
                                                 {userdata.user_id == item.friend?.id ?
                                                     <>
@@ -186,23 +218,34 @@ const ChatSideBar = () => {
                                 <span className="input-group-text bg-transparent">
                                     <i className="bi bi-search "></i>
                                 </span>
-                                <input type="text" className="form-control border" placeholder="Find Friends" aria-label="Friends" />
+                                <input type="text" className="form-control border" placeholder="Find Spam" aria-label="Friends" />
                             </div>
 
                             {spamchat?.data?.data.length === 0 ?
                                 <p className="para text-center text-dark fw-bold">No Spam Found</p> :
                                 <>
                                     {spamchat?.data?.data?.map((item, i) => (
-                                        <Link href={'/messages?chat=1'} className="d-flex align-items-center text-decoration-none" key={i}>
+                                        <div className="d-flex align-items-center text-decoration-none" key={i}>
                                             <div className="MsgIcon MsgIconActive ">
                                                 {item.room_user.profile_photo === null ?
-                                                    <Image src={`/assets/images/Modal/Avatar.png`} alt="" width={100} height={100}></Image>
+                                                    <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                                     :
-                                                    <Image loader={imgurl} src={item.room_user.profile_photo?.url} alt="" width={100} height={100}></Image>
+                                                    <Image loader={imgurl} src={item.room_user.profile_photo.url} alt="" width={100} height={100}></Image>
                                                 }
                                             </div>
-                                            <p className="para text-black fw-bold mb-0 chat-detail">{item.room_user.name}</p>
-                                        </Link>
+                                            <div>
+                                                <p className="para text-capitalize text-black fw-bold mb-0 chat-detail">{item.room_user.name}</p>
+                                                <p className="para-sm clr-text mb-0 chat-detail">{item.last_message}</p>
+                                            </div>
+                                            <div className='d-flex ms-auto'>
+                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-1 chat-detail' disabled={isDisable} onClick={() => cancelspam(item.romid)}>
+                                                    <i className="bi bi-x-lg"></i>
+                                                </button>
+                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-1 chat-detail'>
+                                                    <i className="bi bi-check2"></i>
+                                                </button>
+                                            </div>
+                                        </div>
 
                                     ))}
                                 </>

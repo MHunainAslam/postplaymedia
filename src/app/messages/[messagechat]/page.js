@@ -28,13 +28,13 @@ const Page = () => {
                 <div className="tab-content bg-dark ">
 
                     <div className={`tab-pane fade  ${TabState === '1' ? 'active show' : ''}`} id="1" role="tabpanel" aria-labelledby="1-tab">
-                        <Chat TabState={TabState} />
+                        {/* <Chat TabState={TabState} /> */}
                     </div>
                     <div className={`tab-pane fade  ${TabState === '2' ? 'active show' : ''}`} id="2" role="tabpanel" aria-labelledby="2-tab">
-                        <Chat TabState={TabState} />
+                        {/* <Chat TabState={TabState} /> */}
                     </div>
                     <div className={`tab-pane fade  ${TabState === '3' ? 'active show' : ''}`} id="3" role="tabpanel" aria-labelledby="3-tab">
-                        <Chat TabState={TabState} />
+                        {/* <Chat TabState={TabState} /> */}
                     </div>
                 </div>
 

@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { APP_URL } from '../../../config';
 import { Authme, GetToken, imgurl } from '@/utils/Token';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { deleteCookie } from 'cookies-next';
+import StartChat from './StartChat';
 
 const Message = ({ TabState }) => {
     const token = GetToken('userdetail')
@@ -17,6 +19,7 @@ const Message = ({ TabState }) => {
     const [onPage, setonPage] = useState(1)
     const [NewMessages, setNewMessages] = useState('')
     const [firstRun, setFirstRun] = useState(true);
+    const [firstLoad, setfirstLoad] = useState(true);
     const chatBodyRef = useRef(null)
     useEffect(() => {
         Authme(token)
@@ -33,12 +36,11 @@ const Message = ({ TabState }) => {
             console.log('han yahi')
             const chatBody = chatBodyRef.current;
             chatBody.scrollTop = chatBody.scrollHeight;
-
         }
 
     }, [Messages])
     const getallmsg = () => {
-        axios.get(`${APP_URL}/api/messages?room_${TabState}&per_page=${PerPage}&page=${onPage}`, {
+        axios.get(`${APP_URL}/api/messages?room_id=${TabState}&per_page=${PerPage}&page=${onPage}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -46,37 +48,37 @@ const Message = ({ TabState }) => {
             .then(response => {
                 console.log('GetAllMsgs', response);
                 setMessages(response)
-                setTimeout(() => {
+                setfirstLoad(false)
 
-                    setFirstRun(false)
-                }, 1000);
             })
             .catch(error => {
                 console.error(error);
-                // if (error?.response?.status === 401) {
-                //     router.push('/')
-                //     deleteCookie('logged');
-                //     localStorage.removeItem('userdetail')
-                // }
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
             });
     }
 
+
+
     useEffect(() => {
         getallmsg()
+        setTimeout(() => {
+
+            setFirstRun(false)
+        }, 4000);
         const interval = setInterval(() => {
             getallmsg()
         }, 10000);
         return () => clearInterval(interval);
-    }, [TabState])
+    }, [TabState, onPage])
     const appendCustomDay = (e) => {
         e.preventDefault()
         if (NewMessages === '') {
         } else {
-            const chatBody = chatBodyRef.current;
-            chatBody.scrollTop = chatBody.scrollHeight;
-            const newMessage = { body: NewMessages, created_at: new Date().toLocaleString(), sender: { profile_photo: Userprofile ? { url: Userprofile?.url } : null } }; // Creating a new object to append
-            // const newArray = [...Messages, newMessage];
-            // setMessages(newArray)
+            const newMessage = { body: NewMessages, created_at: new Date().toLocaleString(), sender: { profile_photo: Userprofile ? { url: Userprofile?.url } : null } }; // 
             setMessages(prevMessages => {
                 return {
                     ...prevMessages,
@@ -84,7 +86,7 @@ const Message = ({ TabState }) => {
                         ...prevMessages.data,
                         data: {
                             ...prevMessages.data.data,
-                            data: [...prevMessages.data.data.data, newMessage],
+                            data: [newMessage, ...prevMessages.data.data.data],
                         },
                     },
                 };
@@ -111,6 +113,53 @@ const Message = ({ TabState }) => {
             console.log(newMessage)
         }
     };
+
+    const handleScroll = () => {
+        const chatBody = chatBodyRef.current;
+        if (
+            chatBody &&
+            chatBody.scrollTop === 0
+
+        ) {
+            console.log(Messages?.data?.data?.total, Messages?.data?.data?.last_page, PerPage, onPage)
+            // setFirstRun(false)
+            // setPerPage(prevPerPage => prevPerPage + 20)
+            if (onPage == Messages?.data?.data?.last_page) {
+                setonPage(prevonPage => prevonPage + 0)
+            } else {
+                setonPage(prevonPage => prevonPage + 1)
+                chatBody.scrollTop = chatBody.scrollHeight - chatBody.clientHeight - 10;
+            }
+        }
+        else if (
+            chatBody &&
+            chatBody.scrollTop === chatBody.scrollHeight - chatBody.clientHeight
+
+        ) {
+            console.log(Messages?.data?.data?.total, PerPage, onPage)
+            setFirstRun(false)
+            // setPerPage(prevPerPage => prevPerPage + 20)
+            setonPage(prevonPage => prevonPage > 1 ? - 1 : 1)
+        }
+
+    };
+
+    useEffect(() => {
+        const chatBody = chatBodyRef.current;
+        chatBody.addEventListener('scroll', handleScroll);
+
+        return () => {
+            // Clean up the event listener when the component unmounts
+            chatBody.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll, onPage]);
+    useEffect(() => {
+        setfirstLoad(true)
+        setPerPage(20)
+        setFirstRun(true)
+        setonPage(1)
+    }, [TabState])
+
     return (
         <>
             <div className='px-3 chat-header'>
@@ -119,7 +168,7 @@ const Message = ({ TabState }) => {
                     <div className="MsgIcon MsgIconActive ">
                         {profile?.profile_photo === null ?
                             <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image> :
-                            <Image loader={imgurl} src={profile?.profile_photo.url} alt="" width={100} height={100}></Image>
+                            <Image loader={imgurl} src={profile?.profile_photo?.url} alt="" width={100} height={100}></Image>
                         }
                     </div>
                     <p className="para text-black fw-bold mb-0 text-capitalize">{profile?.name}</p>
@@ -127,45 +176,58 @@ const Message = ({ TabState }) => {
             </div>
 
 
-            <div className='px-3 flex-1 chat-body pt-2' ref={chatBodyRef}>
-                {Messages?.data?.data?.data?.map((item, i) => {
-                    const date = new Date(item.created_at);
-                    const formattedDate = date.toLocaleString();
-                    return <div className={`d-flex py-1 text-decoration-none ${profile.id != item.sender_id ? ' flex-row-reverse' : ''}`} key={i}>
-                        <Link href={`${profile.id == item.sender_id ? '/profile/profile' : `/people/${profile?.id}/activity`} `} className="MsgIcon  ">
-                            {profile.id != item.sender_id ?
-                                <>
+            <div className='flex-1 chat-body px-0 py-0' >
+                <div className="h-100 overflow-auto" ref={chatBodyRef}>
 
-                                    {item?.sender?.profile_photo == null ?
-                                        <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image> :
-                                        <Image loader={imgurl} src={item?.sender?.profile_photo?.url} alt="" width={100} height={100}></Image>
-                                    }
+                    {TabState === 'startchating' ? <StartChat profile={profile} /> : <>
+                        {firstLoad ?
+                            <div className="d-flex h-100 align-items-center">
+                                <div className='border-bottom-dashed w-100'></div>
+                                <p className='text-center my-auto px-4'>Loading </p>
+                                <div className='border-bottom-dashed w-100'></div>
+                            </div>
+                            : <>
+                                {Messages?.data?.data?.data?.toReversed().map((item, i) => {
+                                    const date = new Date(item.created_at);
+                                    const formattedDate = date.toLocaleString();
+                                    return <div className={`d-flex py-1 text-decoration-none ${profile.id != item.sender_id ? ' flex-row-reverse' : ''}`} key={i}>
+                                        <Link href={`${profile.id == item.sender_id ? '/profile/profile' : `/people/${profile?.id}/activity`} `} className="MsgIcon  ">
+                                            {profile.id != item.sender_id ?
+                                                <>
 
-                                </>
-                                : <>
+                                                    {item?.sender?.profile_photo == null ?
+                                                        <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image> :
+                                                        <Image loader={imgurl} src={item?.sender?.profile_photo?.url} alt="" width={100} height={100}></Image>
+                                                    }
 
-                                    {profile?.profile_photo == null ?
-                                        <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image> :
-                                        <Image loader={imgurl} src={profile?.profile_photo.url} alt="" width={100} height={100}></Image>
-                                    }
-                                </>}
-                        </Link>
-                        <div className={` ${profile.id != item.sender_id ? 'message-box-user' : 'message-box'}`}>
-                            <p className="para mb-0 me-2">{item.body}</p>
-                            <p className="para-sm clr-light mb-0 send">{formattedDate} send</p>
-                        </div>
-                    </div>
-                })}
+                                                </>
+                                                : <>
 
+                                                    {profile?.profile_photo == null ?
+                                                        <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image> :
+                                                        <Image loader={imgurl} src={profile?.profile_photo?.url} alt="" width={100} height={100}></Image>
+                                                    }
+                                                </>}
+                                        </Link>
+                                        <div className={` ${profile.id != item.sender_id ? 'message-box-user' : 'message-box'}`}>
+                                            <p className="para mb-0 me-2">{item.body}</p>
+                                            <p className="para-sm clr-light mb-0 send">{formattedDate} </p>
+                                        </div>
+                                    </div>
+                                })}
+                            </>}
+                    </>}
 
+                </div>
 
             </div>
             <div className='p-3 chat-footer'>
-                <form className="input-group mb-3 chat-box" onSubmit={appendCustomDay}>
-                    <input type="text" className="form-control" id="" value={NewMessages} onChange={(e) => setNewMessages(e.target.value)} />
-                    <button className="input-group-text " type='submit'><i className="bi bi-send"></i></button>
-                </form>
-
+                {TabState != 'startchating' ?
+                    <form className="input-group mb-3 chat-box" onSubmit={appendCustomDay}>
+                        <input type="text" className="form-control" id="" value={NewMessages} onChange={(e) => setNewMessages(e.target.value)} />
+                        <button className="input-group-text " type='submit'><i className="bi bi-send"></i></button>
+                    </form>
+                    : ''}
             </div>
         </>
     );

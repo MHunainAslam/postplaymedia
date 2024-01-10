@@ -186,6 +186,13 @@ body {
     font-family: var(--font-p);
 }
 
+.heading-lg {
+    font-weight: 700;
+    color: white;
+    font-size: calc(20px + (28 - 20) * ((100vw - 320px) / (1920 - 320))) !important;
+    font-family: var(--font-p);
+}
+
 .jobdesc h1,
 h2,
 h3,
@@ -1855,7 +1862,7 @@ h5 {
 .chat-body {
     height: 0;
     overflow: auto;
-   
+
 }
 
 
@@ -1910,6 +1917,50 @@ h5 {
     color: white;
     border-radius: 50px;
     margin: 2px;
+}
+
+.border-bottom-dashed {
+    border-bottom: var(--bs-border-width) dashed var(--bs-border-color) !important;
+}
+
+.say-hello {
+    -webkit-animation: mover 2s infinite alternate;
+    animation: mover 2s infinite alternate;
+}
+
+.chatactive button {
+    position: relative;
+}
+
+.chatactive button::after {
+    content: '';
+    position: absolute;
+    background-color: var(--dark);
+    width: 5px;
+    height: 5px;
+    border-radius: 100%;
+    top: 4px;
+    right: 8px;
+}
+
+@-webkit-keyframes mover {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-10px);
+    }
+}
+
+@keyframes mover {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-10px);
+    }
 }
 
 @media (min-width: 1200px) {

@@ -9,6 +9,7 @@ import ProfileTabs from './ProfileTabs'
 import { GetToken } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 import axios from 'axios'
+import Link from 'next/link'
 
 const Coverandtab = ({ Userdata, UserdataLoader }) => {
     const { userprofile } = useParams()
@@ -173,20 +174,24 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                     </div>
                                     <div className=" profile-tabs d-md-flex d-none justify-content-between my-3 align-items-center">
                                         <ProfileTabs Userdata={Userdata} />
-
-                                        {frndstatus === 'send-request' ?
-                                            <button className='btn secondary-btn ' disabled={isDisable} onClick={() => sendreq(Userdata?.data?.id)}><p className='mb-0 px-4'> Add Friend</p></button>
-                                            : frndstatus === 'pending' ?
-                                                <button className='btn secondary-btn' disabled={isDisable} onClick={() => dltfrndreq(Userdata?.data?.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
-                                                : frndstatus === 'friends' ?
-                                                    <button className='btn secondary-btn ' disabled={isDisable} onClick={() => unfriend(Userdata?.data?.id)}><p className='mb-0 px-4'> Unfriend</p></button>
-                                                    : frndstatus === 'accept-request' ?
-                                                        <div className='d-md-flex justify-content-center'>
-                                                            <button className='btn secondary-btn m-1' disabled={isDisable} onClick={() => dltfrndreq(Userdata?.data.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
-                                                            <button className='btn secondary-btn m-1' disabled={isDisable} id={Userdata?.data?.id} onClick={() => accptfrndreq(Userdata?.data?.frp_id)}><p className='mb-0 px-4' > Accept</p></button>
-                                                        </div>
-                                                        : ''
-                                        }
+                                        <div className=''>
+                                            {frndstatus === 'send-request' || frndstatus === 'pending' || frndstatus === 'accept-request' ?
+                                                <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } }} className='btn secondary-btn me-2' ><i class="bi bi-envelope"></i></Link>
+                                                : ''}
+                                            {frndstatus === 'send-request' ?
+                                                <button className='btn secondary-btn ' disabled={isDisable} onClick={() => sendreq(Userdata?.data?.id)}><p className='mb-0 px-4'> Add Friend</p></button>
+                                                : frndstatus === 'pending' ?
+                                                    <button className='btn secondary-btn' disabled={isDisable} onClick={() => dltfrndreq(Userdata?.data?.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                    : frndstatus === 'friends' ?
+                                                        <button className='btn secondary-btn ' disabled={isDisable} onClick={() => unfriend(Userdata?.data?.id)}><p className='mb-0 px-4'> Unfriend</p></button>
+                                                        : frndstatus === 'accept-request' ?
+                                                            <div className='d-md-flex justify-content-center'>
+                                                                <button className='btn secondary-btn m-1' disabled={isDisable} onClick={() => dltfrndreq(Userdata?.data.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                                <button className='btn secondary-btn m-1' disabled={isDisable} id={Userdata?.data?.id} onClick={() => accptfrndreq(Userdata?.data?.frp_id)}><p className='mb-0 px-4' > Accept</p></button>
+                                                            </div>
+                                                            : ''
+                                            }
+                                        </div>
                                         {/* {Userdata?.data?.friendship_status === 'send-request' ?
                                             <button className='btn secondary-btn ' onClick={() => sendreq(Userdata?.data?.id)}><p className='mb-0 px-4'> Add Friend</p></button>
                                             : Userdata.data?.friendship_status === 'pending' ?

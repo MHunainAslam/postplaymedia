@@ -187,7 +187,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                             <label className='para-sm clr-text mt-4' htmlFor=""> Confirm Password  </label>
                             <div className="showpass">
                                 <input type={ShowCPass ? 'text' : 'password'} className="form-control inp" placeholder="Re-Type Password" value={C_Password} onChange={(e) => { setC_Password(e.target.value) }} />
-                                <i className={`bi ${ShowCPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowCPass(!ShowPass) }}></i>
+                                <i className={`bi ${ShowCPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowCPass(!ShowCPass) }}></i>
                             </div>
                             {Error ? C_Password === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
                         </div>

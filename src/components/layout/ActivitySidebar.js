@@ -35,7 +35,7 @@ const ActivitySidebar = () => {
             }
         })
             .then(response => {
-                console.log('authMe', response);
+                console.log('authMe sidebar', response);
                 setUserProfiledata(response?.data)
                 setUserProfileloader(false)
 
