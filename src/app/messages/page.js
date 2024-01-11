@@ -12,6 +12,7 @@ import { deleteCookie } from 'cookies-next'
 import { GetToken } from '@/utils/Token'
 import Testchat from '@/components/chat/Testchat'
 import Message from '@/components/chat/Message'
+import ChatScreen from '@/components/chat/ChatScreen'
 
 const Page = () => {
     const token = GetToken('userdetail')
@@ -20,10 +21,10 @@ const Page = () => {
     const searchParams = useSearchParams()
     const param = searchParams.get('chat')
 
-    const [TabState, setTabState] = useState('1')
+    const [TabState, setTabState] = useState(param)
     useEffect(() => {
         if (param === null) {
-            setTabState('1')
+            setTabState(param)
         } else {
             setTabState(param)
         }
@@ -31,7 +32,7 @@ const Page = () => {
     useEffect(() => {
         document.querySelector('.closechatmodal').click()
     }, [TabState])
-   
+
 
     return (
         <>
@@ -51,8 +52,9 @@ const Page = () => {
                                             <div className='chat-sec'>
                                                 {TabState === TabState && <ActivityHeader />}
                                                 {/* <Chat TabState={TabState}  /> */}
-                                                <Message TabState={TabState}  />
+                                                {/* <Message TabState={TabState} /> */}
                                                 {/* <Chat TabState={TabState}  /> */}
+                                                <ChatScreen TabState={TabState} />
                                             </div>
                                         </div>
                                         {/* <div className={`tab-pane fade  ${TabState === '2' ? 'active show' : ''}`} id="2" role="tabpanel" aria-labelledby="2-tab">

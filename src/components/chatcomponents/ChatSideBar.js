@@ -41,6 +41,7 @@ const ChatSideBar = () => {
     useEffect(() => {
         recentchatfunc()
     }, [])
+    const statusValues = ['pending', 'declined'];
     const spamchatfunc = () => {
         axios.get(`${APP_URL}/api/get-my-recent-chats?status=pending`, {
             headers: {
@@ -96,6 +97,30 @@ const ChatSideBar = () => {
             .then(response => {
                 console.log(response);
                 setisDisable(false)
+                spamchatfunc()
+            })
+            .catch(error => {
+                console.error(error);
+                setisDisable(false)
+                message.error(error?.response.data?.message)
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
+    const accptspam = (e) => {
+        setisDisable(true)
+        axios.put(`${APP_URL}/api/room/${e}`, { status: 'accepted' }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log(response);
+                setisDisable(false)
+                spamchatfunc()
             })
             .catch(error => {
                 console.error(error);
@@ -161,13 +186,13 @@ const ChatSideBar = () => {
                                         //   <Link href={{pathname: `/businessclubpartners/${item.id}`, query: {state : JSON.stringify(item.image)}}}  
                                         <Link href={{ pathname: `/messages`, query: { profile: JSON.stringify(item.room_user), chat: (item.romid) } }} className="d-flex align-items-center text-decoration-none" key={i}>
                                             <div className="MsgIcon MsgIconActive ">
-                                                {item.room_user.profile_photo === null ?
+                                                {item.room_user?.profile_photo === null ?
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                                     :
-                                                    <Image loader={imgurl} src={item.room_user.profile_photo.url} alt="" width={100} height={100}></Image>
+                                                    <Image loader={imgurl} src={item.room_user?.profile_photo.url} alt="" width={100} height={100}></Image>
                                                 }
                                             </div>
-                                            <p className="para text-black fw-bold mb-0 chat-detail">{item.room_user.name}</p>
+                                            <p className="para text-black fw-bold mb-0 chat-detail">{item.room_user?.name}</p>
                                         </Link>
                                     ))}
                                 </>
@@ -227,21 +252,21 @@ const ChatSideBar = () => {
                                     {spamchat?.data?.data?.map((item, i) => (
                                         <div className="d-flex align-items-center text-decoration-none" key={i}>
                                             <div className="MsgIcon MsgIconActive ">
-                                                {item.room_user.profile_photo === null ?
+                                                {item.room_user?.profile_photo === null ?
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                                     :
-                                                    <Image loader={imgurl} src={item.room_user.profile_photo.url} alt="" width={100} height={100}></Image>
+                                                    <Image loader={imgurl} src={item.room_user?.profile_photo?.url} alt="" width={100} height={100}></Image>
                                                 }
                                             </div>
                                             <div>
-                                                <p className="para text-capitalize text-black fw-bold mb-0 chat-detail">{item.room_user.name}</p>
+                                                <p className="para text-capitalize text-black fw-bold mb-0 chat-detail">{item.room_user?.name}</p>
                                                 <p className="para-sm clr-text mb-0 chat-detail">{item.last_message}</p>
                                             </div>
                                             <div className='d-flex ms-auto'>
                                                 <button className='btn secondary-btn-rounded p-1 rounded-5 mx-1 chat-detail' disabled={isDisable} onClick={() => cancelspam(item.romid)}>
                                                     <i className="bi bi-x-lg"></i>
                                                 </button>
-                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-1 chat-detail'>
+                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-1 chat-detail' disabled={isDisable} onClick={() => accptspam(item.romid)}>
                                                     <i className="bi bi-check2"></i>
                                                 </button>
                                             </div>

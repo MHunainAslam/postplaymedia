@@ -78,7 +78,7 @@ const ActivitySidebar = () => {
                                                     {UserProfiledata?.data?.profile_photo === null ?
                                                         <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                                         :
-                                                        <Image loader={imgurl} src={UserProfiledata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
+                                                        <Image loader={imgurl} src={UserProfiledata?.data?.profile_photo?.url} alt="" width={100} height={100}></Image>
 
                                                     }
                                                 </>

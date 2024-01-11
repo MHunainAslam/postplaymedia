@@ -18,7 +18,7 @@ const StartChat = ({ profile }) => {
             .then(response => {
                 console.log('create room', response);
                 if (response?.data?.data) {
-                    router.push({ pathname: `/messages`, query: { profile: JSON.stringify(error?.response?.data?.data?.roomid), chat: (error?.response?.data?.data?.roomid) } })
+                    router.push(`/messages?profile=${JSON.stringify(profile)}&chat=${response?.data?.data?.id}`);
                 }
             })
             .catch(error => {
@@ -29,7 +29,7 @@ const StartChat = ({ profile }) => {
                     localStorage.removeItem('userdetail')
                 }
                 if (error?.response?.data?.data?.roomid) {
-                    router.push(`/messages?profile=12&chat=aasas`);
+                    router.push(`/messages?profile=${JSON.stringify(profile)}&chat=${error?.response?.data?.data?.roomid}`);
                 }
             });
     }

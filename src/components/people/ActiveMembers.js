@@ -131,7 +131,7 @@ const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
                                                 {item.profile_photo === null ?
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                                     :
-                                                    <Image loader={imgurl} src={item.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
+                                                    <Image loader={imgurl} src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                 }
                                                 <Link className='link-hov' href={`/people/${item.id}/activity`}><p className="heading text-black mb-2 mt-4">{item.name}</p></Link>
