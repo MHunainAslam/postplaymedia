@@ -43,7 +43,7 @@ const ChatSideBar = () => {
     }, [])
     const statusValues = ['pending', 'declined'];
     const spamchatfunc = () => {
-        axios.get(`${APP_URL}/api/get-my-recent-chats?status=pending`, {
+        axios.get(`${APP_URL}/api/room?status=pending,rejected`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -210,8 +210,9 @@ const ChatSideBar = () => {
                                 <p className="para text-center text-dark fw-bold">No Friend Found</p> :
                                 <>
                                     {AllFrndsData?.data?.message?.map((item, i) => (
-                                        <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(item?.friend) } }} className="d-flex align-items-center text-decoration-none" key={i}>
+                                        <Link href={item.room_id === null ? { pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(userdata.user_id == item?.friend?.id ? item.user : item.friend) } } : { pathname: `/messages`, query: { profile: JSON.stringify(userdata.user_id == item?.friend?.id ? item.user : item.friend), chat: (item.room_id) } }} className="d-flex align-items-center text-decoration-none" key={i}>
                                             <div className="MsgIcon MsgIconActive ">
+                                            
                                                 {userdata.user_id == item.friend?.id ?
                                                     <>
                                                         {
@@ -246,10 +247,10 @@ const ChatSideBar = () => {
                                 <input type="text" className="form-control border" placeholder="Find Spam" aria-label="Friends" />
                             </div>
 
-                            {spamchat?.data?.data.length === 0 ?
+                            {spamchat?.data?.data?.data?.length === 0 ?
                                 <p className="para text-center text-dark fw-bold">No Spam Found</p> :
                                 <>
-                                    {spamchat?.data?.data?.map((item, i) => (
+                                    {spamchat?.data?.data?.data?.map((item, i) => (
                                         <div className="d-flex align-items-center text-decoration-none" key={i}>
                                             <div className="MsgIcon MsgIconActive ">
                                                 {item.room_user?.profile_photo === null ?

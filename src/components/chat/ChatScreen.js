@@ -12,7 +12,6 @@ const ChatScreen = ({ TabState }) => {
     const searchParams = useSearchParams()
     const router = useRouter()
     const profile = JSON.parse(searchParams.get('profile'))
-    console.log('first', profile)
     const [Userprofile, setUserprofile] = useState([])
     const [PerPage, setPerPage] = useState(50)
     const [onPage, setonPage] = useState(1)
@@ -29,11 +28,50 @@ const ChatScreen = ({ TabState }) => {
     const [firstLoad, setfirstLoad] = useState(false);
     const messagesContainerRef = useRef(null);
     const [firstRun, setFirstRun] = useState(true);
-
+    useEffect(() => {
+        Authme(token)
+            .then(data => {
+                console.log('usermsg:', data?.data?.profile_photo);
+                setUserprofile(data?.data?.profile_photo)
+            })
+            .catch(error => {
+                console.error('Error from Authme:', error);
+            });
+    }, [])
     const fetchMessages = async (page) => {
         try {
             const response = await fetch(
-                `http://api.microndeveloper.com/api/messages?room_id=5&per_page=20&page=${page}`,
+                `http://api.microndeveloper.com/api/messages?room_id=${TabState}&per_page=20&page=${page}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        // Add other headers if needed
+                    },
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Prepend new messages to the beginning of the array
+                console.log('main')
+                setMessages(data.data.data);
+                console.log(data)
+                setCurrentPage(data.data.current_page);
+                setTotalPages(data.data.last_page);
+            } else {
+                console.error('Failed to fetch messages');
+            }
+        } catch (error) {
+            console.error('Error fetching messages', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    const fetchMessagess = async (page) => {
+        try {
+            const response = await fetch(
+                `http://api.microndeveloper.com/api/messages?room_id=${TabState}&per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -48,12 +86,37 @@ const ChatScreen = ({ TabState }) => {
                 // Prepend new messages to the beginning of the array
 
                 setMessages((prevMessages) => [...prevMessages, ...data.data.data]);
-              
-
-
                 setCurrentPage(data.data.current_page);
                 setTotalPages(data.data.last_page);
-                console.log(data)
+                console.log(data, data.data.current_page)
+            } else {
+                console.error('Failed to fetch messages');
+            }
+        } catch (error) {
+            console.error('Error fetching messages', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    const every10sec = async (page) => {
+        try {
+            const response = await fetch(
+                `http://api.microndeveloper.com/api/messages?room_id=${TabState}&per_page=0&page=${page}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        // Add other headers if needed
+                    },
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Prepend new messages to the beginning of the array
+                console.log(data, 'update')
+                setMessages((prevMessages) => [...data.data.data, ...prevMessages])
+
             } else {
                 console.error('Failed to fetch messages');
             }
@@ -74,7 +137,7 @@ const ChatScreen = ({ TabState }) => {
     const handleLoadMore = () => {
         if (currentPage < totalPages && !loading) {
             setLoading(true);
-            fetchMessages(currentPage + 1);
+            fetchMessagess(currentPage + 1);
         }
     };
 
@@ -113,7 +176,7 @@ const ChatScreen = ({ TabState }) => {
         if (NewMessages === '') {
         } else {
             const newMessage = { body: NewMessages, created_at: new Date().toLocaleString(), sender: { profile_photo: Userprofile ? { url: Userprofile?.url } : null } }; // 
-    
+            console.log(newMessage)
             setMessages((prevMessages) => [newMessage, ...prevMessages]);
 
             axios.post(`${APP_URL}/api/messages`, { body: NewMessages, room_id: TabState }, {
@@ -138,10 +201,21 @@ const ChatScreen = ({ TabState }) => {
             console.log(newMessage)
         }
     };
+    useEffect(() => {
+        setMessages([])
+        fetchMessages()
+    }, [TabState])
+    useEffect(() => {
+        console.log(currentPage)
+        const interval = setInterval(() => {
+            // every10sec(currentPage + 0)
+            console.log(currentPage, 'im')
+        }, 10000);
+        return () => clearInterval(interval);
+    }, [])
 
     return (
         <>
-            <h1>Chat Screen</h1>
             <div className='px-3 chat-header'>
 
                 <Link href={`/people/${profile?.id}/activity`} className="d-flex align-items-center py-1 text-decoration-none">
