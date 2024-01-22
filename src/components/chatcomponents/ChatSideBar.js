@@ -43,7 +43,7 @@ const ChatSideBar = () => {
     }, [])
     const statusValues = ['pending', 'declined'];
     const spamchatfunc = () => {
-        axios.get(`${APP_URL}/api/room?status=pending,rejected`, {
+        axios.get(`${APP_URL}/api/room?status=pending`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -133,7 +133,12 @@ const ChatSideBar = () => {
                 }
             });
     }
-
+    useEffect(() => {
+        const interval = setInterval(() => {
+            recentchatfunc()
+        }, 10000);
+        return () => clearInterval(interval);
+    }, [])
     return (
         <>
 
@@ -185,7 +190,7 @@ const ChatSideBar = () => {
                                     {recentchat?.data?.data?.map((item, i) => (
                                         //   <Link href={{pathname: `/businessclubpartners/${item.id}`, query: {state : JSON.stringify(item.image)}}}  
                                         <Link href={{ pathname: `/messages`, query: { profile: JSON.stringify(item.room_user), chat: (item.romid) } }} className="d-flex align-items-center text-decoration-none" key={i}>
-                                            <div className="MsgIcon MsgIconActive ">
+                                            <div className={`MsgIcon  ${item.message_count > 0 ? 'MsgIconActive' : ''}`}>
                                                 {item.room_user?.profile_photo === null ?
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                                     :
@@ -211,8 +216,8 @@ const ChatSideBar = () => {
                                 <>
                                     {AllFrndsData?.data?.message?.map((item, i) => (
                                         <Link href={item.room_id === null ? { pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(userdata.user_id == item?.friend?.id ? item.user : item.friend) } } : { pathname: `/messages`, query: { profile: JSON.stringify(userdata.user_id == item?.friend?.id ? item.user : item.friend), chat: (item.room_id) } }} className="d-flex align-items-center text-decoration-none" key={i}>
-                                            <div className="MsgIcon MsgIconActive ">
-                                            
+                                            <div className={`MsgIcon  ${item.message_count > 0 ? 'MsgIconActive' : ''}`}>
+
                                                 {userdata.user_id == item.friend?.id ?
                                                     <>
                                                         {
@@ -252,7 +257,7 @@ const ChatSideBar = () => {
                                 <>
                                     {spamchat?.data?.data?.data?.map((item, i) => (
                                         <div className="d-flex align-items-center text-decoration-none" key={i}>
-                                            <div className="MsgIcon MsgIconActive ">
+                                            <div className={`MsgIcon  ${item.message_count > 0 ? 'MsgIconActive' : ''}`}>
                                                 {item.room_user?.profile_photo === null ?
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                                     :
@@ -306,7 +311,7 @@ const ChatSideBar = () => {
             </div>
 
 
-            <div className=' primary-btn d-md-none chatcanvasm  ' data-bs-toggle="offcanvas" data-bs-target="#chatSidebar" aria-controls="chatSidebar">
+            <div className=' primary-btn d-lg-none chatcanvasm  ' data-bs-toggle="offcanvas" data-bs-target="#chatSidebar" aria-controls="chatSidebar">
                 <p><i className="bi bi-chevron-left"></i></p>
             </div>
         </>

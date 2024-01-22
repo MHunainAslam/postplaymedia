@@ -1,10 +1,12 @@
 // pages/chat.js
-import { GetToken, imgurl } from '@/utils/Token';
+import { Authme, GetToken, imgurl } from '@/utils/Token';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import StartChat from './StartChat';
+import axios from 'axios';
+import { APP_URL } from '../../../config';
 
 const Chat = ({ TabState }) => {
     const token = GetToken('userdetail');
@@ -14,15 +16,25 @@ const Chat = ({ TabState }) => {
     const [messages, setMessages] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(false);
-    const [firstLoad, setfirstLoad] = useState(false);
-
+    const [firstLoad, setfirstLoad] = useState(true);
+    const [NewMessages, setNewMessages] = useState('')
     const [firstRun, setFirstRun] = useState(true);
     const chatContainerRef = useRef();
     const previousScrollHeightRef = useRef();
+    const [Userprofile, setUserprofile] = useState([])
+    useEffect(() => {
+        Authme(token)
+            .then(data => {
+                console.log('usermsg:', data?.data?.profile_photo);
+                setUserprofile(data?.data?.profile_photo)
+            })
+            .catch(error => {
+                console.error('Error from Authme:', error);
+            });
+    }, [])
 
     const fetchMessages = async (page) => {
         try {
-            setLoading(true);
             const response = await fetch(
                 `http://api.microndeveloper.com/api/messages?room_id=${TabState}&per_page=20&page=${page}`,
                 {
@@ -34,11 +46,11 @@ const Chat = ({ TabState }) => {
             );
             const data = await response.json();
             const newMessages = data.data.data;
-
+            console.log('messages', data)
             // Save the previous scroll height before adding new messages
             previousScrollHeightRef.current = chatContainerRef.current.scrollHeight;
-
-            setMessages(newMessages);
+            setfirstLoad(false)
+            setMessages(newMessages.toReversed());
             setCurrentPage(data.data.current_page);
         } catch (error) {
             console.error('Error fetching messages:', error);
@@ -60,11 +72,11 @@ const Chat = ({ TabState }) => {
             );
             const data = await response.json();
             const newMessages = data.data.data;
-
+            console.log('scroll', data)
             // Save the previous scroll height before adding new messages
             previousScrollHeightRef.current = chatContainerRef.current.scrollHeight;
 
-            setMessages((prevMessages) => [...newMessages, ...prevMessages]);
+            setMessages((prevMessages) => [...newMessages.toReversed(), ...prevMessages]);
             setCurrentPage(data.data.current_page);
         } catch (error) {
             console.error('Error fetching messages:', error);
@@ -72,7 +84,42 @@ const Chat = ({ TabState }) => {
             setLoading(false);
         }
     };
+    const every10 = async (page) => {
+        try {
+            const response = await fetch(
+                `http://api.microndeveloper.com/api/messages?room_id=${TabState}&per_page=20&page=1&is_read=false`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        // Add other headers if needed
+                    },
+                }
+            );
+            const data = await response.json();
+            const newMessages = data.data.data;
+            console.log('messages 10', newMessages)
+            // if (newMessages.id) {
 
+            // }
+            // console.log(newMessages.map((item) => (item.sender_id)) != profile?.id)
+
+
+            if (chatContainerRef.current.scrollTop + chatContainerRef.current.clientHeight === chatContainerRef.current.scrollHeight) {
+                fetchMessages(1)
+            }
+            // if (newMessages.map((item) => (item.sender_id)) != profile?.id) {
+            //     setMessages((prevMessages) => [...prevMessages, ...newMessages]);
+            // }
+
+            setfirstLoad(false)
+            // setMessages((prevMessages) => [...newMessages.toReversed(), ...prevMessages]);
+            // setCurrentPage(data.data.current_page);
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
     useEffect(() => {
         fetchMessages(currentPage);
     }, []);
@@ -86,7 +133,7 @@ const Chat = ({ TabState }) => {
 
             // Calculate the difference in scroll height after adding new messages
             const newScrollHeight = chatContainerRef.current.scrollHeight;
-            const scrollHeightDifference = newScrollHeight - previousScrollHeightRef.current - 40;
+            const scrollHeightDifference = newScrollHeight - previousScrollHeightRef.current - 10;
 
             // Adjust the scroll position to maintain the previous scroll position
             chatContainerRef.current.scrollTop += scrollHeightDifference;
@@ -96,6 +143,7 @@ const Chat = ({ TabState }) => {
     const loadMore = () => {
         const nextPage = currentPage + 1;
         fetchMessagess(nextPage);
+
     };
     const handleScroll = () => {
         const container = chatContainerRef.current;
@@ -125,14 +173,15 @@ const Chat = ({ TabState }) => {
         setMessages([])
         fetchMessages()
         setFirstRun(true)
+        setfirstLoad(true)
     }, [TabState])
     const appendCustomDay = (e) => {
         e.preventDefault()
         if (NewMessages === '') {
         } else {
-            const newMessage = { body: NewMessages, created_at: new Date().toLocaleString(), sender: { profile_photo: Userprofile ? { url: Userprofile?.url } : null } }; // 
+            const newMessage = { body: NewMessages, created_at: new Date(), sender: { profile_photo: Userprofile ? { url: Userprofile?.url } : null } }; // 
             console.log(newMessage)
-            setMessages((prevMessages) => [newMessage, ...prevMessages]);
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
 
             axios.post(`${APP_URL}/api/messages`, { body: NewMessages, room_id: TabState }, {
                 headers: {
@@ -156,13 +205,22 @@ const Chat = ({ TabState }) => {
             console.log(newMessage)
         }
     };
+    useEffect(() => {
+        console.log(currentPage)
+        const interval = setInterval(() => {
+            every10()
+            console.log('im')
+        }, 10000);
+        return () => clearInterval(interval);
+    }, [])
+
 
     return (
         <>
-            {/* <div className='px-3 chat-header'>
+            <div className='px-3 chat-header'>
 
                 <Link href={`/people/${profile?.id}/activity`} className="d-flex align-items-center py-1 text-decoration-none">
-                    <div className="MsgIcon MsgIconActive ">
+                    <div className="MsgIcon  ">
                         {profile?.profile_photo === null ?
                             <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image> :
                             <Image loader={imgurl} src={profile?.profile_photo?.url} alt="" width={100} height={100}></Image>
@@ -170,8 +228,8 @@ const Chat = ({ TabState }) => {
                     </div>
                     <p className="para text-black fw-bold mb-0 text-capitalize">{profile?.name}</p>
                 </Link>
-            </div> */}
-            {loading && <p>Loading...</p>}
+            </div>
+
             <div className='flex-1 chat-body px-0 py-0' >
                 <div className="h-100 overflow-auto" ref={chatContainerRef}>
 
@@ -184,7 +242,7 @@ const Chat = ({ TabState }) => {
                             </div>
                             : <>
 
-
+                                {loading && <p className='para text-center text-black my-3'>Calculating...</p>}
                                 {messages?.map((item, i) => {
                                     const date = new Date(item.created_at);
                                     const formattedDate = date.toLocaleString();
@@ -218,11 +276,12 @@ const Chat = ({ TabState }) => {
                             </>}
                     </>}
 
+
                 </div>
 
-
+                {/* <button>aa</button> */}
             </div>
-            {/* 
+
             <div className='p-3 chat-footer'>
                 {TabState != 'startchating' ?
                     <form className="input-group mb-3 chat-box" onSubmit={appendCustomDay}>
@@ -230,7 +289,7 @@ const Chat = ({ TabState }) => {
                         <button className="input-group-text " type='submit'><i className="bi bi-send"></i></button>
                     </form>
                     : ''}
-            </div> */}
+            </div>
             {/* <button onClick={loadMore} disabled={loading}>
                 Load More
             </button> */}

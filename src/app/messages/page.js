@@ -53,8 +53,8 @@ const Page = () => {
                                                 {TabState === TabState && <ActivityHeader />}
                                                 {/* <Chat TabState={TabState}  /> */}
                                                 {/* <Message TabState={TabState} /> */}
-                                                {/* <Chat TabState={TabState}  /> */}
-                                                <ChatScreen TabState={TabState} />
+                                                <Chat TabState={TabState}  />
+                                                {/* <ChatScreen TabState={TabState} /> */}
                                             </div>
                                         </div>
                                         {/* <div className={`tab-pane fade  ${TabState === '2' ? 'active show' : ''}`} id="2" role="tabpanel" aria-labelledby="2-tab">

@@ -2009,6 +2009,36 @@ h5 {
 
 }
 
+@media (min-width: 992px) {
+    .chatbar-size:has(.chat-offcanvas.show) {
+        width: 300px !important;
+        transition: 0.2s;
+    }
+
+    .chatbar-size {
+        width: 80px !important;
+    }
+
+    .chat-offcanvas {
+        width: 100% !important;
+        visibility: visible !important;
+        transform: none !important;
+        position: relative !important;
+        border-color: var(--border) !important;
+        min-height: 100vh;
+    }
+
+    .chat-offcanvas {
+        width: 100% !important;
+        visibility: visible !important;
+        transform: none !important;
+        border-color: var(--border) !important;
+        position: sticky !important;
+        top: 0 !important;
+        height: 100vh !important;
+    }
+}
+
 @media (min-width: 768px) {
 
 
@@ -2023,23 +2053,9 @@ h5 {
         z-index: -1;
     }
 
-    .chatbar-size:has(.chat-offcanvas.show) {
-        width: 300px !important;
-        transition: 0.2s;
-    }
 
-    .chat-offcanvas {
-        width: 100% !important;
-        visibility: visible !important;
-        transform: none !important;
-        position: relative !important;
-        border-color: var(--border) !important;
-        min-height: 100vh;
-    }
 
-    .chatbar-size {
-        width: 80px !important;
-    }
+
 
     .sidebar-offcanvas {
         width: 100% !important;
@@ -2051,15 +2067,7 @@ h5 {
         height: 100vh !important;
     }
 
-    .chat-offcanvas {
-        width: 100% !important;
-        visibility: visible !important;
-        transform: none !important;
-        border-color: var(--border) !important;
-        position: sticky !important;
-        top: 0 !important;
-        height: 100vh !important;
-    }
+
 }
 
 @media (max-width: 1200px) and (min-width: 767px) {
