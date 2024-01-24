@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { Skeleton } from 'antd'
 
 const Coverandtab = ({ Userdata, UserdataLoader }) => {
-
+console.log(Userdata, 'cc');
     const router = useRouter()
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`

@@ -11,15 +11,18 @@ import Loader from '../Loader'
 import { Authme, GetToken, authMeData } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 import { Skeleton } from 'antd'
+import { useAppContext } from '@/context/AppContext';
 
 const ActivitySidebar = () => {
     // console.log(usePathname())
     const pathname = usePathname()
     const router = useRouter()
-    const [UserProfiledata, setUserProfiledata] = useState()
+    // const [UserProfiledata, setUserProfiledata] = useState()
     const [UserProfiledata2, setUserProfiledata2] = useState()
-    const [UserProfileloader, setUserProfileloader] = useState(true)
+    // const [UserProfileloader, setUserProfileloader] = useState(true)
     const token = GetToken('userdetail')
+    const {UserProfiledata, UserProfileloader} = useAppContext()
+    
     // setUserProfiledata2(Authme())
     // console.log()
     // useEffect(() => {
@@ -28,29 +31,29 @@ const ActivitySidebar = () => {
     // }, [])
     // console.log(authMeData)
 
-    useEffect(() => {
-        axios.get(`${APP_URL}/api/authMe`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('authMe sidebar', response);
-                setUserProfiledata(response?.data)
-                setUserProfileloader(false)
+    // useEffect(() => {
+    //     axios.get(`${APP_URL}/api/authMe`, {
+    //         headers: {
+    //             'Authorization': `Bearer ${token}`,
+    //         }
+    //     })
+    //         .then(response => {
+    //             console.log('authMe sidebar', response);
+    //             setUserProfiledata(response?.data)
+    //             setUserProfileloader(false)
 
-            })
-            .catch(error => {
-                setUserProfileloader(false)
+    //         })
+    //         .catch(error => {
+    //             setUserProfileloader(false)
 
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }, [])
+    //             console.error(error);
+    //             if (error?.response?.status === 401) {
+    //                 router.push('/')
+    //                 deleteCookie('logged');
+    //                 localStorage.removeItem('userdetail')
+    //             }
+    //         });
+    // }, [])
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
     }

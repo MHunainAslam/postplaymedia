@@ -1,23 +1,21 @@
 
 import React, { useContext } from 'react'
-import RootLayout from '../layout'
-import PostArea from '@/components/posts/PostArea'
 import ActivityTabs from '@/components/activity/ActivityTabs'
 import ActivityLayout from '../ActivityLayout'
 import { useRouter } from 'next/navigation'
 
-const Page = ({ Activity }) => {
+const Page = ({ ActivityPages }) => {
 
    
 
 
     return (
         <>
-            <RootLayout Activity>
+            <ActivityLayout ActivityPages>
 
             <ActivityTabs />
 
-            </RootLayout>
+            </ActivityLayout>
         </>
     )
 }

@@ -1942,6 +1942,17 @@ h5 {
     top: 4px;
     right: 8px;
 }
+.chat-arrow{
+    bottom: 15px;
+    position: absolute;
+    right: 0;
+    background: var(--primary);
+    color: white;
+    border: 0;
+    border-radius: 20px 0 0 20px;
+    /* width: 100px; */
+    padding: 4px 12px;
+}
 
 @-webkit-keyframes mover {
     0% {
@@ -2070,7 +2081,7 @@ h5 {
 
 }
 
-@media (max-width: 1200px) and (min-width: 767px) {
+@media (max-width: 1200px) and (min-width: 768px) {
 
 
     .admin-card {

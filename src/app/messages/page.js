@@ -23,12 +23,10 @@ const Page = () => {
 
     const [TabState, setTabState] = useState(param)
     useEffect(() => {
-        if (param === null) {
-            setTabState(param)
-        } else {
-            setTabState(param)
-        }
-    }, [param, TabState])
+        console.log(param, 'oo');
+        setTabState(param)
+
+    }, [param, TabState, router])
     useEffect(() => {
         document.querySelector('.closechatmodal').click()
     }, [TabState])
@@ -53,7 +51,7 @@ const Page = () => {
                                                 {TabState === TabState && <ActivityHeader />}
                                                 {/* <Chat TabState={TabState}  /> */}
                                                 {/* <Message TabState={TabState} /> */}
-                                                <Chat TabState={TabState}  />
+                                                <Chat TabState={TabState} param={param} />
                                                 {/* <ChatScreen TabState={TabState} /> */}
                                             </div>
                                         </div>

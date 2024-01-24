@@ -3,12 +3,12 @@ import ActivityLayout from '../ActivityLayout'
 import ForumsTab from '@/components/forums/ForumsTab'
 import RootLayout from '../layout'
 
-const page = () => {
+const page = ({ ActivityPages }) => {
     return (
-        <RootLayout Activity>
+        <ActivityLayout ActivityPages>
             <ForumsTab />
-            
-        </RootLayout>
+
+        </ActivityLayout>
     )
 }
 

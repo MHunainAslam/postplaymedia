@@ -12,10 +12,11 @@ import { APP_URL, IMG_URL } from '../../../config';
 import Loader from '../Loader';
 import { Skeleton, message } from 'antd';
 import LogoutConfirmation from './LogoutConfirmation';
+import { useAppContext } from '@/context/AppContext';
 
 const ActivityHeader = ({ Userdata }) => {
-    const [UserProfiledata, setUserProfiledata] = useState()
-    const [UserProfileloader, setUserProfileloader] = useState(true)
+    // const [UserProfiledata, setUserProfiledata] = useState()
+    // const [UserProfileloader, setUserProfileloader] = useState(true)
     const [NotiShow, setNotiShow] = useState(false)
     const [FrndReq, setFrndReq] = useState([])
     const router = useRouter()
@@ -29,7 +30,8 @@ const ActivityHeader = ({ Userdata }) => {
     const token = GetToken('userdetail')
 
     const ref = useRef(null);
-
+    const {UserProfiledata, UserProfileloader} = useAppContext()
+    
 
 
     const handleClickOutside = (event) => {
@@ -63,7 +65,7 @@ const ActivityHeader = ({ Userdata }) => {
 
         // Usage:
         const myCookieValue = getCookie('logged');
-     
+
 
 
         if (!myCookieValue || myCookieValue != JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.token) {
@@ -74,28 +76,28 @@ const ActivityHeader = ({ Userdata }) => {
         }
     }, [])
 
-    useEffect(() => {
-        axios.get(`${APP_URL}/api/authMe`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('authMe', response);
-                setUserProfiledata(response?.data)
-                setUserProfileloader(false)
+    // useEffect(() => {
+    //     axios.get(`${APP_URL}/api/authMe`, {
+    //         headers: {
+    //             'Authorization': `Bearer ${token}`,
+    //         }
+    //     })
+    //         .then(response => {
+    //             console.log('authMe', response);
+    //             setUserProfiledata(response?.data)
+    //             setUserProfileloader(false)
 
-            })
-            .catch(error => {
-                setUserProfileloader(false)
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }, [])
+    //         })
+    //         .catch(error => {
+    //             setUserProfileloader(false)
+    //             console.error(error);
+    //             if (error?.response?.status === 401) {
+    //                 router.push('/')
+    //                 deleteCookie('logged');
+    //                 localStorage.removeItem('userdetail')
+    //             }
+    //         });
+    // }, [])
     const receivefrndreq = () => {
         axios.get(`${APP_URL}/api/friend-requests/received`, {
             headers: {

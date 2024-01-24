@@ -8,10 +8,12 @@ import { UserContext } from '@/app/UserProfileLayout'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 import Loader from '@/components/Loader'
+import { useAppContext } from '@/context/AppContext'
 
 const Profiledetail = ({ }) => {
     const token = GetToken('userdetail')
-    const { Userdata } = useContext(UserContext);
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+    
     const [Name, setName] = useState()
     const [number, setnumber] = useState()
     const [DateofBirth, setDateofBirth] = useState()
@@ -26,7 +28,6 @@ const Profiledetail = ({ }) => {
     const [getRoles, setgetRoles] = useState([])
     const [isloading, setisloading] = useState(true)
     const router = useRouter()
-
 
     useEffect(() => {
 
@@ -104,26 +105,26 @@ const Profiledetail = ({ }) => {
                 <div className='d-md-flex align-items-center my-2'>
                     <label htmlFor="" className='col-lg-4 col-md-6'>Name </label>
                     <p className="para-lg text-dark mb-0 text-capitalize">
-                        {Userdata?.data?.name === null ? '--' : Userdata?.data?.name}
+                        {UserProfiledata?.data?.name === null ? '--' : UserProfiledata?.data?.name}
                     </p>
                 </div>
 
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-lg-4 col-md-6'>Date of Birth </label>
                     <p className="para-lg text-dark mb-0 text-capitalize">
-                        {Userdata?.data?.dob === null ? '--' : Userdata?.data?.dob.slice(0, 10)}
+                        {UserProfiledata?.data?.dob === null ? '--' : UserProfiledata?.data?.dob.slice(0, 10)}
                     </p>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-lg-4 col-md-6'>Number </label>
                     <p className="para-lg text-dark mb-0" text-capitalize>
-                        {Userdata?.data?.number === null ? '--' : Userdata?.data?.number}
+                        {UserProfiledata?.data?.number === null ? '--' : UserProfiledata?.data?.number}
                     </p>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-lg-4 col-md-6'>Sex </label>
                     <p className="para-lg text-dark mb-0 text-capitalize">
-                        {Userdata?.data?.gender === null ? '--' : Userdata?.data?.gender}
+                        {UserProfiledata?.data?.gender === null ? '--' : UserProfiledata?.data?.gender}
                     </p>
 
                 </div>
@@ -131,7 +132,7 @@ const Profiledetail = ({ }) => {
                     <label htmlFor="" className='col-lg-4 col-md-6'>State </label>
 
                     <p className="para-lg text-dark mb-0 text-capitalize">
-                        {Userdata?.data?.state === null ? '--' : Userdata?.data?.state}
+                        {UserProfiledata?.data?.state === null ? '--' : UserProfiledata?.data?.state}
                     </p>
 
                 </div>
@@ -139,7 +140,7 @@ const Profiledetail = ({ }) => {
                     <label htmlFor="" className='col-lg-4 col-md-6'>City </label>
 
                     <p className="para-lg text-dark mb-0 text-capitalize">
-                        {Userdata?.data?.city === null ? '--' : Userdata?.data?.city}
+                        {UserProfiledata?.data?.city === null ? '--' : UserProfiledata?.data?.city}
                     </p>
 
                 </div>
@@ -148,7 +149,7 @@ const Profiledetail = ({ }) => {
                     <label htmlFor="" className='col-lg-4 col-md-6'>Address </label>
 
                     <p className="para-lg text-dark mb-0 text-capitalize">
-                        {Userdata?.data?.address === null ? '--' : Userdata?.data?.address}
+                        {UserProfiledata?.data?.address === null ? '--' : UserProfiledata?.data?.address}
                     </p>
 
 
@@ -157,21 +158,21 @@ const Profiledetail = ({ }) => {
                     <label htmlFor="" className='col-lg-4 col-md-6'>Current institute </label>
 
                     <p className="para-lg text-dark mb-0 text-capitalize">
-                        {Userdata?.data?.current_institute == "" ? '--' : Userdata?.data?.current_institute}
+                        {UserProfiledata?.data?.current_institute == "" ? '--' : UserProfiledata?.data?.current_institute}
                     </p>
 
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-lg-4 col-md-6'>Current institute website</label>
                     <p className="para-lg text-dark mb-0 text-capitalize">
-                        {Userdata?.data?.current_ins_website === '' ? '--' : Userdata?.data?.current_ins_website}
+                        {UserProfiledata?.data?.current_ins_website === '' ? '--' : UserProfiledata?.data?.current_ins_website}
                     </p>
                 </div>
-                {Userdata?.data?.role?.slug != 'athlete' ?
+                {UserProfiledata?.data?.role?.slug != 'athlete' ?
                     <div className='d-md-flex align-items-center my-3'>
                         <label htmlFor="" className='col-lg-4 col-md-6'>Job Title </label>
                         <p className="para-lg text-dark mb-0 text-capitalize">
-                            {Userdata?.data?.sub_role?.name === null ? '--' : Userdata?.data?.sub_role?.name}
+                            {UserProfiledata?.data?.sub_role?.name === null ? '--' : UserProfiledata?.data?.sub_role?.name}
                         </p>
                     </div>
                     :
@@ -179,37 +180,37 @@ const Profiledetail = ({ }) => {
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>Class Year</label>
                             <p className="para-lg text-dark mb-0 text-capitalize">
-                                {Userdata?.data?.class_year === '' ? '--' : Userdata?.data?.class_year}
+                                {UserProfiledata?.data?.class_year === '' ? '--' : UserProfiledata?.data?.class_year}
                             </p>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>Height</label>
                             <p className="para-lg text-dark mb-0 text-capitalize">
-                                {Userdata?.data?.height === '' ? '--' : Userdata?.data?.height}
+                                {UserProfiledata?.data?.height === '' ? '--' : UserProfiledata?.data?.height}
                             </p>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>Weight</label>
                             <p className="para-lg text-dark mb-0 text-capitalize">
-                                {Userdata?.data?.weight === '' ? '--' : Userdata?.data?.weight}
+                                {UserProfiledata?.data?.weight === '' ? '--' : UserProfiledata?.data?.weight}
                             </p>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>Sports </label>
                             <p className="para-lg text-dark mb-0 text-capitalize">
-                                {Userdata?.data?.sports === '' ? '--' : Userdata?.data?.sports}
+                                {UserProfiledata?.data?.sports === '' ? '--' : UserProfiledata?.data?.sports}
                             </p>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>Level</label>
                             <p className="para-lg text-dark mb-0 text-capitalize">
-                                {Userdata?.data?.position === '' ? '--' : Userdata?.data?.position}
+                                {UserProfiledata?.data?.position === '' ? '--' : UserProfiledata?.data?.position}
                             </p>
                         </div>
                         <div className='d-md-flex align-items-center my-3'>
                             <label htmlFor="" className='col-lg-4 col-md-6'>AAU/Travel Team Name</label>
                             <p className="para-lg text-dark mb-0 text-capitalize">
-                                {Userdata?.data?.travel_team_name === '' ? '--' : Userdata?.data?.travel_team_name}
+                                {UserProfiledata?.data?.travel_team_name === '' ? '--' : UserProfiledata?.data?.travel_team_name}
                             </p>
                         </div>
                     </>

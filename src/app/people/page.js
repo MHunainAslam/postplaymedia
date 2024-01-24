@@ -5,9 +5,9 @@ import RootLayout from '../layout'
 
 const page = () => {
     return (
-        <RootLayout Activity>
+        <ActivityLayout ActivityPages>
             <PeopleTab />
-        </RootLayout>
+        </ActivityLayout>
     )
 }
 

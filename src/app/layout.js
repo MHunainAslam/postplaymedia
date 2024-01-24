@@ -12,6 +12,7 @@ import Script from 'next/script';
 import NextTopLoader from 'nextjs-toploader';
 import ActivitySidebar from '@/components/layout/ActivitySidebar';
 import ChatSideBar from '@/components/chatcomponents/ChatSideBar';
+import { AppWrapper } from '@/context/AppContext';
 
 export const metadata = {
   title: 'Post Play Media',
@@ -32,26 +33,28 @@ export default function RootLayout({ children, MessagePages, Activity, ProfilePa
             <NextTopLoader color="#383a45"
               showSpinner={false}
               crawlSpeed={1} />
+            <AppWrapper>
 
-            <div className="container-fluid px-0">
-              <div className="row w-100 mx-0">
-                <div className="sidebar-size px-0">
-                  <ActivitySidebar />
-                </div>
-                <div className="col px-0">
-                  <div className="">
-                    <ActivityHeader />
-                    <div className="container py-0">
-                      {children}
+              <div className="container-fluid px-0">
+                <div className="row w-100 mx-0">
+                  <div className="sidebar-size px-0">
+                    <ActivitySidebar />
+                  </div>
+                  <div className="col px-0">
+                    <div className="">
+                      <ActivityHeader />
+                      <div className="container py-0">
+
+                        {children}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="chatbar-size px-0">
-                  <ChatSideBar />
+                  <div className="chatbar-size px-0">
+                    <ChatSideBar />
+                  </div>
                 </div>
               </div>
-            </div>
-
+            </AppWrapper>
 
 
 
@@ -68,6 +71,7 @@ export default function RootLayout({ children, MessagePages, Activity, ProfilePa
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         </Head>
+        <AppWrapper>
         <body className={inter.className}>
           <NextTopLoader color="#383a45"
             showSpinner={false}
@@ -80,6 +84,7 @@ export default function RootLayout({ children, MessagePages, Activity, ProfilePa
 
           <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></Script>
         </body>
+        </AppWrapper>
       </html >
 
 

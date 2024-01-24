@@ -112,7 +112,6 @@ const CreateTeam = () => {
             }
         })
             .then(response => {
-                console.log('kikikiki', response);
                 setAllstate(response?.data?.data?.states)
             })
             .catch(error => {

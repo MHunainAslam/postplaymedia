@@ -269,10 +269,10 @@ const ChatSideBar = () => {
                                                 <p className="para-sm clr-text mb-0 chat-detail">{item.last_message}</p>
                                             </div>
                                             <div className='d-flex ms-auto'>
-                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-1 chat-detail' disabled={isDisable} onClick={() => cancelspam(item.romid)}>
+                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-1 chat-detail' disabled={isDisable} onClick={() => cancelspam(item.id)}>
                                                     <i className="bi bi-x-lg"></i>
                                                 </button>
-                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-1 chat-detail' disabled={isDisable} onClick={() => accptspam(item.romid)}>
+                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-1 chat-detail' disabled={isDisable} onClick={() => accptspam(item.id)}>
                                                     <i className="bi bi-check2"></i>
                                                 </button>
                                             </div>

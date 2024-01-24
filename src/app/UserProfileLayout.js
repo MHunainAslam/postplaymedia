@@ -13,6 +13,7 @@ import { GetToken } from '@/utils/Token'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
+import { useAppContext } from '@/context/AppContext'
 export const UserContext = createContext();
 const UserProfileLayout = ({ children, ProfilePages }) => {
     const token = GetToken('userdetail')
@@ -20,7 +21,9 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
     const router = useRouter()
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [Userdata, setUserdata] = useState('')
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+    
+    const [Userdata, setUserdata] = useState(UserProfiledata)
     const [UserdataLoader, setUserdataLoader] = useState(true)
 
     const openModal = (index) => {
@@ -34,27 +37,7 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
     };
 
 
-    useEffect(() => {
-        axios.get(`${APP_URL}/api/authMe`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('userprofile authme', response);
-                setUserdata(response?.data)
-                setUserdataLoader(false)
-            })
-            .catch(error => {
-                setUserdataLoader(false)
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }, [])
+
     const childrenWithProps = React.Children.map(children, (child, i) => {
         return React.cloneElement(child, { foo: Userdata })
     })
@@ -72,9 +55,9 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
                             </div>
                             <div className="col px-0">
                                 <div className="">
-                                    <ActivityHeader Userdata={Userdata} />
+                                    <ActivityHeader Userdata={UserProfiledata} />
                                     <div className="col">
-                                        <Coverandtab Userdata={Userdata} UserdataLoader={UserdataLoader} />
+                                        <Coverandtab Userdata={UserProfiledata} UserdataLoader={UserProfileloader} />
                                     </div>
                                     <div className="container py-5">
                                         <div className="border-bottom d-md-block d-none" style={{ marginTop: '120px' }}></div>
@@ -84,11 +67,11 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
                                                 <div className="col-lg-2 col-md-3 d-md-block d-none border-right">
                                                     <div className="d-flex justify-content-center pt-4 border-bottom">
                                                         <div className='mx-2'>
-                                                            <p className="heading-m mb-0 clr-primary text-center">{Userdata?.data?.friends_count}</p>
+                                                            <p className="heading-m mb-0 clr-primary text-center">{UserProfiledata?.data?.friends_count}</p>
                                                             <p className="para clr-text text-center">Friends</p>
                                                         </div>
                                                         <div className='mx-2'>
-                                                            <p className="heading-m mb-0 clr-primary text-center">{Userdata?.data?.group_count}</p>
+                                                            <p className="heading-m mb-0 clr-primary text-center">{UserProfiledata?.data?.group_count} </p>
                                                             <p className="para clr-text text-center">Groups</p>
                                                         </div>
                                                     </div>

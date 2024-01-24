@@ -2,17 +2,17 @@
 import { Authme, GetToken, imgurl } from '@/utils/Token';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import StartChat from './StartChat';
 import axios from 'axios';
 import { APP_URL } from '../../../config';
 
-const Chat = ({ TabState }) => {
+const Chat = ({ TabState, param }) => {
     const token = GetToken('userdetail');
     const searchParams = useSearchParams()
     const profile = JSON.parse(searchParams.get('profile'))
-
+    const [bottombtn, setbottombtn] = useState(false);
     const [messages, setMessages] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -22,6 +22,14 @@ const Chat = ({ TabState }) => {
     const chatContainerRef = useRef();
     const previousScrollHeightRef = useRef();
     const [Userprofile, setUserprofile] = useState([])
+    const params = searchParams.get('chat')
+    const router = useRouter()
+    useEffect(() => {
+        console.log(params, 'on', TabState);
+        console.log(router);
+    }, [router])
+
+
     useEffect(() => {
         Authme(token)
             .then(data => {
@@ -36,7 +44,7 @@ const Chat = ({ TabState }) => {
     const fetchMessages = async (page) => {
         try {
             const response = await fetch(
-                `http://api.microndeveloper.com/api/messages?room_id=${TabState}&per_page=20&page=${page}`,
+                `${APP_URL}/api/messages?room_id=${param}&per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -62,7 +70,7 @@ const Chat = ({ TabState }) => {
         try {
             setLoading(true);
             const response = await fetch(
-                `http://api.microndeveloper.com/api/messages?room_id=${TabState}&per_page=20&page=${page}`,
+                `${APP_URL}/api/messages?room_id=${params}&per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -87,7 +95,7 @@ const Chat = ({ TabState }) => {
     const every10 = async (page) => {
         try {
             const response = await fetch(
-                `http://api.microndeveloper.com/api/messages?room_id=${TabState}&per_page=20&page=1&is_read=false`,
+                `${APP_URL}/api/messages?room_id=${param}&per_page=20&page=${page}&is_read=false`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -98,14 +106,28 @@ const Chat = ({ TabState }) => {
             const data = await response.json();
             const newMessages = data.data.data;
             console.log('messages 10', newMessages)
+            // console.log(params);
+
             // if (newMessages.id) {
 
             // }
             // console.log(newMessages.map((item) => (item.sender_id)) != profile?.id)
 
 
-            if (chatContainerRef.current.scrollTop + chatContainerRef.current.clientHeight === chatContainerRef.current.scrollHeight) {
+            const container = chatContainerRef.current;
+            const isAtBottom = container.scrollTop + container.clientHeight + 50 >= container.scrollHeight;
+            console.log(isAtBottom)
+
+
+            // if (chatContainerRef.current.scrollTop + chatContainerRef.current.clientHeight == chatContainerRef.current.scrollHeight) {
+            if (isAtBottom) {
                 fetchMessages(1)
+                console.log('working');
+            } else if (newMessages.length > 0) {
+
+                setbottombtn(true)
+
+
             }
             // if (newMessages.map((item) => (item.sender_id)) != profile?.id) {
             //     setMessages((prevMessages) => [...prevMessages, ...newMessages]);
@@ -171,10 +193,12 @@ const Chat = ({ TabState }) => {
     }, [handleScroll]);
     useEffect(() => {
         setMessages([])
-        fetchMessages()
+        fetchMessages(1)
         setFirstRun(true)
         setfirstLoad(true)
-    }, [TabState])
+        setCurrentPage(1)
+        console.log(TabState);
+    }, [param])
     const appendCustomDay = (e) => {
         e.preventDefault()
         if (NewMessages === '') {
@@ -208,13 +232,16 @@ const Chat = ({ TabState }) => {
     useEffect(() => {
         console.log(currentPage)
         const interval = setInterval(() => {
-            every10()
-            console.log('im')
+            every10(1)
+            console.log('im' ,params)
         }, 10000);
         return () => clearInterval(interval);
-    }, [])
-
-
+    }, [params])
+    const gotobottom = () => {
+        setbottombtn(false)
+        fetchMessages(1)
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
     return (
         <>
             <div className='px-3 chat-header'>
@@ -230,7 +257,7 @@ const Chat = ({ TabState }) => {
                 </Link>
             </div>
 
-            <div className='flex-1 chat-body px-0 py-0' >
+            <div className='flex-1 chat-body px-0 py-0 position-relative' >
                 <div className="h-100 overflow-auto" ref={chatContainerRef}>
 
                     {TabState === 'startchating' ? <StartChat profile={profile} /> : <>
@@ -279,7 +306,7 @@ const Chat = ({ TabState }) => {
 
                 </div>
 
-                {/* <button>aa</button> */}
+                <button className={`chat-arrow ${bottombtn ? '' : 'd-none'}`} onClick={gotobottom}><i class="bi bi-arrow-down-circle"></i></button>
             </div>
 
             <div className='p-3 chat-footer'>

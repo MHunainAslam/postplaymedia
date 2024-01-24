@@ -8,27 +8,19 @@ import Mention from './Mention'
 import { UserContext } from '@/app/ActivityLayout'
 import PostArea from '../posts/PostArea'
 import { Authme, GetToken } from '@/utils/Token'
+import { useAppContext } from '@/context/AppContext'
 
 const ActivityTabs = () => {
     const token = GetToken('userdetail')
     // const { Userdata } = useContext(UserContext);
     const [Userdata, setUserdata] = useState([])
-    useEffect(() => {
-
-        Authme(token)
-            .then(data => {
-                console.log('Data from Authme:', data);
-                setUserdata(data)
-            })
-            .catch(error => {
-                console.error('Error from Authme:', error);
-            });
-    }, [])
+    const {UserProfiledata, UserProfileloader} = useAppContext()
+    
 
     return (
         <>
             <div className="pt-5 pb-3">
-                <PostArea Userdata={Userdata} />
+                <PostArea Userdata={UserProfiledata} UserProfileloader={UserProfileloader}/>
             </div>
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">

@@ -1,11 +1,12 @@
 import React from 'react'
 import RootLayout from '../layout'
+import ActivityLayout from '../ActivityLayout'
 
 const page = () => {
     return (
-        <RootLayout activity>
+        <ActivityLayout ActivityPages>
             <div>test</div>
-        </RootLayout>
+            </ActivityLayout>
     )
 }
 

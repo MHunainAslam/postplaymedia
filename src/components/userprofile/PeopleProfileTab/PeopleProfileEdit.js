@@ -7,10 +7,11 @@ import { APP_URL } from '../../../../config'
 import { UserContext } from '@/app/UserProfileLayout'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
+import { useAppContext } from '@/context/AppContext'
 
 const PeopleProfileEdit = ({ }) => {
     const token = GetToken('userdetail')
-    const { Userdata } = useContext(UserContext);
+    const {UserProfiledata, UserProfileloader} = useAppContext()
     const [Name, setName] = useState()
     const [number, setnumber] = useState()
     const [DateofBirth, setDateofBirth] = useState()
@@ -64,7 +65,7 @@ const PeopleProfileEdit = ({ }) => {
     const EditcoachProfile = (e) => {
         setisloading(true)
         e.preventDefault()
-        axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { name: Name, email: Userdata?.data?.email, role_id: Userdata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, state: state, JobType: JobType, current_institute: C_institute, current_ins_website: C_instituteweb, address: Address, number: number, job_title: JobType, travel_team_name: AAUTravel }, {
+        axios.patch(`${APP_URL}/api/user/${UserProfiledata?.data?.id}`, { name: Name, email: UserProfiledata?.data?.email, role_id: UserProfiledata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, state: state, JobType: JobType, current_institute: C_institute, current_ins_website: C_instituteweb, address: Address, number: number, job_title: JobType, travel_team_name: AAUTravel }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -91,7 +92,7 @@ const PeopleProfileEdit = ({ }) => {
     const EditAthleteProfile = (e) => {
         setisloading(true)
         e.preventDefault()
-        axios.patch(`${APP_URL}/api/user/${Userdata?.data?.id}`, { name: Name, email: Userdata?.data?.email, role_id: Userdata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, state: state, JobType: JobType, current_institute: C_institute, current_ins_website: C_instituteweb, address: Address, number: number, class_year: classyear, height: height, weight: weight, sports: Sports, position: Position, travel_team_name: AAUTravel }, {
+        axios.patch(`${APP_URL}/api/user/${UserProfiledata?.data?.id}`, { name: Name, email: UserProfiledata?.data?.email, role_id: UserProfiledata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, state: state, JobType: JobType, current_institute: C_institute, current_ins_website: C_instituteweb, address: Address, number: number, class_year: classyear, height: height, weight: weight, sports: Sports, position: Position, travel_team_name: AAUTravel }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -164,7 +165,7 @@ const PeopleProfileEdit = ({ }) => {
 
             <div className="border-bottom mb-4"></div>
 
-            <form action="" onSubmit={Userdata?.data?.role?.slug != 'athlete' ? EditcoachProfile : EditAthleteProfile} className='job-detail'>
+            <form action="" onSubmit={UserProfiledata?.data?.role?.slug != 'athlete' ? EditcoachProfile : EditAthleteProfile} className='job-detail'>
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-md-2'>Name </label>
                     <div className="col">
@@ -244,7 +245,7 @@ const PeopleProfileEdit = ({ }) => {
                         <input type="text" name="" id="" className='form-control inp col-m' value={C_instituteweb} onChange={(e) => setC_instituteweb(e.target.value)} />
                     </div>
                 </div>
-                {Userdata?.data?.role?.slug != 'athlete' ?
+                {UserProfiledata?.data?.role?.slug != 'athlete' ?
                     <div className='d-md-flex align-items-center my-3'>
                         <label htmlFor="" className='col-md-2'>Job Title </label>
                         <div className="col">

@@ -5,12 +5,12 @@ import RootLayout from '../layout'
 
 const Page = () => {
     return (
-        <RootLayout Activity>
+        <ActivityLayout ActivityPages>
             <>
 
                 <PhotosTab />
             </>
-        </RootLayout>
+            </ActivityLayout>
 
     )
 }
