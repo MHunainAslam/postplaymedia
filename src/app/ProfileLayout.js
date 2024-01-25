@@ -75,7 +75,7 @@ const ProfileLayout = ({ children, ProfilePages }) => {
                                         <Coverandtab Userdata={Userdata} UserdataLoader={UserdataLoader} />
                                     </div>
                                     <div className="container py-5">
-                                        <div className="border-bottom d-md-block d-none" style={{ marginTop: '120px' }}></div>
+                                        <div className="border-bottom d-md-block d-none" ></div>
                                         <div className="border-bottom d-md-none mt-4" ></div>
                                         <div className="container">
                                             <div className="row">

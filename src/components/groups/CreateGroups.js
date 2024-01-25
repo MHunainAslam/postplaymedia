@@ -182,6 +182,8 @@ const CreateGroups = () => {
                 setisLoading(false)
                 message.success(response.data.message)
                 document.querySelector('#MyGroups-tab').click()
+                setDetail(true)
+                setInvite(false)
             })
             .catch(error => {
                 console.error(error);

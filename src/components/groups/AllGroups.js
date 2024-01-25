@@ -4,6 +4,7 @@ import React from 'react'
 import Pagination from '../jobs/Pagination'
 import Loader from '../Loader'
 import { IMG_URL } from '../../../config'
+import { imgurl } from '@/utils/Token'
 
 const AllGroups = ({ Allgrp, isLoading }) => {
     return (
@@ -37,26 +38,29 @@ const AllGroups = ({ Allgrp, isLoading }) => {
                                         {item.profile_photo === null ?
                                             <div alt="" width={200} height={200} className='object-fit-contain w-25 Grp-Bg-img'></div>
                                             :
-                                        <Image loader={IMG_URL} src={item.cover_photo} alt="" width={200} height={200} className='object-fit-contain w-25 Grp-Bg-img'></Image>}
+                                            <Image loader={imgurl} src={item.cover_photo} alt="" width={200} height={200} className='object-fit-contain w-25 Grp-Bg-img'></Image>}
                                         <div className='h-0'>
                                             {item.profile_photo === null ?
                                                 <Image src={'/assets/images/avatar/group.png'} alt="" width={100} height={100} className='post-profile'></Image> :
-                                                <Image loader={IMG_URL} src={item.profile_photo.url} alt="" width={100} height={100} className='post-profile'></Image>
+                                                <Image loader={imgurl} src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile'></Image>
                                             }
                                         </div>
                                     </div>
                                     <Link className='link-hov' href={`groups/${item.id}`}><p className="heading text-black mb-2 mt-4">{item.group_name}</p></Link>
                                     {/* <p className="para clr-light">Active 2 minutes ago</p> */}
                                     <div className="imgtoimg">
-                                        <Link href={'#'}>
-                                            <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
-                                        </Link>
-                                        <Link href={'#'}>
-                                            <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
-                                        </Link>
+                                        {item.some_members.map((item, i) => (
+                                            <>
+                                                {item.profile_photo === null ?
+                                                    <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
+                                                    : <Image src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile-sm'></Image>
+
+                                                }
+                                            </>
+                                        ))}
 
                                     </div>
-                                    <p className="para text-black mt-3 text-capitalize">{item.privacy} Group / 2 members</p>
+                                    <p className="para text-black mt-3 text-capitalize">{item.privacy} Group / {item.member_count} members</p>
                                 </div>
                                 <div className="card-footer">
                                     <button className='btn secondary-btn '><p className='mb-0 px-4'>My Profile</p></button>

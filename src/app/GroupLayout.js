@@ -10,21 +10,47 @@ import axios from 'axios'
 import { APP_URL } from '../../config'
 import { GetToken } from '@/utils/Token'
 import Loader from '@/components/Loader'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 import { useAppContext } from '@/context/AppContext'
 import Coverandtab from '@/components/groups/groupbyid/Coverandtab'
-export const UserContext = createContext();
+export const grpContext = createContext();
 const GroupLayout = ({ children, GroupPage }) => {
     const token = GetToken('userdetail')
+    const { groupbyid } = useParams()
     const images = [{ url: '/assets/images/posts/covers.jpg', comment: '123' }, { url: '/assets/images/posts/cover.jpeg', comment: '321' }, { url: '/assets/images/Modal/Avatar.png', comment: '567' }]; // Replace with your image URLs
     const router = useRouter()
     const [modalOpen, setModalOpen] = useState(false);
+    const [isLoading, setisLoading] = useState(true);
     const [selectedImage, setSelectedImage] = useState(null);
     const { UserProfiledata, UserProfileloader } = useAppContext()
-
     const [Userdata, setUserdata] = useState(UserProfiledata)
+    const [grpdata, setgrpdata] = useState(null)
     const [UserdataLoader, setUserdataLoader] = useState(true)
+
+   useEffect(() => {
+    axios.get(`${APP_URL}/api/groups/${groupbyid}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    })
+        .then(response => {
+            console.log('grp by id', response);
+            setisLoading(false)
+            setgrpdata(response?.data)
+        })
+        .catch(error => {
+            setisLoading(false)
+            console.error(error);
+            if (error?.response?.status === 401) {
+                router.push('/')
+                deleteCookie('logged');
+                localStorage.removeItem('userdetail')
+            }
+        });
+   }, [])
+   
+
 
     const openModal = (index) => {
         setSelectedImage(index);
@@ -55,63 +81,25 @@ const GroupLayout = ({ children, GroupPage }) => {
                             </div>
                             <div className="col px-0">
                                 <div className="">
-                                    <ActivityHeader Userdata={UserProfiledata} />
+                                    <ActivityHeader  />
                                     <div className="col">
-                                        <Coverandtab Userdata={UserProfiledata} UserdataLoader={UserProfileloader} />
+                                        <Coverandtab grpdata={grpdata} isLoading={isLoading} />
                                     </div>
                                     <div className="container py-5">
-                                        <div className="border-bottom d-md-block d-none" style={{ marginTop: '120px' }}></div>
+                                        <div className="border-bottom d-md-block d-none"></div>
                                         <div className="border-bottom d-md-none mt-4" ></div>
                                         <div className="container">
                                             <div className="row">
-                                                <div className="col-lg-2 col-md-3 d-md-block d-none border-right">
-                                                    <div className="d-flex justify-content-center pt-4 border-bottom">
-                                                        <div className='mx-2'>
-                                                            <p className="heading-m mb-0 clr-primary text-center">{UserProfiledata?.data?.friends_count}</p>
-                                                            <p className="para clr-text text-center">Friends</p>
-                                                        </div>
-                                                        <div className='mx-2'>
-                                                            <p className="heading-m mb-0 clr-primary text-center">{UserProfiledata?.data?.group_count} </p>
-                                                            <p className="para clr-text text-center">Groups</p>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <p className="heading-m text-dark mt-4 text-center">
-                                                            My Photos
-                                                        </p>
-                                                        <div className="row">
-                                                            {images.map((image, index) => (
-                                                                <div className="px-1 col-xl-4 col-md-6 col-4 mt-1" key={index}>
-                                                                    <div className="card gallery-card">
-                                                                        <div className="card-body p-0">
-                                                                            <div className='gallery-img rounded-2' style={{ height: '60px' }}>
-                                                                                <Image
-                                                                                    className='pointer h-100 rounded-2'
-                                                                                    key={index}
-                                                                                    src={image.url}
-                                                                                    alt={`Image ${index + 1}`}
-                                                                                    onClick={() => openModal(index)}
-                                                                                    data-bs-toggle="modal" data-bs-target={`#selectedImage`}
-                                                                                    width={500} height={500}
-                                                                                />
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                                 <div className="col-md-9 col-lg-10 ">
-                                                    <UserContext.Provider value={{ Userdata, setUserdata }}>
+                                                    <grpContext.Provider value={{ Userdata, setUserdata }}>
                                                         {children}
-                                                    </UserContext.Provider>
+                                                    </grpContext.Provider>
                                                     {/* {childrenWithProps} */}
                                                     {/* {React.cloneElement(children, { Userdata })} */}
                                                 </div>
                                             </div>
                                         </div>
-                                        <FancyBox images={images} modalOpen={modalOpen} closeModal={closeModal} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
                                     </div>
                                 </div>
                             </div>

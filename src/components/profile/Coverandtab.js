@@ -147,7 +147,7 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                     <div className="profile-page-user">
                         <div className="card mb-3">
                             <div className="row g-0 justify-content-center">
-                                <div className="img-p">
+                                <div className="img-p" style={UserdataLoader ? { height: '200px' } : {}}>
                                     {UserdataLoader ?
                                         <Skeleton.Image active /> : <>
                                             {Userdata?.data?.profile_photo === null ?
@@ -213,7 +213,7 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                 </div>
             </div>
             <div className="container d-md-none">
-                <div className="profile-tabs  " style={{ marginTop: '150px' }}>
+                <div className="profile-tabs  " >
                     <ProfileTabs Userdata={Userdata} />
                 </div>
             </div>

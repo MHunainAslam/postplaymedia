@@ -58,7 +58,7 @@ const GroupTabs = () => {
         <>
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">
-                    <li className="nav-item nav-link active" id="AllGroups-tab" data-bs-toggle="tab" data-bs-target="#AllGroups" type="button" role="tab" aria-controls="AllGroups" aria-selected="false" tabIndex="-1" onClick={() => { getallgrp , setCurrentPage(1)}}>
+                    <li className="nav-item nav-link active" id="AllGroups-tab" data-bs-toggle="tab" data-bs-target="#AllGroups" type="button" role="tab" aria-controls="AllGroups" aria-selected="false" tabIndex="-1" onClick={() => { getallgrp() , setCurrentPage(1)}}>
                         All Groups <span className='comment-active ms-1'>{Allgrp?.data?.data?.total}</span>
                     </li>
                     <li className="nav-item nav-link " id="MyGroups-tab" data-bs-toggle="tab" data-bs-target="#MyGroups" type="button" role="tab" aria-controls="MyGroups" aria-selected="false" tabIndex="-1">

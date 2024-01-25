@@ -6,11 +6,12 @@ import { Skeleton } from 'antd'
 import UserProfileTabs from '@/components/userprofile/UserProfileTabs'
 import { IMG_URL } from '../../../../config'
 import GroupProfileTab from './GroupProfileTab'
+import { imgurl } from '@/utils/Token'
 
-const Coverandtab = ({ Userdata, UserdataLoader }) => {
-console.log(Userdata, 'cc');
+const Coverandtab = ({ grpdata, isLoading }) => {
+    console.log(grpdata, 'cc');
     const router = useRouter()
- 
+
     const movetoedit = () => {
         router.push('/profile/profile?profile-tab=editprofile')
     }
@@ -25,12 +26,12 @@ console.log(Userdata, 'cc');
         <>
             <div className="position-relative">
                 <div className="profile-page-cover">
-                    {UserdataLoader ?
+                    {isLoading ?
                         <Skeleton.Image active />
                         : <>
-                            {Userdata?.data?.cover_photo === null ?
+                            {grpdata?.data?.group?.cover_photo === null ?
                                 <Skeleton.Image /> :
-                                <Image loader={IMG_URL} src={Userdata?.data?.cover_photo.url} width={1920} height={1080} alt=''></Image>
+                                <Image loader={imgurl} src={grpdata?.data?.group?.cover_photo.url} width={1920} height={1080} alt=''></Image>
                             }
                         </>}
                 </div>
@@ -38,49 +39,35 @@ console.log(Userdata, 'cc');
                     <div className="profile-page-user">
                         <div className="card mb-3">
                             <div className="row g-0 justify-content-center">
-                                <div className="img-p">
-                                    {UserdataLoader ?
-                                        <Skeleton.Image active /> : <>
-                                            {Userdata?.data?.profile_photo === null ?
-                                                <Image src="/assets/images/avatar/user.jpg" width={500} height={500} alt='' className="img-fluid rounded-start user-img" /> :
-                                                <Image loader={IMG_URL} src={Userdata?.data?.profile_photo.url} width={500} height={500} alt='' className="img-fluid rounded-start user-img" />
-                                            }
-                                        </>}
-                                    <div className='profileicon'>
-                                        <i className="bi bi-camera" onClick={movetochangedp}></i>
-                                    </div>
-                                    {UserdataLoader ? <div className='text-skeleton-2 skel-w-100 my-auto w-50 mx-auto mt-3' > <Skeleton active paragraph={{ rows: 0 }} height={50} /> </div> :
-                                        <p className="heading text-center mt-2 clr-dark text-capitalize">{Userdata?.data?.name}</p>
-                                    }
-                                </div>
-                                <div className="col-md-8 col-lg mt-auto">
-                                    <div className="d-md-flex mb-md-5 pb-md-3">
-                                        <div className="card-body d-flex align-items-center justify-content-center justify-content-md-start">
-                                            {UserdataLoader ? <Skeleton active paragraph={{ rows: 0 }} height={50} /> :
-                                                <>
-                                                    <p className="heading mb-0 text-md-white">@{Userdata?.data?.username}</p>
-                                                    <span className='para mb-0 ms-3'>Active Now </span>
-                                                </>}
-                                        </div>
-                                        <div className="card-body ">
-                                            <div className="icons d-flex align-items-center  justify-content-evenly justify-content-md-end">
-                                                <div> <i className="bi bi-pencil-square pointer" onClick={movetoedit}></i></div>
-                                                <div><i className="bi bi-card-image pointer" onClick={movetochangecover}></i></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className=" profile-tabs d-md-flex d-none  my-3">
-                                        <GroupProfileTab Userdata={Userdata} />
-                                    </div>
+                                <div className="img-p" style={isLoading ? { height: '200px' } : {}}>
+
+                                {isLoading ?
+                                    <Skeleton.Image active style={{ height: '200px' }} /> :
+                                    <>
+                                        {grpdata?.data?.group?.profile_photo === null ?
+                                            <Image src="/assets/images/avatar/user.jpg" width={500} height={500} alt='' className="img-fluid rounded-start user-img" /> :
+                                            <Image loader={imgurl} src={grpdata?.data?.group?.profile_photo.url} width={500} height={500} alt='' className="img-fluid rounded-start user-img" />
+                                        }
+                                    </>}
+
+                                {isLoading ? <div className='text-skeleton-2 skel-w-100 my-auto w-50 mx-auto mt-3' > <Skeleton active paragraph={{ rows: 0 }} height={50} /> </div> :
+                                    <p className="heading text-center mt-2 clr-dark text-capitalize">{grpdata?.data?.group?.group_name}</p>
+                                }
+                            </div>
+                            <div className="col-md-8 col-lg mt-auto">
+
+                                <div className=" profile-tabs d-md-flex d-none  my-3">
+                                    <GroupProfileTab />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div >
             <div className="container d-md-none">
-                <div className="profile-tabs  " style={{ marginTop: '150px' }}>
-                    <GroupProfileTab Userdata={Userdata} />
+                <div className="profile-tabs  " >
+                    <GroupProfileTab />
                 </div>
             </div>
 
