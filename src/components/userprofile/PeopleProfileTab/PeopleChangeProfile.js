@@ -156,9 +156,9 @@ const PeopleChangeProfile = () => {
                             <p className="para clr-text mb-0">Upload Picture</p>
                         </li>
 
-                        <li className="nav-item nav-link text-center" id="TakePicture-tab" data-bs-toggle="tab" data-bs-target="#TakePicture" type="button" role="tab" aria-controls="TakePicture" aria-selected="false" tabIndex="-1">
+                        {/* <li className="nav-item nav-link text-center" id="TakePicture-tab" data-bs-toggle="tab" data-bs-target="#TakePicture" type="button" role="tab" aria-controls="TakePicture" aria-selected="false" tabIndex="-1">
                             <p className="para clr-text mb-0">Take Picture </p>
-                        </li>
+                        </li> */}
                         <li className="nav-item nav-link text-center" id="DeletePicture-tab" data-bs-toggle="tab" data-bs-target="#DeletePicture" type="button" role="tab" aria-controls="DeletePicture" aria-selected="false" tabIndex="-1">
                             <p className="para clr-text mb-0">Delete Picture</p>
                         </li>

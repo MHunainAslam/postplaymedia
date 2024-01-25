@@ -27,10 +27,12 @@ export function AppWrapper({ children }) {
   const router = useRouter
   const [UserProfiledata, setUserProfiledata] = useState()
   const [UserProfileloader, setUserProfileloader] = useState(true)
+  const [login, setlogin] = useState(false)
   const [state, setState] = useState({
     hello: UserProfiledata,
   });
   useEffect(() => {
+    console.log('cont');
     axios.get(`${APP_URL}/api/authMe`, {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -46,13 +48,13 @@ export function AppWrapper({ children }) {
         // setUserProfileloader(false)
         console.error(error);
         if (error?.response?.status === 401) {
-          router.push('/')
+          // router.replace('/')
           deleteCookie('logged');
           localStorage.removeItem('userdetail')
         }
       });
-  }, [])
-  return <AppContext.Provider value={{ UserProfiledata, UserProfileloader }}>{children}</AppContext.Provider>;
+  }, [login])
+  return <AppContext.Provider value={{ UserProfiledata, UserProfileloader, setlogin }}>{children}</AppContext.Provider>;
 }
 
 export function useAppContext() {

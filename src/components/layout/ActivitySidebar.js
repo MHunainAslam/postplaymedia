@@ -156,7 +156,7 @@ const ActivitySidebar = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href={'/jobs'} className={pathname === '/jobs' ? 'active-nav' : ''}>
+                                <Link href={'/teams'} className={pathname === '/teams' ? 'active-nav' : ''}>
                                     <i className="bi bi-person-arms-up"></i> <br />
                                     <p>Teams</p>
                                 </Link>

@@ -110,7 +110,7 @@ const JobManage = ({ JobCategorydd, loadcomponent }) => {
                                     <>
                                         {GetAllJobs?.data?.data?.map((item, i) => (
                                             <tr key={i}>
-                                                <td className='d-flex justify-content-between'><Link href={`/jobs/${item.id}`} className='link-hov fw-bold text-black'> {item.title} </Link>
+                                                <td className='d-flex justify-content-between'><Link href={`/teams/${item.id}`} className='link-hov fw-bold text-black'> {item.title} </Link>
                                                     <i className="bi bi-three-dots-vertical nav-link " data-bs-toggle="dropdown" aria-expanded="false"></i>
 
                                                     <ul className="dropdown-menu">

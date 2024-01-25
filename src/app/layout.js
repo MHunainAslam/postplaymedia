@@ -43,7 +43,7 @@ export default function RootLayout({ children, MessagePages, Activity, ProfilePa
                   <div className="col px-0">
                     <div className="">
                       <ActivityHeader />
-                      <div className="container py-0">
+                      <div className="container pt-0 pb-3">
 
                         {children}
                       </div>

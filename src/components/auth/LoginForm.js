@@ -6,6 +6,7 @@ import { setCookie } from 'cookies-next';
 import { message } from 'antd';
 import axios from 'axios';
 import { APP_URL } from '../../../config';
+import { useAppContext } from '@/context/AppContext';
 
 const LoginForm = () => {
   const [UserEmail, setUserEmail] = useState('')
@@ -13,6 +14,8 @@ const LoginForm = () => {
   const [ShowPass, setShowPass] = useState(false)
   const [isLoading, setisLoading] = useState(false)
   const router = useRouter()
+  const {UserProfiledata, UserProfileloader , setlogin} = useAppContext()
+
 
   const loginuser = (e) => {
     e.preventDefault()
@@ -31,7 +34,7 @@ const LoginForm = () => {
           // setUserPass('')
           console.log(response.data.data.token)
           setCookie('logged', response.data.data.token);
-
+          setlogin(true)
           localStorage.setItem('userdetail', JSON.stringify({ response }))
           router.push('/activity')
           setisLoading(false)

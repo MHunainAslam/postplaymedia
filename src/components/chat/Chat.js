@@ -147,15 +147,17 @@ const Chat = ({ TabState, param }) => {
     }, []);
 
     useEffect(() => {
+        const container = chatContainerRef.current;
         if (firstRun) {
-            const container = chatContainerRef.current;
             container.scrollTop = container.scrollHeight;
-        } else {
+        } else if (container && container.scrollTop <= 0) {
+            
+    
 
 
             // Calculate the difference in scroll height after adding new messages
             const newScrollHeight = chatContainerRef.current.scrollHeight;
-            const scrollHeightDifference = newScrollHeight - previousScrollHeightRef.current - 10;
+            const scrollHeightDifference = newScrollHeight - previousScrollHeightRef.current - 0;
 
             // Adjust the scroll position to maintain the previous scroll position
             chatContainerRef.current.scrollTop += scrollHeightDifference;
@@ -172,6 +174,7 @@ const Chat = ({ TabState, param }) => {
 
         // Check if the user has scrolled to the bottom of the div
         if (container && container.scrollTop <= 0) {
+            console.log('chr');
             setFirstRun(false)
             // if (container &&
             //     container.scrollHeight - container.scrollTop <= container.clientHeight + 200) {
@@ -185,6 +188,7 @@ const Chat = ({ TabState, param }) => {
 
         // Add scroll event listener when the component mounts
         container.addEventListener('scroll', handleScroll);
+        console.log('yahi');
 
         // Remove the event listener when the component unmounts
         return () => {
@@ -200,6 +204,9 @@ const Chat = ({ TabState, param }) => {
         console.log(TabState);
     }, [param])
     const appendCustomDay = (e) => {
+        const container = chatContainerRef.current;
+
+        container && container.scrollTop == 0
         e.preventDefault()
         if (NewMessages === '') {
         } else {
