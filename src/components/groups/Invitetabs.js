@@ -1,16 +1,45 @@
 'use client'
+import { GetToken, imgurl } from '@/utils/Token'
+import { deleteCookie } from 'cookies-next'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { APP_URL } from '../../../config'
+import axios from 'axios'
 
 const Invitetabs = () => {
+    const token = GetToken('userdetail')
+    const router = useRouter()
+
     const [selectedCards, setSelectedCards] = useState([]);
+    const [MyFriends, setMyFriends] = useState([]);
+    useEffect(() => {
+        axios.get(`${APP_URL}/api/friendships`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('grp frnds', response);
+                setMyFriends(response.data.message)
+            })
+            .catch(error => {
+                console.error(error);
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }, [])
 
-    const MyFriends = [
-        { id: 1, title: 'champ', img: '/assets/images/Modal/Avatar.png' },
-        { id: 2, title: 'John', img: '/assets/images/Modal/Avatar.png' },
-        { id: 3, title: 'Nick', img: '/assets/images/Modal/Avatar.png' },
 
-    ];
+    // const MyFriends = [
+    //     { id: 1, title: 'champ', img: '/assets/images/Modal/Avatar.png' },
+    //     { id: 2, title: 'John', img: '/assets/images/Modal/Avatar.png' },
+    //     { id: 3, title: 'Nick', img: '/assets/images/Modal/Avatar.png' },
+
+    // ];
     const AllMembers = [
         { id: 'all1', title: 'champ', img: '/assets/images/Modal/Avatar.png' },
         { id: 'all2', title: 'John', img: '/assets/images/Modal/Avatar.png' },
@@ -19,8 +48,8 @@ const Invitetabs = () => {
     ];
 
     const handleCardSelect = (card) => {
-        const isSelected = selectedCards.find((selected) => selected.id === card.id);
-
+        const isSelected = selectedCards.find((selected) => selected.friend.id === card.friend.id);
+        console.log(card);
         if (isSelected) {
             const updatedSelected = selectedCards.filter((selected) => selected.id !== card.id);
             setSelectedCards(updatedSelected);
@@ -32,6 +61,7 @@ const Invitetabs = () => {
     const handleSendInvitations = () => {
         console.log('Sending invitations:', selectedCards);
     };
+ 
     return (
         <>
             <div className="activity-tabs mt-2">
@@ -59,15 +89,17 @@ const Invitetabs = () => {
                                 </div>
                             </div>
                         </div>
-                        {MyFriends.map((card) => (
-                            <div className="card rounded-5 mt-3" key={card.id}>
+                        {MyFriends.map((card, i) => (
+                            <div className="card rounded-5 mt-3" key={i}>
                                 <div className="card-body align-items-center d-flex justify-content-between py-2">
                                     <div className="d-flex align-items-center ">
-                                        <Image src={card.img} alt="" width={100} height={100} className='post-profile'></Image>
-                                        <p className='papa mb-0 clr-text fw-bold ms-2'>{card.title}</p>
+                                        {card.friend.profile_photo === null ?
+                                            <Image src={`/assets/images/Modal/Avatar.png`} alt="" width={100} height={100} className='post-profile'></Image>
+                                            : <Image loader={imgurl} src={card.friend.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>}
+                                        <p className='papa mb-0 clr-text fw-bold ms-2'>{card.friend.name}</p>
                                     </div>
-                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv' onClick={() => handleCardSelect(card)}>
-                                        {selectedCards.find((selected) => selected.id === card.id)
+                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => handleCardSelect(card)}>
+                                        {selectedCards.find((selected) => selected.friend.id === card.friend.id)
                                             ? <i className="bi bi-dash-circle"></i>
                                             : <i className="bi bi-plus-circle"></i>}
 
@@ -90,14 +122,14 @@ const Invitetabs = () => {
                                 </div>
                             </div>
                         </div>
-                        {AllMembers.map((card) => (
-                            <div className="card rounded-5 mt-3" key={card.id}>
+                        {AllMembers.map((card, i) => (
+                            <div className="card rounded-5 mt-3" key={i}>
                                 <div className="card-body align-items-center d-flex justify-content-between py-2">
                                     <div className="d-flex align-items-center ">
-                                        <Image src={card.img} alt="" width={100} height={100} className='post-profile'></Image>
+                                        <Image src={card.img} alt="" width={100} height={100} className='post-profile Z'></Image>
                                         <p className='papa mb-0 clr-text fw-bold ms-2'>{card.title}</p>
                                     </div>
-                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv' onClick={() => handleCardSelect(card)}>
+                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv ' onClick={() => handleCardSelect(card)}>
                                         {selectedCards.find((selected) => selected.id === card.id)
                                             ? <i className="bi bi-dash-circle"></i>
                                             : <i className="bi bi-plus-circle"></i>}
@@ -109,12 +141,21 @@ const Invitetabs = () => {
                     </div>
 
                     <div className="tab-pane fade " id="SendInvite" role="tabpanel" aria-labelledby="SendInvite-tab">
-                        <div className="d-flex flex-wrap">
+                        <div className="d-flex flex-wrap ">
                             {selectedCards.length > 0 ? (
-                                selectedCards.map((selectedCard) => (
-                                    <div className='me-2 mt-2' key={selectedCard.id}>
-                                        <Image src={selectedCard.img} title={selectedCard.title} alt="" width={100} height={100} className='post-profile' onClick={() => handleCardSelect(selectedCard)}></Image>
-                                    </div>
+                                selectedCards.map((selectedCard, i) => (
+                                    <>
+                                        <div>
+                                            <div className='mx-2 mt-2' key={i}>
+                                                {selectedCard.friend.profile_photo === null ?
+                                                    <Image src={`/assets/images/Modal/Avatar.png`} alt="" width={100} height={100} className='post-profile'></Image>
+                                                    :
+                                                    <Image loader={imgurl} src={selectedCard.friend.profile_photo.url} title={selectedCard.friend.name} alt="" width={100} height={100} className='post-profile object-fit-cover' onClick={() => handleCardSelect(selectedCard)}></Image>
+                                                }
+                                            </div>
+                                            <p className='para-sm text-center'>{selectedCard.friend.name}</p>
+                                        </div>
+                                    </>
                                 ))
                             ) : (
                                 <p className='mt-3'>Group Invitations Cleared</p>
