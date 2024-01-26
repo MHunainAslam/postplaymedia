@@ -13,7 +13,7 @@ const GroupProfileTab = () => {
     return (
         <>
 
-            <ul className="peopletab overflow-auto nav nav-tabs border-0 border-b-0 px-md-3 flex-nowrap">
+            <ul className="peopletab overflow-auto nav nav-tabs border-0 border-b-0 px-md-3 flex-nowrap justify-content-between">
                 <li className={`nav-item nav-link text-center ${lastSegment === 'grpactivity' ? 'active' : ''}`}>
                     <Link className='text-decoration-none' href={`/groups/${groupbyid}?group-tab=grpactivity`}>
                         <i className="clr-text heading-m mb-2 bi bi-activity"></i>
@@ -44,7 +44,7 @@ const GroupProfileTab = () => {
                 </li>
                 <li className={`nav-item nav-link text-center ${lastSegment === 'grpinvite' ? 'active' : ''}`}>
                     <Link className='text-decoration-none' href={`/groups/${groupbyid}?group-tab=grpinvite`}>
-                        <i className="clr-text heading-m mb-2 bi bi-gear"></i>
+                        <i className="clr-text heading-m mb-2 bi bi-plus-circle"></i>
                         <p className="para clr-text mb-0">Invite</p>
                     </Link>
                 </li>

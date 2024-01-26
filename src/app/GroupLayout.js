@@ -28,28 +28,28 @@ const GroupLayout = ({ children, GroupPage }) => {
     const [grpdata, setgrpdata] = useState(null)
     const [UserdataLoader, setUserdataLoader] = useState(true)
 
-   useEffect(() => {
-    axios.get(`${APP_URL}/api/groups/${groupbyid}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        }
-    })
-        .then(response => {
-            console.log('grp by id', response);
-            setisLoading(false)
-            setgrpdata(response?.data)
-        })
-        .catch(error => {
-            setisLoading(false)
-            console.error(error);
-            if (error?.response?.status === 401) {
-                router.push('/')
-                deleteCookie('logged');
-                localStorage.removeItem('userdetail')
+    useEffect(() => {
+        axios.get(`${APP_URL}/api/groups/${groupbyid}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
             }
-        });
-   }, [])
-   
+        })
+            .then(response => {
+                console.log('grp by id', response);
+                setisLoading(false)
+                setgrpdata(response?.data)
+            })
+            .catch(error => {
+                setisLoading(false)
+                console.error(error);
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }, [])
+
 
 
     const openModal = (index) => {
@@ -81,18 +81,27 @@ const GroupLayout = ({ children, GroupPage }) => {
                             </div>
                             <div className="col px-0">
                                 <div className="">
-                                    <ActivityHeader  />
+                                    <ActivityHeader />
                                     <div className="col">
                                         <Coverandtab grpdata={grpdata} isLoading={isLoading} />
                                     </div>
-                                    <div className="container py-5">
+                                    <div className="container pb-5">
                                         <div className="border-bottom d-md-block d-none"></div>
                                         <div className="border-bottom d-md-none mt-4" ></div>
                                         <div className="container">
                                             <div className="row">
-
+                                                <div className="col-lg-2 col-md-3 d-md-block d-none border-right">
+                                                    <div className="d-flex justify-content-center pt-4 border-bottom">
+                                                        <div className='mx-2'>
+                                                            <p className="heading-m mb-0 clr-primary text-center">{grpdata?.data?.friends_count}</p>
+                                                            <p className="para clr-text text-center">Members</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                   
+                                                </div>
                                                 <div className="col-md-9 col-lg-10 ">
-                                                    <grpContext.Provider value={{ Userdata, setUserdata }}>
+                                                    <grpContext.Provider value={{ grpdata, setUserdata }}>
                                                         {children}
                                                     </grpContext.Provider>
                                                     {/* {childrenWithProps} */}

@@ -1,5 +1,6 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import GrpActivity from './GrpActivity'
 
 const Groupprofiletabcontent = () => {
     const router = useRouter()
@@ -18,7 +19,7 @@ const Groupprofiletabcontent = () => {
             <div className="tab-content ">
 
                 <div className={`tab-pane fade  ${TabState === 'grpactivity' ? 'active show' : ''}`} id="grpactivity" role="tabpanel" aria-labelledby="grpactivity-tab">
-                    a
+                    <GrpActivity />
                 </div>
                 <div className={`tab-pane fade  ${TabState === 'grpabout' ? 'active show' : ''}`} id="grpabout" role="tabpanel" aria-labelledby="grpabout-tab">
                     b
