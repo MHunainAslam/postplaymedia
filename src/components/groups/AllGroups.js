@@ -6,7 +6,13 @@ import Loader from '../Loader'
 import { IMG_URL } from '../../../config'
 import { imgurl } from '@/utils/Token'
 
-const AllGroups = ({ Allgrp, isLoading }) => {
+const AllGroups = ({
+    Allgrp, isLoading, joingrp,
+    reqjoingrp,
+    canceljoingrp,
+    viewgrp,
+    accptgrpreq,
+}) => {
     return (
 
         <>
@@ -30,44 +36,66 @@ const AllGroups = ({ Allgrp, isLoading }) => {
             </div>
             <div className="row position-relative">
                 {isLoading ? <Loader /> : <>
-                    {Allgrp?.data?.data?.data?.map((item, i) => (
-                        <div className="col-xl-4 col-md-6 mt-3" key={i}>
-                            <div className="card people-card">
-                                <div className="card-body">
-                                    <div className="Grp-Bg bg-light">
-                                        {item.profile_photo === null ?
-                                            <div alt="" width={200} height={200} className='object-fit-contain w-25 Grp-Bg-img'></div>
-                                            :
-                                            <Image loader={imgurl} src={item.cover_photo} alt="" width={200} height={200} className='object-fit-contain w-25 Grp-Bg-img'></Image>}
-                                        <div className='h-0'>
-                                            {item.profile_photo === null ?
-                                                <Image src={'/assets/images/avatar/group.png'} alt="" width={100} height={100} className='post-profile'></Image> :
-                                                <Image loader={imgurl} src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile'></Image>
-                                            }
+                    {Allgrp?.data?.data?.data?.length === 0 ? <p className='heading-sm text-center text-black my-5'>No Groups Found!</p> :
+                        <>
+                            {Allgrp?.data?.data?.data?.map((item, i) => (
+                                <div className="col-xl-4 col-md-6 mt-3" key={i}>
+                                    <div className="card people-card h-100">
+                                        <div className="card-body">
+                                            <div className="Grp-Bg bg-light">
+                                                {item.cover_photo === null ?
+                                                    <div alt="" width={200} height={200} className='object-fit-contain w-25 Grp-Bg-img'></div>
+                                                    :
+                                                    <Image loader={imgurl} src={item.cover_photo?.url} alt="" width={200} height={200} className='object-fit-cover w-100 Grp-Bg-img'></Image>
+                                                }
+                                                <div className='h-0'>
+                                                    {item.profile_photo === null ?
+                                                        <Image src={'/assets/images/avatar/group.png'} alt="" width={100} height={100} className='post-profile'></Image> :
+                                                        <Image loader={imgurl} src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile'></Image>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <Link className='link-hov' href={`groups/${item.id}`}><p className="heading text-black mb-2 mt-4">{item.group_name}</p></Link>
+                                            {/* <p className="para clr-light">Active 2 minutes ago</p> */}
+                                            <div className="imgtoimg">
+                                                {item.some_members.map((item, i) => (
+                                                    <>
+                                                        {item.profile_photo === null ?
+                                                            <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
+                                                            : <Image src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile-sm'></Image>
+
+                                                        }
+                                                    </>
+                                                ))}
+
+                                            </div>
+                                            <p className="para text-black mt-3 text-capitalize">{item.privacy} Group / {item.member_count} members</p>
+                                        </div>
+                                        <div className="card-footer">
+                                            <button className='btn secondary-btn ' onClick={
+                                                item.button_trigger === 'join-now' ? joingrp :
+                                                    item.button_trigger === 'send-request' ? reqjoingrp :
+                                                        item.button_trigger === 'pending' ? canceljoingrp :
+                                                            item.button_trigger === 'view-group' ? viewgrp :
+                                                                item.button_trigger === 'accept-request' ? accptgrpreq :
+                                                                    ''
+                                            }>
+                                                <p className='mb-0 px-4'>
+                                                    {
+                                                        item.button_trigger === 'join-now' ? 'Join' :
+                                                            item.button_trigger === 'send-request' ? 'Request to Join' :
+                                                                item.button_trigger === 'pending' ? 'Cancel Request' :
+                                                                    item.button_trigger === 'view-group' ? 'View' :
+                                                                        item.button_trigger === 'accept-request' ? 'Accept Request' :
+                                                                            ''}
+                                                </p>
+                                            </button>
                                         </div>
                                     </div>
-                                    <Link className='link-hov' href={`groups/${item.id}`}><p className="heading text-black mb-2 mt-4">{item.group_name}</p></Link>
-                                    {/* <p className="para clr-light">Active 2 minutes ago</p> */}
-                                    <div className="imgtoimg">
-                                        {item.some_members.map((item, i) => (
-                                            <>
-                                                {item.profile_photo === null ?
-                                                    <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
-                                                    : <Image src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile-sm'></Image>
-
-                                                }
-                                            </>
-                                        ))}
-
-                                    </div>
-                                    <p className="para text-black mt-3 text-capitalize">{item.privacy} Group / {item.member_count} members</p>
                                 </div>
-                                <div className="card-footer">
-                                    <button className='btn secondary-btn '><p className='mb-0 px-4'>My Profile</p></button>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                            ))}
+                        </>
+                    }
                 </>
                 }
 

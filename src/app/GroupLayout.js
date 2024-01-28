@@ -93,7 +93,7 @@ const GroupLayout = ({ children, GroupPage }) => {
                                                 <div className="col-lg-2 col-md-3 d-md-block d-none border-right">
                                                     <div className="d-flex justify-content-center pt-4 border-bottom">
                                                         <div className='mx-2'>
-                                                            <p className="heading-m mb-0 clr-primary text-center">{grpdata?.data?.friends_count}</p>
+                                                            <p className="heading-m mb-0 clr-primary text-center">{grpdata?.data?.group?.member_count}</p>
                                                             <p className="para clr-text text-center">Members</p>
                                                         </div>
                                                         

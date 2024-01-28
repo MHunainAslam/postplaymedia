@@ -12,7 +12,7 @@ import { GetToken } from '@/utils/Token';
 import { message } from 'antd';
 const CreateGroups = () => {
     const token = GetToken('userdetail')
-
+    const withFriendIdArray = []
     const [Detail, setDetail] = useState(true)
     const [Setting, setSetting] = useState(false)
     const [Forum, setForum] = useState(false)
@@ -28,6 +28,7 @@ const CreateGroups = () => {
     const [WantForum, setWantForum] = useState(false)
     const [SelectGrpImg, setSelectGrpImg] = useState(null)
     const [CreateAlbum, setCreateAlbum] = useState('')
+    const [inviteuserid, setinviteuserid] = useState([])
     const [GrpCoverImg, setGrpCoverImg] = useState(null)
     const [grpprofile, setgrpprofile] = useState(null)
     const [grpcover, setgrpcover] = useState(null)
@@ -35,7 +36,7 @@ const CreateGroups = () => {
     const [isLoading, setisLoading] = useState(false)
     const router = useRouter()
     const handleCoverImageChange = (e) => {
-        
+
         const formDataimg = new FormData();
         formDataimg.append('media', e.target.files[0]);
         const file = e.target.files[0];
@@ -171,7 +172,7 @@ const CreateGroups = () => {
     const creategrp = (e) => {
         e.preventDefault()
         setisLoading(true)
-        axios.post(`${APP_URL}/api/groups`, { group_name: grpName, group_description: grpDesc, privacy: PrivacyPolicy, user_ids:[10], invitation: GroupInvitation, profile_photo: grpprofile, cover_photo: grpcover }, {
+        axios.post(`${APP_URL}/api/groups`, { group_name: grpName, group_description: grpDesc, privacy: PrivacyPolicy, user_ids: inviteuserid, invitation: GroupInvitation, profile_photo: grpprofile, cover_photo: grpcover }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -465,7 +466,7 @@ const CreateGroups = () => {
                             Invite Members
                         </p>
 
-                        <Invitetabs />
+                        <Invitetabs setinviteuserid={setinviteuserid} inviteuserid={inviteuserid} withFriendIdArray={withFriendIdArray}/>
 
                         <div className="d-flex justify-content-between">
                             <button className='btn secondary-btn mt-4' onClick={backtoCoverimg}><>Back to Previous Step</></button>

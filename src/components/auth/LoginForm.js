@@ -42,7 +42,13 @@ const LoginForm = () => {
         })
         .catch(error => {
           console.error(error);
-          message.error(error?.response?.data?.message)
+          if (error.response) {
+            
+            message.error(error?.response?.data?.message)
+          } else{
+            message.error(error?.message)
+
+          }
           setisLoading(false)
         });
 
