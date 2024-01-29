@@ -211,10 +211,10 @@ const ChatSideBar = () => {
                                 </span>
                                 <input type="text" className="form-control border" placeholder="Find Friends" aria-label="Friends" />
                             </div>
-                            {AllFrndsData?.data?.message.length === 0 ?
+                            {AllFrndsData?.data?.message.data?.length === 0 ?
                                 <p className="para text-center text-dark fw-bold">No Friend Found</p> :
                                 <>
-                                    {AllFrndsData?.data?.message?.map((item, i) => (
+                                    {AllFrndsData?.data?.message?.data?.map((item, i) => (
                                         <Link href={item.room_id === null ? { pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(userdata.user_id == item?.friend?.id ? item.user : item.friend) } } : { pathname: `/messages`, query: { profile: JSON.stringify(userdata.user_id == item?.friend?.id ? item.user : item.friend), chat: (item.room_id) } }} className="d-flex align-items-center text-decoration-none" key={i}>
                                             <div className={`MsgIcon  ${item.message_count > 0 ? 'MsgIconActive' : ''}`}>
 
