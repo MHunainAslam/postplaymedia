@@ -3,15 +3,19 @@ import { GetToken, imgurl } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import { APP_URL } from '../../../config'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
+import { APP_URL } from '../../../../config'
+import { grpContext } from '@/app/GroupLayout'
 import { useAppContext } from '@/context/AppContext'
 
-const Invitetabs = ({ setinviteuserid }) => {
-    const token = GetToken('userdetail')
+const AddRemoveUser = ({ setinviteuserid }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
+    const token = GetToken('userdetail')
     const router = useRouter()
+    const { grpdata } = useContext(grpContext)
+    const [isLoading, setisLoading] = useState(false)
+    const [grpMembers, setgrpMembers] = useState([])
     const [selectedCards, setSelectedCards] = useState([]);
     const [AllMembers, setAllMembers] = useState([]);
     const [MyFriends, setMyFriends] = useState([]);
@@ -53,20 +57,15 @@ const Invitetabs = ({ setinviteuserid }) => {
                 }
             });
     }, [])
+    useEffect(() => {
+        setisLoading(false)
+        setgrpMembers(grpdata?.data?.participants?.participants)
+        console.log('already send', grpdata?.data?.participants?.participants.map((item) => (
+            item.id
+        )))
+    }, [grpdata])
 
 
-    // const MyFriends = [
-    //     { id: 1, title: 'champ', img: '/assets/images/Modal/Avatar.png' },
-    //     { id: 2, title: 'John', img: '/assets/images/Modal/Avatar.png' },
-    //     { id: 3, title: 'Nick', img: '/assets/images/Modal/Avatar.png' },
-
-    // ];
-    // const AllMembers = [
-    //     { id: 'all1', title: 'champ', img: '/assets/images/Modal/Avatar.png' },
-    //     { id: 'all2', title: 'John', img: '/assets/images/Modal/Avatar.png' },
-    //     { id: 'all3', title: 'Nick', img: '/assets/images/Modal/Avatar.png' },
-
-    // ];
 
     const handleCardSelect = (card) => {
         const isSelected = selectedCards.find((selected) => selected.friend?.id === card.friend?.id || selected.id === card.id);
@@ -79,21 +78,7 @@ const Invitetabs = ({ setinviteuserid }) => {
             setSelectedCards([...selectedCards, card]);
         }
     };
-    const handleCardSelectuser = (card) => {
-        const isSelected = selectedCards.find((selected) => selected.id === card.id || selected.friend?.id === card.id);
-        console.log(selectedCards);
 
-        if (isSelected) {
-            const updatedSelected = selectedCards.filter((selected) => selected.id !== card.id);
-            setSelectedCards(updatedSelected);
-        } else {
-            setSelectedCards([...selectedCards, card]);
-        }
-    };
-
-    const handleSendInvitations = () => {
-        console.log('Sending invitations:', selectedCards);
-    };
     const [selectedMembers, setSelectedMembers] = useState([]);
 
     const toggleSelect = (item) => {
@@ -133,7 +118,7 @@ const Invitetabs = ({ setinviteuserid }) => {
     useEffect(() => {
         console.log(selectedCards.map((item) => (
             item.friend?.id ? item.friend?.id : item.id
-        )), 'laa');
+        )), 'l');
         setinviteuserid(selectedCards.map((item) => (
             item.friend?.id ? item.friend?.id : item.id
         )))
@@ -205,7 +190,7 @@ const Invitetabs = ({ setinviteuserid }) => {
                                                 : <i className="bi bi-plus-circle"></i>}
 
                                         </button> */}
-                                        {selectedCards.some((selectedItem) => UserProfiledata?.data?.id === card?.friend?.id ? selectedItem.user?.id === card.user?.id : selectedItem.friend?.id === card.friend?.id || selectedItem?.id === UserProfiledata?.data?.id === card?.friend?.id ? card.user?.id : card.friend?.id) ?
+                                        {selectedCards.some((selectedItem) => selectedItem.friend?.id === card.friend?.id || selectedItem?.id === card.friend?.id) ?
                                             <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => unselectItem(card)}><i className="bi bi-dash-circle"></i></button> :
                                             <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => toggleSelect(card)}><i className="bi bi-plus-circle"></i></button>}
 
@@ -260,7 +245,6 @@ const Invitetabs = ({ setinviteuserid }) => {
                                     <>
                                         <div>
                                             <div className='mx-2 mt-2' key={i}>
-
                                                 {selectedCard.friend ? <>
                                                     {selectedCard.friend.profile_photo === null ?
                                                         <Image src={`/assets/images/Modal/Avatar.png`} alt="" width={100} height={100} className='post-profile'></Image>
@@ -303,4 +287,4 @@ const Invitetabs = ({ setinviteuserid }) => {
     )
 }
 
-export default Invitetabs
+export default AddRemoveUser

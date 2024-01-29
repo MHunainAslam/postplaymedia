@@ -113,12 +113,10 @@ body {
   width: 100%;
   height: 100%;
   position: absolute;
-  background-image: linear-gradient(
-    90deg,
-    #0f62ae 0,
-    #1e89ec 50%,
-    #0f62ae 100%
-  );
+  background-image: linear-gradient(90deg,
+      #0f62ae 0,
+      #1e89ec 50%,
+      #0f62ae 100%);
   border-radius: 30px !important;
   left: 38%;
   top: 0;
@@ -184,18 +182,14 @@ body {
 .heading {
   font-weight: 700;
   color: white;
-  font-size: calc(
-    16px + (22 - 16) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1920 - 320))) !important;
   font-family: var(--font-p);
 }
 
 .heading-lg {
   font-weight: 700;
   color: white;
-  font-size: calc(
-    20px + (28 - 20) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(20px + (28 - 20) * ((100vw - 320px) / (1920 - 320))) !important;
   font-family: var(--font-p);
 }
 
@@ -206,9 +200,7 @@ h4,
 h5 {
   font-weight: 700;
   color: var(--dark-text);
-  font-size: calc(
-    16px + (22 - 16) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1920 - 320))) !important;
   font-family: var(--font-p);
 }
 
@@ -422,12 +414,10 @@ h5 {
   width: 100%;
   height: 100%;
   position: absolute;
-  background-image: linear-gradient(
-    90deg,
-    #0f62ae 0,
-    #1e89ec 50%,
-    #0f62ae 100%
-  );
+  background-image: linear-gradient(90deg,
+      #0f62ae 0,
+      #1e89ec 50%,
+      #0f62ae 100%);
   border-radius: 30px !important;
   left: 38%;
   top: 0;
@@ -482,9 +472,7 @@ h5 {
 .inp {
   border: 1px solid var(--border);
   border-radius: 20px !important;
-  font-size: calc(
-    12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))) !important;
   color: var(--dark-text) !important;
   width: 100%;
   height: auto;
@@ -501,9 +489,7 @@ h5 {
 
 .slct {
   border-radius: 30px !important;
-  font-size: calc(
-    12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))) !important;
   color: var(--dark-text) !important;
 }
 
@@ -514,9 +500,7 @@ h5 {
 .area {
   border: 1px solid var(--border);
   border-radius: 20px !important;
-  font-size: calc(
-    12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))) !important;
   color: var(--dark-text) !important;
 }
 
@@ -531,9 +515,7 @@ h5 {
   border-radius: 0 !important;
   color: var(--dark-text) !important;
   /* border-bottom: 1px solid var(--border) !important; */
-  font-size: calc(
-    12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))) !important;
 }
 
 .t-area:focus {
@@ -541,9 +523,7 @@ h5 {
 }
 
 .para-sm {
-  font-size: calc(
-    12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))) !important;
 }
 
 .para-xs {
@@ -635,17 +615,15 @@ h5 {
 .SideBarTop {
   background-color: #383a45;
   /* background-image: linear-gradient(135deg, #4f5261 0%, #383a45 50%); */
-  background-image: linear-gradient(
-    180deg,
-    #4f5261 3%,
-    #383a44 80%,
-    var(--secondary) 48%
-  );
+  background-image: linear-gradient(180deg,
+      #4f5261 3%,
+      #383a44 80%,
+      var(--secondary) 48%);
   text-align: center;
   width: 100%;
 }
 
-.SideBarTop > img {
+.SideBarTop>img {
   margin-block: 50px;
 }
 
@@ -1230,8 +1208,7 @@ h5 {
   align-items: center;
   padding-inline: 20px;
   grid-template-columns:
-    calc(60px + (90 - 60) * ((100vw - 320px) / (1920 - 320)))
-    auto auto;
+    calc(60px + (90 - 60) * ((100vw - 320px) / (1920 - 320))) auto auto;
 }
 
 .post-card-content .profile img {
@@ -1371,9 +1348,7 @@ h5 {
 
 .people-card .heading {
   color: black;
-  font-size: calc(
-    14px + (18 - 14) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320))) !important;
 }
 
 .people-card .card-footer {
@@ -1687,7 +1662,7 @@ h5 {
 }
 
 .profile-page-user .img-p {
-  min-height: 200px ;
+  min-height: 200px;
 
   outline: 2px solid white;
   border-radius: 10px !important;
@@ -1782,12 +1757,10 @@ h5 {
 }
 
 .logout-modal {
-  background-image: linear-gradient(
-    180deg,
-    #4f5261 3%,
-    #383a44 100%,
-    var(--secondary) 48%
-  );
+  background-image: linear-gradient(180deg,
+      #4f5261 3%,
+      #383a44 100%,
+      var(--secondary) 48%);
 }
 
 .backbtn {
@@ -1891,9 +1864,7 @@ h5 {
 
 .message-box-user .para,
 .message-box .para {
-  font-size: calc(
-    13px + (16 - 13) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(13px + (16 - 13) * ((100vw - 320px) / (1920 - 320))) !important;
 }
 
 .message-box-user .send,
@@ -1901,9 +1872,7 @@ h5 {
   float: right;
   position: relative;
   margin-left: 20px;
-  font-size: calc(
-    10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))
-  ) !important;
+  font-size: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))) !important;
 }
 
 .chat-box {
@@ -1952,6 +1921,7 @@ h5 {
   top: 4px;
   right: 8px;
 }
+
 .chat-arrow {
   bottom: 15px;
   position: absolute;
@@ -1962,6 +1932,13 @@ h5 {
   border-radius: 20px 0 0 20px;
   /* width: 100px; */
   padding: 4px 12px;
+}
+
+.grp-desc {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 @-webkit-keyframes mover {
@@ -1993,16 +1970,14 @@ h5 {
   }
 
   .sidebar-size {
-    width: calc(
-      300px + (400 - 300) * ((100vw - 320px) / (1920 - 320))
-    ) !important;
+    width: calc(300px + (400 - 300) * ((100vw - 320px) / (1920 - 320))) !important;
   }
 
   .people-sidebar-size {
     width: 90px !important;
   }
 
-  .people-sidebar-size .SideBarTop > img {
+  .people-sidebar-size .SideBarTop>img {
     width: 50px;
     height: 50px;
     margin-block: 15px;
@@ -2010,12 +1985,10 @@ h5 {
 
   .people-sidebar-size .SideBarTop {
     height: 80px;
-    background-image: linear-gradient(
-      180deg,
-      #4f5261 3%,
-      #383a44 100%,
-      var(--secondary) 48%
-    );
+    background-image: linear-gradient(180deg,
+        #4f5261 3%,
+        #383a44 100%,
+        var(--secondary) 48%);
   }
 
   .people-sidebar-size .admin-card,
@@ -2063,11 +2036,13 @@ h5 {
     height: 100vh !important;
   }
 }
+
 @media (max-width: 768px) {
   .grp-img {
     min-height: 120px !important;
   }
 }
+
 @media (min-width: 768px) {
   .post-border::after {
     content: "";
@@ -2096,7 +2071,7 @@ h5 {
     display: none !important;
   }
 
-  .SideBarTop > img {
+  .SideBarTop>img {
     width: 50px;
     height: 50px;
     margin-block: 15px;
@@ -2113,12 +2088,10 @@ h5 {
   .SideBarTop {
     background-color: #383a45;
     /* background-image: linear-gradient(135deg, #4f5261 0%, #383a45 50%); */
-    background-image: linear-gradient(
-      180deg,
-      #4f5261 3%,
-      #383a44 100%,
-      var(--secondary) 48%
-    );
+    background-image: linear-gradient(180deg,
+        #4f5261 3%,
+        #383a44 100%,
+        var(--secondary) 48%);
     text-align: center;
     width: 100%;
   }
@@ -2138,6 +2111,7 @@ h5 {
 }
 
 @media (max-width: 767px) {
+
   /* .chat-sec{
         min-height: 85vh;
     } */
@@ -2268,6 +2242,7 @@ h5 {
 }
 
 @keyframes loader {
+
   0%,
   10% {
     scale: 1;
@@ -2331,6 +2306,7 @@ h5 {
 }
 
 @keyframes loader-right {
+
   0%,
   10% {
     translate: 100% -50%;

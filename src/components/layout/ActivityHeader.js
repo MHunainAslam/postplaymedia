@@ -30,8 +30,8 @@ const ActivityHeader = ({ Userdata }) => {
     const token = GetToken('userdetail')
 
     const ref = useRef(null);
-    const {UserProfiledata, UserProfileloader} = useAppContext()
-    
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+
 
 
     const handleClickOutside = (event) => {
@@ -197,6 +197,54 @@ const ActivityHeader = ({ Userdata }) => {
                                     <li>
                                         <div className="no-msg-req">
                                             No Friend Request
+                                        </div>
+                                    </li>
+                                    :
+                                    <>
+                                        {FrndReq?.map((item, i) => (
+                                            <li key={i}>
+                                                <div className="no-msg-req d-flex justify-content-between">
+                                                    <div className="d-flex align-items-center">
+                                                        {item?.sender?.profile_photo === null ?
+                                                            <Link href={`/people/${item.sender?.id}/friends`}>
+                                                                <Image className='post-profile-sm' src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
+                                                            </Link> :
+                                                            <Link href={`/people/${item.sender?.id}/friends`}>
+                                                                <Image loader={imgurl} className='post-profile-sm-req object-fit-cover ' src={item?.sender?.profile_photo?.url} alt="" width={100} height={100}></Image>
+                                                            </Link>
+                                                        }
+                                                        <p className='mb-0 para text-black ms-2 fw-normal'> <span className='fw-bold text-capitalize'>{item.sender.name}</span>  Send you a friend request</p>
+                                                    </div>
+
+                                                    <div className="d-flex">
+                                                        <button className='btn secondary-btn-rounded p-1 rounded-5 mx-2' id={item.id} onClick={() => dltfrndreq(item.id)}>
+                                                            <i className="bi bi-x-lg"></i>
+                                                        </button>
+                                                        <button id={item.id} onClick={() => accptfrndreq(item.id)} className='btn secondary-btn-rounded p-1 rounded-5 mx-2'>
+                                                            <i className="bi bi-check2"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </>
+                                }
+                                <hr />
+                                {/* <li><button className="btn secondary-btn w-100"  >All Request</button></li> */}
+                            </ul>
+                        </li>
+                        <li onClick={receivefrndreq} className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
+                            <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bell"></i>
+                            </a>
+                            <ul className={`dropdown-menu py-1 border-0 ${NotiShow ? 'show show-c' : ''}`} ref={ref}>
+                                <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Notifications</a></li>
+                                <hr />
+                                {FrndReq?.length === 0 ?
+                                    <li>
+                                        <div className="no-msg-req">
+                                            No Notifications!
                                         </div>
                                     </li>
                                     :

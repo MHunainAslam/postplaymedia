@@ -19,7 +19,7 @@ const CreateGroups = () => {
     const [Photo, setPhoto] = useState(false)
     const [Media, setMedia] = useState(false)
     const [CoverImage, setCoverImage] = useState(false)
-    const [Invite, setInvite] = useState(false)
+    const [Invite, setInvite] = useState(true)
     const [error, seterror] = useState(false)
     const [grpName, setgrpName] = useState('')
     const [grpDesc, setgrpDesc] = useState('')
@@ -172,6 +172,7 @@ const CreateGroups = () => {
     const creategrp = (e) => {
         e.preventDefault()
         setisLoading(true)
+        setbtnActive(true)
         axios.post(`${APP_URL}/api/groups`, { group_name: grpName, group_description: grpDesc, privacy: PrivacyPolicy, user_ids: inviteuserid, invitation: GroupInvitation, profile_photo: grpprofile, cover_photo: grpcover }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -179,7 +180,7 @@ const CreateGroups = () => {
         })
             .then(response => {
                 console.log('create grp', response);
-                setbtnActive(true)
+                setbtnActive(false)
                 setisLoading(false)
                 message.success(response.data.message)
                 document.querySelector('#MyGroups-tab').click()
@@ -189,6 +190,8 @@ const CreateGroups = () => {
             .catch(error => {
                 console.error(error);
                 setisLoading(false)
+                setbtnActive(false)
+
                 message.error(error?.response.data?.message)
                 if (error?.response?.status === 401) {
                     router.push('/')
@@ -466,11 +469,11 @@ const CreateGroups = () => {
                             Invite Members
                         </p>
 
-                        <Invitetabs setinviteuserid={setinviteuserid} inviteuserid={inviteuserid} withFriendIdArray={withFriendIdArray}/>
+                        <Invitetabs setinviteuserid={setinviteuserid}/>
 
                         <div className="d-flex justify-content-between">
                             <button className='btn secondary-btn mt-4' onClick={backtoCoverimg}><>Back to Previous Step</></button>
-                            <button className='btn primary-btn mt-4 px-5' type="button" onClick={creategrp}><p>Finish {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
+                            <button className='btn primary-btn mt-4 px-5' type="button"  disabled={btnActive} onClick={creategrp}><p>Finish {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
                         </div>
                     </>
                     : ''

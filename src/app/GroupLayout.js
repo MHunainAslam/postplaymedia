@@ -26,7 +26,7 @@ const GroupLayout = ({ children, GroupPage }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const [Userdata, setUserdata] = useState(UserProfiledata)
     const [grpdata, setgrpdata] = useState(null)
-    const [UserdataLoader, setUserdataLoader] = useState(true)
+    const [isloader, setisloader] = useState(true)
 
     useEffect(() => {
         axios.get(`${APP_URL}/api/groups/${groupbyid}`, {
@@ -35,12 +35,14 @@ const GroupLayout = ({ children, GroupPage }) => {
             }
         })
             .then(response => {
+                setisloader(false)
                 console.log('grp by id', response);
                 setisLoading(false)
                 setgrpdata(response?.data)
             })
             .catch(error => {
                 setisLoading(false)
+                setisloader(false)
                 console.error(error);
                 if (error?.response?.status === 401) {
                     router.push('/')
@@ -71,54 +73,54 @@ const GroupLayout = ({ children, GroupPage }) => {
 
     return (
         <>
-            {/* {UserdataLoader ? <Loader /> : <> */}
-            {!GroupPage ? <>{children}</> :
-                <>
-                    <div className="container-fluid px-0">
-                        <div className="row w-100 mx-0">
-                            <div className="sidebar-size people-sidebar-size px-0">
-                                <ActivitySidebar />
-                            </div>
-                            <div className="col px-0">
-                                <div className="">
-                                    <ActivityHeader />
-                                    <div className="col">
-                                        <Coverandtab grpdata={grpdata} isLoading={isLoading} />
-                                    </div>
-                                    <div className="container pb-5">
-                                        <div className="border-bottom d-md-block d-none"></div>
-                                        <div className="border-bottom d-md-none mt-4" ></div>
-                                        <div className="container">
-                                            <div className="row">
-                                                <div className="col-lg-2 col-md-3 d-md-block d-none border-right">
-                                                    <div className="d-flex justify-content-center pt-4 border-bottom">
-                                                        <div className='mx-2'>
-                                                            <p className="heading-m mb-0 clr-primary text-center">{grpdata?.data?.group?.member_count}</p>
-                                                            <p className="para clr-text text-center">Members</p>
+            {isloader ? <Loader /> : <>
+                {!GroupPage ? <>{children}</> :
+                    <>
+                        <div className="container-fluid px-0">
+                            <div className="row w-100 mx-0">
+                                <div className="sidebar-size people-sidebar-size px-0">
+                                    <ActivitySidebar />
+                                </div>
+                                <div className="col px-0">
+                                    <div className="">
+                                        <ActivityHeader />
+                                        <div className="col">
+                                            <Coverandtab grpdata={grpdata} isLoading={isLoading} />
+                                        </div>
+                                        <div className="container pb-5">
+                                            <div className="border-bottom d-md-block d-none"></div>
+                                            <div className="border-bottom d-md-none mt-4" ></div>
+                                            <div className="container">
+                                                <div className="row">
+                                                    <div className="col-lg-2 col-md-3 d-md-block d-none border-right">
+                                                        <div className="d-flex justify-content-center pt-4 border-bottom">
+                                                            <div className='mx-2'>
+                                                                <p className="heading-m mb-0 clr-primary text-center">{grpdata?.data?.group?.member_count}</p>
+                                                                <p className="para clr-text text-center">Members</p>
+                                                            </div>
+
                                                         </div>
-                                                        
+
                                                     </div>
-                                                   
-                                                </div>
-                                                <div className="col-md-9 col-lg-10 ">
-                                                    <grpContext.Provider value={{ grpdata, setUserdata }}>
-                                                        {children}
-                                                    </grpContext.Provider>
-                                                    {/* {childrenWithProps} */}
-                                                    {/* {React.cloneElement(children, { Userdata })} */}
+                                                    <div className="col-md-9 col-lg-10 ">
+                                                        <grpContext.Provider value={{ grpdata, setUserdata }}>
+                                                            {children}
+                                                        </grpContext.Provider>
+                                                        {/* {childrenWithProps} */}
+                                                        {/* {React.cloneElement(children, { Userdata })} */}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="chatbar-size px-0">
-                                <ChatSideBar />
+                                <div className="chatbar-size px-0">
+                                    <ChatSideBar />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </>}
-            {/* </>} */}
+                    </>}
+            </>}
         </>
     )
 }
