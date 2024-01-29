@@ -23,7 +23,7 @@ const Invitetabs = ({ setinviteuserid }) => {
         })
             .then(response => {
                 console.log('grp frnds', response);
-                setMyFriends(response.data.message)
+                setMyFriends(response.data.message.data)
             })
             .catch(error => {
                 console.error(error);
@@ -42,7 +42,7 @@ const Invitetabs = ({ setinviteuserid }) => {
         })
             .then(response => {
                 console.log('grp users', response);
-                setAllMembers(response.data.data)
+                setAllMembers(response.data.data.data)
             })
             .catch(error => {
                 console.error(error);
@@ -117,7 +117,7 @@ const Invitetabs = ({ setinviteuserid }) => {
 
     const unselectItem = (item) => {
         // Remove the item from SelectedMembers
-        console.log('rmove3');
+        console.log('rmove3', selectedCards,item);
         setSelectedCards((prevSelected) =>
             prevSelected.filter((selectedItem) => selectedItem?.id !== item.friend?.id && selectedItem?.friend?.id !== item.friend?.id)
         );

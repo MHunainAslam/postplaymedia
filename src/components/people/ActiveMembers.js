@@ -122,9 +122,9 @@ const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
 
                 {UserDataLoader ? <Loader /> :
                     <>
-                        {UserData?.data?.data?.length ?
+                        {UserData?.data?.data?.data?.length ?
                             <>
-                                {UserData?.data?.data?.map((item, i) => (
+                                {UserData?.data?.data?.data?.map((item, i) => (
                                     <div className="col-xl-4 col-md-6 mt-3" key={i}>
                                         <div className="card people-card">
                                             <div className="card-body">

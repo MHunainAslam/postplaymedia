@@ -64,9 +64,9 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
 
                 {UserDataLoader ? <Loader /> :
                     <>
-                        {AllFrndsData?.data?.message?.length ?
+                        {AllFrndsData?.data?.message?.data?.length ?
                             <>
-                                {AllFrndsData?.data?.message?.map((item, i) => (
+                                {AllFrndsData?.data?.message?.data?.map((item, i) => (
                                     <div className="col-xl-4 col-md-6 mt-3" key={i}>
                                         <div className="card people-card">
                                             <div className="card-body">

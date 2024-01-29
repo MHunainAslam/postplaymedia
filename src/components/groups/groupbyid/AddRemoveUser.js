@@ -27,7 +27,7 @@ const AddRemoveUser = ({ setinviteuserid }) => {
         })
             .then(response => {
                 console.log('grp frnds', response);
-                setMyFriends(response.data.message)
+                setMyFriends(response.data.message.data)
             })
             .catch(error => {
                 console.error(error);
@@ -46,7 +46,7 @@ const AddRemoveUser = ({ setinviteuserid }) => {
         })
             .then(response => {
                 console.log('grp users', response);
-                setAllMembers(response.data.data)
+                setAllMembers(response.data.data.data)
             })
             .catch(error => {
                 console.error(error);
