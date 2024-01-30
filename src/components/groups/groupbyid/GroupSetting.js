@@ -299,10 +299,7 @@ const GroupSetting = () => {
                             <label htmlFor='allgroupmember' className=''> All group members</label>
                         </div>
 
-                        <div className="d-flex mt-2">
-                            <input type="radio" className='form-check-input radio me-2' name="GrpInvitation" onChange={(e) => { setGroupInvitation(e.target.value) }} value="admins_and_mods" id="groupadminandmods" checked={GroupInvitation === 'admins_and_mods'} />
-                            <label htmlFor='groupadminandmods' className=''>  Group admins and mods only</label>
-                        </div>
+                        
 
                         <div className="d-flex mt-2">
                             <input type="radio" className='form-check-input radio me-2' name="GrpInvitation" onChange={(e) => { setGroupInvitation(e.target.value) }} value="group_admins_only" id="groupadminonly" checked={GroupInvitation === 'group_admins_only'} />

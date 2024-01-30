@@ -2,7 +2,7 @@
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { APP_URL } from '../../../config'
 import { GetLocaldata, GetToken, imgurl } from '@/utils/Token'
 import { useRouter } from 'next/navigation'
@@ -18,7 +18,7 @@ const ChatSideBar = () => {
     const [recentchat, setrecentchat] = useState([])
     const [spamchat, setspamchat] = useState([])
     const [AllFrndsData, setAllFrndsData] = useState([])
-
+    const messagesContainerRef = useRef(null);
     const recentchatfunc = () => {
         axios.get(`${APP_URL}/api/get-my-recent-chats?status=accepted`, {
             headers: {
@@ -64,29 +64,140 @@ const ChatSideBar = () => {
     useEffect(() => {
         spamchatfunc()
     }, [])
-    const getallfrnds = () => {
-        axios.get(`${APP_URL}/api/friendships`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('chatfrnds', response);
-                setAllFrndsData(response)
-            })
-            .catch(error => {
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }
-    useEffect(() => {
-        getallfrnds()
-    }, [])
+    const [loading, setLoading] = useState(1)
+    const [CurrentPage, setCurrentPage] = useState(1)
+    const [TotalPagesfrnd, setTotalPagesfrnd] = useState()
+    const [Datafrnd, setDatafrnd] = useState([])
+    const [totalMemberfrnd, settotalMemberfrnd] = useState(1)
+    const [UserDataLoader, setUserDataLoader] = useState(true)
 
+    const fetchFrnds = async (page) => {
+        try {
+            const response = await fetch(
+                `${APP_URL}/api/friendships?per_page=20&page=${page}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        // Add other headers if needed
+                    },
+                }
+            );
+            const data = await response.json();
+            if (data.success) {
+                // Prepend new messages to the beginning of the array
+                console.log('fetchfrnds', data)
+                setDatafrnd(data.message.data);
+                console.log(data)
+                setCurrentPage(data.message.current_page);
+                setTotalPagesfrnd(data.message.last_page);
+                settotalMemberfrnd(data.message.total);
+                setUserDataLoader(false)
+            } else {
+                console.error('Failed to fetch messages');
+                setUserDataLoader(false)
+            }
+        } catch (error) {
+            console.error('Error fetching messages', error);
+            setUserDataLoader(false)
+            if (error?.response?.status === 401) {
+                router.push('/')
+                deleteCookie('logged');
+                localStorage.removeItem('userdetail')
+            }
+        } finally {
+            setLoading(false);
+            setUserDataLoader(false)
+        }
+    };
+    const fetchFrndss = async (page) => {
+        try {
+            const response = await fetch(
+                `${APP_URL}/api/friendships?per_page=20&page=${page}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        // Add other headers if needed
+                    },
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Prepend new messages to the beginning of the array
+
+                setDatafrnd((prevMessages) => [...prevMessages, ...data?.message?.data]);
+                setCurrentPage(data.message.current_page);
+                setTotalPagesfrnd(data.message.last_page);
+                console.log('data', data.message.current_page)
+            } else {
+                console.error('Failed to fetch messages');
+            }
+        } catch (error) {
+            console.error('Error fetching messages', error);
+            if (error?.response?.status === 401) {
+                router.push('/')
+                deleteCookie('logged');
+                localStorage.removeItem('userdetail')
+            }
+        } finally {
+            setLoading(false);
+
+        }
+    };
+
+
+
+
+
+    const handleLoadMore = () => {
+       
+        if (CurrentPage < TotalPagesfrnd) {
+            setLoading(true);
+            console.log('yyy')
+            fetchFrndss(CurrentPage + 1);
+        }
+    };
+
+    const handleScroll = () => {
+        const container = messagesContainerRef.current;
+
+        // Check if the user has scrolled to the bottom of the div
+        // if (container && container.scrollTop <= 200) {
+        if (container &&
+            container.scrollHeight - container.scrollTop <= container.clientHeight - 0) {
+            console.log('hn')
+            handleLoadMore();
+        }
+    };
+
+    useEffect(() => {
+        const container = messagesContainerRef.current;
+
+        // Add scroll event listener when the component mounts
+        container.addEventListener('scroll', handleScroll);
+
+        // Remove the event listener when the component unmounts
+        return () => {
+            container.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);
+
+    useEffect(() => {
+        // Fetch initial messages when the component mounts
+        if (CurrentPage === 1 && Datafrnd.length === 0) {
+            fetchFrnds(CurrentPage);
+        }
+
+    }, [CurrentPage, token]);
+
+
+
+
+    useEffect(() => {
+        // getallfrnds()
+        fetchFrnds()
+    }, [])
     const cancelspam = (e) => {
         setisDisable(true)
         axios.put(`${APP_URL}/api/room/${e}`, { status: 'rejected' }, {
@@ -159,12 +270,12 @@ const ChatSideBar = () => {
                         </li>
                     </div> */}
                 </div>
-                <div className="offcanvas-body">
+                <div className="offcanvas-body"  ref={messagesContainerRef}>
                     <ul className="nav nav-tabs border-0  chat-detail-flex" id="myTab" role="tablist">
                         <li className="nav-item " role="presentation" onClick={recentchatfunc}>
                             <button className="nav-link active" id="recentchat-tab" data-bs-toggle="tab" data-bs-target="#recentchat" type="button" role="tab" aria-controls="recentchat" aria-selected="false" tabIndex="-1">Chats</button>
                         </li>
-                        <li className="nav-item" role="presentation" onClick={getallfrnds}>
+                        <li className="nav-item" role="presentation" onClick={fetchFrnds}>
                             <button className="nav-link " id="friends-tab" data-bs-toggle="tab" data-bs-target="#friends" type="button" role="tab" aria-controls="friends" aria-selected="false" tabIndex="-1">Friends</button>
                         </li>
                         <li className={`nav-item  ${spamchat?.data?.data?.length > 0 ? 'chatactive' : ''}`} role="presentation" onClick={spamchatfunc}>
@@ -204,17 +315,17 @@ const ChatSideBar = () => {
                             }
 
                         </div>
-                        <div className="tab-pane fade " id="friends" role="tabpanel" aria-labelledby="friends-tab">
+                        <div className="tab-pane fade aa " id="friends" role="tabpanel" aria-labelledby="friends-tab">
                             <div className="custome-inp chat-search chat-detail-flex my-3">
                                 <span className="input-group-text bg-transparent">
                                     <i className="bi bi-search "></i>
                                 </span>
                                 <input type="text" className="form-control border" placeholder="Find Friends" aria-label="Friends" />
                             </div>
-                            {AllFrndsData?.data?.message.data?.length === 0 ?
+                            {Datafrnd.length === 0 ?
                                 <p className="para text-center text-dark fw-bold">No Friend Found</p> :
                                 <>
-                                    {AllFrndsData?.data?.message?.data?.map((item, i) => (
+                                    {Datafrnd.map((item, i) => (
                                         <Link href={item.room_id === null ? { pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(userdata.user_id == item?.friend?.id ? item.user : item.friend) } } : { pathname: `/messages`, query: { profile: JSON.stringify(userdata.user_id == item?.friend?.id ? item.user : item.friend), chat: (item.room_id) } }} className="d-flex align-items-center text-decoration-none" key={i}>
                                             <div className={`MsgIcon  ${item.message_count > 0 ? 'MsgIconActive' : ''}`}>
 

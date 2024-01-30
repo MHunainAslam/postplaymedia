@@ -9,7 +9,7 @@ import { deleteCookie } from 'cookies-next'
 import { GetToken } from '@/utils/Token'
 import { useRouter } from 'next/navigation'
 import { message } from 'antd'
-const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
+const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader }) => {
     const token = GetToken('userdetail')
     const [btndisable, setbtndisable] = useState(false)
     const [Receiverid, setReceiverid] = useState()
@@ -24,7 +24,7 @@ const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
         })
             .then(response => {
                 console.log('unfriend', response);
-                grtallactivemember()
+                fetchMembers()
             })
             .catch(error => {
                 console.error(error);
@@ -47,7 +47,7 @@ const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
         })
             .then(response => {
                 console.log('img', response);
-                grtallactivemember()
+                fetchMembers()
             })
             .catch(error => {
                 console.error(error);
@@ -70,7 +70,7 @@ const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
         })
             .then(response => {
                 console.log('profile edit', response);
-                grtallactivemember()
+                fetchMembers()
             })
             .catch(error => {
                 console.error(error);
@@ -92,7 +92,7 @@ const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
         })
             .then(response => {
                 console.log('profile edit', response);
-                grtallactivemember()
+                fetchMembers()
             })
             .catch(error => {
                 console.error(error);
@@ -122,9 +122,9 @@ const ActiveMembers = ({ grtallactivemember, UserData, UserDataLoader }) => {
 
                 {UserDataLoader ? <Loader /> :
                     <>
-                        {UserData?.data?.data?.data?.length ?
+                        {UserData?.length ?
                             <>
-                                {UserData?.data?.data?.data?.map((item, i) => (
+                                {UserData?.map((item, i) => (
                                     <div className="col-xl-4 col-md-6 mt-3" key={i}>
                                         <div className="card people-card">
                                             <div className="card-body">

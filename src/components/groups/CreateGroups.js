@@ -19,7 +19,7 @@ const CreateGroups = () => {
     const [Photo, setPhoto] = useState(false)
     const [Media, setMedia] = useState(false)
     const [CoverImage, setCoverImage] = useState(false)
-    const [Invite, setInvite] = useState(true)
+    const [Invite, setInvite] = useState(false)
     const [error, seterror] = useState(false)
     const [grpName, setgrpName] = useState('')
     const [grpDesc, setgrpDesc] = useState('')
@@ -281,10 +281,7 @@ const CreateGroups = () => {
                                         <label htmlFor='allgroupmember' className=''> All group members</label>
                                     </div>
 
-                                    <div className="d-flex mt-2">
-                                        <input type="radio" className='form-check-input radio me-2' name="GrpInvitation" onChange={(e) => { setGroupInvitation(e.target.value) }} value="admins_and_mods" id="groupadminandmods" checked={GroupInvitation === 'admins_and_mods'} />
-                                        <label htmlFor='groupadminandmods' className=''>  Group admins and mods only</label>
-                                    </div>
+                                  
 
                                     <div className="d-flex mt-2">
                                         <input type="radio" className='form-check-input radio me-2' name="GrpInvitation" onChange={(e) => { setGroupInvitation(e.target.value) }} value="group_admins_only" id="groupadminonly" checked={GroupInvitation === 'group_admins_only'} />

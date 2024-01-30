@@ -48,7 +48,7 @@ const MyGroups = ({ Minegrp, isLoading }) => {
                                                     }
                                                 </div>
                                             </div>
-                                            <Link className='link-hov' href={`groups/${item.id}`}><p className="heading text-black mb-2 mt-4">{item.group_name}</p></Link>
+                                            <p className="heading text-black mb-2 mt-4">{item.group_name}</p>
                                             {/* <p className="para clr-light">Active 2 minutes ago</p> */}
                                             <div className="imgtoimg">
                                                 {item.some_members.map((item, i) => (
@@ -65,7 +65,7 @@ const MyGroups = ({ Minegrp, isLoading }) => {
                                             <p className="para text-black mt-3 text-capitalize">{item.privacy} Group / {item.member_count} members</p>
                                         </div>
                                         <div className="card-footer">
-                                            <button className='btn secondary-btn '><p className='mb-0 px-4'>My Profile</p></button>
+                                            <Link  href={`groups/${item.id}`} className='btn secondary-btn '><p className='mb-0 px-4'>Visit</p></Link>
                                         </div>
                                     </div>
                                 </div>

@@ -10,11 +10,13 @@ import axios from 'axios'
 import { APP_URL } from '../../../config'
 import { deleteCookie } from 'cookies-next'
 import Pagination from '../jobs/Pagination'
+import { message } from 'antd'
 
 
 const GroupTabs = () => {
     const router = useRouter()
     const token = GetToken('userdetail')
+    const [GrpBtn, setGrpBtn] = useState()
     const [Minegrp, setMinegrp] = useState([])
     const [Allgrp, setAllgrp] = useState([])
     const [isLoading, setisLoading] = useState(true)
@@ -33,7 +35,7 @@ const GroupTabs = () => {
     const amine = parseInt(itemsPerPagemine);
     const bmine = parseInt(indexOfFirstItemmine);
     const getallgrp = () => {
-        setisLoading(true)
+
         axios.get(`${APP_URL}/api/groups?per_page=${dataOnPage}&page=${currentPage}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -43,6 +45,7 @@ const GroupTabs = () => {
                 console.log('all grps cc', response);
                 setAllgrp(response)
                 setisLoading(false)
+                setGrpBtn(response.data.data.data.map((item) => (item.button_trigger)))
             })
             .catch(error => {
                 setisLoading(false)
@@ -77,6 +80,7 @@ const GroupTabs = () => {
             });
     }
     useEffect(() => {
+        setisLoading(true)
         getallgrp()
     }, [dataOnPage, currentPage])
     useEffect(() => {
@@ -92,8 +96,23 @@ const GroupTabs = () => {
         // setisLoading(true)
         console.log(pageNumber);
     };
-    const joingrp = () => {
-        console.log('1');
+    const joingrp = (e) => {
+        axios.post(`${APP_URL}/api/groups/sendRequest`, { group_id: e, type: 'send' }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                // Handle successful response here
+                message.success(response.data.message)
+                console.log(response.data);
+                getallgrp()
+            })
+            .catch(error => {
+                // Handle error here
+                message.error(error.response?.data?.message)
+                console.error(error);
+            });
     }
     const reqjoingrp = () => {
         console.log('2');
@@ -101,8 +120,8 @@ const GroupTabs = () => {
     const canceljoingrp = () => {
         console.log('3');
     }
-    const viewgrp = () => {
-        console.log('4');
+    const viewgrp = (e) => {
+        router.push(`/groups/${e}`)
     }
     const accptgrpreq = () => {
         console.log('5');

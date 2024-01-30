@@ -64,9 +64,9 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
 
                 {UserDataLoader ? <Loader /> :
                     <>
-                        {AllFrndsData?.data?.message?.data?.length ?
+                        {AllFrndsData?.length ?
                             <>
-                                {AllFrndsData?.data?.message?.data?.map((item, i) => (
+                                {AllFrndsData?.map((item, i) => (
                                     <div className="col-xl-4 col-md-6 mt-3" key={i}>
                                         <div className="card people-card">
                                             <div className="card-body">
@@ -75,33 +75,33 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                                                 {userdata.user_id === item.user?.id ?
                                                     <>
                                                         {
-                                                            item.friend.profile_photo === null ?
+                                                            item.friend?.profile_photo === null ?
                                                                 <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                                                 :
-                                                                <Image loader={imgurl} src={item.friend.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
+                                                                <Image loader={imgurl} src={item.friend?.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                         }
                                                     </>
                                                     :
                                                     <>
                                                         {
-                                                            item.user.profile_photo === null ?
+                                                            item.user?.profile_photo === null ?
                                                                 <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                                                 :
-                                                                <Image loader={imgurl} src={item.user.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
+                                                                <Image loader={imgurl} src={item.user?.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                         }
                                                     </>
                                                 }
-                                                <Link className='link-hov' href={`/people/${userdata.user_id === item.user?.id ? item.friend.id : item?.user?.id}/activity`}><p className="heading text-black mb-2 mt-4 text-capitalize">{userdata.user_id === item.user?.id ? item.friend.name : item?.user?.name}</p></Link>
+                                                <Link className='link-hov' href={`/people/${userdata.user_id === item.user?.id ? item.friend?.id : item?.user?.id}/activity`}><p className="heading text-black mb-2 mt-4 text-capitalize">{userdata.user_id === item.user?.id ? item.friend.name : item?.user?.name}</p></Link>
                                                 <p className="para clr-light">Active 2 minutes ago ass</p>
                                                 <div className="d-flex fng justify-content-center">
                                                     <div className='mx-2'>
-                                                        <p className="heading mb-0">{userdata.user_id === item.user?.id ? item.friend.friends_count : item.user.friends_count}</p>
+                                                        <p className="heading mb-0">{userdata.user_id === item.user?.id ? item.friend?.friends_count : item.user?.friends_count}</p>
                                                         <p className="para">Friends</p>
                                                     </div>
                                                     <div className='mx-2'>
-                                                        <p className="heading mb-0">{userdata.user_id === item.user?.id ? item.friend.group_count : item.user.group_count}</p>
+                                                        <p className="heading mb-0">{userdata.user_id === item.user?.id ? item.friend.group_count : item.user?.group_count}</p>
                                                         <p className="para">Groups</p>
                                                     </div>
                                                 </div>

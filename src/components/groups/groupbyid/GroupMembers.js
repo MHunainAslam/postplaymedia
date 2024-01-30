@@ -8,8 +8,11 @@ import Loader from '@/components/Loader'
 import Link from 'next/link'
 import Image from 'next/image'
 import { grpContext } from '@/app/GroupLayout'
+import AppContext from 'antd/es/app/context'
+import { useAppContext } from '@/context/AppContext'
 
 const GroupMembers = () => {
+    const { UserProfiledata } = useAppContext()
     const router = useRouter()
     const token = GetToken('userdetail')
     const { grpdata } = useContext(grpContext)
@@ -48,8 +51,8 @@ const GroupMembers = () => {
 
                                                 }
 
-                                                <Link className='link-hov' href={`/people/${item?.user?.id}/activity`}><p className="heading text-black mb-2 mt-4 text-capitalize">{item?.user?.name}</p></Link>
-                                                <p className="para clr-light">Active 2 minutes ago ass</p>
+                                                <p className="heading text-black mb-2 mt-4 text-capitalize">{item?.user?.name}</p>
+
                                                 <div className="d-flex fng justify-content-center">
                                                     <div className='mx-2'>
                                                         <p className="heading mb-0">{item.user?.friends_count}</p>
@@ -62,7 +65,11 @@ const GroupMembers = () => {
                                                 </div>
                                             </div>
                                             <div className="card-footer">
-                                                <button className='btn secondary-btn' ><p className='mb-0 px-4'>Unfriend</p></button>
+                                                {UserProfiledata.data.id === item?.user?.id ?
+                                                    <Link href={`/profile/profile/activity`} className='btn secondary-btn' ><p className='mb-0 px-4'>Profile</p></Link>
+                                                    :
+                                                    <Link href={`/people/${item?.user?.id}/activity`} className='btn secondary-btn' ><p className='mb-0 px-4'>Profile</p></Link>
+                                                }
                                             </div>
                                         </div>
                                     </div>

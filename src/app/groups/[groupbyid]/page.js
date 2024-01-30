@@ -8,8 +8,7 @@ const Page = () => {
     const { groupbyid } = useParams()
     return (
         <GroupLayout GroupPage>
-      
-                <Groupprofiletabcontent />
+            <Groupprofiletabcontent />
         </GroupLayout>
     )
 }
