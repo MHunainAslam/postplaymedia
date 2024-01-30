@@ -254,7 +254,7 @@ const Chat = ({ TabState, param }) => {
             <div className='px-3 chat-header'>
 
                 <Link href={`/people/${profile?.id}/activity`} className="d-flex align-items-center py-1 text-decoration-none">
-                    <div className="MsgIcon  ">
+                    <div className="MsgIcon">
                         {profile?.profile_photo === null ?
                             <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image> :
                             <Image loader={imgurl} src={profile?.profile_photo?.url} alt="" width={100} height={100}></Image>
@@ -281,8 +281,8 @@ const Chat = ({ TabState, param }) => {
                                     const date = new Date(item.created_at);
                                     const formattedDate = date.toLocaleString();
                                     const uniqueKey = `${item.sender_id}-${formattedDate}-${i}`;
-                                    return <div className={`d-flex py-1 text-decoration-none ${profile.id != item.sender_id ? ' flex-row-reverse' : ''}`} key={uniqueKey}>
-                                        <Link href={`${profile.id === item.sender_id ? `/people/${profile?.id}/activity` : '/profile/profile'} `} className="MsgIcon  ">
+                                    return <div className={`d-flex py-1 text-decoration-none  ${profile.id != item.sender_id ? ' flex-row-reverse' : ''}`} key={uniqueKey}>
+                                        <Link href={`${profile.id === item.sender_id ? `/people/${profile?.id}/activity` : '/profile/profile'} `} className="MsgIcon2  ">
                                             {profile.id != item.sender_id ?
                                                 <>
 
@@ -300,7 +300,7 @@ const Chat = ({ TabState, param }) => {
                                                     }
                                                 </>}
                                         </Link>
-                                        <div className={` ${profile.id != item.sender_id ? 'message-box-user' : 'message-box'}`}>
+                                        <div className={` ${profile.id != item.sender_id ? 'message-box-user ms-2' : 'message-box me-2'}`}>
                                             <p className="para mb-0 me-2">{item.body}</p>
                                             <p className="para-sm clr-light mb-0 send">{formattedDate} </p>
                                         </div>

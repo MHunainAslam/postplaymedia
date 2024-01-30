@@ -789,6 +789,19 @@ h5 {
   object-fit: cover;
   border-radius: 100%;
 }
+.MsgIcon2 {
+  padding-inline: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.MsgIcon2 img {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 100%;
+}
 
 .chatbar-header i {
   font-size: 20px;
