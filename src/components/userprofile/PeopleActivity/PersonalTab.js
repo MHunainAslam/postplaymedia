@@ -38,7 +38,6 @@ const PersonalTab = () => {
     const PostopenModal = (index) => {
         setPostSelectedImage(index);
         setPostModalOpen(true);
-        console.log(PostselectedImage, index)
     };
 
     const PostcloseModal = () => {

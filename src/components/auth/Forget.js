@@ -47,7 +47,6 @@ const Forget = () => {
         }
     }
     const ReSendOTP = (e) => {
-        console.log('first')
         e.preventDefault()
         setisLoading2(true)
         axios.post(`${APP_URL}/api/resent-otp`, { email: Email })

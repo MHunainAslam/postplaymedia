@@ -187,8 +187,8 @@ const Invitetabs = ({ setinviteuserid }) => {
                             </div>
                         </div>
                        
-                        {MyFriends.length === 0 ? <p className='text-center my-3'>No Friends Found!</p> : <>
-                            {MyFriends.data.data.data.filter(user => user.friendship_status === 'friends').map((card, i) => (
+                        {MyFriends?.data?.data?.data?.filter(user => user?.friendship_status === 'friends').length === 0 ? <p className='text-center my-3'>No Friends Found!</p> : <>
+                            {MyFriends?.data?.data?.data?.filter(user => user?.friendship_status === 'friends').map((card, i) => (
                                 <div className="card rounded-5 mt-3" key={i} id={card.id}>
                                     <div className="card-body align-items-center d-flex justify-content-between py-2">
                                         <div className="d-flex align-items-center ">
@@ -212,7 +212,7 @@ const Invitetabs = ({ setinviteuserid }) => {
                             <Pagination
                                 dataOnPage={dataOnPagef}
                                 currentPage={currentPagef}
-                                totalPages={Math.ceil(MyFriends?.data.data.total / itemsPerPagef)}
+                                totalPages={Math.ceil(MyFriends?.data?.data?.total / itemsPerPagef)}
                                 tabledata={MyFriends?.data?.data?.data}
                                 onPageChange={handlePageChangef}
                                 indexOfFirstItem={indexOfFirstItemf}

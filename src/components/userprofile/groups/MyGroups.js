@@ -36,31 +36,8 @@ const MyGroups = ({ xl, md, lg }) => {
                 setUserDataLoader(false)
             });
     }, [])
-    const unfriend = (e) => {
-        setReceiverid(e)
-        console.log(e)
-        axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('unfriend', response);
-                getallfrnds()
-            })
-            .catch(error => {
-                console.error(error);
-                message.error(error?.response.data?.message)
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }
-    const imgurl = ({ src }) => {
-        return `${IMG_URL}${src}`
-    }
+   
+  
     return (
         <>
             <p className="heading mt-3 clr-text">My Groups</p>

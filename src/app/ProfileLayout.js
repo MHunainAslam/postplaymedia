@@ -38,7 +38,6 @@ const ProfileLayout = ({ children, ProfilePages }) => {
             }
         })
             .then(response => {
-                console.log('profilelayout', response);
                 setUserdata(response?.data)
                 setUserdataLoader(false)
             })
@@ -74,7 +73,7 @@ const ProfileLayout = ({ children, ProfilePages }) => {
                                     <div className="col">
                                         <Coverandtab Userdata={Userdata} UserdataLoader={UserdataLoader} />
                                     </div>
-                                    <div className="container py-5">
+                                    <div className="container py-md-3">
                                         <div className="border-bottom d-md-block d-none" ></div>
                                         <div className="border-bottom d-md-none mt-4" ></div>
                                         <div className="container">

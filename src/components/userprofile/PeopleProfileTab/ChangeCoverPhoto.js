@@ -26,14 +26,12 @@ const ChangeCoverPhoto = () => {
             const reader = new FileReader();
             reader.onload = () => {
                 setProfileImage(reader.result);
-                console.log(e.target.files[0])
                 axios.post(`${APP_URL}/api/post-media`, formDataimg, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     }
                 })
                     .then(response => {
-                        console.log('img', response);
                         setChangeCover(response.data.data.last_inserted_id)
                         setbtnActive(true)
                     })
@@ -60,7 +58,6 @@ const ChangeCoverPhoto = () => {
             }
         })
             .then(response => {
-                console.log('profile edit', response);
                 message.success(response.data?.message)
                 router.push('/profile/activity')
                 setisloading(false)
@@ -87,7 +84,6 @@ const ChangeCoverPhoto = () => {
             }
         })
             .then(response => {
-                console.log('profile edit', response);
                 message.success(response.data?.message)
                 router.push('/profile/activity')
                 setisloading(false)

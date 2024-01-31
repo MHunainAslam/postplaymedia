@@ -1,11 +1,58 @@
+'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Loader from '../Loader';
-import { imgurl } from '@/utils/Token';
+import { GetToken, imgurl } from '@/utils/Token';
+import Pagination from '../jobs/Pagination';
+import { useRouter } from 'next/navigation';
+import { APP_URL } from '../../../config';
+import axios from 'axios';
+import { deleteCookie } from 'cookies-next';
 
-const MyGroups = ({ Minegrp, isLoading }) => {
+const MyGroups = ({ setminegrpcount, runminegrp }) => {
+
+    const [Minegrp, setMinegrp] = useState([])
+    const router = useRouter()
+    const token = GetToken('userdetail')
+    const handlePageChangemine = (pageNumber) => {
+        setCurrentPagemine(pageNumber);
+        // setisLoading(true)
+        console.log(pageNumber);
+    };
+    const [isLoading, setisLoading] = useState(true)
+    const [dataOnPagemine, setdataOnPagemine] = useState(20)
+    const [currentPagemine, setCurrentPagemine] = useState(1);
+    const itemsPerPagemine = dataOnPagemine;
+    const indexOfLastItemmine = currentPagemine * itemsPerPagemine;
+    const indexOfFirstItemmine = indexOfLastItemmine - itemsPerPagemine;
     // console.log('mine grp', Minegrp);
+    const getminegrp = () => {
+        setisLoading(true)
+        axios.get(`${APP_URL}/api/groups/mine?per_page=${dataOnPagemine}&page=${currentPagemine}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('mine grps', response);
+                setMinegrp(response)
+                setminegrpcount(response?.data?.data?.total)
+                setisLoading(false)
+            })
+            .catch(error => {
+                setisLoading(false)
+                console.error(error);
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
+    useEffect(() => {
+        getminegrp()
+    }, [dataOnPagemine, currentPagemine, runminegrp])
     return (
 
         <>
@@ -65,7 +112,8 @@ const MyGroups = ({ Minegrp, isLoading }) => {
                                             <p className="para text-black mt-3 text-capitalize">{item.privacy} Group / {item.member_count} members</p>
                                         </div>
                                         <div className="card-footer">
-                                            <Link  href={`groups/${item.id}`} className='btn secondary-btn '><p className='mb-0 px-4'>Visit</p></Link>
+                                            
+                                            <Link href={`/groups/${item.id}`} className='btn secondary-btn '><p className='mb-0 px-4'>Visit</p></Link>
                                         </div>
                                     </div>
                                 </div>
@@ -76,6 +124,18 @@ const MyGroups = ({ Minegrp, isLoading }) => {
 
                 }
             </div>
+            {Minegrp?.data?.data?.data?.length > 0 &&
+                < Pagination
+                    dataOnPage={dataOnPagemine}
+                    currentPage={currentPagemine}
+                    totalPages={Math.ceil(Minegrp?.data?.data?.total / itemsPerPagemine)}
+                    tabledata={Minegrp?.data?.data?.data}
+                    onPageChange={handlePageChangemine}
+                    indexOfFirstItem={indexOfFirstItemmine}
+                    // currentData={currentData}
+                    itemsPerPage={itemsPerPagemine}
+                    indexOfLastItem={indexOfLastItemmine}
+                />}
         </>
     )
 }

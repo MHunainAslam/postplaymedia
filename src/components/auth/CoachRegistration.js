@@ -38,12 +38,10 @@ const CoachRegistration = ({ back, RoleId }) => {
         }
         else {
             setisLoading(true)
-            console.log(UserName, Email, Password, C_Password, Name, MemberType)
             axios.post(`${APP_URL}/api/register`, { name: Name, username: UserName, email: Email, password: Password, c_password: C_Password, role_id: RoleId, phone: Number, address: Address, current_institute: CInstitute, current_ins_website: CInstituteweb, job_title: jobtitle, class_year: null, height: null, weight: null, sports: null, position: Position, travel_team_name: null, city: city, country: 'United States', })
                 .then(response => {
                     // Handle successful response here
                     message.success(response.data.message)
-                    console.log(response.data);
                     router.push('/')
                     setisLoading(false)
                 })
@@ -62,7 +60,6 @@ const CoachRegistration = ({ back, RoleId }) => {
     useEffect(() => {
         axios.get(`${APP_URL}/api/sub-roles`)
             .then(response => {
-                console.log(response);
                 setJobType(response)
             })
             .catch(error => {
@@ -84,7 +81,6 @@ const CoachRegistration = ({ back, RoleId }) => {
             }
         })
             .then(response => {
-                console.log('coachregistration', response);
                 setAllstate(response?.data?.data?.states)
             })
             .catch(error => {
@@ -106,7 +102,6 @@ const CoachRegistration = ({ back, RoleId }) => {
             }
         })
             .then(response => {
-                console.log('cities', response);
                 setAllcity(response?.data?.data)
             })
             .catch(error => {

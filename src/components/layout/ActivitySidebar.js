@@ -23,37 +23,7 @@ const ActivitySidebar = () => {
     const token = GetToken('userdetail')
     const {UserProfiledata, UserProfileloader} = useAppContext()
     
-    // setUserProfiledata2(Authme())
-    // console.log()
-    // useEffect(() => {
-    //     // Authme
-    //     console.log(authMeData, 'lll')
-    // }, [])
-    // console.log(authMeData)
 
-    // useEffect(() => {
-    //     axios.get(`${APP_URL}/api/authMe`, {
-    //         headers: {
-    //             'Authorization': `Bearer ${token}`,
-    //         }
-    //     })
-    //         .then(response => {
-    //             console.log('authMe sidebar', response);
-    //             setUserProfiledata(response?.data)
-    //             setUserProfileloader(false)
-
-    //         })
-    //         .catch(error => {
-    //             setUserProfileloader(false)
-
-    //             console.error(error);
-    //             if (error?.response?.status === 401) {
-    //                 router.push('/')
-    //                 deleteCookie('logged');
-    //                 localStorage.removeItem('userdetail')
-    //             }
-    //         });
-    // }, [])
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
     }

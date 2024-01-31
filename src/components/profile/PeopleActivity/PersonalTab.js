@@ -1,6 +1,5 @@
 'use client'
 
-import { UserContext } from '@/app/ProfileLayout'
 import FancyBox from '@/components/FancyBox'
 import FancyBoxPost from '@/components/FancyBoxPost'
 import PostArea from '@/components/posts/PostArea'
@@ -43,8 +42,6 @@ const PersonalTab = () => {
         setPostSelectedImage(null);
         setPostModalOpen(false);
     };
-    const { Userdata } = useContext(UserContext);
-    console.log('post area cu', Userdata)
     return (
         <>
           

@@ -13,7 +13,6 @@ const AllVideos = () => {
     const openModal = (index) => {
         setSelectedImage(index);
         setModalOpen(true);
-        console.log(selectedImage, index)
     };
 
     const closeModal = () => {

@@ -15,6 +15,7 @@ import { deleteCookie } from 'cookies-next'
 import { useAppContext } from '@/context/AppContext'
 import Coverandtab from '@/components/groups/groupbyid/Coverandtab'
 import { message } from 'antd'
+import DltGrpModal from '@/components/groups/DltGrpModal'
 export const grpContext = createContext();
 const GroupLayout = ({ children, GroupPage }) => {
     const token = GetToken('userdetail')
@@ -58,10 +59,11 @@ const GroupLayout = ({ children, GroupPage }) => {
                 'Authorization': `Bearer ${token}`,
             }
         })
-            .then(response => {
-                console.log('dlt grp', response);
-                message.success(response.data.message)
-                router.push('/groups')
+        .then(response => {
+            console.log('dlt grp', response);
+            message.success(response.data.message)
+            router.push('/groups')
+            document.querySelector('.close-grp-dlt-modal').click()
 
             })
             .catch(error => {
@@ -110,7 +112,7 @@ const GroupLayout = ({ children, GroupPage }) => {
                                             <Coverandtab grpdata={grpdata} isLoading={isLoading} />
                                             <div className="mx-auto text-center mb-3">
                                                 {UserProfiledata?.data?.id === grpdata?.data?.group?.created_by?.id ?
-                                                    <button className='btn-outline-danger rounded-5 btn px-2 py-1' onClick={dltgrp}>Delete Group</button>
+                                                    <button className='btn-outline-danger rounded-5 btn px-2 py-1' data-bs-toggle="modal" data-bs-target="#DltGroup">Delete Group</button>
                                                     : <button className='btn-outline-danger rounded-5 btn px-2 py-1'>Leave Group</button>}
                                             </div>
                                         </div>
@@ -148,6 +150,7 @@ const GroupLayout = ({ children, GroupPage }) => {
                         </div>
                     </>}
             </>}
+            <DltGrpModal dltgrp={dltgrp}/>
         </>
     )
 }

@@ -20,8 +20,6 @@ const LoginForm = () => {
   const loginuser = (e) => {
     e.preventDefault()
     if (UserEmail === '' || UserPass === '') {
-      console.log('Empty Email or Password')
-      // console.log(JSON.parse(localStorage.getItem('userdetail')))
       message.error('Empty Email or Password');
     } else {
 
@@ -29,10 +27,6 @@ const LoginForm = () => {
       axios.post(`${APP_URL}/api/login`, { email: UserEmail, password: UserPass })
         .then(response => {
           message.success(response?.data?.message)
-          // console.log(response.data);
-          // setUserEmail('')
-          // setUserPass('')
-          console.log(response.data.data.token)
           setCookie('logged', response.data.data.token);
           setlogin(true)
           localStorage.setItem('userdetail', JSON.stringify({ response }))
@@ -56,12 +50,10 @@ const LoginForm = () => {
   }
   const LostPass = () => {
     document.querySelector('.closelogin-modal').click()
-    console.log("first")
     router.push('/forget')
   }
   const RegisterYourSelf = () => {
     document.querySelector('.closelogin-modal').click()
-    console.log("first")
     router.push('/register')
   }
 

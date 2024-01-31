@@ -8,33 +8,17 @@ import { APP_URL } from '../../config'
 import { GetToken } from '@/utils/Token'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
+import { useAppContext } from '@/context/AppContext'
 export const UserContext = createContext();
 const ActivityLayout = ({ children, ActivityPages }) => {
     const router = useRouter()
     const token = GetToken('userdetail')
-    const [Userdata, setUserdata] = useState('')
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+    const [Userdata, setUserdata] = useState(UserProfiledata)
     const [UserdataLoader, setUserdataLoader] = useState(true)
     useEffect(() => {
-        axios.get(`${APP_URL}/api/authMe`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('activity', response);
-                setUserdata(response?.data)
-                setUserdataLoader(false)
-            })
-            .catch(error => {
-                setUserdataLoader(false)
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }, [])
+        setUserdata(UserProfiledata)
+    }, [UserProfiledata])
     return (
         <>
             {!ActivityPages ? <>{children}</> :
@@ -46,7 +30,7 @@ const ActivityLayout = ({ children, ActivityPages }) => {
                             </div>
                             <div className="col px-0">
                                 <div className="">
-                                    <ActivityHeader Userdata={Userdata?.data} />
+                                    <ActivityHeader />
                                     <div className="container pt-0 pb-3">
                                         <UserContext.Provider value={{ Userdata, setUserdata }}>
                                             {children}

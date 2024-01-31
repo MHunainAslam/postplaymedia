@@ -32,7 +32,6 @@ export function AppWrapper({ children }) {
     hello: UserProfiledata,
   });
   useEffect(() => {
-    console.log('cont');
     axios.get(`${APP_URL}/api/authMe`, {
       headers: {
         'Authorization': `Bearer ${token}`,

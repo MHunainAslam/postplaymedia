@@ -59,7 +59,7 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
                                     <div className="col">
                                         <Coverandtab Userdata={UserProfiledata} UserdataLoader={UserProfileloader} />
                                     </div>
-                                    <div className="container py-5">
+                                    <div className="container py-md-3">
                                         <div className="border-bottom d-md-block d-none" ></div>
                                         <div className="border-bottom d-md-none mt-4" ></div>
                                         <div className="container">
@@ -75,7 +75,7 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
                                                             <p className="para clr-text text-center">Groups</p>
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    {/* <div>
                                                         <p className="heading-m text-dark mt-4 text-center">
                                                             My Photos
                                                         </p>
@@ -100,7 +100,7 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
                                                                 </div>
                                                             ))}
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                                 <div className="col-md-9 col-lg-10 ">
                                                     <UserContext.Provider value={{ Userdata, setUserdata }}>

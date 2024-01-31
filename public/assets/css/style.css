@@ -789,6 +789,7 @@ h5 {
   object-fit: cover;
   border-radius: 100%;
 }
+
 .MsgIcon2 {
   padding-inline: 5px;
   display: flex;
@@ -1095,6 +1096,10 @@ h5 {
   left: 0;
 }
 
+.layouttab {
+  box-shadow: -10px 0 10px -10px rgb(0 0 0 / 17%) inset, 10px 0 10px -10px rgb(0 0 0 / 17%) inset;
+}
+
 .profile-tabs ul.nav li {
   border: 0 !important;
   margin: 0 !important;
@@ -1150,7 +1155,7 @@ h5 {
 
 .profile-tabs .peopletab.nav li {
   padding: calc(6px + (10 - 6) * ((100vw - 320px) / (1920 - 320)));
-  margin-bottom: 10px !important;
+  margin-block: 10px !important;
   margin-inline: 10px !important;
 }
 
@@ -2053,6 +2058,12 @@ h5 {
 @media (max-width: 768px) {
   .grp-img {
     min-height: 120px !important;
+  }
+  .layouttab{
+    justify-content: space-between;
+  }
+  .profile-page-user .img-p{
+    min-height: 170px;
   }
 }
 

@@ -8,10 +8,12 @@ import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 import Loader from '@/components/Loader'
 import { UserContext } from '@/app/ProfileLayout'
+import { useAppContext } from '@/context/AppContext'
 
 const Profiledetail = ({ }) => {
     const token = GetToken('userdetail')
     const { Userdata } = useContext(UserContext);
+    const { UserProfiledata, UserProfileloader } = useAppContext()
     const [Name, setName] = useState()
     const [number, setnumber] = useState()
     const [DateofBirth, setDateofBirth] = useState()

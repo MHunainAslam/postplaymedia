@@ -24,11 +24,7 @@ const Chat = ({ TabState, param }) => {
     const [Userprofile, setUserprofile] = useState([])
     const params = searchParams.get('chat')
     const router = useRouter()
-    useEffect(() => {
-        console.log(params, 'on', TabState);
-        console.log(router);
-    }, [router])
-
+ 
 
     useEffect(() => {
         Authme(token)

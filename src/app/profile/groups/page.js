@@ -1,7 +1,7 @@
 import ProfileLayout from '@/app/ProfileLayout'
 import UserProfileLayout from '@/app/UserProfileLayout'
+import MyGroups from '@/components/groups/MyGroups'
 import GroupInv from '@/components/userprofile/groups/GroupInv'
-import MyGroups from '@/components/userprofile/groups/MyGroups'
 import React from 'react'
 
 const page = () => {
@@ -23,10 +23,10 @@ const page = () => {
 
             <div className="tab-content ">
                 <div className="tab-pane fade active show" id="MyGroups" role="tabpanel" aria-labelledby="MyGroups-tab">
-                    <MyGroups xl={'xl-4'} lg={'lg-6'} />
+                    <MyGroups />
                 </div>
                 <div className="tab-pane fade " id="GroupInvites" role="tabpanel" aria-labelledby="GroupInvites-tab">
-                    <GroupInv xl={'xl-4'} lg={'lg-6'}/>
+                    <GroupInv xl={'xl-4'} lg={'lg-6'} />
                 </div>
 
 

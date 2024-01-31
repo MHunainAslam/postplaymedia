@@ -13,7 +13,7 @@ const ProfileTabs = () => {
     return (
         <>
 
-            <ul className="peopletab overflow-auto nav nav-tabs border-0 border-b-0 px-md-3 flex-nowrap">
+            <ul className="peopletab overflow-auto nav nav-tabs border-0 layouttab border-b-0 mx-md-3 flex-nowrap">
                 <li className={`nav-item nav-link text-center ${lastSegment === 'activity' ? 'active' : ''}`}>
                     <Link className='text-decoration-none' href={`/people/${userprofile}/activity`}>
                         <i className="clr-text heading-m mb-2 bi bi-activity"></i>

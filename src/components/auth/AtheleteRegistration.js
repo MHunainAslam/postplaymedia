@@ -56,7 +56,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
     const handleApprovepaypal = async (data, actions) => {
         const order = await actions?.order?.capture();
         if (order) {
-            console.log('Payment was approved!', order);
+            console.log('Payment was approved!');
             // const customId = data.orderID;
             // console.log('Custom ID:', customId);
             // setisLoading(true)
@@ -107,7 +107,6 @@ const AtheleteRegistration = ({ back, RoleId }) => {
             }
         })
             .then(response => {
-                console.log('authMelayout', response);
                 setAllstate(response?.data?.data?.states)
             })
             .catch(error => {
@@ -129,7 +128,6 @@ const AtheleteRegistration = ({ back, RoleId }) => {
             }
         })
             .then(response => {
-                console.log('llll', response);
                 setAllcity(response?.data?.data)
             })
             .catch(error => {

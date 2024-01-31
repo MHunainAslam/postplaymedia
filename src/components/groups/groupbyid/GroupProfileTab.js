@@ -16,7 +16,7 @@ const GroupProfileTab = ({ grpdata }) => {
     return (
         <>
 
-            <ul className="peopletab overflow-auto nav nav-tabs border-0 border-b-0 px-md-3 flex-nowrap justify-content-between">
+            <ul className="peopletab overflow-auto nav nav-tabs border-0 layouttab border-b-0 mx-md-3 flex-nowrap justify-content-between">
                 <li className={`nav-item nav-link text-center ${lastSegment === 'grpactivity' ? 'active' : ''}`}>
                     <Link className='text-decoration-none' href={`/groups/${groupbyid}?group-tab=grpactivity`}>
                         <i className="clr-text heading-m mb-2 bi bi-activity"></i>

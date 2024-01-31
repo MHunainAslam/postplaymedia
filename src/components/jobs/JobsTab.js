@@ -14,7 +14,6 @@ import CreateTeam from './CreateTeam'
 
 
 const JobsTab = () => {
-    // const { Userdata } = useContext(UserContext);
     const [Userdata, setUserdata] = useState([])
     useEffect(() => {
 

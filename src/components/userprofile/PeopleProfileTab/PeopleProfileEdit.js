@@ -46,7 +46,6 @@ const PeopleProfileEdit = ({ }) => {
             }
         })
             .then(response => {
-                console.log('roles', response);
                 setgetRoles(response?.data)
             })
             .catch(error => {
@@ -71,7 +70,6 @@ const PeopleProfileEdit = ({ }) => {
             }
         })
             .then(response => {
-                console.log('profile edit', response);
                 message.success(response.data?.message)
                 router.push('/profile/activity')
                 setisloading(false)
@@ -98,7 +96,6 @@ const PeopleProfileEdit = ({ }) => {
             }
         })
             .then(response => {
-                console.log('profile edit', response);
                 message.success(response.data?.message)
                 router.push('/profile/activity')
                 setisloading(false)
@@ -130,7 +127,6 @@ const PeopleProfileEdit = ({ }) => {
             }
         })
             .then(response => {
-                console.log('authMelayout', response);
                 setAllstate(response?.data?.data?.states)
             })
             .catch(error => {

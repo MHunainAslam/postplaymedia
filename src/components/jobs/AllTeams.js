@@ -9,12 +9,10 @@ import { Authme, GetToken } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import conferencefield from '../../utils/Confrences.json'
-import { UserContext } from '@/app/ActivityLayout'
 import { message } from 'antd'
 import EditTeam from './EditTeam'
 import Pagination from './Pagination'
 const AllTeams = ({ loadcomponent }) => {
-    // const { Userdata } = useContext(UserContext);
     const token = GetToken('userdetail')
     const [Filter, setFilter] = useState(false)
     const [Conference, setConference] = useState('')

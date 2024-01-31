@@ -5,7 +5,6 @@ export function middleware(request) {
   const url = request.nextUrl.clone()
 
   let islogin = request.cookies.get('logged');
-  console.log(islogin)
   //if (request.nextUrl.pathname.startsWith('/activity'))
   //   if (request.nextUrl.pathname.startsWith('/activity')) {
   //     return NextResponse.rewrite(new URL('/', request.url))

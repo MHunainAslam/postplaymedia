@@ -9,7 +9,9 @@ import { deleteCookie } from 'cookies-next'
 import { GetToken } from '@/utils/Token'
 import { useRouter } from 'next/navigation'
 import { message } from 'antd'
+import { useAppContext } from '@/context/AppContext'
 const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader }) => {
+    const { UserProfiledata, UserProfileloader } = useAppContext()
     const token = GetToken('userdetail')
     const [btndisable, setbtndisable] = useState(false)
     const [Receiverid, setReceiverid] = useState()
@@ -126,7 +128,7 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader }) => {
                             <>
                                 {UserData?.map((item, i) => (
                                     <div className="col-xl-4 col-md-6 mt-3" key={i}>
-                                        <div className="card people-card">
+                                        <div className="card people-card h-100">
                                             <div className="card-body">
                                                 {item.profile_photo === null ?
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
@@ -134,7 +136,11 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader }) => {
                                                     <Image loader={imgurl} src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                 }
-                                                <Link className='link-hov' href={`/people/${item.id}/activity`}><p className="heading text-black mb-2 mt-4">{item.name}</p></Link>
+                                                {UserProfiledata?.data?.id === item.id ?
+                                                    <Link className='link-hov' href={`/profile/activity`}><p className="heading text-black mb-2 mt-4">{item.name}</p></Link>
+                                                    :
+                                                    <Link className='link-hov' href={`/people/${item.id}/activity`}><p className="heading text-black mb-2 mt-4">{item.name}</p></Link>
+                                                }
                                                 <p className="para clr-light">Active 2 minutes ago</p>
                                                 <div className="d-flex fng justify-content-center">
                                                     <div className='mx-2'>
@@ -148,19 +154,21 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader }) => {
                                                 </div>
                                             </div>
                                             <div className="card-footer justify-content-center">
-                                                {item.friendship_status === 'send-request' ?
-                                                    <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'> Add Friend</p></button>
-                                                    : item.friendship_status === 'pending' ?
-                                                        <button className='btn secondary-btn' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
-                                                        : item.friendship_status === 'friends' ?
-                                                            <button className='btn secondary-btn' onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'> Unfriend</p></button>
-                                                            : item.friendship_status === 'accept-request' ?
-                                                                <div className='d-md-flex w-100 mx-auto justify-content-center'>
-                                                                    <button className='btn secondary-btn m-1' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
-                                                                    <button className='btn secondary-btn m-1' id={item.id} onClick={() => accptfrndreq(item.frp_id)}><p className='mb-0 px-4' > Accept</p></button>
-                                                                </div>
-                                                                : ''
-                                                }
+                                                {UserProfiledata?.data?.id != item.id && (<>
+                                                    {item.friendship_status === 'send-request' ?
+                                                        <button className='btn secondary-btn' onClick={() => sendreq(item.id)}><p className='mb-0 px-4'> Add Friend</p></button>
+                                                        : item.friendship_status === 'pending' ?
+                                                            <button className='btn secondary-btn' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                            : item.friendship_status === 'friends' ?
+                                                                <button className='btn secondary-btn' onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'> Unfriend</p></button>
+                                                                : item.friendship_status === 'accept-request' ?
+                                                                    <div className='d-md-flex w-100 mx-auto justify-content-center'>
+                                                                        <button className='btn secondary-btn m-1' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
+                                                                        <button className='btn secondary-btn m-1' id={item.id} onClick={() => accptfrndreq(item.frp_id)}><p className='mb-0 px-4' > Accept</p></button>
+                                                                    </div>
+                                                                    : ''
+                                                    }
+                                                </>)}
                                             </div>
                                         </div>
                                     </div>

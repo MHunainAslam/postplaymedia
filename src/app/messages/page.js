@@ -10,8 +10,6 @@ import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config'
 import { deleteCookie } from 'cookies-next'
 import { GetToken } from '@/utils/Token'
-import Testchat from '@/components/chat/Testchat'
-import Message from '@/components/chat/Message'
 import ChatScreen from '@/components/chat/ChatScreen'
 
 const Page = () => {
@@ -23,7 +21,6 @@ const Page = () => {
 
     const [TabState, setTabState] = useState(param)
     useEffect(() => {
-        console.log(param, 'oo');
         setTabState(param)
 
     }, [param, TabState, router])
@@ -49,8 +46,7 @@ const Page = () => {
                                         <div className={`tab-pane fade  ${TabState === TabState ? 'active show' : ''}`} id={TabState} role="tabpanel" aria-labelledby="1-tab">
                                             <div className='chat-sec'>
                                                 {TabState === TabState && <ActivityHeader />}
-                                                {/* <Chat TabState={TabState}  /> */}
-                                                {/* <Message TabState={TabState} /> */}
+                                       
                                                 <Chat TabState={TabState} param={param} />
                                                 {/* <ChatScreen TabState={TabState} /> */}
                                             </div>

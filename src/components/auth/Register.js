@@ -18,10 +18,8 @@ const Register = () => {
         setActiveComponent(componentName);
         if (componentName === 'Coach') {
             setRoleId('2')
-            console.log(componentName, RoleId)
         } else if (componentName === 'Athletes') {
             setRoleId('3')
-            console.log(componentName, RoleId)
         }
     };
 

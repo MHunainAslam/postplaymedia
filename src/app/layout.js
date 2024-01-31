@@ -20,7 +20,6 @@ export const metadata = {
 }
 
 export default function RootLayout({ children, MessagePages, Activity, ProfilePages }) {
-  console.log(Activity)
   return (
     Activity ?
       <>
