@@ -51,9 +51,7 @@ const ProfileLayout = ({ children, ProfilePages }) => {
                 }
             });
     }, [])
-    const childrenWithProps = React.Children.map(children, (child, i) => {
-        return React.cloneElement(child, { foo: Userdata })
-    })
+  
   
     
 

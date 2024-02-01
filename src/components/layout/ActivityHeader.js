@@ -216,7 +216,7 @@ const ActivityHeader = ({  }) => {
                             </li>
                             <li onClick={receivefrndreq} className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
                                 <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-bell"></i>
+                                    <i className="bi bi-bell"></i>
                                 </a>
                                 <ul className={`dropdown-menu py-1 border-0 ${NotiShow ? 'show show-c' : ''}`} ref={ref}>
                                     <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Notifications</a></li>

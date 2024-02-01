@@ -204,7 +204,7 @@ const AddRemoveUser = ({ setinviteuserid }) => {
                                                 : <Image loader={imgurl} src={card.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>}   <p className='papa mb-0 clr-text fw-bold ms-2'>{card.name}</p>
                                         </div>
                                         {participents.map(item => item.user?.id).includes(card.id) ?
-                                            <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' ><i class="bi bi-x-circle"></i></button>
+                                            <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' ><i className="bi bi-x-circle"></i></button>
                                             : <>
                                                 {selectedCards.some((selectedItem) => selectedItem.id === card.id) ?
                                                     <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { unselectItemuser(card), removeinv(card.id) }}><i className="bi bi-dash-circle"></i></button> :
@@ -251,7 +251,7 @@ const AddRemoveUser = ({ setinviteuserid }) => {
                                                 : <Image loader={imgurl} src={card.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>}   <p className='papa mb-0 clr-text fw-bold ms-2'>{card.name}</p>
                                         </div>
                                         {UserProfiledata.data.id === card.id ? '' : participents.map(item => item.user?.id).includes(card.id) ?
-                                            <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' ><i class="bi bi-x-circle"></i></button>
+                                            <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' ><i className="bi bi-x-circle"></i></button>
                                             : <>
                                                 {selectedCards.some((selectedItem) => selectedItem.id === card.id) ?
                                                     <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { unselectItemuser(card), removeinv(card.id) }}><i className="bi bi-dash-circle"></i></button> :

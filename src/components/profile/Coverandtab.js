@@ -176,7 +176,7 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                         <ProfileTabs Userdata={Userdata} />
                                         <div className='d-flex align-items-center'>
                                             {frndstatus === 'send-request' || frndstatus === 'pending' || frndstatus === 'accept-request' ?
-                                                <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } }} className='btn h-fit-content secondary-btn me-2' ><i class="bi bi-envelope"></i></Link>
+                                                <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } }} className='btn h-fit-content secondary-btn me-2' ><i className="bi bi-envelope"></i></Link>
                                                 : ''}
                                             {frndstatus === 'send-request' ?
                                                 <button className='btn secondary-btn ' disabled={isDisable} onClick={() => sendreq(Userdata?.data?.id)}><p className='mb-0 px-md-3 px-1'> Add Friend</p></button>
@@ -205,7 +205,7 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                     <ProfileTabs Userdata={Userdata} />
                     <div className='d-flex align-items-center justify-content-center pt-3'>
                         {frndstatus === 'send-request' || frndstatus === 'pending' || frndstatus === 'accept-request' ?
-                            <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } }} className='btn h-fit-content secondary-btn me-2' ><i class="bi bi-envelope"></i></Link>
+                            <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } }} className='btn h-fit-content secondary-btn me-2' ><i className="bi bi-envelope"></i></Link>
                             : ''}
                         {frndstatus === 'send-request' ?
                             <button className='btn secondary-btn ' disabled={isDisable} onClick={() => sendreq(Userdata?.data?.id)}><p className='mb-0 px-md-3 px-1'> Add Friend</p></button>

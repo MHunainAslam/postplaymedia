@@ -63,6 +63,9 @@ const GroupTabs = () => {
     };
 
     const joingrp = (e) => {
+        console.log('join', e)
+    }
+    const reqjoingrp = (e) => {
         axios.post(`${APP_URL}/api/groups/sendRequest`, { group_id: e, type: 'send' }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -80,17 +83,27 @@ const GroupTabs = () => {
                 console.error(error);
             });
     }
-    const reqjoingrp = () => {
-        console.log('2');
-    }
     const canceljoingrp = () => {
         console.log('3');
     }
     const viewgrp = (e) => {
         router.push(`/groups/${e}`)
     }
-    const accptgrpreq = () => {
-        console.log('5');
+    const accptgrpreq = (e) => {
+        axios.patch(`${APP_URL}/api/groups/acceptRequest/${e}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                // Handle successful response here
+                console.log(response.data);
+                getallgrp()
+            })
+            .catch(error => {
+                // Handle error here
+                console.error(error);
+            });
     }
     return (
         <>

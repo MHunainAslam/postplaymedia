@@ -277,9 +277,9 @@ const Chat = ({ TabState, param }) => {
                                     const date = new Date(item.created_at);
                                     const formattedDate = date.toLocaleString();
                                     const uniqueKey = `${item.sender_id}-${formattedDate}-${i}`;
-                                    return <div className={`d-flex py-1 text-decoration-none  ${profile.id != item.sender_id ? ' flex-row-reverse' : ''}`} key={uniqueKey}>
-                                        <Link href={`${profile.id === item.sender_id ? `/people/${profile?.id}/activity` : '/profile/profile'} `} className="MsgIcon2  ">
-                                            {profile.id != item.sender_id ?
+                                    return <div className={`d-flex py-1 text-decoration-none  ${profile?.id != item.sender_id ? ' flex-row-reverse' : ''}`} key={uniqueKey}>
+                                        <Link href={`${profile?.id === item.sender_id ? `/people/${profile?.id}/activity` : '/profile/profile'} `} className="MsgIcon2  ">
+                                            {profile?.id != item.sender_id ?
                                                 <>
 
                                                     {item?.sender?.profile_photo == null ?
@@ -296,7 +296,7 @@ const Chat = ({ TabState, param }) => {
                                                     }
                                                 </>}
                                         </Link>
-                                        <div className={` ${profile.id != item.sender_id ? 'message-box-user ms-2' : 'message-box me-2'}`}>
+                                        <div className={` ${profile?.id != item.sender_id ? 'message-box-user ms-2' : 'message-box me-2'}`}>
                                             <p className="para mb-0 me-2">{item.body}</p>
                                             <p className="para-sm clr-light mb-0 send">{formattedDate} </p>
                                         </div>
@@ -309,7 +309,7 @@ const Chat = ({ TabState, param }) => {
 
                 </div>
 
-                <button className={`chat-arrow ${bottombtn ? '' : 'd-none'}`} onClick={gotobottom}><i class="bi bi-arrow-down-circle"></i></button>
+                <button className={`chat-arrow ${bottombtn ? '' : 'd-none'}`} onClick={gotobottom}><i className="bi bi-arrow-down-circle"></i></button>
             </div>
 
             <div className='p-3 chat-footer'>

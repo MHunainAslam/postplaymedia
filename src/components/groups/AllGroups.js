@@ -74,10 +74,10 @@ const AllGroups = ({
                                         <div className="card-footer">
                                             <button className='btn secondary-btn ' onClick={
                                                 item.button_trigger === 'join-now' ? () => joingrp(item.id) :
-                                                    item.button_trigger === 'send-request' ? reqjoingrp :
+                                                    item.button_trigger === 'send-request' ? () => reqjoingrp(item.id) :
                                                         item.button_trigger === 'pending' ? canceljoingrp :
                                                             item.button_trigger === 'view-group' ? () => viewgrp(item.id) :
-                                                                item.button_trigger === 'accept-request' ? accptgrpreq :
+                                                                item.button_trigger === 'accept-request' ? () => accptgrpreq(item.id) :
                                                                     ''
                                             }>
                                                 <p className='mb-0 px-4'>

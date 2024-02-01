@@ -90,9 +90,6 @@ const GroupLayout = ({ children, GroupPage }) => {
 
 
 
-    const childrenWithProps = React.Children.map(children, (child, i) => {
-        return React.cloneElement(child, { foo: Userdata })
-    })
 
 
     return (

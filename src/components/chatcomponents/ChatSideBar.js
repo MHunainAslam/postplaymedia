@@ -423,7 +423,7 @@ const ChatSideBar = () => {
 
 
             <div className=' primary-btn d-lg-none chatcanvasm  pointer' data-bs-toggle="offcanvas" data-bs-target="#chatSidebar" aria-controls="chatSidebar">
-                <p><i class="bi bi-chat-left"></i></p>
+                <p><i className="bi bi-chat-left"></i></p>
             </div>
         </>
     )

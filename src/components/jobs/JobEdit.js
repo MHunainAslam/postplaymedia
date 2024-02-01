@@ -37,11 +37,10 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
     const router = useRouter()
 
 
-    console.log('JobId', JobId)
     useEffect(() => {
         setEditorLoaded(true);
     }, []);
-    console.log(JobDesc)
+
 
     useEffect(() => {
         setUserName(JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.name)
@@ -49,7 +48,6 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
 
 
 
-    console.log(UserName)
 
     const SubmitJob = (e) => {
         e.preventDefault()
@@ -58,7 +56,6 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
         }
         else {
             setisLoading(true)
-            // console.log(UserName, Email, Password, C_Password, Name, MemberType)
             axios.put(`${APP_URL}/api/job/${JobId}/update`,
                 { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId, expiry_date: Expdate }, {
                 headers: {
@@ -70,7 +67,6 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
                 .then(response => {
                     // Handle successful response here
                     // message.success(response.data.message)
-                    console.log(response.data);
                     setisLoading(false)
                     document.getElementById('AllJobs-tab').click()
                     handleComponentChange('table')
@@ -115,14 +111,12 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
             const reader = new FileReader();
             reader.onload = () => {
                 setLogoImg(reader.result);
-                console.log(e.target.files[0])
                 axios.post(`${APP_URL}/api/post-media`, formDataimg, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     }
                 })
                     .then(response => {
-                        console.log('img', response);
                         setImgId(response.data.data.last_inserted_id)
                     })
                     .catch(error => {
@@ -151,7 +145,6 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
                     }
                 })
                     .then(response => {
-                        console.log('img', response);
                         setVideo(response?.data?.data?.last_inserted_id)
                         message.success(response?.data?.message)
 
@@ -172,16 +165,13 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
     const addcat = (e) => {
         if (e.target.value === 'addcat') {
             document.querySelector('.addcat').click()
-            console.log(JobCategory)
         } else {
             setJobCategory(e.target.value)
         }
     }
     const onChange = (date, dateString) => {
         setExpdate(date)
-        console.log('expdate', dateString, date)
     };
-    console.log('JobCategorydd', JobCategorydd?.data?.data)
     return (
         <>
             <form action="" onSubmit={SubmitJob}>
