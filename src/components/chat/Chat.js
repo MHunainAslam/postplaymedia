@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 import StartChat from './StartChat';
 import axios from 'axios';
 import { APP_URL } from '../../../config';
+import { useAppContext } from '@/context/AppContext';
 
 const Chat = ({ TabState, param }) => {
     const token = GetToken('userdetail');
@@ -21,21 +22,22 @@ const Chat = ({ TabState, param }) => {
     const [firstRun, setFirstRun] = useState(true);
     const chatContainerRef = useRef();
     const previousScrollHeightRef = useRef();
-    const [Userprofile, setUserprofile] = useState([])
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+    const [Userprofile, setUserprofile] = useState(UserProfiledata?.data?.profile_photo)
     const params = searchParams.get('chat')
     const router = useRouter()
  
 
-    useEffect(() => {
-        Authme(token)
-            .then(data => {
-                console.log('usermsg:', data?.data?.profile_photo);
-                setUserprofile(data?.data?.profile_photo)
-            })
-            .catch(error => {
-                console.error('Error from Authme:', error);
-            });
-    }, [])
+    // useEffect(() => {
+    //     Authme(token)
+    //         .then(data => {
+    //             console.log('usermsg:', data?.data?.profile_photo);
+    //             setUserprofile(data?.data?.profile_photo)
+    //         })
+    //         .catch(error => {
+    //             console.error('Error from Authme:', error);
+    //         });
+    // }, [])
 
     const fetchMessages = async (page) => {
         try {

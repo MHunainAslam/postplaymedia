@@ -1,6 +1,10 @@
+import { DltGrp } from '@/utils/GrpFunctions'
+import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 
-const DltGrpModal = ({ dltgrp }) => {
+const DltGrpModal = () => {
+    const { groupbyid } = useParams()
+    const router = useRouter()
     return (
         <>
 
@@ -14,11 +18,11 @@ const DltGrpModal = ({ dltgrp }) => {
                         </div>
                         <div className="modal-footer bg-transparent justify-content-center border-0 pt-4">
                             <button type="button" className="btn secondary-btn close-grp-dlt-modal px-5 text-white" data-bs-dismiss="modal">No</button>
-                            <button type="button" onClick={dltgrp} className="btn primary-btn px-5"><p>Yes</p></button>
+                            <button type="button" onClick={() => DltGrp({ grpid: groupbyid, router: router.push })} className="btn primary-btn px-5"><p>Yes</p></button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }

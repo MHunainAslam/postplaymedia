@@ -8,8 +8,34 @@ import { GetLocaldata, GetToken, imgurl } from '@/utils/Token'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 import { message } from 'antd'
+import { useFrndContext } from '@/context/FriendContext'
 
 const ChatSideBar = () => {
+    const { Datafrnd, FrndContainerRef, handleLoadMore } = useFrndContext()
+    const handleScroll = () => {
+        const container = FrndContainerRef.current;
+
+        // Check if the user has scrolled to the bottom of the div
+        // if (container && container.scrollTop <= 200) {
+        if (container &&
+            container.scrollHeight - container.scrollTop <= container.clientHeight - 0) {
+            console.log('hn')
+            handleLoadMore();
+        }
+    };
+    useEffect(() => {
+        const container = FrndContainerRef.current;
+        container.addEventListener('scroll', handleScroll);
+        return () => {
+            container.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);
+    useEffect(() => {
+        console.log(Datafrnd, 'Datafrnd')
+    }, [Datafrnd])
+
+
+
     const userdata = GetLocaldata('userdetail')
     const token = GetToken('userdetail')
     const router = useRouter()
@@ -64,140 +90,123 @@ const ChatSideBar = () => {
     useEffect(() => {
         spamchatfunc()
     }, [])
-    const [loading, setLoading] = useState(1)
-    const [CurrentPage, setCurrentPage] = useState(1)
-    const [TotalPagesfrnd, setTotalPagesfrnd] = useState()
-    const [Datafrnd, setDatafrnd] = useState([])
-    const [totalMemberfrnd, settotalMemberfrnd] = useState(1)
-    const [UserDataLoader, setUserDataLoader] = useState(true)
+    // const [loading, setLoading] = useState(1)
+    // const [CurrentPage, setCurrentPage] = useState(1)
+    // const [TotalPagesfrnd, setTotalPagesfrnd] = useState()
+    // const [Datafrnd, setDatafrnd] = useState([])
+    // const [totalMemberfrnd, settotalMemberfrnd] = useState(1)
+    // const [UserDataLoader, setUserDataLoader] = useState(true)
 
-    const fetchFrnds = async (page) => {
-        try {
-            const response = await fetch(
-                `${APP_URL}/api/friendships?per_page=20&page=${page}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        // Add other headers if needed
-                    },
-                }
-            );
-            const data = await response.json();
-            if (data.success) {
-                // Prepend new messages to the beginning of the array
-                console.log('fetchfrnds', data)
-                setDatafrnd(data.message.data);
-                console.log(data)
-                setCurrentPage(data.message.current_page);
-                setTotalPagesfrnd(data.message.last_page);
-                settotalMemberfrnd(data.message.total);
-                setUserDataLoader(false)
-            } else {
-                console.error('Failed to fetch messages');
-                setUserDataLoader(false)
-            }
-        } catch (error) {
-            console.error('Error fetching messages', error);
-            setUserDataLoader(false)
-            if (error?.response?.status === 401) {
-                router.push('/')
-                deleteCookie('logged');
-                localStorage.removeItem('userdetail')
-            }
-        } finally {
-            setLoading(false);
-            setUserDataLoader(false)
-        }
-    };
-    const fetchFrndss = async (page) => {
-        try {
-            const response = await fetch(
-                `${APP_URL}/api/friendships?per_page=20&page=${page}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        // Add other headers if needed
-                    },
-                }
-            );
+    // const fetchFrnds = async (page) => {
+    //     try {
+    //         const response = await fetch(
+    //             `${APP_URL}/api/friendships?per_page=20&page=${page}`,
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                     // Add other headers if needed
+    //                 },
+    //             }
+    //         );
+    //         const data = await response.json();
+    //         if (data.success) {
+    //             console.log('fetchfrnds', data)
+    //             setDatafrnd(data.message.data);
+    //             console.log(data)
+    //             setCurrentPage(data.message.current_page);
+    //             setTotalPagesfrnd(data.message.last_page);
+    //             settotalMemberfrnd(data.message.total);
+    //             setUserDataLoader(false)
+    //         } else {
+    //             console.error('Failed to fetch messages');
+    //             setUserDataLoader(false)
+    //         }
+    //     } catch (error) {
+    //         console.error('Error fetching messages', error);
+    //         setUserDataLoader(false)
+    //         if (error?.response?.status === 401) {
+    //             router.push('/')
+    //             deleteCookie('logged');
+    //             localStorage.removeItem('userdetail')
+    //         }
+    //     } finally {
+    //         setLoading(false);
+    //         setUserDataLoader(false)
+    //     }
+    // };
+    // const fetchFrndss = async (page) => {
+    //     try {
+    //         const response = await fetch(
+    //             `${APP_URL}/api/friendships?per_page=20&page=${page}`,
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
 
-            const data = await response.json();
+    //                 },
+    //             }
+    //         );
 
-            if (data.success) {
-                // Prepend new messages to the beginning of the array
+    //         const data = await response.json();
 
-                setDatafrnd((prevMessages) => [...prevMessages, ...data?.message?.data]);
-                setCurrentPage(data.message.current_page);
-                setTotalPagesfrnd(data.message.last_page);
-                console.log('data', data.message.current_page)
-            } else {
-                console.error('Failed to fetch messages');
-            }
-        } catch (error) {
-            console.error('Error fetching messages', error);
-            if (error?.response?.status === 401) {
-                router.push('/')
-                deleteCookie('logged');
-                localStorage.removeItem('userdetail')
-            }
-        } finally {
-            setLoading(false);
+    //         if (data.success) {
+    //             setDatafrnd((prevMessages) => [...prevMessages, ...data?.message?.data]);
+    //             setCurrentPage(data.message.current_page);
+    //             setTotalPagesfrnd(data.message.last_page);
+    //             console.log('data', data.message.current_page)
+    //         } else {
+    //             console.error('Failed to fetch messages');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error fetching messages', error);
+    //         if (error?.response?.status === 401) {
+    //             router.push('/')
+    //             deleteCookie('logged');
+    //             localStorage.removeItem('userdetail')
+    //         }
+    //     } finally {
+    //         setLoading(false);
 
-        }
-    };
+    //     }
+    // };
+    // const handleLoadMore = () => {
 
+    //     if (CurrentPage < TotalPagesfrnd) {
+    //         setLoading(true);
+    //         console.log('yyy')
+    //         fetchFrndss(CurrentPage + 1);
+    //     }
+    // };
+    // const handleScroll = () => {
+    //     const container = messagesContainerRef.current;
 
+    //     if (container &&
+    //         container.scrollHeight - container.scrollTop <= container.clientHeight - 0) {
+    //         console.log('hn')
+    //         handleLoadMore();
+    //     }
+    // };
+    // useEffect(() => {
+    //     const container = messagesContainerRef.current;
 
+    //     // Add scroll event listener when the component mounts
+    //     container.addEventListener('scroll', handleScroll);
 
+    //     // Remove the event listener when the component unmounts
+    //     return () => {
+    //         container.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, [handleScroll]);
+    // useEffect(() => {
+    //     if (CurrentPage === 1 && Datafrnd.length === 0) {
+    //         fetchFrnds(CurrentPage);
+    //     }
 
-    const handleLoadMore = () => {
-       
-        if (CurrentPage < TotalPagesfrnd) {
-            setLoading(true);
-            console.log('yyy')
-            fetchFrndss(CurrentPage + 1);
-        }
-    };
-
-    const handleScroll = () => {
-        const container = messagesContainerRef.current;
-
-        // Check if the user has scrolled to the bottom of the div
-        // if (container && container.scrollTop <= 200) {
-        if (container &&
-            container.scrollHeight - container.scrollTop <= container.clientHeight - 0) {
-            console.log('hn')
-            handleLoadMore();
-        }
-    };
-
-    useEffect(() => {
-        const container = messagesContainerRef.current;
-
-        // Add scroll event listener when the component mounts
-        container.addEventListener('scroll', handleScroll);
-
-        // Remove the event listener when the component unmounts
-        return () => {
-            container.removeEventListener('scroll', handleScroll);
-        };
-    }, [handleScroll]);
-
-    useEffect(() => {
-        // Fetch initial messages when the component mounts
-        if (CurrentPage === 1 && Datafrnd.length === 0) {
-            fetchFrnds(CurrentPage);
-        }
-
-    }, [CurrentPage, token]);
+    // }, [CurrentPage, token]);
+    // useEffect(() => {
+    //     fetchFrnds()
+    // }, [])
 
 
-
-
-    useEffect(() => {
-        // getallfrnds()
-        fetchFrnds()
-    }, [])
     const cancelspam = (e) => {
         setisDisable(true)
         axios.put(`${APP_URL}/api/room/${e}`, { status: 'rejected' }, {
@@ -270,7 +279,7 @@ const ChatSideBar = () => {
                         </li>
                     </div> */}
                 </div>
-                <div className="offcanvas-body"  ref={messagesContainerRef}>
+                <div className="offcanvas-body" ref={FrndContainerRef}>
                     <ul className="nav nav-tabs border-0  chat-detail-flex" id="myTab" role="tablist">
                         <li className="nav-item " role="presentation" onClick={recentchatfunc}>
                             <button className="nav-link active" id="recentchat-tab" data-bs-toggle="tab" data-bs-target="#recentchat" type="button" role="tab" aria-controls="recentchat" aria-selected="false" tabIndex="-1">Chats</button>
@@ -423,7 +432,7 @@ const ChatSideBar = () => {
 
 
             <div className=' primary-btn d-lg-none chatcanvasm  pointer' data-bs-toggle="offcanvas" data-bs-target="#chatSidebar" aria-controls="chatSidebar">
-                <p><i className="bi bi-chat-left"></i></p>
+                <p><i class="bi bi-chat-left"></i></p>
             </div>
         </>
     )

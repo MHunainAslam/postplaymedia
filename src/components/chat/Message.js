@@ -7,6 +7,7 @@ import { Authme, GetToken, imgurl } from '@/utils/Token';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
 import StartChat from './StartChat';
+import { useAppContext } from '@/context/AppContext';
 
 const Message = ({ TabState }) => {
     const token = GetToken('userdetail')
@@ -15,7 +16,8 @@ const Message = ({ TabState }) => {
     const profile = JSON.parse(searchParams.get('profile'))
     console.log('first', profile)
     const [Messages, setMessages] = useState([])
-    const [Userprofile, setUserprofile] = useState([])
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+    const [Userprofile, setUserprofile] = useState(UserProfiledata)
     const [PerPage, setPerPage] = useState(50)
     const [onPage, setonPage] = useState(1)
     const [NewMessages, setNewMessages] = useState('')
@@ -25,16 +27,7 @@ const Message = ({ TabState }) => {
     const [toploading, settoploading] = useState(false);
     const [bottomloading, setbottomloading] = useState(false);
     const chatBodyRef = useRef(null)
-    useEffect(() => {
-        Authme(token)
-            .then(data => {
-                console.log('usermsg:', data?.data?.profile_photo);
-                setUserprofile(data?.data?.profile_photo)
-            })
-            .catch(error => {
-                console.error('Error from Authme:', error);
-            });
-    }, [])
+  
     useEffect(() => {
         if (firstRun) {
             console.log('han yahi')

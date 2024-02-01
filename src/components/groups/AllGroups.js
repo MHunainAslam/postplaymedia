@@ -62,7 +62,7 @@ const AllGroups = ({
                                                     <>
                                                         {item.profile_photo === null ?
                                                             <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
-                                                            : <Image src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile-sm'></Image>
+                                                            : <Image loader={imgurl} src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile-sm object-fit-cover'></Image>
 
                                                         }
                                                     </>

@@ -7,6 +7,7 @@ import { message } from 'antd';
 import axios from 'axios';
 import { APP_URL } from '../../../config';
 import { useAppContext } from '@/context/AppContext';
+import { useFrndContext } from '@/context/FriendContext';
 
 const LoginForm = () => {
   const [UserEmail, setUserEmail] = useState('')
@@ -14,7 +15,8 @@ const LoginForm = () => {
   const [ShowPass, setShowPass] = useState(false)
   const [isLoading, setisLoading] = useState(false)
   const router = useRouter()
-  const {UserProfiledata, UserProfileloader , setlogin} = useAppContext()
+  const { UserProfiledata, UserProfileloader, setlogin } = useAppContext()
+  const { setfrnd } = useFrndContext()
 
 
   const loginuser = (e) => {
@@ -29,6 +31,7 @@ const LoginForm = () => {
           message.success(response?.data?.message)
           setCookie('logged', response.data.data.token);
           setlogin(true)
+          setfrnd(true)
           localStorage.setItem('userdetail', JSON.stringify({ response }))
           router.push('/activity')
           setisLoading(false)
@@ -37,9 +40,9 @@ const LoginForm = () => {
         .catch(error => {
           console.error(error);
           if (error.response) {
-            
+
             message.error(error?.response?.data?.message)
-          } else{
+          } else {
             message.error(error?.message)
 
           }

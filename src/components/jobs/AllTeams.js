@@ -12,6 +12,7 @@ import conferencefield from '../../utils/Confrences.json'
 import { message } from 'antd'
 import EditTeam from './EditTeam'
 import Pagination from './Pagination'
+import { useAppContext } from '@/context/AppContext'
 const AllTeams = ({ loadcomponent }) => {
     const token = GetToken('userdetail')
     const [Filter, setFilter] = useState(false)
@@ -41,19 +42,9 @@ const AllTeams = ({ loadcomponent }) => {
     const b = parseInt(indexOfFirstItem);
     const router = useRouter()
     console.log(conferencefield)
-
-    const [Userdata, setUserdata] = useState([])
-    useEffect(() => {
-
-        Authme(token)
-            .then(data => {
-                console.log('Data from Authme:', data);
-                setUserdata(data)
-            })
-            .catch(error => {
-                console.error('Error from Authme:', error);
-            });
-    }, [])
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+    const [Userdata, setUserdata] = useState(UserProfiledata)
+ 
     useEffect(() => {
         setAllJobisLoader(true)
         axios.get(`${APP_URL}/api/teams?conference=${Conference}&state=${state}&level=${level}&sports=${sports}&per_page=${dataOnPage}&page=${currentPage}&search=${SearchTitle}`, {
@@ -248,7 +239,7 @@ const AllTeams = ({ loadcomponent }) => {
                                             <div className="card-body">
                                                 <div className="d-flex justify-content-between">
                                                     <Link href={`${item.link}`} target='_blank' className="link-hov heading-m fw-bold text-black">{item.name}</Link>
-                                                   {Userdata?.data?.role?.name === 'Admin' ?
+                                                    {Userdata?.data?.role?.name === 'Admin' ?
                                                         <li className=" nav-item list-unstyled fw-bold fs-4 text-end ">
                                                             <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                 <i className="bi bi-three-dots-vertical"></i>

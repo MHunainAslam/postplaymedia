@@ -232,7 +232,7 @@ const JobEdit = ({ JobCategorydd, handleComponentChange, JobId }) => {
                                         <option value="" selected hidden>-- Select Category --</option>
                                         {JobCategorydd?.data?.data?.map((item, i) => (
                                             <>
-                                                <option value={item.id}>{item.name}</option>
+                                                <option value={item.id} key={i}>{item.name}</option>
                                             </>
                                         ))}
                                         <option value="addcat" >Add Category</option>
