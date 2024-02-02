@@ -5,7 +5,7 @@ import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
-import { GetToken, username } from '@/utils/Token';
+import { GetToken, imgurl, username } from '@/utils/Token';
 import axios from 'axios';
 import { APP_URL, IMG_URL } from '../../../config';
 import Loader from '../Loader';
@@ -13,12 +13,16 @@ import { Skeleton, message } from 'antd';
 import LogoutConfirmation from './LogoutConfirmation';
 import { useAppContext } from '@/context/AppContext';
 
-const ActivityHeader = ({  }) => {
+const ActivityHeader = ({ }) => {
     // const [UserProfiledata, setUserProfiledata] = useState()
     // const [UserProfileloader, setUserProfileloader] = useState(true)
     const [NotiShow, setNotiShow] = useState(false)
-    const [FrndReq, setFrndReq] = useState([])
+
+
     const router = useRouter()
+    const token = GetToken('userdetail')
+    const ref = useRef(null);
+    const { UserProfiledata, UserProfileloader, receivefrndreq, FrndReq, receivegrpreq, GrpReq } = useAppContext()
     const logout = () => {
         deleteCookie('logged');
         localStorage.removeItem('userdetail')
@@ -26,17 +30,9 @@ const ActivityHeader = ({  }) => {
         console.log(deleteCookie())
         document.querySelector('.close-logout-modal').click()
     }
-    const token = GetToken('userdetail')
-
-    const ref = useRef(null);
-    const { UserProfiledata, UserProfileloader } = useAppContext()
-
-
-
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) setNotiShow(false);
     };
-
     useEffect(() => {
         document.addEventListener('click', handleClickOutside, true);
         return () => {
@@ -75,36 +71,6 @@ const ActivityHeader = ({  }) => {
         }
     }, [])
 
-
-    
-    const receivefrndreq = () => {
-        axios.get(`${APP_URL}/api/friend-requests/received`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('FrndReq', response.data?.data);
-                setFrndReq(response?.data?.data)
-
-
-            })
-            .catch(error => {
-
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }
-    useEffect(() => {
-        receivefrndreq()
-    }, [])
-    const imgurl = ({ src }) => {
-        return `${IMG_URL}${src}`
-    }
 
     const accptfrndreq = (e) => {
         setNotiShow(true)
@@ -150,6 +116,9 @@ const ActivityHeader = ({  }) => {
                 }
             });
     }
+
+
+
     return (
         <>
 
@@ -214,14 +183,14 @@ const ActivityHeader = ({  }) => {
                                     {/* <li><button className="btn secondary-btn w-100"  >All Request</button></li> */}
                                 </ul>
                             </li>
-                            <li onClick={receivefrndreq} className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
+                            <li onClick={receivegrpreq} className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
                                 <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-bell"></i>
                                 </a>
                                 <ul className={`dropdown-menu py-1 border-0 ${NotiShow ? 'show show-c' : ''}`} ref={ref}>
                                     <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Notifications</a></li>
                                     <hr />
-                                    {FrndReq?.length === 0 ?
+                                    {GrpReq?.length === 0 ?
                                         <li>
                                             <div className="no-msg-req">
                                                 No Notifications!
@@ -229,7 +198,7 @@ const ActivityHeader = ({  }) => {
                                         </li>
                                         :
                                         <>
-                                            {FrndReq?.map((item, i) => (
+                                            {GrpReq?.map((item, i) => (
                                                 <li key={i}>
                                                     <div className="no-msg-req d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
@@ -241,7 +210,11 @@ const ActivityHeader = ({  }) => {
                                                                     <Image loader={imgurl} className='post-profile-sm-req object-fit-cover ' src={item?.sender?.profile_photo?.url} alt="" width={100} height={100}></Image>
                                                                 </Link>
                                                             }
-                                                            <p className='mb-0 para text-black ms-2 fw-normal'> <span className='fw-bold text-capitalize'>{item.sender.name}</span>  Send you a friend request</p>
+                                                            <p className='mb-0 para text-black ms-2 fw-normal'>
+                                                                <span className='fw-bold text-capitalize'> {item.sender.name} </span>
+                                                                want to Join
+                                                                <span className='fw-bold text-capitalize'> {item.group_id}</span>
+                                                            </p>
                                                         </div>
 
                                                         <div className="d-flex">

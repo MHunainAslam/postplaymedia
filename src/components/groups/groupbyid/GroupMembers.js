@@ -65,7 +65,7 @@ const GroupMembers = () => {
                                                 </div>
                                             </div>
                                             <div className="card-footer">
-                                                {UserProfiledata.data.id === item?.user?.id ?
+                                                {UserProfiledata?.data?.id === item?.user?.id ?
                                                     <Link href={`/profile/profile/activity`} className='btn secondary-btn' ><p className='mb-0 px-4'>Profile</p></Link>
                                                     :
                                                     <Link href={`/people/${item?.user?.id}/activity`} className='btn secondary-btn' ><p className='mb-0 px-4'>Profile</p></Link>

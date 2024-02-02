@@ -9,9 +9,7 @@ const GroupProfileTab = ({ grpdata }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const segments = pathname.split('/');
     const lastSegment = segments[segments.length - 1];
-    console.log(grpdata?.data?.group?.created_by?.id, UserProfiledata?.data?.id, ';;;')
     const { groupbyid } = useParams()
-    console.log('first', UserProfiledata?.data?.id)
 
     return (
         <>

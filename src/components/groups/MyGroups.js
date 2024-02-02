@@ -99,20 +99,18 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
                                             {/* <p className="para clr-light">Active 2 minutes ago</p> */}ss
                                             <div className="imgtoimg">
                                                 {item.some_members.map((item, i) => (
-                                                    <>
-                                                        {item.profile_photo === null ?
-                                                            <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
-                                                            : <Image loader={imgurl} src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile-sm object-fit-cover'></Image>
+                                                    item.profile_photo === null ?
+                                                        <Image key={i} src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
+                                                        : <Image key={i} loader={imgurl} src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile-sm object-fit-cover'></Image>
 
-                                                        }
-                                                    </>
+
                                                 ))}
 
                                             </div>
                                             <p className="para text-black mt-3 text-capitalize">{item.privacy} Group / {item.member_count} members</p>
                                         </div>
                                         <div className="card-footer">
-                                            
+
                                             <Link href={`/groups/${item.id}`} className='btn secondary-btn '><p className='mb-0 px-4'>Visit</p></Link>
                                         </div>
                                     </div>

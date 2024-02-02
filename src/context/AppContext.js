@@ -28,6 +28,10 @@ export function AppWrapper({ children }) {
   const [UserProfiledata, setUserProfiledata] = useState()
   const [UserProfileloader, setUserProfileloader] = useState(true)
   const [login, setlogin] = useState(false)
+  const [FrndReq, setFrndReq] = useState([])
+  const [recentchat, setrecentchat] = useState([])
+  const [GrpReq, setGrpReq] = useState([])
+  const [spamchat, setspamchat] = useState([])
   const [state, setState] = useState({
     hello: UserProfiledata,
   });
@@ -53,7 +57,102 @@ export function AppWrapper({ children }) {
         }
       });
   }, [login])
-  return <AppContext.Provider value={{ UserProfiledata, UserProfileloader, setlogin }}>{children}</AppContext.Provider>;
+  const receivefrndreq = () => {
+    axios.get(`${APP_URL}/api/friend-requests/received`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => {
+        console.log('frnd Req', response.data?.data);
+        setFrndReq(response?.data?.data)
+
+
+      })
+      .catch(error => {
+
+        console.error(error);
+        if (error?.response?.status === 401) {
+          router.push('/')
+          deleteCookie('logged');
+          localStorage.removeItem('userdetail')
+        }
+      });
+  }
+
+  const receivegrpreq = () => {
+    axios.get(`${APP_URL}/api/groups/getAllRequests?status=pending`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => {
+        console.log('grpReq', response.data?.data);
+        setGrpReq(response?.data?.data?.data)
+
+
+      })
+      .catch(error => {
+
+        console.error(error);
+        if (error?.response?.status === 401) {
+          router.push('/')
+          deleteCookie('logged');
+          localStorage.removeItem('userdetail')
+        }
+      });
+  }
+  const recentchatfunc = () => {
+    axios.get(`${APP_URL}/api/get-my-recent-chats?status=accepted`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => {
+        console.log('recent chat', response);
+        setrecentchat(response)
+      })
+      .catch(error => {
+        console.error(error);
+        if (error?.response?.status === 401) {
+          router.push('/')
+          deleteCookie('logged');
+          localStorage.removeItem('userdetail')
+        }
+      });
+  }
+  const spamchatfunc = () => {
+    axios.get(`${APP_URL}/api/room?status=pending`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => {
+        console.log('spam chat', response);
+        setspamchat(response)
+      })
+      .catch(error => {
+        console.error(error);
+        if (error?.response?.status === 401) {
+          router.push('/')
+          deleteCookie('logged');
+          localStorage.removeItem('userdetail')
+        }
+      });
+  }
+  useEffect(() => {
+    spamchatfunc()
+  }, [])
+
+  useEffect(() => {
+    recentchatfunc()
+    receivefrndreq()
+    receivegrpreq()
+  }, [login])
+
+
+
+  return <AppContext.Provider value={{ UserProfiledata, UserProfileloader, setlogin, receivefrndreq, FrndReq, receivegrpreq, GrpReq, recentchat, recentchatfunc, spamchatfunc, spamchat }}>{children}</AppContext.Provider>;
 }
 
 export function useAppContext() {

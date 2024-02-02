@@ -9,12 +9,13 @@ import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 import { message } from 'antd'
 import { useFrndContext } from '@/context/FriendContext'
+import { useAppContext } from '@/context/AppContext'
 
 const ChatSideBar = () => {
     const { Datafrnd, FrndContainerRef, handleLoadMore } = useFrndContext()
+    const { recentchat, recentchatfunc, spamchatfunc, spamchat } = useAppContext()
     const handleScroll = () => {
         const container = FrndContainerRef.current;
-
         // Check if the user has scrolled to the bottom of the div
         // if (container && container.scrollTop <= 200) {
         if (container &&
@@ -41,55 +42,12 @@ const ChatSideBar = () => {
     const router = useRouter()
     const [mute, setmute] = useState(false)
     const [isDisable, setisDisable] = useState(false)
-    const [recentchat, setrecentchat] = useState([])
-    const [spamchat, setspamchat] = useState([])
+
+    
     const [AllFrndsData, setAllFrndsData] = useState([])
     const messagesContainerRef = useRef(null);
-    const recentchatfunc = () => {
-        axios.get(`${APP_URL}/api/get-my-recent-chats?status=accepted`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('recent chat', response);
-                setrecentchat(response)
-            })
-            .catch(error => {
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }
-    useEffect(() => {
-        recentchatfunc()
-    }, [])
-    const statusValues = ['pending', 'declined'];
-    const spamchatfunc = () => {
-        axios.get(`${APP_URL}/api/room?status=pending`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('spam chat', response);
-                setspamchat(response)
-            })
-            .catch(error => {
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }
-    useEffect(() => {
-        spamchatfunc()
-    }, [])
+
+
     // const [loading, setLoading] = useState(1)
     // const [CurrentPage, setCurrentPage] = useState(1)
     // const [TotalPagesfrnd, setTotalPagesfrnd] = useState()
@@ -432,7 +390,7 @@ const ChatSideBar = () => {
 
 
             <div className=' primary-btn d-lg-none chatcanvasm  pointer' data-bs-toggle="offcanvas" data-bs-target="#chatSidebar" aria-controls="chatSidebar">
-                <p><i class="bi bi-chat-left"></i></p>
+                <p><i className="bi bi-chat-left"></i></p>
             </div>
         </>
     )

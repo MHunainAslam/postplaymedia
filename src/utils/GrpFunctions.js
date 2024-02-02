@@ -28,3 +28,23 @@ export const DltGrp = ({ grpid, router }) => {
             });
     });
 };
+export const joingrp = ({ e, getallgrp, type }) => {
+    return new Promise((resolve, reject) => {
+        axios.post(`${APP_URL}/api/groups/sendRequest`, { group_id: e, type: type }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                // Handle successful response here
+                message.success(response.data.message)
+                console.log('join', response.data);
+                getallgrp()
+            })
+            .catch(error => {
+                // Handle error here
+                message.error(error.response?.data?.message)
+                console.error(error);
+            });
+    });
+}

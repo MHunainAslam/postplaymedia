@@ -11,6 +11,7 @@ import { APP_URL } from '../../../config'
 import { deleteCookie } from 'cookies-next'
 import Pagination from '../jobs/Pagination'
 import { message } from 'antd'
+import { useAppContext } from '@/context/AppContext'
 
 
 const GroupTabs = () => {
@@ -26,7 +27,7 @@ const GroupTabs = () => {
     const itemsPerPage = dataOnPage;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
+    const { UserProfiledata, UserProfileloader } = useAppContext()
     const getallgrp = () => {
 
         axios.get(`${APP_URL}/api/groups?per_page=${dataOnPage}&page=${currentPage}`, {
@@ -62,11 +63,9 @@ const GroupTabs = () => {
         console.log(pageNumber);
     };
 
-    const joingrp = (e) => {
-        console.log('join', e)
-    }
+
     const reqjoingrp = (e) => {
-        axios.post(`${APP_URL}/api/groups/sendRequest`, { group_id: e, type: 'send' }, {
+        axios.post(`${APP_URL}/api/groups/sendRequest`, { group_id: e, type: 'withdraw' }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -86,18 +85,19 @@ const GroupTabs = () => {
     const canceljoingrp = () => {
         console.log('3');
     }
-    const viewgrp = (e) => {
-        router.push(`/groups/${e}`)
-    }
-    const accptgrpreq = (e) => {
-        axios.patch(`${APP_URL}/api/groups/acceptRequest/${e}`, {
+
+    const accptgrpreq = ({ e, endpoint }) => {
+        axios.post(`${APP_URL}/api/groups/${endpoint}`, {
+            user_id: UserProfiledata?.data?.id,
+            group_id: e
+        }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
                 // Handle successful response here
-                console.log(response.data);
+                console.log('accept grp inv', response.data);
                 getallgrp()
             })
             .catch(error => {
@@ -112,7 +112,7 @@ const GroupTabs = () => {
                     <li className="nav-item nav-link active" id="AllGroups-tab" data-bs-toggle="tab" data-bs-target="#AllGroups" type="button" role="tab" aria-controls="AllGroups" aria-selected="false" tabIndex="-1" onClick={() => { getallgrp(), setCurrentPage(1) }}>
                         All Groups <span className='comment-active ms-1'>{Allgrp?.data?.data?.total}</span>
                     </li>
-                    <li className="nav-item nav-link " id="MyGroups-tab" data-bs-toggle="tab" data-bs-target="#MyGroups" type="button" role="tab" aria-controls="MyGroups" aria-selected="false" tabIndex="-1" onClick={() => { setrunminegrp(!runminegrp) }}>
+                    <li className="nav-item nav-link " id="MyGroups-tab" data-bs-toggle="tab" data-bs-target="#MyGroups" type="button" role="tab" aria-controls="MyGroups" aria-selected="false" tabIndex="-1" onClick={() => setrunminegrp(!runminegrp)}>
                         My Groups <span className='comment-active ms-1'>{minegrpcount}</span>
                     </li>
                     <li className="nav-item nav-link " id="CreateGrp-tab" data-bs-toggle="tab" data-bs-target="#CreateGrp" type="button" role="tab" aria-controls="CreateGrp" aria-selected="false" tabIndex="-1">
@@ -122,7 +122,7 @@ const GroupTabs = () => {
                 </ul>
                 <div className="tab-content ">
                     <div className="tab-pane fade active show" id="AllGroups" role="tabpanel" aria-labelledby="AllGroups-tab">
-                        <AllGroups Allgrp={Allgrp} isLoading={isLoading} joingrp={joingrp} reqjoingrp={reqjoingrp} canceljoingrp={canceljoingrp} viewgrp={viewgrp} accptgrpreq={accptgrpreq} />
+                        <AllGroups Allgrp={Allgrp} isLoading={isLoading} getallgrp={getallgrp} reqjoingrp={reqjoingrp} canceljoingrp={canceljoingrp} accptgrpreq={accptgrpreq} />
                         {Allgrp?.data?.data?.data?.length > 0 &&
                             <Pagination
                                 dataOnPage={dataOnPage}

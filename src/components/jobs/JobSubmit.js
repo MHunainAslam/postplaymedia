@@ -230,9 +230,11 @@ const JobSubmit = ({ JobCategorydd }) => {
                                     <select name="" className='slct form-select' id="" value={JobCategory} onChange={addcat}>
                                         <option value="" selected hidden>-- Select Category --</option>
                                         {JobCategorydd?.data?.data?.map((item, i) => (
-                                            <>
+                                           
+                                           
                                                 <option value={item.id} key={i}>{item.name}</option>
-                                            </>
+                                            
+                                                
                                         ))}
                                         <option value="addcat" >Add Category</option>
                                     </select>

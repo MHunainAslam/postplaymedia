@@ -12,7 +12,6 @@ import { APP_URL } from '../../../../config';
 import { grpContext } from '@/app/GroupLayout';
 const GroupSetting = () => {
     const { grpdata } = useContext(grpContext)
-    console.log(grpdata)
     const token = GetToken('userdetail')
     const withFriendIdArray = []
     const [Detail, setDetail] = useState(true)

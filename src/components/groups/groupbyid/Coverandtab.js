@@ -9,7 +9,7 @@ import GroupProfileTab from './GroupProfileTab'
 import { imgurl } from '@/utils/Token'
 
 const Coverandtab = ({ grpdata, isLoading }) => {
-    console.log(grpdata, 'cc');
+   
     const router = useRouter()
 
     const movetoedit = () => {

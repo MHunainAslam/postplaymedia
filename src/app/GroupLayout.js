@@ -16,7 +16,6 @@ import { useAppContext } from '@/context/AppContext'
 import Coverandtab from '@/components/groups/groupbyid/Coverandtab'
 import { message } from 'antd'
 import DltGrpModal from '@/components/groups/DltGrpModal'
-import { abc } from '@/utils/GrpFunctions'
 export const grpContext = createContext();
 const GroupLayout = ({ children, GroupPage }) => {
     const token = GetToken('userdetail')
@@ -54,7 +53,7 @@ const GroupLayout = ({ children, GroupPage }) => {
                 }
             });
     }, [])
-    
+
     const LeaveGrp = (e) => {
         axios.delete(`${APP_URL}/api/groups/${grpdata?.data?.group?.id}`, { user_id: e, type: 'remove' }, {
             headers: {
@@ -113,9 +112,9 @@ const GroupLayout = ({ children, GroupPage }) => {
                                             <div className="mx-auto text-center mb-3">
                                                 {UserProfiledata?.data?.id === grpdata?.data?.group?.created_by?.id ?
                                                     <button className='btn-outline-danger rounded-5 btn px-2 py-1' data-bs-toggle="modal" data-bs-target="#DltGroup">Delete Group</button>
-                                                    : <button className='btn-outline-danger rounded-5 btn px-2 py-1' onClick={() => abc({ key: UserProfiledata?.data?.id, router: router.push })}>Leave Group</button>}
+                                                    : <button className='btn-outline-danger rounded-5 btn px-2 py-1'>Leave Group</button>}
                                             </div>
-                                          
+
                                         </div>
                                         <div className="container pb-5">
                                             <div className="border-bottom d-md-block d-none"></div>

@@ -16,7 +16,6 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader }) => {
     const [btndisable, setbtndisable] = useState(false)
     const [Receiverid, setReceiverid] = useState()
     const router = useRouter()
-    console.log('first', UserData)
     const unfriend = (e) => {
         console.log(e)
         axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {

@@ -10,7 +10,6 @@ const Pagination = ({
     tabledata
 
 }) => {
-    console.log(indexOfFirstItem)
     const a = parseInt(itemsPerPage);
     const b = parseInt(indexOfFirstItem);
     const pageNumbers = Array.from(

@@ -99,13 +99,13 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
                                             {/* <p className="para clr-light">Active 2 minutes ago</p> */}
                                             <div className="imgtoimg">
                                                 {item.some_members.map((item, i) => (
-                                                    <>
-                                                        {item.profile_photo === null ?
-                                                            <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
-                                                            : <Image src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile-sm'></Image>
+                                                   
+                                                        item.profile_photo === null ?
+                                                            <Image key={i} src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
+                                                            : <Image key={i} src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile-sm'></Image>
 
-                                                        }
-                                                    </>
+                                                        
+                                                    
                                                 ))}
 
                                             </div>
