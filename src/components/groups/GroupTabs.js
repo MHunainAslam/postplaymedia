@@ -22,7 +22,7 @@ const GroupTabs = () => {
     const [minegrpcount, setminegrpcount] = useState()
     const [Allgrp, setAllgrp] = useState([])
     const [isLoading, setisLoading] = useState(true)
-    const [dataOnPage, setdataOnPage] = useState(20)
+    const [dataOnPage, setdataOnPage] = useState(21)
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = dataOnPage;
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -44,6 +44,7 @@ const GroupTabs = () => {
             .catch(error => {
                 setisLoading(false)
                 console.error(error);
+                console.log('grp error')
                 if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');

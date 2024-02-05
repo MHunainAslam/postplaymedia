@@ -7,6 +7,7 @@ import { IMG_URL } from '../../../config'
 import { imgurl } from '@/utils/Token'
 import { joingrp, viewgrp } from '@/utils/GrpFunctions'
 import { useRouter } from 'next/navigation'
+import { useAppContext } from '@/context/AppContext'
 
 const AllGroups = ({
     getallgrp,
@@ -15,6 +16,7 @@ const AllGroups = ({
     canceljoingrp,
     accptgrpreq,
 }) => {
+    const { UserProfiledata } = useAppContext()
     const router = useRouter()
     return (
 
@@ -73,29 +75,34 @@ const AllGroups = ({
                                         <div className="card-footer">
                                             {/* () => accptgrpreq({ e: item.id, endpoint: 'rejectInvite' }) */}
                                             {/* item.button_trigger === 'accept-request' ? 'Accept Request' : */}
-                                            {item.button_trigger != 'accept-request' ?
+      
+                                            {UserProfiledata?.data?.id === item?.created_by?.id ?
+                                                <button className='btn secondary-btn px-4' onClick={() => router.push(`/groups/${item.id}`)}>View</button> :
+                                                <>
+                                                    {item.button_trigger != 'accept-request' ?
 
-                                                <button className='btn secondary-btn ' onClick={
-                                                    item.button_trigger === 'join-now' ? () => joingrp({ e: item.id, getallgrp: getallgrp, type: 'send' }) :
-                                                        item.button_trigger === 'withdrawl-request' ? () => joingrp({ e: item.id, getallgrp: getallgrp, type: 'withdraw' }) :
-                                                            item.button_trigger === 'view-group' ? () => router.push(`/groups/${item.id}`) :
-                                                                ''
-                                                }>
-                                                    <p className='mb-0 px-4'>
-                                                        {
-                                                            item.button_trigger === 'join-now' ? 'Join' :
-                                                                item.button_trigger === 'withdrawl-request' ? 'Pending' :
-                                                                    item.button_trigger === 'pending' ? 'Cancel Request' :
-                                                                        item.button_trigger === 'view-group' ? 'View' :
-                                                                            ''}
-                                                    </p>
-                                                </button>
-                                                : item.button_trigger === 'accept-request' ?
-                                                    <>
-                                                        <button className='btn secondary-btn mx-1' onClick={() => accptgrpreq({ e: item.id, endpoint: 'acceptInvite' })}>Accept</button>
-                                                        <button className='btn secondary-btn mx-1' onClick={() => accptgrpreq({ e: item.id, endpoint: 'rejectInvite' })}>Reject</button>
-                                                    </>
-                                                    : ''}
+                                                        <button className='btn secondary-btn ' onClick={
+                                                            item.button_trigger === 'join-now' ? () => joingrp({ e: item.id, getallgrp: getallgrp, type: 'send' }) :
+                                                                item.button_trigger === 'withdrawl-request' ? () => joingrp({ e: item.id, getallgrp: getallgrp, type: 'withdraw' }) :
+                                                                    item.button_trigger === 'view-group' ? () => router.push(`/groups/${item.id}`) :
+                                                                        ''
+                                                        }>
+                                                            <p className='mb-0 px-4'>
+                                                                {
+                                                                    item.button_trigger === 'join-now' ? 'Join' :
+                                                                        item.button_trigger === 'withdrawl-request' ? 'Pending' :
+                                                                            item.button_trigger === 'pending' ? 'Cancel Request' :
+                                                                                item.button_trigger === 'view-group' ? 'View' :
+                                                                                    ''}
+                                                            </p>
+                                                        </button>
+                                                        : item.button_trigger === 'accept-request' ?
+                                                            <>
+                                                                <button className='btn secondary-btn mx-1' onClick={() => accptgrpreq({ e: item.id, endpoint: 'acceptInvite' })}>Accept</button>
+                                                                <button className='btn secondary-btn mx-1' onClick={() => accptgrpreq({ e: item.id, endpoint: 'rejectInvite' })}>Reject</button>
+                                                            </>
+                                                            : ''}
+                                                </>}
                                         </div>
                                     </div>
                                 </div>

@@ -10,12 +10,13 @@ import Image from 'next/image'
 import { grpContext } from '@/app/GroupLayout'
 import AppContext from 'antd/es/app/context'
 import { useAppContext } from '@/context/AppContext'
+import LeaveGroup from './LeaveGroup'
 
 const GroupMembers = () => {
     const { UserProfiledata } = useAppContext()
     const router = useRouter()
     const token = GetToken('userdetail')
-    const { grpdata } = useContext(grpContext)
+    const { grpdata, getgrpdata } = useContext(grpContext)
     const [isLoading, setisLoading] = useState(true)
     const [grpMembers, setgrpMembers] = useState([])
 
@@ -50,8 +51,16 @@ const GroupMembers = () => {
                                                         <Image loader={imgurl} src={item.user?.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>
 
                                                 }
-
-                                                <p className="heading text-black mb-2 mt-4 text-capitalize">{item?.user?.name}</p>
+                                                {UserProfiledata?.data?.id === item?.user?.id ?
+                                                    <Link href={`/profile/profile/activity`} className='link-hov' >
+                                                        <p className=' heading text-black my-4 text-capitalize'>{item?.user?.name}</p>
+                                                    </Link>
+                                                    :
+                                                    <Link href={`/people/${item?.user?.id}/activity`} className='link-hov' >
+                                                        <p className=' heading text-black my-4 text-capitalize'>{item?.user?.name}</p>
+                                                    </Link>
+                                                }
+                                                {/* <p className="heading text-black mb-2 mt-4 text-capitalize">{item?.user?.name}</p> */}
 
                                                 <div className="d-flex fng justify-content-center">
                                                     <div className='mx-2'>
@@ -66,7 +75,7 @@ const GroupMembers = () => {
                                             </div>
                                             <div className="card-footer">
                                                 {UserProfiledata?.data?.id === item?.user?.id ?
-                                                    <Link href={`/profile/profile/activity`} className='btn secondary-btn' ><p className='mb-0 px-4'>Profile</p></Link>
+                                                    <button className='btn-outline-danger rounded-5 btn px-2 py-1' data-bs-toggle="modal" data-bs-target="#LeaveGroup">Leave</button>
                                                     :
                                                     <Link href={`/people/${item?.user?.id}/activity`} className='btn secondary-btn' ><p className='mb-0 px-4'>Profile</p></Link>
                                                 }
@@ -79,6 +88,7 @@ const GroupMembers = () => {
                     </>
                 }
             </div>
+            <LeaveGroup getgrpdata={getgrpdata} />
         </>
     )
 }

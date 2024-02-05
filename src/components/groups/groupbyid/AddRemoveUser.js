@@ -11,6 +11,7 @@ import { APP_URL } from '../../../../config'
 import Pagination from '@/components/jobs/Pagination'
 import Loader from '@/components/Loader'
 import { grpContext } from '@/app/GroupLayout'
+import { message } from 'antd'
 
 const AddRemoveUser = ({ setinviteuserid }) => {
     const { grpdata } = useContext(grpContext)
@@ -102,8 +103,8 @@ const AddRemoveUser = ({ setinviteuserid }) => {
 
     }, [selectedCards])
 
-    const sendinv = (e) => {
-        axios.post(`${APP_URL}/api/groups/${grpdata?.data?.group?.id}`, { user_id: e, type: 'add' }, {
+    const sendinv = (e, type) => {
+        axios.post(`${APP_URL}/api/groups/${grpdata?.data?.group?.id}`, { user_id: e, type: type }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -193,8 +194,8 @@ const AddRemoveUser = ({ setinviteuserid }) => {
                             </div>
                         </div>
 
-                        {MyFriends.length === 0 ? <p className='text-center my-3'>No Friends Found!</p> : <>
-                            {MyFriends.data.data.data.filter(user => user.friendship_status === 'friends').map((card, i) => (
+                        {MyFriends?.data?.data?.data?.filter(user => user?.friendship_status === 'friends').length === 0 ? <p className='text-center my-3'>No Friends Found!</p> : <>
+                            {MyFriends?.data?.data?.data?.filter(user => user?.friendship_status === 'friends').map((card, i) => (
                                 <div className="card rounded-5 mt-3" key={i} id={card.id}>
                                     <div className="card-body align-items-center d-flex justify-content-between py-2">
                                         <div className="d-flex align-items-center ">
@@ -202,12 +203,13 @@ const AddRemoveUser = ({ setinviteuserid }) => {
                                                 <Image src={`/assets/images/Modal/Avatar.png`} alt="" width={100} height={100} className='post-profile'></Image>
                                                 : <Image loader={imgurl} src={card.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>}   <p className='papa mb-0 clr-text fw-bold ms-2'>{card.name}</p>
                                         </div>
-                                        {participents.map(item => item.user?.id).includes(card.id) ?
-                                            <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' ><i className="bi bi-x-circle"></i></button>
+                                        {participents?.map(item => item.user?.id).includes(card.id) ?
+                                            // <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { unselectItemuser(card), sendinv({ e: card.id, type: 'remove' }) }} ><i className="bi bi-x-circle"></i></button>
+                                            ''
                                             : <>
                                                 {selectedCards.some((selectedItem) => selectedItem.id === card.id) ?
-                                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { unselectItemuser(card), removeinv(card.id) }}><i className="bi bi-dash-circle"></i></button> :
-                                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { toggleSelect(card), sendinv(card.id) }}><i className="bi bi-plus-circle"></i></button>
+                                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { unselectItemuser(card), sendinv(card.id, 'remove') }}><i className="bi bi-dash-circle"></i></button> :
+                                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { toggleSelect(card), sendinv(card.id, 'add') }}><i className="bi bi-plus-circle"></i></button>
                                                 }
                                             </>}
                                     </div>
@@ -216,7 +218,7 @@ const AddRemoveUser = ({ setinviteuserid }) => {
                             <Pagination
                                 dataOnPage={dataOnPagef}
                                 currentPage={currentPagef}
-                                totalPages={Math.ceil(MyFriends?.data.data.total / itemsPerPagef)}
+                                totalPages={Math.ceil(MyFriends?.data?.data?.total / itemsPerPagef)}
                                 tabledata={MyFriends?.data?.data?.data}
                                 onPageChange={handlePageChangef}
                                 indexOfFirstItem={indexOfFirstItemf}
@@ -249,12 +251,12 @@ const AddRemoveUser = ({ setinviteuserid }) => {
                                                 <Image src={`/assets/images/Modal/Avatar.png`} alt="" width={100} height={100} className='post-profile'></Image>
                                                 : <Image loader={imgurl} src={card.profile_photo.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>}   <p className='papa mb-0 clr-text fw-bold ms-2'>{card.name}</p>
                                         </div>
-                                        {UserProfiledata?.data?.id === card.id ? '' : participents.map(item => item.user?.id).includes(card.id) ?
-                                            <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' ><i className="bi bi-x-circle"></i></button>
+                                        {UserProfiledata?.data?.id === card.id ? '' : participents?.map(item => item.user?.id).includes(card.id) ?
+                                            ''
                                             : <>
                                                 {selectedCards.some((selectedItem) => selectedItem.id === card.id) ?
-                                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { unselectItemuser(card), removeinv(card.id) }}><i className="bi bi-dash-circle"></i></button> :
-                                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { toggleSelect(card), sendinv(card.id) }}><i className="bi bi-plus-circle"></i></button>
+                                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { unselectItemuser(card), sendinv(card.id, 'remove') }}><i className="bi bi-dash-circle"></i></button> :
+                                                    <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => { toggleSelect(card), sendinv(card.id, 'add') }}><i className="bi bi-plus-circle"></i></button>
                                                 }
                                             </>}
                                     </div>

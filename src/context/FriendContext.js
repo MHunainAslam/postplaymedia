@@ -6,6 +6,7 @@ import { GetToken } from "@/utils/Token";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Login from "@/app/page";
 const FrndContext = createContext({
     hello: 'world',
 });
@@ -108,6 +109,11 @@ export function FrndWrapper({ children }) {
             fetchFrndss(CurrentPage + 1);
         }
     };
+    useEffect(() => {
+        if (localStorage.getItem('userdetail')) {
+            setfrnd(true)
+        }
+    }, [])
     // const handleScroll = () => {
     //     const container = FrndContainerRef.current;
 
@@ -127,16 +133,24 @@ export function FrndWrapper({ children }) {
     //     };
     // }, [handleScroll]);
     useEffect(() => {
-        if (CurrentPage === 1 && Datafrnd.length === 0) {
-            fetchFrnds(CurrentPage);
+        if (frnd) {
+
+            if (CurrentPage === 1 && Datafrnd.length === 0) {
+                fetchFrnds(CurrentPage);
+            }
         }
 
-    }, [CurrentPage, token]);
+    }, [CurrentPage, token])
+
     useEffect(() => {
-        // getallfrnds()
-        fetchFrnds()
-        console.log('hey')
+        if (frnd) {
+
+            // getallfrnds()
+            fetchFrnds()
+            console.log('hey')
+        }
     }, [frnd])
+
 
     return <FrndContext.Provider value={{ Datafrnd, setfrnd, FrndContainerRef, handleLoadMore, fetchFrnds, totalMemberfrnd }}>{children}</FrndContext.Provider>;
 }

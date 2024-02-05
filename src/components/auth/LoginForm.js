@@ -36,6 +36,7 @@ const LoginForm = () => {
           router.push('/activity')
           setisLoading(false)
           document.querySelector('.closelogin-modal').click()
+          
         })
         .catch(error => {
           console.error(error);

@@ -43,7 +43,7 @@ export const joingrp = ({ e, getallgrp, type }) => {
             })
             .catch(error => {
                 // Handle error here
-                message.error(error.response?.data?.message)
+                // message.error(error.response?.data?.message)
                 console.error(error);
             });
     });

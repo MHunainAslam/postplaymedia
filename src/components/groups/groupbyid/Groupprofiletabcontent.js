@@ -76,9 +76,10 @@ const Groupprofiletabcontent = () => {
                 </div>
                 <div className={`tab-pane fade  ${TabState === 'grpinvite' ? 'active show' : ''}`} id="grpinvite" role="tabpanel" aria-labelledby="grpinvite-tab">
                     <AddRemoveUser setinviteuserid={setinviteuserid} />
-                    <div className="d-flex justify-content-end">
+                    {/* <div className="d-flex justify-content-end">
+                        sss
                         <button className='btn primary-btn mt-4 px-5' type="button" disabled={btnActive} onClick={sendinvite}><p>Send {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''}</p></button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>

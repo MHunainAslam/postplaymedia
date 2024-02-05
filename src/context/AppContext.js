@@ -24,7 +24,8 @@ const AppContext = createContext({
 
 export function AppWrapper({ children }) {
   const token = GetToken('userdetail')
-  const router = useRouter
+  const router = useRouter()
+
   const [UserProfiledata, setUserProfiledata] = useState()
   const [UserProfileloader, setUserProfileloader] = useState(true)
   const [login, setlogin] = useState(false)
@@ -36,27 +37,39 @@ export function AppWrapper({ children }) {
     hello: UserProfiledata,
   });
   useEffect(() => {
-    axios.get(`${APP_URL}/api/authMe`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      }
-    })
-      .then(response => {
-        console.log('context authMe', response);
-        setUserProfiledata(response?.data)
-        setUserProfileloader(false)
+    if (localStorage.getItem('userdetail')) {
+      setlogin(true)
+    }
+  }, [])
 
-      })
-      .catch(error => {
-        // setUserProfileloader(false)
-        console.error(error);
-        if (error?.response?.status === 401) {
-          // router.replace('/')
-          deleteCookie('logged');
-          localStorage.removeItem('userdetail')
+
+  useEffect(() => {
+    if (login) {
+
+
+      axios.get(`${APP_URL}/api/authMe`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
         }
-      });
+      })
+        .then(response => {
+          console.log('context authMe', response);
+          setUserProfiledata(response?.data)
+          setUserProfileloader(false)
+
+        })
+        .catch(error => {
+          // setUserProfileloader(false)
+          // console.error(error);
+          if (error?.response?.status === 401) {
+            // router.replace('/')
+            deleteCookie('logged');
+            localStorage.removeItem('userdetail')
+          }
+        });
+    }
   }, [login])
+
   const receivefrndreq = () => {
     axios.get(`${APP_URL}/api/friend-requests/received`, {
       headers: {
@@ -71,15 +84,14 @@ export function AppWrapper({ children }) {
       })
       .catch(error => {
 
-        console.error(error);
+        // console.error(error);
         if (error?.response?.status === 401) {
-          router.push('/')
+          router?.push('/')
           deleteCookie('logged');
           localStorage.removeItem('userdetail')
         }
       });
   }
-
   const receivegrpreq = () => {
     axios.get(`${APP_URL}/api/groups/getAllRequests?status=pending`, {
       headers: {
@@ -96,7 +108,7 @@ export function AppWrapper({ children }) {
 
         console.error(error);
         if (error?.response?.status === 401) {
-          router.push('/')
+          router?.push('/')
           deleteCookie('logged');
           localStorage.removeItem('userdetail')
         }
@@ -115,7 +127,7 @@ export function AppWrapper({ children }) {
       .catch(error => {
         console.error(error);
         if (error?.response?.status === 401) {
-          router.push('/')
+          router?.push('/')
           deleteCookie('logged');
           localStorage.removeItem('userdetail')
         }
@@ -132,22 +144,29 @@ export function AppWrapper({ children }) {
         setspamchat(response)
       })
       .catch(error => {
-        console.error(error);
+        // console.error(error);
         if (error?.response?.status === 401) {
-          router.push('/')
+          router?.push('/')
           deleteCookie('logged');
           localStorage.removeItem('userdetail')
         }
       });
   }
-  useEffect(() => {
-    spamchatfunc()
-  }, [])
+
 
   useEffect(() => {
-    recentchatfunc()
-    receivefrndreq()
-    receivegrpreq()
+    if (login) {
+      spamchatfunc()
+    }
+  }, [])
+
+
+  useEffect(() => {
+    if (login) {
+      recentchatfunc()
+      receivefrndreq()
+      receivegrpreq()
+    }
   }, [login])
 
 

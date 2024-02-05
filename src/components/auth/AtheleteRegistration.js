@@ -35,7 +35,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
     const [package_id, setpackage_id] = useState('')
     const [isLoading, setisLoading] = useState(false)
     const [ActiveComponentpay, setActiveComponentpay] = useState('form')
-
+    const router = useRouter()
     {/* Component change function */ }
     const handleComponentChangepay = (componentName) => {
         setActiveComponentpay(componentName);
@@ -76,7 +76,8 @@ const AtheleteRegistration = ({ back, RoleId }) => {
         }
     };
 
-    const submitform = () => {
+    const submitform = (e) => {
+        e.preventDefault()
         setisLoading(true)
         axios.post(`${APP_URL}/api/register`, { name: Name, email: Email, password: Password, c_password: C_Password, username: UserName, role_id: RoleId, city: city, country: 'United States', current_institute: CInstitute, current_ins_website: CInstituteweb, job_title: '1', class_year: ClassYear, height: Height, weight: weight, sports: Sports, position: Position, travel_team_name: AAUTrav, address: Address, number: Number, state: state })
             .then(response => {
@@ -84,6 +85,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                 message.success(response.data.message)
                 console.log(response.data);
                 setisLoading(false)
+                router.push('/')
             })
             .catch(error => {
                 // Handle error here
@@ -140,7 +142,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
         if (!~string.indexOf("http")) {
             string = "http://" + string;
         }
-       
+
         setCInstituteweb(string);
     }
     return (
@@ -148,7 +150,8 @@ const AtheleteRegistration = ({ back, RoleId }) => {
             {/* 1st step fill form */}
             {ActiveComponentpay === 'form' && <>
                 <p className='heading text-center  text-dark'> <i className="bi bi-arrow-left backbtn" onClick={back}></i>Athelete Account Details</p>
-                <form action="" onSubmit={AthleteRegistrationSubmit}>
+                {/* <form action="" onSubmit={AthleteRegistrationSubmit}> */}
+                <form action="" onSubmit={submitform}>
                     <div className="row">
 
                         {/* username */}

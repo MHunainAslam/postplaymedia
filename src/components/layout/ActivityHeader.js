@@ -29,6 +29,7 @@ const ActivityHeader = ({ }) => {
         router.replace('/')
         console.log(deleteCookie())
         document.querySelector('.close-logout-modal').click()
+        window.location.reload(true)
     }
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) setNotiShow(false);
@@ -183,7 +184,7 @@ const ActivityHeader = ({ }) => {
                                     {/* <li><button className="btn secondary-btn w-100"  >All Request</button></li> */}
                                 </ul>
                             </li>
-                            <li onClick={receivegrpreq} className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
+                            <li onClick={receivegrpreq} className={`nav-item dropdown d-none list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
                                 <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-bell"></i>
                                 </a>
