@@ -24,7 +24,7 @@ const Pagination = ({
 
     return (
         <div className="d-sm-flex justify-content-between align-items-center mt-5 mb-3 text-center">
-            <p className="para mb-sm-0">
+            {/* <p className="para mb-sm-0">
                 Showing Products  <b>{tabledata?.data?.length > 0 ? indexOfFirstItem + 1 : 0} </b> -
                 <b>
                     {a + b > tabledata?.data?.length
@@ -32,8 +32,8 @@ const Pagination = ({
                         : a + b} &nbsp;
                 </b>
                 Of <b>{tabledata?.total}</b> Results
-            </p>
-            <div >
+            </p> */}
+            <div className="ms-auto">
                 <ul className="pagination p-0 m-0 justify-content-center">
                     <li className="page-item my-auto">
                         <button

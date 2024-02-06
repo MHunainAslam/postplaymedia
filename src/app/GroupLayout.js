@@ -33,7 +33,6 @@ const GroupLayout = ({ children, GroupPage }) => {
     const [grpdata, setgrpdata] = useState(null)
     const [isloader, setisloader] = useState(true)
     const [Btn_Trigger, setBtn_Trigger] = useState()
-    console.log(UserProfiledata, 'lolololo')
     const getallgrps = () => {
         router.push('/groups')
     }

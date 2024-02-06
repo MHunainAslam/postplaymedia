@@ -6,14 +6,14 @@ import { useRouter } from 'next/navigation'
 
 const Page = ({ ActivityPages }) => {
 
-   
+
 
 
     return (
         <>
             <ActivityLayout ActivityPages>
 
-            <ActivityTabs />
+                <ActivityTabs />
 
             </ActivityLayout>
         </>

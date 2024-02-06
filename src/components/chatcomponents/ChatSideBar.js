@@ -10,6 +10,7 @@ import { deleteCookie } from 'cookies-next'
 import { message } from 'antd'
 import { useFrndContext } from '@/context/FriendContext'
 import { useAppContext } from '@/context/AppContext'
+import CreateChatGrp from './CreateChatGrp'
 
 const ChatSideBar = () => {
     const { Datafrnd, FrndContainerRef, handleLoadMore } = useFrndContext()
@@ -43,7 +44,7 @@ const ChatSideBar = () => {
     const [mute, setmute] = useState(false)
     const [isDisable, setisDisable] = useState(false)
 
-    
+
     const [AllFrndsData, setAllFrndsData] = useState([])
     const messagesContainerRef = useRef(null);
 
@@ -226,16 +227,21 @@ const ChatSideBar = () => {
                         <i className="bi bi-chat "></i>
                         <p className="heading text-black chat-detail ms-2">Messenger</p>
                     </div>
-                    {/* <div className='chat-detail'>
+                    <div className='chat-detail'>
                         <li className="nav-item dropdown list-unstyled">
                             <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i className="bi bi-three-dots"></i>
                             </a>
                             <ul className="dropdown-menu py-1">
-                                <li onClick={(e) => { setmute(!mute) }}><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >{mute === false ? "unmute" : 'mute'}</a></li>
+                                <li>
+                                    <a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" data-bs-toggle="modal" data-bs-target="#createchtgrp" >
+                                        Create Group
+                                    </a>
+                                </li>
+                                {/* <li onClick={(e) => { setmute(!mute) }}><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >{mute === false ? "unmute" : 'mute'}</a></li> */}
                             </ul>
                         </li>
-                    </div> */}
+                    </div>
                 </div>
                 <div className="offcanvas-body" ref={FrndContainerRef}>
                     <ul className="nav nav-tabs border-0  chat-detail-flex" id="myTab" role="tablist">
@@ -248,9 +254,9 @@ const ChatSideBar = () => {
                         <li className={`nav-item  ${spamchat?.data?.data?.length > 0 ? 'chatactive' : ''}`} role="presentation" onClick={spamchatfunc}>
                             <button className="nav-link " id="spam-tab" data-bs-toggle="tab" data-bs-target="#spam" type="button" role="tab" aria-controls="spam" aria-selected="false" tabIndex="-1">Spam</button>
                         </li>
-                        {/* <li className="nav-item" role="presentation">
+                        <li className="nav-item" role="presentation">
                             <button className="nav-link" id="groups-tab" data-bs-toggle="tab" data-bs-target="#groups" type="button" role="tab" aria-controls="groups" aria-selected="false" tabIndex="-1">Groups</button>
-                        </li> */}
+                        </li>
 
                     </ul>
 
@@ -360,7 +366,7 @@ const ChatSideBar = () => {
                                 </>
                             }
                         </div>
-                        {/* <div className="tab-pane fade" id="groups" role="tabpanel" aria-labelledby="groups-tab">
+                        <div className="tab-pane fade" id="groups" role="tabpanel" aria-labelledby="groups-tab">
                             <div className="custome-inp chat-search chat-detail-flex my-3">
                                 <span className="input-group-text bg-transparent">
                                     <i className="bi bi-search "></i>
@@ -374,7 +380,7 @@ const ChatSideBar = () => {
                                 <p className="para text-black fw-bold mb-0 chat-detail">Group</p>
                             </Link>
 
-                        </div> */}
+                        </div>
 
                     </div>
 
@@ -392,6 +398,7 @@ const ChatSideBar = () => {
             <div className=' primary-btn d-lg-none chatcanvasm  pointer' data-bs-toggle="offcanvas" data-bs-target="#chatSidebar" aria-controls="chatSidebar">
                 <p><i className="bi bi-chat-left"></i></p>
             </div>
+            <CreateChatGrp />
         </>
     )
 }

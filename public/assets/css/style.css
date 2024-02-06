@@ -969,6 +969,14 @@ h5 {
   box-shadow: 0 10px 79px rgb(58 46 68 / 7%);
 }
 
+.post-img {
+  object-fit: contain;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100px;
+  max-height: 100px;
+}
+
 .post-profile-xl {
   width: calc(70px + (120 - 70) * ((100vw - 320px) / (1920 - 320)));
   height: calc(70px + (120 - 70) * ((100vw - 320px) / (1920 - 320)));
@@ -2059,10 +2067,12 @@ h5 {
   .grp-img {
     min-height: 120px !important;
   }
-  .layouttab{
+
+  .layouttab {
     justify-content: space-between;
   }
-  .profile-page-user .img-p{
+
+  .profile-page-user .img-p {
     min-height: 170px;
   }
 }

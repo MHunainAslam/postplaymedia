@@ -64,7 +64,7 @@ const PeopleProfileEdit = ({ }) => {
     const EditcoachProfile = (e) => {
         setisloading(true)
         e.preventDefault()
-        axios.patch(`${APP_URL}/api/user/${UserProfiledata?.data?.id}`, { name: Name, email: UserProfiledata?.data?.email, role_id: UserProfiledata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, state: state, JobType: JobType, current_institute: C_institute, current_ins_website: C_instituteweb, address: Address, number: number, job_title: JobType, travel_team_name: AAUTravel }, {
+        axios.patch(`${APP_URL}/api/user/${UserProfiledata?.data?.id}`, { name: Name.toString(), email: UserProfiledata?.data?.email, role_id: UserProfiledata.data.role.id.toString(), dob: DateofBirth, gender: Sex, city: City, state: state, JobType: JobType, current_institute: C_institute, current_ins_website: C_instituteweb, address: Address, number: number, job_title: JobType, travel_team_name: AAUTravel }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }

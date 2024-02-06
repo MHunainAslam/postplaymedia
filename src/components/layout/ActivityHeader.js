@@ -119,6 +119,27 @@ const ActivityHeader = ({ }) => {
     }
 
 
+    useEffect(() => {
+        axios.get(`${APP_URL}/api/get-notifications`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('all req', response);
+
+
+            })
+            .catch(error => {
+
+                console.error(error);
+                if (error?.response?.status === 401) {
+                    router?.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }, [])
 
     return (
         <>
@@ -184,7 +205,7 @@ const ActivityHeader = ({ }) => {
                                     {/* <li><button className="btn secondary-btn w-100"  >All Request</button></li> */}
                                 </ul>
                             </li>
-                            <li onClick={receivegrpreq} className={`nav-item dropdown d-none list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
+                            <li onClick={receivegrpreq} className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
                                 <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-bell"></i>
                                 </a>

@@ -96,7 +96,6 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
                                                 </div>
                                             </div>
                                             <p className="heading text-black mb-2 mt-4">{item.group_name}</p>
-                                            {/* <p className="para clr-light">Active 2 minutes ago</p> */}ss
                                             <div className="imgtoimg">
                                                 {item.some_members.map((item, i) => (
                                                     item.profile_photo === null ?

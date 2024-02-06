@@ -1,14 +1,24 @@
 'use client'
 
 import Image from 'next/image'
-import React, { useContext, useState } from 'react'
-import { IMG_URL } from '../../../config'
+import React, { useContext, useEffect, useState } from 'react'
+import { APP_URL, IMG_URL } from '../../../config'
 import Link from 'next/link'
+import { useAppContext } from '@/context/AppContext'
+import axios from 'axios'
+import { GetToken } from '@/utils/Token'
+import { useParams } from 'next/navigation'
 
-const PostArea = ({ Userdata }) => {
+const PostArea = () => {
+    const token = GetToken('userdetail')
+    const { groupbyid } = useParams()
+    const { UserProfiledata } = useAppContext()
     const [PostArea, setPostArea] = useState(false)
+    const [img, setimg] = useState([])
+    const [PostText, setPostText] = useState()
     const [PostinGrp, setPostinGrp] = useState('profile')
     const [images, setImages] = useState([]);
+    const [isLoading, setisLoading] = useState(false);
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
     }
@@ -17,8 +27,29 @@ const PostArea = ({ Userdata }) => {
 
         for (const file of selectedFiles) {
             const reader = new FileReader();
-
+            const PostMedia = new FormData();
+            PostMedia.append('media', e.target.files[0]);
             reader.onload = (event) => {
+                axios.post(`${APP_URL}/api/post-media`, PostMedia, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    }
+                })
+                    .then(response => {
+                        console.log('img', response);
+                        setimg((img) => [...img, response.data.data.last_inserted_id])
+                        console.log(img)
+
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        message.error(error?.response.data?.message)
+                        if (error?.response?.status === 401) {
+                            router.push('/')
+                            deleteCookie('logged');
+                            localStorage.removeItem('userdetail')
+                        }
+                    });
                 setImages((imgs) => [
                     ...imgs,
                     {
@@ -36,7 +67,37 @@ const PostArea = ({ Userdata }) => {
         const newImages = [...images];
         newImages.splice(index, 1);
         setImages(newImages);
+        const newImgs = [...img];
+        newImgs.splice(index, 1);
+        setimg(newImgs);
     };
+
+    const post = ({ e, endpoint }) => {
+        setisLoading(true)
+        console.log('take', images)
+        axios.post(`${APP_URL}/api/post`, {
+            post_text: PostText?.toString(),
+            status: 'active',
+            post_in: 'profile',
+            media: img
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                setisLoading(false)
+                console.log('Post', response.data);
+                setImages([])
+                setimg([])
+                setPostArea('')
+            })
+            .catch(error => {
+                setisLoading(false)
+                console.error(error);
+            });
+    }
+   
 
     return (
         <>
@@ -44,15 +105,15 @@ const PostArea = ({ Userdata }) => {
                 <div className="card-body p-md-4">
                     <div className="d-flex">
                         <Link href='/profile'>
-                            {Userdata?.data?.profile_photo === null ?
+                            {UserProfiledata?.data?.profile_photo === null ?
                                 <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                 :
-                                <Image className='post-profile object-fit-cover' loader={imgurl} src={Userdata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
+                                <Image className='post-profile object-fit-cover' loader={imgurl} src={UserProfiledata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
                             }
                         </Link>
                         {PostArea === true ?
-                            <textarea name="" className='form-control ms-3 t-area' id="" cols="30" rows="4" placeholder='Whats new, admin?'></textarea> :
-                            <input type="text" placeholder='Whats new, admin?' onClick={() => { setPostArea(true) }} className='form-control ms-3 inp' name="" id="" />
+                            <textarea name="" className='form-control ms-3 t-area' id="" value={PostText} onChange={(e) => setPostText(e.target.value)} cols="30" rows="4" placeholder={`Whats new, ${UserProfiledata?.data?.name}?`}></textarea> :
+                            <input type="text" placeholder={`Whats new, ${UserProfiledata?.data?.name}?`} onClick={() => { setPostArea(true) }} className='form-control ms-3 inp' name="" id="" />
                         }
                     </div>
                     {PostArea === true ?
@@ -68,13 +129,13 @@ const PostArea = ({ Userdata }) => {
                                             <p className='mb-0 para clr-primary'>Attach Media</p>
                                         </li>
                                     </label>
-                                    <p className='m-0 para-sm clr-text mt-3 '>Max. File Size: 64M</p>
+                                    {/* <p className='m-0 para-sm clr-text mt-3 '>Max. File Size: 64M</p> */}
                                 </div>
                                 {images.map((item, i) => (
                                     <div className='ShowAttachedFile' key={i}>
                                         <div className='d-flex align-items-center'>
 
-                                            <Image src={item.dataURL} alt="" width={100} height={100} className='post-profile'></Image>
+                                            <Image src={item.dataURL} alt="" width={100} height={100} className='post-img '></Image>
                                             <p className="para clr-text mb-0 ms-2">{item.name}</p>
                                         </div>
                                         <div className='d-flex align-items-center'>
@@ -88,17 +149,17 @@ const PostArea = ({ Userdata }) => {
                             </div>
                             <div className="d-flex border-top  mt-3 align-items-center justify-content-between">
                                 <div>
-                                    <select name="" id="" onChange={(e) => { setPostinGrp(e.target.value) }} className='form-select mt-3 slct w-auto'>
+                                    {/* <select name="" id="" onChange={(e) => { setPostinGrp(e.target.value) }} className='form-select mt-3 slct w-auto'>
                                         <option value="profile">Post in: Profile</option>
                                         <option value="group">Post in: Group</option>
-                                    </select>
+                                    </select> */}
                                     {PostinGrp === 'group' ?
                                         <input type="text" className='form-control inp mt-3 w-auto' placeholder="Start Typing in the Group Name" name="" id="" />
                                         : ''}
                                 </div>
                                 <div className='mt-3 d-flex align-items-center'>
                                     <p className='para clr-primary me-3 mb-0 pointer' onClick={(e) => { setPostArea(false) }}>Cancel</p>
-                                    <button className='btn primary-btn px-md-5'><p className='para'>Post Update</p></button>
+                                    <button className='btn primary-btn px-md-5' disabled={isLoading} onClick={post}><p className='para'>Post </p></button>
                                 </div>
                             </div>
                         </>
