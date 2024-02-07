@@ -1192,6 +1192,7 @@ h5 {
 
 .post-card-body {
   width: calc(300px + (650 - 300) * ((100vw - 320px) / (1920 - 320)));
+  /* min-width: calc(300px + (450 - 300) * ((100vw - 320px) / (1920 - 320))); */
 }
 
 .post-card-body .head-content {
@@ -1203,6 +1204,11 @@ h5 {
   font-weight: 800;
 }
 
+.post-card-main .postimg{
+  object-fit: contain;
+  object-position: left;
+  min-width: -webkit-fill-available;
+}
 .post-card-main {
   border: 1px solid var(--border);
   border-radius: 10px;

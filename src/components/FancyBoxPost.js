@@ -1,4 +1,5 @@
 // FancyBox.js
+import { imgurl } from '@/utils/Token';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import InputEmoji from "react-input-emoji";
@@ -28,7 +29,7 @@ const FancyBoxPost = ({ images, modalOpen, closeModal, selectedImage, setSelecte
                             <>
                                 <div className={`row`}>
                                     <div className="col-md fancyimgsec position-relative d-flex align-items-center">
-                                        <Image width={5000} height={5000} src={images} className='w-100 object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
+                                        <Image width={5000} height={5000} src={images} loader={imgurl} className='w-100 object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
                                         <button className='post-back-btn' onClick={prevImage}><i className="bi bi-chevron-left"></i></button>
                                         <button className='post-next-btn' onClick={nextImage}><i className="bi bi-chevron-right"></i></button>
                                     </div>
