@@ -1967,6 +1967,11 @@ h5 {
   -webkit-box-orient: vertical;
 }
 
+.div-notifications {
+  max-height: 500px;
+  overflow: auto;
+}
+
 @-webkit-keyframes mover {
   0% {
     transform: translateX(0);

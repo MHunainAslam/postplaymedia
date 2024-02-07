@@ -17,8 +17,7 @@ const ActivityHeader = ({ }) => {
     // const [UserProfiledata, setUserProfiledata] = useState()
     // const [UserProfileloader, setUserProfileloader] = useState(true)
     const [NotiShow, setNotiShow] = useState(false)
-
-
+    const [Notifications, setNotifications] = useState([])
     const router = useRouter()
     const token = GetToken('userdetail')
     const ref = useRef(null);
@@ -127,8 +126,7 @@ const ActivityHeader = ({ }) => {
         })
             .then(response => {
                 console.log('all req', response);
-
-
+                setNotifications(response.data.data.data)
             })
             .catch(error => {
 
@@ -209,10 +207,10 @@ const ActivityHeader = ({ }) => {
                                 <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-bell"></i>
                                 </a>
-                                <ul className={`dropdown-menu py-1 border-0 ${NotiShow ? 'show show-c' : ''}`} ref={ref}>
+                                <ul className={`dropdown-menu py-1 border-0 div-notifications ${NotiShow ? 'show show-c' : ''}`} ref={ref}>
                                     <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Notifications</a></li>
                                     <hr />
-                                    {GrpReq?.length === 0 ?
+                                    {Notifications?.length === 0 ?
                                         <li>
                                             <div className="no-msg-req">
                                                 No Notifications!
@@ -220,9 +218,9 @@ const ActivityHeader = ({ }) => {
                                         </li>
                                         :
                                         <>
-                                            {GrpReq?.map((item, i) => (
+                                            {Notifications?.map((item, i) => (
                                                 <li key={i}>
-                                                    <div className="no-msg-req d-flex justify-content-between">
+                                                    <Link href={`/groups/${item.trigger_id}`} className="text-decoration-none no-msg-req d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
                                                             {item?.sender?.profile_photo === null ?
                                                                 <Link href={`/people/${item.sender?.id}/friends`}>
@@ -233,13 +231,12 @@ const ActivityHeader = ({ }) => {
                                                                 </Link>
                                                             }
                                                             <p className='mb-0 para text-black ms-2 fw-normal'>
-                                                                <span className='fw-bold text-capitalize'> {item.sender.name} </span>
-                                                                want to Join
+                                                                <span className='text-capitalize'> {item.body} </span>
                                                                 <span className='fw-bold text-capitalize'> {item.group_id}</span>
                                                             </p>
                                                         </div>
 
-                                                        <div className="d-flex">
+                                                        {/* <div className="d-flex">
                                                             <button className='btn secondary-btn-rounded p-1 rounded-5 mx-2' id={item.id} onClick={() => dltfrndreq(item.id)}>
                                                                 <i className="bi bi-x-lg"></i>
                                                             </button>
@@ -247,8 +244,8 @@ const ActivityHeader = ({ }) => {
                                                                 <i className="bi bi-check2"></i>
                                                             </button>
 
-                                                        </div>
-                                                    </div>
+                                                        </div> */}
+                                                    </Link>
                                                 </li>
                                             ))}
                                         </>

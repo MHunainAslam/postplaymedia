@@ -29,13 +29,13 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
     // console.log('mine grp', Minegrp);
     const getminegrp = () => {
         setisLoading(true)
-        axios.get(`${APP_URL}/api/groups/mine?per_page=${dataOnPagemine}&page=${currentPagemine}`, {
+        axios.get(`${APP_URL}/api/get-all-groups-by-user-id/${userprofile}?per_page=${dataOnPagemine}&page=${currentPagemine}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('mine grps', response);
+                console.log('user grps', response);
                 setMinegrp(response)
                 setminegrpcount(response?.data?.data?.total)
                 setisLoading(false)
@@ -78,6 +78,7 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
                 {isLoading ? <Loader /> : <>
                     {Minegrp?.data?.data?.data?.length === 0 ? <p className='heading-sm text-center text-black my-5'>No Groups Found!</p> :
                         <>
+
                             {Minegrp?.data?.data?.data?.map((item, i) => (
                                 <div className="col-xl-4 col-md-6 mt-3" key={i}>
                                     <div className="card people-card h-100">
@@ -99,13 +100,10 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
                                             {/* <p className="para clr-light">Active 2 minutes ago</p> */}
                                             <div className="imgtoimg">
                                                 {item.some_members.map((item, i) => (
-                                                   
-                                                        item.profile_photo === null ?
-                                                            <Image key={i} src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
-                                                            : <Image key={i} src={item.profile_photo?.url} alt="" width={100} height={100} className='post-profile-sm'></Image>
 
-                                                        
-                                                    
+                                                    item.profile_photo === null ?
+                                                        <Image key={i} src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>
+                                                        : <Image key={i} loader={imgurl} src={item.profile_photo?.url} alt="" width={100} height={100} className='object-fit-cover post-profile-sm'></Image>
                                                 ))}
 
                                             </div>

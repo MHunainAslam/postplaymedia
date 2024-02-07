@@ -9,7 +9,7 @@ const page = () => {
             <div className="mt-3 profile-tabs">
                 <ul className="peopletab nav nav-tabs border-0 border-b-0  " role="tablist">
                     <li className="nav-item nav-link active text-center" id="MyGroups-tab" data-bs-toggle="tab" data-bs-target="#MyGroups" type="button" role="tab" aria-controls="MyGroups" aria-selected="false" tabIndex="-1">
-                        <p className="para clr-text mb-0">My Groups</p>
+                        <p className="para clr-text mb-0">Groups</p>
                     </li>
                   
 

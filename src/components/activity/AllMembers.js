@@ -10,9 +10,18 @@ import { APP_URL } from '../../../config'
 import axios from 'axios'
 
 const AllMembers = () => {
+    const [Liked, setLiked] = useState([])
     const token = GetToken('userdetail')
     const [CommentArea, setCommentArea] = useState(false)
     const [AllPosts, setAllPosts] = useState([])
+    const handleLike = (index) => {
+        // Create a copy of the liked array
+        const newLiked = [...Liked];
+        // Toggle like for the specified index
+        newLiked[index] = !newLiked[index];
+        // Update state with the newLiked array
+        setLiked(newLiked);
+    };
     const toggleComments = (postId) => {
         setCommentArea((prevState) => ({
             ...prevState,
@@ -46,31 +55,152 @@ const AllMembers = () => {
         setPostModalOpen(false);
     };
 
-    useEffect(() => {
-        axios.get(`${APP_URL}/api/post?per_page=50`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('all posts', response);
-                setAllPosts(response?.data)
-            })
-            .catch(error => {
+    // useEffect(() => {
+    //     axios.get(`${APP_URL}/api/post?per_page=50`, {
+    //         headers: {
+    //             'Authorization': `Bearer ${token}`,
+    //         }
+    //     })
+    //         .then(response => {
+    //             console.log('all posts', response);
+    //             setAllPosts(response?.data)
+    //         })
+    //         .catch(error => {
 
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router?.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
+    //             console.error(error);
+    //             if (error?.response?.status === 401) {
+    //                 router?.push('/')
+    //                 deleteCookie('logged');
+    //                 localStorage.removeItem('userdetail')
+    //             }
+    //         });
+    // }, [])
+
+    const [loading, setLoading] = useState(1)
+    const [CurrentPagefrnd, setCurrentPagefrnd] = useState(1)
+    const [TotalPagesfrnd, setTotalPagesfrnd] = useState()
+    const [Datafrnd, setDatafrnd] = useState([])
+    const [totalMemberfrnd, settotalMemberfrnd] = useState(1)
+    const router = useRouter()
+    const [AllFrndsData, setAllFrndsData] = useState([])
+    const [UserDataLoader, setUserDataLoader] = useState(true)
+
+
+    const fetchPosts = async (page) => {
+        try {
+            const response = await fetch(
+                `${APP_URL}/api/post?per_page=20&page=${page}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        // Add other headers if needed
+                    },
                 }
-            });
+            );
+            const data = await response.json();
+            if (data.success) {
+                // Prepend new messages to the beginning of the array
+                console.log('posts', data)
+                setAllPosts(data.data.data);
+                console.log(data)
+                setCurrentPagefrnd(data.data.current_page);
+                setTotalPagesfrnd(data.data.last_page);
+                settotalMemberfrnd(data.data.total);
+                setUserDataLoader(false)
+            } else {
+                console.error('Failed to fetch messages');
+                setUserDataLoader(false)
+            }
+        } catch (error) {
+            console.error('Error fetching messages', error);
+            setUserDataLoader(false)
+            if (error?.response?.status === 401) {
+                router.push('/')
+                deleteCookie('logged');
+                localStorage.removeItem('userdetail')
+            }
+        } finally {
+            setLoading(false);
+            setUserDataLoader(false)
+        }
+    };
+    const fetchPostss = async (page) => {
+        try {
+            const response = await fetch(
+                `${APP_URL}/api/post?per_page=20&page=${page}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        // Add other headers if needed
+                    },
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Prepend new messages to the beginning of the array
+                console.log('data', data)
+                setAllPosts((prevMessages) => [...prevMessages, ...data?.data?.data]);
+                setCurrentPagefrnd(data.data.current_page);
+                setTotalPagesfrnd(data.data.last_page);
+                console.log((prevMessages) => [...prevMessages, data?.data?.data], 'hn')
+            } else {
+                console.error('Failed to fetch messages');
+            }
+        } catch (error) {
+            console.error('Error fetching messages', error);
+            if (error?.response?.status === 401) {
+                router.push('/')
+                deleteCookie('logged');
+                localStorage.removeItem('userdetail')
+            }
+        } finally {
+            setLoading(false);
+
+        }
+    };
+    useEffect(() => {
+        // Fetch initial messages when the component mounts
+        if (CurrentPagefrnd === 1 && Datafrnd.length === 0) {
+            fetchPosts(CurrentPagefrnd);
+        }
+    }, [CurrentPagefrnd, token]);
+    const handleLoadMorefrnd = () => {
+        if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
+            setLoading(true);
+            fetchPostss(CurrentPagefrnd + 1);
+        }
+    };
+    const handleScrollfrnd = () => {
+
+        // Check if the user has scrolled to the bottom of the window
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 0) {
+            handleLoadMorefrnd();
+
+        }
+    };
+    useEffect(() => {
+        // Add scroll event listener to the window when the component mounts
+        window.addEventListener('scroll', handleScrollfrnd);
+
+        // Remove the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('scroll', handleScrollfrnd);
+        };
+    }, [handleScrollfrnd]);
+
+
+    useEffect(() => {
+        // getallfrnds()
+        fetchPosts()
     }, [])
 
     return (
         <>
             <ul className='post-border mt-5'>
-                {AllPosts?.data?.data?.map((item, i) => (
+                {AllPosts?.map((item, i) => (
+                    <>
                     <div className='post-card mt-4' key={i}>
                         {item?.created_by?.profile_photo === null ?
                             <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile d-md-block d-none object-fit-cover'></Image>
@@ -98,34 +228,33 @@ const AllMembers = () => {
                             {item?.media?.length > 0 ?
 
                                 item?.media?.map((image, index) => (
-                                    <div className="post-card-main" key={index} >
-                                        <>
-                                            {image.id}
-                                            <Image
-                                                className='pointer h-100 rounded w-100 dsd'
-                                                key={index}
-                                                loader={imgurl}
-                                                src={image?.url}
-                                                alt={`Image ${index + 1}`}
-                                                // onClick={() => PostopenModal(index)}
-                                                // data-bs-toggle="modal" data-bs-target={`#postimages2`}
-                                                width={500} height={500}
+                                    <>
+                                        <div className="post-card-main" key={index} >
+                                            <>
+                                                {image.id}
+                                                <Image
+                                                    className='pointer h-100 rounded w-100 dsd'
+                                                    key={index}
+                                                    loader={imgurl}
+                                                    src={image?.url}
+                                                    alt={`Image ${index + 1}`}
+                                                    // onClick={() => PostopenModal(index)}
+                                                    // data-bs-toggle="modal" data-bs-target={`#postimages2`}
+                                                    width={500} height={500}
 
-                                            />
-                                            {/* <FancyBoxPost images={'/assets/images/posts/cover.jpeg'} fancyBoxId={'postimages2'} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} /> */}
-                                        </>
-                                    </div>
+                                                />
+                                                {/* <FancyBoxPost images={'/assets/images/posts/cover.jpeg'} fancyBoxId={'postimages2'} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} /> */}
+                                            </>
+                                        </div>
+
+                                    </>
                                 ))
 
                                 :
                                 ''
 
                             }
-                            <div className="post-card-actions">
-                                <span><i className="bi bi-hand-thumbs-up "></i> Like</span>
-                                <span className='pointer' onClick={() => toggleComments(1)}> Comment</span>
-                                <span className='comment-active'> 1</span>
-                            </div>
+
                             {CommentArea[1] && (
                                 <>
                                     <div className="post-card-comments">
@@ -172,7 +301,16 @@ const AllMembers = () => {
                                 </>
                             )}
                         </div>
+                        
                     </div>
+                    <div className="post-card-actions">
+                    {Liked[i] ?
+                        <span className='pointer' onClick={() => handleLike(i)}><i className="bi bi-hand-thumbs-up-fill "></i> Like</span> :
+                        <span className='pointer' onClick={() => handleLike(i)}><i className="bi bi-hand-thumbs-up "></i> Like</span>}
+                    <span className='pointer' onClick={() => toggleComments(1)}> Comment</span>
+                    <span className='comment-active'> 1</span>
+                </div>
+                </>
                 ))}
 
                 {/* <div className='post-card mt-4'>
