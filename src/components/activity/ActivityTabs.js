@@ -13,14 +13,15 @@ import { useAppContext } from '@/context/AppContext'
 const ActivityTabs = () => {
     const token = GetToken('userdetail')
     // const { Userdata } = useContext(UserContext);
-    const [Userdata, setUserdata] = useState([])
-    const {UserProfiledata, UserProfileloader} = useAppContext()
-    
+    const [postdone, setpostdone] = useState(false)
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+
+
 
     return (
         <>
             <div className="pt-5 pb-3">
-                <PostArea Userdata={UserProfiledata} UserProfileloader={UserProfileloader}/>
+                <PostArea Userdata={UserProfiledata} UserProfileloader={UserProfileloader} setpostdone={setpostdone} postdone={postdone} />
             </div>
             <div className="activity-tabs mt-5">
                 <ul className="nav nav-tabs border-0 " role="tablist">
@@ -39,7 +40,7 @@ const ActivityTabs = () => {
                 </ul>
                 <div className="tab-content ">
                     <div className="tab-pane fade active show" id="AllMembers" role="tabpanel" aria-labelledby="AllMembers-tab">
-                        <AllMembers />
+                        <AllMembers postdone={postdone} />
                     </div>
                     <div className="tab-pane fade" id="MyFriends" role="tabpanel" aria-labelledby="MyFriends-tab">
                         <MyFriends />

@@ -9,12 +9,12 @@ import FancyBoxPost from '../FancyBoxPost'
 import { APP_URL } from '../../../config'
 import axios from 'axios'
 
-const AllMembers = () => {
+const AllMembers = ({ postdone }) => {
     const [Liked, setLiked] = useState([])
     const token = GetToken('userdetail')
     const [CommentArea, setCommentArea] = useState(false)
     const [AllPosts, setAllPosts] = useState([])
-
+    const [likecount, setlikecount] = useState('')
     const [loading, setLoading] = useState(1)
     const [CurrentPagefrnd, setCurrentPagefrnd] = useState(1)
     const [TotalPagesfrnd, setTotalPagesfrnd] = useState()
@@ -23,12 +23,9 @@ const AllMembers = () => {
     const router = useRouter()
     const [AllFrndsData, setAllFrndsData] = useState([])
     const [UserDataLoader, setUserDataLoader] = useState(true)
-    const handleLike = (index) => {
-        // Create a copy of the liked array
+    const handleLike = (index, like) => {
         const newLiked = [...Liked];
-        // Toggle like for the specified index
         newLiked[index] = !newLiked[index];
-        // Update state with the newLiked array
         setLiked(newLiked);
     };
     const toggleComments = (postId) => {
@@ -64,33 +61,13 @@ const AllMembers = () => {
         setPostModalOpen(false);
     };
 
-    // useEffect(() => {
-    //     axios.get(`${APP_URL}/api/post?per_page=50`, {
-    //         headers: {
-    //             'Authorization': `Bearer ${token}`,
-    //         }
-    //     })
-    //         .then(response => {
-    //             console.log('all posts', response);
-    //             setAllPosts(response?.data)
-    //         })
-    //         .catch(error => {
-
-    //             console.error(error);
-    //             if (error?.response?.status === 401) {
-    //                 router?.push('/')
-    //                 deleteCookie('logged');
-    //                 localStorage.removeItem('userdetail')
-    //             }
-    //         });
-    // }, [])
 
 
 
     const fetchPosts = async (page) => {
         try {
             const response = await fetch(
-                `${APP_URL}/api/post?per_page=20&page=${page}`,
+                `${APP_URL}/api/post?section=all&per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -128,7 +105,7 @@ const AllMembers = () => {
     const fetchPostss = async (page) => {
         try {
             const response = await fetch(
-                `${APP_URL}/api/post?per_page=20&page=${page}`,
+                `${APP_URL}/api/post?section=all&per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -195,13 +172,69 @@ const AllMembers = () => {
     useEffect(() => {
         // getallfrnds()
         fetchPosts()
-    }, [])
+    }, [postdone])
+    const handleToggle = (postId) => {
+        setAllPosts(prevData => prevData.map(post => {
+            if (post.id === postId) {
+                return { ...post, isLiked: !post.isLiked }
 
+            }
+            return post;
+        }));
+    };
+    const likepost = (postId) => {
+        setAllPosts(prevData => prevData.map(post => {
+            if (post.id === postId) {
+                return { ...post, like_count: post.like_count + 1 }
+
+            }
+            return post;
+        }));
+    };
+    const dislikepost = (postId) => {
+        setAllPosts(prevData => prevData.map(post => {
+            if (post.id === postId) {
+                return { ...post, like_count: post.like_count - 1 }
+
+            }
+            return post;
+        }));
+    };
     return (
         <>
-            <ul className=' mt-5'>
-                {AllPosts?.map((item, i) => (
-                    <>
+            <ul className='px-0 mt-5'>
+                {AllPosts?.map((item, i) => {
+                    const providedTimestamp = item.created_at;
+
+                    // Parse the provided timestamp into a Date object
+                    const providedDate = new Date(providedTimestamp);
+
+                    // Get the current time
+                    const currentDate = new Date();
+
+                    // Calculate the time difference in milliseconds
+                    const timeDifferenceMs = currentDate - providedDate;
+
+                    // Convert milliseconds to minutes, hours, and days
+                    const minutesDifference = Math.floor(timeDifferenceMs / (1000 * 60));
+                    const hoursDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60));
+                    const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
+
+                    // Calculate remaining hours after calculating minutes
+                    const remainingHours = hoursDifference - (daysDifference * 24);
+
+                    // Display the time difference
+                    let timeDiffString;
+
+                    if (minutesDifference >= 0 && minutesDifference <= 59) {
+                        timeDiffString = `${minutesDifference} minutes ago`;
+                    } else if (hoursDifference >= 1 && hoursDifference <= 24) {
+                        timeDiffString = `${hoursDifference} hours ago`;
+                    } else {
+                        timeDiffString = `${daysDifference} days ago`;
+                    }
+                    return <>
+
                         <div className='post-card mt-4 ' key={i}>
                             {/* {item?.created_by?.profile_photo === null ?
                                 <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile d-md-block d-none object-fit-cover'></Image>
@@ -220,7 +253,7 @@ const AllMembers = () => {
                                         {item?.media?.length > 0 &&
                                             'added a Photo'
                                         }
-                                        <p className='clr-light mt-md-0 mb-0 mt-2 para'>2 minutes ago</p>
+                                        <p className='clr-light mt-md-0 mb-0 mt-2 para'>{timeDiffString}</p>
                                     </p>
 
                                 </div>
@@ -255,12 +288,37 @@ const AllMembers = () => {
                                     ''
 
                                 }
-                                <hr className='mb-0'/>
-                                <div className="post-card-actions mt-0 px-3 py-2">
-                                    {Liked[i] ?
-                                        <span className='pointer' onClick={() => handleLike(i)}><i className="bi bi-hand-thumbs-up-fill "></i> Like</span> :
-                                        <span className='pointer' onClick={() => handleLike(i)}><i className="bi bi-hand-thumbs-up "></i> Like</span>}
-                                    <span className='pointer' onClick={() => toggleComments(1)}> Comment</span>
+                                <hr className='my-0' />
+                                <div className="d-flex">
+                                    <p className='para mb-0 p-2 clr-primary'> <i className="bi bi-hand-thumbs-up-fill "></i> {likecount === '' ? item.like_count : item.like_count + likecount}</p>
+                                    <p className='para text-black mb-0 p-2 clr-primary' ><i class="bi bi-chat-left"></i> {item.comment_count} </p>
+                                </div>
+                                <hr className='my-0' />
+
+                                <div className="post-card-actions mt-0 px-3 py-0">
+                                    <div className="d-flex ">
+                                        <div className="col-6 text-center border-right-dark py-2">
+                                            {item.isLiked ?
+                                                <span className='pointer clr-primary' onClick={() => { handleToggle(item.id), dislikepost(item.id) }}>
+                                                    <i className="bi bi-hand-thumbs-up-fill " ></i> Like
+                                                </span> :
+                                                <span className='pointer' onClick={() => { handleToggle(item.id), likepost(item.id) }}>
+                                                    <i className="bi bi-hand-thumbs-up "></i> Like
+                                                </span>
+                                            }
+                                            {/* {Liked[i] ?
+                                                <span className='pointer clr-primary' onClick={() => { handleLike(i), setlikecount(Number(likecount) - 1) }}>
+                                                    <i className="bi bi-hand-thumbs-up-fill " ></i> Like
+                                                </span> :
+                                                <span className='pointer' onClick={() => { handleLike(i), setlikecount(Number(likecount) + 1) }}>
+                                                    <i className="bi bi-hand-thumbs-up "></i> Like
+                                                </span>
+                                            } */}
+                                        </div>
+                                        <div className="col-6 text-center py-2">
+                                            <span className='pointer' onClick={() => toggleComments(1)}> <i class="bi bi-chat-left"></i> Comment</span>
+                                        </div>
+                                    </div>
                                     {/* <span className='comment-active'> 1</span> */}
                                 </div>
                                 {CommentArea[1] && (
@@ -313,7 +371,7 @@ const AllMembers = () => {
                         </div>
 
                     </>
-                ))}
+                })}
 
                 {/* <div className='post-card mt-4'>
                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile d-md-block d-none'></Image>
