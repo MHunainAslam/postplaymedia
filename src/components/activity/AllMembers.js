@@ -8,10 +8,15 @@ import React, { useEffect, useState } from 'react'
 import FancyBoxPost from '../FancyBoxPost'
 import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
-import { ReactPhotoCollage } from 'react-photo-collage'
+// import { ReactPhotoCollage } from 'react-photo-collage'
 import FancyBoxPostColaage from '../FancyBoxPostColaage'
+import DeletePost from './DeletePost'
+import { useAppContext } from '@/context/AppContext'
 
 const AllMembers = ({ postdone }) => {
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+    const [grpid, setgrpid] = useState()
+    const [isdlt, setisdlt] = useState(true)
     const [Liked, setLiked] = useState([])
     const token = GetToken('userdetail')
     const [CommentArea, setCommentArea] = useState(false)
@@ -174,7 +179,7 @@ const AllMembers = ({ postdone }) => {
     useEffect(() => {
         // getallfrnds()
         fetchPosts()
-    }, [postdone])
+    }, [postdone, isdlt])
     const handleToggle = (postId) => {
         setAllPosts(prevData => prevData.map(post => {
             if (post.id === postId) {
@@ -255,15 +260,14 @@ const AllMembers = ({ postdone }) => {
                                         }
                                         <p className='clr-light mt-md-0 mb-0 mt-2 para'>{timeDiffString}</p>
                                     </p>
-                                    <li className='ms-auto'>
-                                        <i className="bi bi-three-dots-vertical fs-3 nav-link" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                        <ul className="dropdown-menu">
-                                            <li><Link className="dropdown-item" href={`/edit-card/`} >Edit</Link></li>
-                                            <li><Link className="dropdown-item" href={`/cardview/`}>View</Link></li>
-
-                                        </ul>
-                                    </li>
-
+                                    {item?.created_by?.id === UserProfiledata?.data?.id &&
+                                        <li className='ms-auto'>
+                                            <i className="bi bi-three-dots-vertical fs-5 nav-link" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                            <ul className="dropdown-menu">
+                                                <li><Link className="dropdown-item " href={`#`} onClick={() => setgrpid(item.id)} data-bs-toggle="modal" data-bs-target="#DltPost" >Delete Post</Link></li>
+                                            </ul>
+                                        </li>
+                                    }
                                 </div>
                                 <p className='px-3'>{item.post_text}</p>
 
@@ -277,7 +281,7 @@ const AllMembers = ({ postdone }) => {
                                                         data-bs-toggle="modal" data-bs-target={`#postimages${i}`}
                                                         width={500} height={500}>
 
-                                                        <ReactPhotoCollage
+                                                        {/* <ReactPhotoCollage
                                                             {...{
                                                                 width: 'auto',
                                                                 height: ['400px'],
@@ -288,7 +292,7 @@ const AllMembers = ({ postdone }) => {
                                                                     event.stopPropagation();
                                                                 },
                                                                 showNumOfRemainingPhotos: true
-                                                            }} />
+                                                            }} /> */}
                                                     </div>
                                                     <FancyBoxPostColaage images={item?.media} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} />
                                                 </>
@@ -548,6 +552,7 @@ const AllMembers = ({ postdone }) => {
                 </div> */}
 
             </ul>
+            <DeletePost grpid={grpid} setisdlt={setisdlt} isdlt={isdlt} />
         </>
     )
 }

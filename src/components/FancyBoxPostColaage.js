@@ -3,7 +3,7 @@ import { imgurl } from '@/utils/Token';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import InputEmoji from "react-input-emoji";
-import { ReactPhotoCollage } from 'react-photo-collage';
+// import { ReactPhotoCollage } from 'react-photo-collage';
 import { IMG_URL } from '../../config';
 const FancyBoxPostColaage = ({ images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId }) => {
 
@@ -32,7 +32,7 @@ const FancyBoxPostColaage = ({ images, modalOpen, closeModal, selectedImage, set
                                 <div className={`row`}>
                                     <div className="col-md fancyimgsec position-relative d-flex align-items-center collage-fancybox">
                                         <div className='w-100'>
-                                            <ReactPhotoCollage {...{
+                                            {/* <ReactPhotoCollage {...{
                                                 width: 'auto',
                                                 height: ['400px'],
                                                 layout: [1, 3],
@@ -40,7 +40,7 @@ const FancyBoxPostColaage = ({ images, modalOpen, closeModal, selectedImage, set
                                                 // photos: [image?.media],
                                                 photos: images.map(mediaItem => ({ source: IMG_URL + mediaItem.media.url })),
                                                 showNumOfRemainingPhotos: true
-                                            }} />
+                                            }} /> */}
                                             {/* <Image width={5000} height={5000} src={item?.media?.url} loader={imgurl} className='w-100 object-fit-contain h-100' alt={` ${selectedImage + 1}`} /> */}
 
                                         </div>
