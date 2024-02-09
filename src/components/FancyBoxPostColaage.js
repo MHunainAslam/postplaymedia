@@ -3,7 +3,9 @@ import { imgurl } from '@/utils/Token';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import InputEmoji from "react-input-emoji";
-const FancyBoxPost = ({ images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId }) => {
+import { ReactPhotoCollage } from 'react-photo-collage';
+import { IMG_URL } from '../../config';
+const FancyBoxPostColaage = ({ images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId }) => {
 
 
 
@@ -28,8 +30,20 @@ const FancyBoxPost = ({ images, modalOpen, closeModal, selectedImage, setSelecte
                         {modalOpen && selectedImage !== null && (
                             <>
                                 <div className={`row`}>
-                                    <div className="col-md fancyimgsec position-relative d-flex align-items-center">
-                                        <Image width={5000} height={5000} src={images} loader={imgurl} className='w-100 object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
+                                    <div className="col-md fancyimgsec position-relative d-flex align-items-center collage-fancybox">
+                                        <div className='w-100'>
+                                            <ReactPhotoCollage {...{
+                                                width: 'auto',
+                                                height: ['400px'],
+                                                layout: [1, 3],
+                                                // photos: [{ source: '/assets/images/Modal/Avatar.png' }],
+                                                // photos: [image?.media],
+                                                photos: images.map(mediaItem => ({ source: IMG_URL + mediaItem.media.url })),
+                                                showNumOfRemainingPhotos: true
+                                            }} />
+                                            {/* <Image width={5000} height={5000} src={item?.media?.url} loader={imgurl} className='w-100 object-fit-contain h-100' alt={` ${selectedImage + 1}`} /> */}
+
+                                        </div>
                                         <button className='post-back-btn' onClick={prevImage}><i className="bi bi-chevron-left"></i></button>
                                         <button className='post-next-btn' onClick={nextImage}><i className="bi bi-chevron-right"></i></button>
                                     </div>
@@ -86,5 +100,4 @@ const FancyBoxPost = ({ images, modalOpen, closeModal, selectedImage, setSelecte
     );
 };
 
-export default FancyBoxPost;
-
+export default FancyBoxPostColaage;

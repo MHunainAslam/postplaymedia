@@ -6,8 +6,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import FancyBoxPost from '../FancyBoxPost'
-import { APP_URL } from '../../../config'
+import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
+import { ReactPhotoCollage } from 'react-photo-collage'
+import FancyBoxPostColaage from '../FancyBoxPostColaage'
 
 const AllMembers = ({ postdone }) => {
     const [Liked, setLiked] = useState([])
@@ -200,32 +202,35 @@ const AllMembers = ({ postdone }) => {
             return post;
         }));
     };
+    console.log(AllPosts?.flatMap(post => post.media.map(mediaItem => ({ source: IMG_URL + mediaItem.media.url }))),)
+    const [setting, setsetting] = useState({})
+    const [iii, setiii] = useState([])
+    useEffect(() => {
+        setiii(AllPosts?.flatMap(post => post.media.map(mediaItem => ({ source: IMG_URL + mediaItem.media.url }))))
+        setsetting({
+            width: '600px',
+            height: ['100%'],
+            layout: [1, 4],
+            // photos: [{ source: '/assets/images/Modal/Avatar.png' }],
+            photos: iii,
+            showNumOfRemainingPhotos: true
+            // AllPosts?.flatMap(post => post.media.map(mediaItem => ({ source: mediaItem.media.url })))
+        })
+    }, [AllPosts])
     return (
         <>
+
             <ul className='px-0 mt-5'>
                 {AllPosts?.map((item, i) => {
                     const providedTimestamp = item.created_at;
-
-                    // Parse the provided timestamp into a Date object
                     const providedDate = new Date(providedTimestamp);
-
-                    // Get the current time
                     const currentDate = new Date();
-
-                    // Calculate the time difference in milliseconds
                     const timeDifferenceMs = currentDate - providedDate;
-
-                    // Convert milliseconds to minutes, hours, and days
                     const minutesDifference = Math.floor(timeDifferenceMs / (1000 * 60));
                     const hoursDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60));
                     const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
-
-                    // Calculate remaining hours after calculating minutes
                     const remainingHours = hoursDifference - (daysDifference * 24);
-
-                    // Display the time difference
                     let timeDiffString;
-
                     if (minutesDifference >= 0 && minutesDifference <= 59) {
                         timeDiffString = `${minutesDifference} minutes ago`;
                     } else if (hoursDifference >= 1 && hoursDifference <= 24) {
@@ -236,12 +241,7 @@ const AllMembers = ({ postdone }) => {
                     return <>
 
                         <div className='post-card mt-4 ' key={i}>
-                            {/* {item?.created_by?.profile_photo === null ?
-                                <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile d-md-block d-none object-fit-cover'></Image>
-                                :
-                                <Image loader={imgurl} src={item?.created_by?.profile_photo?.url} alt="" width={100} height={100} className='post-profile d-md-block d-none object-fit-cover'></Image>
-                            } */}
-                            <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 '>
+                            <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 col-xxl-5 col-lg-7 col-md-8' >
                                 <div className='head-content p-3'>
                                     {item?.created_by?.profile_photo === null ?
                                         <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile  d-block me-2 object-fit-cover'></Image>
@@ -255,38 +255,62 @@ const AllMembers = ({ postdone }) => {
                                         }
                                         <p className='clr-light mt-md-0 mb-0 mt-2 para'>{timeDiffString}</p>
                                     </p>
+                                    <li className='ms-auto'>
+                                        <i className="bi bi-three-dots-vertical fs-3 nav-link" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                        <ul className="dropdown-menu">
+                                            <li><Link className="dropdown-item" href={`/edit-card/`} >Edit</Link></li>
+                                            <li><Link className="dropdown-item" href={`/cardview/`}>View</Link></li>
+
+                                        </ul>
+                                    </li>
 
                                 </div>
                                 <p className='px-3'>{item.post_text}</p>
 
                                 {item?.media?.length > 0 ?
-
-                                    item?.media?.map((image, index) => (
+                                    <div className={`post-card-main ${item.media.length === 2 ? 'flex-collage' : ''}`}  >
                                         <>
-                                            <div className="post-card-main" key={index} >
+
+                                            {item.media.length > 1 ?
                                                 <>
-                                                    {/* {image.id} */}
+                                                    <div className='cvxc' onClick={() => PostopenModal(i)}
+                                                        data-bs-toggle="modal" data-bs-target={`#postimages${i}`}
+                                                        width={500} height={500}>
+
+                                                        <ReactPhotoCollage
+                                                            {...{
+                                                                width: 'auto',
+                                                                height: ['400px'],
+                                                                layout: [1, 3],
+                                                                photos: item.media.map(mediaItem => ({ source: IMG_URL + mediaItem.media.url })),
+                                                                onImageClick: (event) => {
+                                                                    event.preventDefault();
+                                                                    event.stopPropagation();
+                                                                },
+                                                                showNumOfRemainingPhotos: true
+                                                            }} />
+                                                    </div>
+                                                    <FancyBoxPostColaage images={item?.media} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} />
+                                                </>
+                                                :
+                                                <>
                                                     <Image
                                                         className='pointer h-100 postimg w-100 dsd'
-                                                        key={index}
+                                                        // key={index}
                                                         loader={imgurl}
-                                                        src={image?.media?.url}
-                                                        alt={`Image ${index + 1}`}
-                                                        onClick={() => PostopenModal(index)}
+                                                        src={item?.media[0]?.media?.url}
+                                                        // alt={`Image ${index + 1}`}
+                                                        onClick={() => PostopenModal(i)}
                                                         data-bs-toggle="modal" data-bs-target={`#postimages${i}`}
                                                         width={500} height={500}
 
                                                     />
-                                                    <FancyBoxPost images={image?.media?.url} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} />
+                                                    <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} />
                                                 </>
-                                            </div>
-
+                                            }
                                         </>
-                                    ))
-
-                                    :
-                                    ''
-
+                                    </div>
+                                    : ''
                                 }
                                 <hr className='my-0' />
                                 <div className="d-flex">
@@ -294,7 +318,6 @@ const AllMembers = ({ postdone }) => {
                                     <p className='para text-black mb-0 p-2 clr-primary' ><i class="bi bi-chat-left"></i> {item.comment_count} </p>
                                 </div>
                                 <hr className='my-0' />
-
                                 <div className="post-card-actions mt-0 px-3 py-0">
                                     <div className="d-flex ">
                                         <div className="col-6 text-center border-right-dark py-2">
