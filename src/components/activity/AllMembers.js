@@ -12,6 +12,7 @@ import axios from 'axios'
 import FancyBoxPostColaage from '../FancyBoxPostColaage'
 import DeletePost from './DeletePost'
 import { useAppContext } from '@/context/AppContext'
+import ShowAllImages from './ShowAllImages'
 
 const AllMembers = ({ postdone }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
@@ -197,6 +198,20 @@ const AllMembers = ({ postdone }) => {
             }
             return post;
         }));
+        axios.post(`${APP_URL}/api/like-post`, { post_id: postId }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                // Handle successful response here
+                console.log('liked post', response.data);
+            })
+            .catch(error => {
+                // Handle error here
+                console.error(error);
+            });
+
     };
     const dislikepost = (postId) => {
         setAllPosts(prevData => prevData.map(post => {
@@ -206,6 +221,19 @@ const AllMembers = ({ postdone }) => {
             }
             return post;
         }));
+        axios.post(`${APP_URL}/api/like-post`, { post_id: postId }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                // Handle successful response here
+                console.log('disliked post', response.data);
+            })
+            .catch(error => {
+                // Handle error here
+                console.error(error);
+            });
     };
     console.log(AllPosts?.flatMap(post => post.media.map(mediaItem => ({ source: IMG_URL + mediaItem.media.url }))),)
     const [setting, setsetting] = useState({})
@@ -222,9 +250,25 @@ const AllMembers = ({ postdone }) => {
             // AllPosts?.flatMap(post => post.media.map(mediaItem => ({ source: mediaItem.media.url })))
         })
     }, [AllPosts])
+    const images = [
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        '/assets/images/Modal/Avatar.png',
+        // Add more image paths
+    ];
     return (
         <>
-
+           
+            {/* <ShowAllImages images={images} /> */}
             <ul className='px-0 mt-5'>
                 {AllPosts?.map((item, i) => {
                     const providedTimestamp = item.created_at;
