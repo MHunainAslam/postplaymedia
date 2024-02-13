@@ -59,7 +59,7 @@ const MyGroups = ({ xl, md, lg }) => {
                                                 </div>
                                             </div>
                                             <Link className='link-hov' href={'#'}><p className="heading text-black mb-2 mt-4">admin</p></Link>
-                                            <p className="para clr-light">Active 2 minutes ago</p>
+                                            {/* <p className="para clr-light">Active 2 minutes ago</p> */}
                                             <div className="imgtoimg">
                                                 <Link href={'#'}>
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm'></Image>

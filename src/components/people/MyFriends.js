@@ -94,7 +94,7 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                                                     </>
                                                 }
                                                 <Link className='link-hov' href={`/people/${userdata.user_id === item.user?.id ? item.friend?.id : item?.user?.id}/activity`}><p className="heading text-black mb-2 mt-4 text-capitalize">{userdata.user_id === item.user?.id ? item.friend.name : item?.user?.name}</p></Link>
-                                                <p className="para clr-light">Active 2 minutes ago ass</p>
+                                                {/* <p className="para clr-light">Active 2 minutes ago ass</p> */}
                                                 <div className="d-flex fng justify-content-center">
                                                     <div className='mx-2'>
                                                         <p className="heading mb-0">{userdata.user_id === item.user?.id ? item.friend?.friends_count : item.user?.friends_count}</p>

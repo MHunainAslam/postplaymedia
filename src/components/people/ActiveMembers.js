@@ -140,7 +140,7 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader }) => {
                                                     :
                                                     <Link className='link-hov' href={`/people/${item.id}/activity`}><p className="heading text-black mb-2 mt-4">{item.name}</p></Link>
                                                 }
-                                                <p className="para clr-light">Active 2 minutes ago</p>
+                                                {/* <p className="para clr-light">Active 2 minutes ago</p> */}
                                                 <div className="d-flex fng justify-content-center">
                                                     <div className='mx-2'>
                                                         <p className="heading mb-0">{item.friends_count}</p>

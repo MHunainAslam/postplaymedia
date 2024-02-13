@@ -1210,12 +1210,120 @@ h5 {
   font-weight: 800;
 }
 
-.post-card-main .postimg {
+.collageContainer4 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /* Adjust the gap between images */
+}
+
+.imageWrapper {
+  position: relative;
+  width: calc(49.7%);
+  margin-bottom: 3px;
+  height: 100%;
+  object-fit: cover;
+  /* Adjust width for 2 images per row, accounting for gap */
+  height: 200px;
+  /* Adjust height as needed */
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.moreOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Semi-transparent overlay */
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  /* Adjust as needed */
+  cursor: pointer;
+}
+
+:where(.css-dev-only-do-not-override-1g853jt).ant-image-preview-root .ant-image-preview-mask {
+  z-index: 9999;
+}
+
+:where(.css-dev-only-do-not-override-1g853jt).ant-image-preview-root .ant-image-preview-wrap {
+  z-index: 99999;
+}
+
+:where(.css-dev-only-do-not-override-1g853jt).ant-image-preview-operations-wrapper {
+  z-index: 999999;
+}
+
+.collageContainer2 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.collageContainer2 .imageWrapper {
+  height: calc(250px + (320 - 250) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.collageContainer3 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.collageContainer3 .imageWrapper:nth-child(1) {
+  height: calc(220px + (250 - 220) * ((100vw - 320px) / (1920 - 320)));
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.collageContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.collageContainer .imageWrapper:nth-child(1),
+.collageContainer .imageWrapper:nth-child(2) {
+  height: calc(220px + (250 - 220) * ((100vw - 320px) / (1920 - 320)));
+  width: 49.7%;
+  margin-bottom: 3px;
+}
+
+.collageContainer .imageWrapper {
+  height: calc(150px + (250 - 150) * ((100vw - 320px) / (1920 - 320)));
+  width: 33%;
+}
+
+.imageWrapper>div {
+  height: 100%;
+}
+
+.imageWrapper img.ant-image-img {
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.postmodalimg {
+  max-height: 80vh;
+}
+
+.post-card-main .postimg,
+.post-card-main .ant-image {
   object-fit: contain;
   object-position: top;
   min-width: -webkit-fill-available;
   /* max-height: 500px; */
-  border-block: 1px solid #b5bbbf;
+  /* border-block: 1px solid #b5bbbf; */
+  height: 100%;
 }
 
 .post-card-main {
@@ -1307,6 +1415,10 @@ h5 {
   margin-right: 10px;
   color: var(--dark-text);
 }
+/* .comment-body{
+  max-height: 80vh;
+  overflow: auto;
+} */
 
 .comment-active {
   border: 1px solid var(--border);
@@ -1620,13 +1732,16 @@ h5 {
 }
 
 .commentsec {
-  /* min-height: 80vh; */
+  max-height: 80vh;
+  overflow: auto;
   background-color: white;
 }
 
 .fancyimgsec {
-  background-color: rgba(0, 0, 0, 0.158);
+  background-color: black;
   padding: 0 !important;
+  min-width: 400px;
+  min-height: 400px
 }
 
 .showpass {
@@ -1989,41 +2104,33 @@ h5 {
 .flex-collage .sc-beySPh.dOLYtF {
   display: flex;
 }
+
 .flex-collage .sc-beySPh.dOLYtF .sc-guDLey.fMDVyf {
   width: 50%;
   height: 300px;
 }
-.collageContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px; /* Adjust the gap between images */
+
+.commentsendbtn {
+  height: 30px;
+  padding: 0 !important;
 }
 
-.imageWrapper {
-  position: relative;
-  width: calc(50% - 5px); /* Adjust width for 2 images per row, accounting for gap */
-  height: 200px; /* Adjust height as needed */
-}
-
-.image {
+.dltcommentmodal {
+  position: fixed;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.moreOverlay {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-  color: #fff;
-  width: 100%;
-  height: 100%;
+  z-index: 99999;
   display: flex;
   justify-content: center;
+  left: 0;
+  height: 100vh;
   align-items: center;
-  font-size: 20px; /* Adjust as needed */
-  cursor: pointer;
+  top: 0;
+  /* overflow: hidden; */
+  background: #00000082;
+}
+
+.dltcommentmodal .modal-dialog {
+  width: 400px;
 }
 
 @-webkit-keyframes mover {

@@ -1,11 +1,19 @@
 import { Image } from 'antd';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { IMG_URL } from '../../../config';
 
 const ShowAllImages = ({ images }) => {
     const [imagesss, setimagesss] = useState(true)
-    const displayImages = images.length > 4 ? images.slice(0, 4) : images;
+    const [displayImages, setdisplayImages] = useState(null)
+    useEffect(() => {
+        setdisplayImages(images)
+    }, [images])
+
+    const openimg = () => {
+        document.querySelector('.openimg3 .ant-image').click();
+    }
     return (
-        <div className={'collageContainer'}>
+        <div className={` ${displayImages?.length === 2 ? 'collageContainer2' : displayImages?.length === 3 ? 'collageContainer3' : displayImages?.length === 4 ? 'collageContainer4' : 'collageContainer'}`}>
 
 
             <Image.PreviewGroup
@@ -13,14 +21,18 @@ const ShowAllImages = ({ images }) => {
                     onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
                 }}
             >
-                {displayImages.map((image, index) => (
-                    <div className='imageWrapper' key={index}>
+                {displayImages?.map((image, index) => (
+                    <div className={`imageWrapper openimg${index} ${index > 4 && 'd-none'}`} key={index}>
                         <div>
                             <Image
 
-                                src={image} alt={`Image ${index + 1}`} className={'image'}
+                                src={IMG_URL + image.media.url} alt={`Image ${index + 1}`} className={'image'}
                             />
-                          
+                            {index === 4 && images.length > 5 && (
+                                <div className={'moreOverlay'} onClick={openimg}>
+                                    +{images.length - 5} more
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}

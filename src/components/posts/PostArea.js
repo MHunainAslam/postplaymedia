@@ -142,7 +142,7 @@ const PostArea = ({ postdone, setpostdone }) => {
                                         <div className='d-flex align-items-center'>
 
                                             <Image src={item.dataURL} alt="" width={100} height={100} className='post-img '></Image>
-                                            <p className="para clr-text mb-0 ms-2">{item.name}</p>
+                                            {/* <p className="para clr-text mb-0 ms-2">{item.name}</p> */}
                                         </div>
                                         <div className='d-flex align-items-center'>
                                             <p className="para-sm me-3 mb-0">{(item.size / 1024).toString().split('.')[0]} KB</p>
@@ -165,7 +165,7 @@ const PostArea = ({ postdone, setpostdone }) => {
                                 </div>
                                 <div className='mt-3 d-flex align-items-center'>
                                     <p className='para clr-primary me-3 mb-0 pointer' onClick={(e) => { setPostArea(false) }}>Cancel</p>
-                                    <button className='btn primary-btn px-md-5' disabled={Activebtn} onClick={post}><p className='para'>Post </p></button>
+                                    <button className='btn primary-btn px-5' disabled={Activebtn} onClick={post}><p className='para'>Post </p></button>
                                 </div>
                             </div>
                         </>

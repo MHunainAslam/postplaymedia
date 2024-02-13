@@ -32,7 +32,7 @@ const DeletePost = ({ grpid, setisdlt, isdlt }) => {
     }
     return (
         <>
-            <div className="modal fade" id="DltPost" tabIndex="-1" aria-labelledby="DltPostLabel" aria-hidden="true">
+            <div className="modal fade " id="DltPost" tabIndex="-1" aria-labelledby="DltPostLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content logout-modal py-4">
 

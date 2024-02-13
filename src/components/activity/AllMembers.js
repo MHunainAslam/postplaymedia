@@ -1,7 +1,7 @@
 'use client'
 import { GetToken, imgurl } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
-import Image from 'next/image'
+
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -13,9 +13,11 @@ import FancyBoxPostColaage from '../FancyBoxPostColaage'
 import DeletePost from './DeletePost'
 import { useAppContext } from '@/context/AppContext'
 import ShowAllImages from './ShowAllImages'
+import { Image } from 'antd'
 
 const AllMembers = ({ postdone }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
+    const [Comments, setComments] = useState([])
     const [grpid, setgrpid] = useState()
     const [isdlt, setisdlt] = useState(true)
     const [Liked, setLiked] = useState([])
@@ -58,12 +60,13 @@ const AllMembers = ({ postdone }) => {
     const [PostmodalOpen, setPostModalOpen] = useState(false);
     const [PostselectedImage, setPostSelectedImage] = useState(null);
 
+
     const PostopenModal = (index) => {
         setPostSelectedImage(index);
         setPostModalOpen(true);
+        console.log('oprn')
         console.log(PostselectedImage, index)
     };
-
     const PostcloseModal = () => {
         setPostSelectedImage(null);
         setPostModalOpen(false);
@@ -235,40 +238,27 @@ const AllMembers = ({ postdone }) => {
                 console.error(error);
             });
     };
-    console.log(AllPosts?.flatMap(post => post.media.map(mediaItem => ({ source: IMG_URL + mediaItem.media.url }))),)
-    const [setting, setsetting] = useState({})
-    const [iii, setiii] = useState([])
-    useEffect(() => {
-        setiii(AllPosts?.flatMap(post => post.media.map(mediaItem => ({ source: IMG_URL + mediaItem.media.url }))))
-        setsetting({
-            width: '600px',
-            height: ['100%'],
-            layout: [1, 4],
-            // photos: [{ source: '/assets/images/Modal/Avatar.png' }],
-            photos: iii,
-            showNumOfRemainingPhotos: true
-            // AllPosts?.flatMap(post => post.media.map(mediaItem => ({ source: mediaItem.media.url })))
+    const getcomment = (e) => {
+        axios.get(`${APP_URL}/api/comments/${e}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
         })
-    }, [AllPosts])
-    const images = [
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        '/assets/images/Modal/Avatar.png',
-        // Add more image paths
-    ];
+            .then(response => {
+                // Handle successful response here
+                console.log('get comment', response);
+                setComments(response?.data?.data)
+            })
+            .catch(error => {
+                // Handle error here
+                console.error(error);
+            });
+    }
+
     return (
         <>
-           
-            {/* <ShowAllImages images={images} /> */}
+
+
             <ul className='px-0 mt-5'>
                 {AllPosts?.map((item, i) => {
                     const providedTimestamp = item.created_at;
@@ -293,9 +283,9 @@ const AllMembers = ({ postdone }) => {
                             <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 col-xxl-5 col-lg-7 col-md-8' >
                                 <div className='head-content p-3'>
                                     {item?.created_by?.profile_photo === null ?
-                                        <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile  d-block me-2 object-fit-cover'></Image>
+                                        <img src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile  d-block me-2 object-fit-cover'></img>
                                         :
-                                        <Image loader={imgurl} src={item?.created_by?.profile_photo?.url} alt="" width={100} height={100} className='post-profile d-block  me-2 object-fit-cover'></Image>
+                                        <img src={IMG_URL + item?.created_by?.profile_photo?.url} alt="" width={100} height={100} className='post-profile d-block  me-2 object-fit-cover'></img>
                                     }
                                     <p className='mb-0 text-black para'>
                                         <span> {item.created_by.name}  </span>
@@ -321,45 +311,27 @@ const AllMembers = ({ postdone }) => {
 
                                             {item.media.length > 1 ?
                                                 <>
-                                                    <div className='cvxc' onClick={() => PostopenModal(i)}
-                                                        data-bs-toggle="modal" data-bs-target={`#postimages${i}`}
-                                                        width={500} height={500}>
 
-                                                        {/* <ReactPhotoCollage
-                                                            {...{
-                                                                width: 'auto',
-                                                                height: ['400px'],
-                                                                layout: [1, 3],
-                                                                photos: item.media.map(mediaItem => ({ source: IMG_URL + mediaItem.media.url })),
-                                                                onImageClick: (event) => {
-                                                                    event.preventDefault();
-                                                                    event.stopPropagation();
-                                                                },
-                                                                showNumOfRemainingPhotos: true
-                                                            }} /> */}
+                                                    <div className='cvxc' >
+                                                        <ShowAllImages images={item.media} />
+
                                                     </div>
-                                                    <FancyBoxPostColaage images={item?.media} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} />
+                                                    <FancyBoxPostColaage images={item?.media} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} />
                                                 </>
                                                 :
                                                 <>
                                                     <Image
                                                         className='pointer h-100 postimg w-100 dsd'
-                                                        // key={index}
-                                                        loader={imgurl}
-                                                        src={item?.media[0]?.media?.url}
-                                                        // alt={`Image ${index + 1}`}
-                                                        onClick={() => PostopenModal(i)}
-                                                        data-bs-toggle="modal" data-bs-target={`#postimages${i}`}
-                                                        width={500} height={500}
-
+                                                        src={IMG_URL + item?.media[0]?.media?.url}
                                                     />
-                                                    <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} />
+
                                                 </>
                                             }
                                         </>
                                     </div>
                                     : ''
                                 }
+                                <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} para={item.post_text} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} />
                                 <hr className='my-0' />
                                 <div className="d-flex">
                                     <p className='para mb-0 p-2 clr-primary'> <i className="bi bi-hand-thumbs-up-fill "></i> {likecount === '' ? item.like_count : item.like_count + likecount}</p>
@@ -377,24 +349,18 @@ const AllMembers = ({ postdone }) => {
                                                     <i className="bi bi-hand-thumbs-up "></i> Like
                                                 </span>
                                             }
-                                            {/* {Liked[i] ?
-                                                <span className='pointer clr-primary' onClick={() => { handleLike(i), setlikecount(Number(likecount) - 1) }}>
-                                                    <i className="bi bi-hand-thumbs-up-fill " ></i> Like
-                                                </span> :
-                                                <span className='pointer' onClick={() => { handleLike(i), setlikecount(Number(likecount) + 1) }}>
-                                                    <i className="bi bi-hand-thumbs-up "></i> Like
-                                                </span>
-                                            } */}
                                         </div>
                                         <div className="col-6 text-center py-2">
-                                            <span className='pointer' onClick={() => toggleComments(1)}> <i class="bi bi-chat-left"></i> Comment</span>
+                                            <span className='pointer' onClick={() => { PostopenModal(0), getcomment(item.id) }}
+                                                data-bs-toggle="modal" data-bs-target={`#postimages${i}`}> <i class="bi bi-chat-left"></i> Comment</span>
                                         </div>
                                     </div>
-                                    {/* <span className='comment-active'> 1</span> */}
                                 </div>
-                                {CommentArea[1] && (
-                                    <>
-                                        <div className="post-card-comments">
+                                {/* <span className='comment-active'> 1</span> */}
+
+                                {CommentArea[i] && (
+                                    <div className='px-3 pb-3'>
+                                        <div className="post-card-comments ">
                                             <div className="d-flex mt-3">
                                                 <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile me-3'></Image>
                                                 <div className='w-100'>
@@ -435,7 +401,7 @@ const AllMembers = ({ postdone }) => {
                                             </div>
 
                                         </div>
-                                    </>
+                                    </div>
                                 )}
                             </div>
 

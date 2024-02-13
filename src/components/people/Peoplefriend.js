@@ -105,7 +105,7 @@ const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                                                    
                                                 }
 
-                                                <p className="para clr-light">Active 2 minutes ago </p>
+                                                {/* <p className="para clr-light">Active 2 minutes ago </p> */}
                                                 <div className="d-flex fng justify-content-center">
                                                     <div className='mx-2'>
                                                         <p className="heading mb-0">{userprofile == item.user?.id ? item.friend.friends_count : item.user.friends_count}</p>

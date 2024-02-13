@@ -254,9 +254,9 @@ const ChatSideBar = () => {
                         <li className={`nav-item  ${spamchat?.data?.data?.length > 0 ? 'chatactive' : ''}`} role="presentation" onClick={spamchatfunc}>
                             <button className="nav-link " id="spam-tab" data-bs-toggle="tab" data-bs-target="#spam" type="button" role="tab" aria-controls="spam" aria-selected="false" tabIndex="-1">Spam</button>
                         </li>
-                        <li className="nav-item" role="presentation">
+                        {/* <li className="nav-item" role="presentation">
                             <button className="nav-link" id="groups-tab" data-bs-toggle="tab" data-bs-target="#groups" type="button" role="tab" aria-controls="groups" aria-selected="false" tabIndex="-1">Groups</button>
-                        </li>
+                        </li> */}
 
                     </ul>
 
