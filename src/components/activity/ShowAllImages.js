@@ -2,7 +2,7 @@ import { Image } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { IMG_URL } from '../../../config';
 
-const ShowAllImages = ({ images }) => {
+const ShowAllImages = ({ images, item }) => {
     const [imagesss, setimagesss] = useState(true)
     const [displayImages, setdisplayImages] = useState(null)
     useEffect(() => {
@@ -24,10 +24,18 @@ const ShowAllImages = ({ images }) => {
                 {displayImages?.map((image, index) => (
                     <div className={`imageWrapper openimg${index} ${index > 4 && 'd-none'}`} key={index}>
                         <div>
-                            <Image
+                            {image.media?.url.slice(-4) == '.mp4' ?
+                                <video
+                                    className='pointer h-100 postimg w-100 dsd'
+                                    src={IMG_URL + item?.media[0]?.media?.url}
+                                    controls
+                                />
+                                :
+                                <Image
+                                    src={IMG_URL + image.media.url} alt={`Image ${index + 1}`} className={'image'}
+                                />
+                            }
 
-                                src={IMG_URL + image.media.url} alt={`Image ${index + 1}`} className={'image'}
-                            />
                             {index === 4 && images.length > 5 && (
                                 <div className={'moreOverlay'} onClick={openimg}>
                                     +{images.length - 5} more

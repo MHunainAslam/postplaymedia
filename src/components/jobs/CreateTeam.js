@@ -61,7 +61,7 @@ const CreateTeam = () => {
     const createAteam = (e) => {
         e.preventDefault()
 
-        if (name === '' || Logo === '' || desc === '' || level === '' || conference === '' || sports === '' || states === '' || city === '' || teamWeb === '') {
+        if (name === '' || Logo === ''  || level === '' || conference === '' || sports === '' || states === '' || city === '' || teamWeb === '') {
             message.error('All Fields Are Required!')
         } else {
             setisLoading(true)
@@ -174,12 +174,12 @@ const CreateTeam = () => {
                         <input type="url" name="" id="" className='form-control inp col-m' value={teamWeb} onChange={(e) => setteamWeb(e.target.value)} />
                     </div>
                 </div>
-                <div className='d-md-flex align-items-center my-3'>
+                {/* <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-md-2'>Description </label>
                     <div className="col">
                         <textarea rows={3} type="text" name="" id="" className='form-control inp col-m' value={desc} onChange={(e) => setdesc(e.target.value)} />
                     </div>
-                </div>
+                </div> */}
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-md-2'>Level </label>
                     <div className="col">
@@ -220,7 +220,7 @@ const CreateTeam = () => {
                             <option value='Boys Basketball'>Boys Basketball</option>
                             <option value='Girls Basketball'>Girls Basketball</option>
                             <option value='Boys Baseball'>Baseball</option>
-                            <option value='Girls Football'>Football</option>
+                            <option value='Football'>Football</option>
                         </select>
 
                     </div>

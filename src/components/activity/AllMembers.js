@@ -78,7 +78,7 @@ const AllMembers = ({ postdone }) => {
     const fetchPosts = async (page) => {
         try {
             const response = await fetch(
-                `${APP_URL}/api/post?section=all&per_page=20&page=${page}`,
+                `${APP_URL}/api/post?section=groups&per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -255,6 +255,7 @@ const AllMembers = ({ postdone }) => {
             });
     }
 
+
     return (
         <>
 
@@ -282,15 +283,17 @@ const AllMembers = ({ postdone }) => {
                         <div className='post-card mt-4 ' key={i}>
                             <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 col-xxl-5 col-lg-7 col-md-8' >
                                 <div className='head-content p-3'>
-                                    {item?.created_by?.profile_photo === null ?
-                                        <img src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile  d-block me-2 object-fit-cover'></img>
-                                        :
-                                        <img src={IMG_URL + item?.created_by?.profile_photo?.url} alt="" width={100} height={100} className='post-profile d-block  me-2 object-fit-cover'></img>
-                                    }
+                                    <Link href={item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/profile' : `/people/${item?.created_by?.id}/activity`}>
+                                        {item?.created_by?.profile_photo === null ?
+                                            <img src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile  d-block me-2 object-fit-cover'></img>
+                                            :
+                                            <img src={IMG_URL + item?.created_by?.profile_photo?.url} alt="" width={100} height={100} className='post-profile d-block  me-2 object-fit-cover'></img>
+                                        }
+                                    </Link>
                                     <p className='mb-0 text-black para'>
                                         <span> {item.created_by.name}  </span>
                                         {item?.media?.length > 0 &&
-                                            'added a Photo'
+                                            'added a post'
                                         }
                                         <p className='clr-light mt-md-0 mb-0 mt-2 para'>{timeDiffString}</p>
                                     </p>
@@ -312,19 +315,43 @@ const AllMembers = ({ postdone }) => {
                                             {item.media.length > 1 ?
                                                 <>
 
+
                                                     <div className='cvxc' >
-                                                        <ShowAllImages images={item.media} />
+                                                        <ShowAllImages images={item.media} item={item} />
 
                                                     </div>
                                                     <FancyBoxPostColaage images={item?.media} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} />
                                                 </>
                                                 :
                                                 <>
-                                                    <Image
-                                                        className='pointer h-100 postimg w-100 dsd'
-                                                        src={IMG_URL + item?.media[0]?.media?.url}
-                                                    />
+                                                    {item.media.map((media, i) => (
+                                                        <>
+                                                            {media?.media?.url.slice(-4) == '.mp4' ?
 
+                                                                <video
+                                                                    className='pointer h-100 postimg w-100 dsd'
+                                                                    src={IMG_URL + media?.media?.url}
+                                                                    controls
+                                                                />
+                                                                :
+                                                                <Image
+                                                                    className='pointer h-100 postimg w-100 dsd'
+                                                                    src={IMG_URL + media?.media?.url}
+                                                                />}
+                                                        </>
+                                                    ))}
+                                                    {/* {item?.media[0]?.media?.url.slice(-4) == '.mp4' ?
+                                                        <video
+                                                            className='pointer h-100 postimg w-100 dsd'
+                                                            src={IMG_URL + item?.media[0]?.media?.url}
+                                                            controls
+                                                        />
+                                                        :
+                                                        <Image
+                                                            className='pointer h-100 postimg w-100 dsd'
+                                                            src={IMG_URL + item?.media[0]?.media?.url}
+                                                        />
+                                                    } */}
                                                 </>
                                             }
                                         </>

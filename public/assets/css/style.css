@@ -526,6 +526,19 @@ h5 {
   box-shadow: none !important;
 }
 
+.t-area textarea {
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: var(--dark-text) !important;
+  /* border-bottom: 1px solid var(--border) !important; */
+  font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))) !important;
+}
+
+.t-area textarea:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 .para-sm {
   font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))) !important;
 }
@@ -1195,11 +1208,11 @@ h5 {
   display: flex;
 }
 
-.post-card-body {
-  /* width: 50%; */
-  /* width: calc(300px + (650 - 300) * ((100vw - 320px) / (1920 - 320))); */
-  /* min-width: calc(300px + (450 - 300) * ((100vw - 320px) / (1920 - 320))); */
-}
+/* .post-card-body {
+  width: 50%;
+  width: calc(300px + (650 - 300) * ((100vw - 320px) / (1920 - 320)));
+  min-width: calc(300px + (450 - 300) * ((100vw - 320px) / (1920 - 320)));
+} */
 
 .post-card-body .head-content {
   display: flex;
@@ -1316,6 +1329,11 @@ h5 {
   max-height: 80vh;
 }
 
+
+.post-card-main video.postimg {
+  object-fit: cover !important;
+}
+
 .post-card-main .postimg,
 .post-card-main .ant-image {
   object-fit: contain;
@@ -1415,6 +1433,7 @@ h5 {
   margin-right: 10px;
   color: var(--dark-text);
 }
+
 /* .comment-body{
   max-height: 80vh;
   overflow: auto;
@@ -2131,6 +2150,29 @@ h5 {
 
 .dltcommentmodal .modal-dialog {
   width: 400px;
+}
+
+.suggestion-item {
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 1px 12px 0 #00000021;
+  padding: 5px;
+  
+}
+
+.suggestion-item .focused {
+  background-color: var(--primary);
+}
+.suggestion-item li {
+  text-decoration: none;
+  list-style: none;
+  padding-block: 1px;
+
+}
+
+.suggestion-item li:hover {
+  background-color: var(--primary);
+  color: white !important;
 }
 
 @-webkit-keyframes mover {

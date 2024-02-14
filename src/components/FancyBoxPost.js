@@ -3,7 +3,7 @@ import { GetToken, imgurl } from '@/utils/Token';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import InputEmoji from "react-input-emoji";
-import { APP_URL } from '../../config';
+import { APP_URL, IMG_URL } from '../../config';
 import { useAppContext } from '@/context/AppContext';
 import DeleteComment from './posts/DeleteComment';
 import axios from 'axios';
@@ -137,8 +137,18 @@ const FancyBoxPost = ({ images, modalOpen, closeModal, selectedImage, setSelecte
                                     <div className={`d-md-flex justify-content-center `}>
                                         <div className=" fancyimgsec position-relative d-flex align-items-center">
                                             <div className="w-100">
+
                                                 {images ?
-                                                    <Image width={5000} height={5000} src={images} loader={imgurl} className='w-100 postmodalimg object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
+                                                    <>
+                                                        {images?.slice(-4) == '.mp4' ?
+                                                            <video
+                                                                className='pointer h-100 postimg w-100 dsd'
+                                                                src={IMG_URL + item?.media[0]?.media?.url}
+                                                                controls
+                                                            /> :
+                                                            <Image width={5000} height={5000} src={images} loader={imgurl} className='w-100 postmodalimg object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
+                                                        }
+                                                    </>
                                                     : <p className='para-lg w-100 text-white text-center px-5'>{para}</p>}
                                                 {/* <button className='post-back-btn' onClick={prevImage}><i className="bi bi-chevron-left"></i></button>
                                         <button className='post-next-btn' onClick={nextImage}><i className="bi bi-chevron-right"></i></button> */}

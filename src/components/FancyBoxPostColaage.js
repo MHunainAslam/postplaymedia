@@ -148,9 +148,16 @@ const FancyBoxPostColaage = ({ images, modalOpen, closeModal, selectedImage, set
 
                                         <div className="fancyimgsec position-relative d-flex align-items-center collage-fancybox">
                                             <div className='w-100'>
-
-
-                                                <Image width={5000} height={5000} src={images[selectedImage]?.media?.url} loader={imgurl} className='w-100 postmodalimg object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
+                                               
+                                                {images[selectedImage]?.media?.url.slice(-4) == '.mp4' ?
+                                              
+                                                    <video
+                                                        className='pointer h-100 postimg w-100 dsd'
+                                                        src={IMG_URL + item?.media[0]?.media?.url}
+                                                        controls
+                                                    />
+                                                    :
+                                                    <Image width={5000} height={5000} src={images[selectedImage]?.media?.url} loader={imgurl} className='w-100 postmodalimg object-fit-contain h-100' alt={` ${selectedImage + 1}`} />}
                                                 {/* {images.map((item) => (
                                             ))} */}
 

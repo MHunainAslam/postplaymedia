@@ -293,7 +293,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                                 <option value='Boys Basketball'>Boys Basketball</option>
                                 <option value='Girls Basketball'>Girls Basketball</option>
                                 <option value='Boys Baseball'>Baseball</option>
-                                <option value='Girls Football'>Football</option>
+                                <option value='Football'>Football</option>
                             </select>
                             {Error ? Sports === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 

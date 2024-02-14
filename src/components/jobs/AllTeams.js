@@ -190,7 +190,7 @@ const AllTeams = ({ loadcomponent }) => {
                                     <option value='Boys Basketball'>Boys Basketball</option>
                                     <option value='Girls Basketball'>Girls Basketball</option>
                                     <option value='Boys Baseball'>Baseball</option>
-                                    <option value='Girls Football'>Football</option>
+                                    <option value='Football'>Football</option>
                                 </select>
                             </div>
                             <div className='m-2'>

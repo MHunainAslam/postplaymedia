@@ -5,11 +5,12 @@ import ChangeCoverPhoto from '@/components/userprofile/PeopleProfileTab/ChangeCo
 import PeopleChangeProfile from '@/components/userprofile/PeopleProfileTab/PeopleChangeProfile'
 import PeopleProfileEdit from '@/components/userprofile/PeopleProfileTab/PeopleProfileEdit'
 import Profiledetail from '@/components/userprofile/PeopleProfileTab/Profiledetail'
+import { useAppContext } from '@/context/AppContext'
 import {  useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const Page = () => {
-    
+    const { UserProfiledata, UserProfileloader } = useAppContext()
     const router = useRouter()
     const searchParams = useSearchParams()
     const param = searchParams.get('profile-tab')

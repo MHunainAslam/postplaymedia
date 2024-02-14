@@ -11,33 +11,50 @@ import { useAppContext } from '@/context/AppContext'
 
 const PeopleProfileEdit = ({ }) => {
     const token = GetToken('userdetail')
-    const {UserProfiledata, UserProfileloader} = useAppContext()
-    const [Name, setName] = useState()
-    const [number, setnumber] = useState()
-    const [DateofBirth, setDateofBirth] = useState()
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+    const [Name, setName] = useState(UserProfiledata?.data?.name)
+    const [number, setnumber] = useState(UserProfiledata?.data?.phone)
+    const [DateofBirth, setDateofBirth] = useState(UserProfiledata?.data?.dob)
     const [MemberType, setMemberType] = useState()
     const [JobType, setJobType] = useState()
     const [Country, setCountry] = useState()
-    const [City, setCity] = useState()
+    const [City, setCity] = useState(UserProfiledata?.data?.city)
     const [Allcity, setAllcity] = useState()
-    const [Address, setAddress] = useState()
-    const [state, setstate] = useState()
+    const [Address, setAddress] = useState(UserProfiledata?.data?.address)
+    const [state, setstate] = useState(UserProfiledata?.data?.state)
     const [Allstate, setAllstate] = useState()
-    const [Sex, setSex] = useState()
-    const [classyear, setclassyear] = useState()
-    const [height, setheight] = useState()
-    const [weight, setweight] = useState()
-    const [Sports, setSports] = useState()
-    const [Position, setPosition] = useState()
-    const [AAUTravel, setAAUTravel] = useState()
-    const [C_institute, setC_institute] = useState()
-    const [C_instituteweb, setC_instituteweb] = useState()
+    const [Sex, setSex] = useState(UserProfiledata?.data?.gender)
+    const [classyear, setclassyear] = useState(UserProfiledata?.data?.class_year)
+    const [height, setheight] = useState(UserProfiledata?.data?.height)
+    const [weight, setweight] = useState(UserProfiledata?.data?.weight)
+    const [Sports, setSports] = useState(UserProfiledata?.data?.sports)
+    const [Position, setPosition] = useState(UserProfiledata?.data?.position)
+    const [AAUTravel, setAAUTravel] = useState(UserProfiledata?.data?.travel_team_name)
+    const [C_institute, setC_institute] = useState(UserProfiledata?.data?.current_institute)
+    const [C_instituteweb, setC_instituteweb] = useState(UserProfiledata?.data?.current_ins_website)
     const [getRoles, setgetRoles] = useState([])
     const [isloading, setisloading] = useState(false)
     const router = useRouter()
     const onChange = (date, dateString) => {
         setDateofBirth(date)
     };
+    useEffect(() => {
+        setName(UserProfiledata?.data?.name)
+        setnumber(UserProfiledata?.data?.phone)
+        setDateofBirth(UserProfiledata?.data?.dob)
+        setCity(UserProfiledata?.data?.city)
+        setAddress(UserProfiledata?.data?.address)
+        setstate(UserProfiledata?.data?.state)
+        setSex(UserProfiledata?.data?.gender)
+        setclassyear(UserProfiledata?.data?.class_year)
+        setheight(UserProfiledata?.data?.height)
+        setweight(UserProfiledata?.data?.weight)
+        setSports(UserProfiledata?.data?.sports)
+        setPosition(UserProfiledata?.data?.position)
+        setAAUTravel(UserProfiledata?.data?.travel_team_name)
+        setC_institute(UserProfiledata?.data?.current_institute)
+        setC_instituteweb(UserProfiledata?.data?.current_ins_website)
+    }, [UserProfiledata])
 
     useEffect(() => {
         axios.get(`${APP_URL}/api/sub-roles`, {
@@ -157,7 +174,7 @@ const PeopleProfileEdit = ({ }) => {
 
     return (
         <>
-            <p className="heading mt-3 clr-text">Edit Profile</p>
+            <p className="heading mt-3 clr-text">Edit Profile </p>
 
             <div className="border-bottom mb-4"></div>
 
@@ -281,7 +298,7 @@ const PeopleProfileEdit = ({ }) => {
                                     <option value="Boys Basketball">Boys Basketball</option>
                                     <option value="Girls Basketball">Girls Basketball</option>
                                     <option value="Boys Baseball">Baseball</option>
-                                    <option value="Girls Football">Football</option>
+                                    <option value="Football">Football</option>
                                 </select>
                             </div>
                         </div>
