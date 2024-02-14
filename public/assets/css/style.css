@@ -1434,10 +1434,11 @@ h5 {
   color: var(--dark-text);
 }
 
-/* .comment-body{
-  max-height: 80vh;
+.comment-body{
+  /* max-height:  80vh; */
   overflow: auto;
-} */
+  flex: 1;
+}
 
 .comment-active {
   border: 1px solid var(--border);
@@ -1754,6 +1755,8 @@ h5 {
   max-height: 80vh;
   overflow: auto;
   background-color: white;
+  min-width: 400px;
+  min-height: 400px;
 }
 
 .fancyimgsec {

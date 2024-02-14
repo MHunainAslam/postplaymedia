@@ -7,7 +7,7 @@ import { APP_URL, IMG_URL } from '../../config';
 import { useAppContext } from '@/context/AppContext';
 import DeleteComment from './posts/DeleteComment';
 import axios from 'axios';
-const FancyBoxPost = ({ images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId, para, name, profile, time, item, likepost, dislikepost, handleToggle, likecount, Comments, getcomment }) => {
+const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId, para, name, profile, time, item, likepost, dislikepost, handleToggle, likecount, Comments, getcomment }) => {
 
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const token = GetToken('userdetail')
@@ -183,60 +183,68 @@ const FancyBoxPost = ({ images, modalOpen, closeModal, selectedImage, setSelecte
                                                         <span className='pointer'><i class="bi bi-chat-left mb-0 clr-primary"></i> {Comments?.length}</span>
 
                                                     </div>
-                                                    <div className='comment-body'>
-                                                        <div className=' pb-3'>
-                                                            <div className="post-card-comments ">
-                                                                {Comments.map((item, i) => (
-                                                                    <div key={i}>
-                                                                        <div className="d-flex mt-3" >
-                                                                            <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-m me-2'></Image>
-                                                                            <div className='w-100'>
-                                                                                {EditCmnt[i] ?
-                                                                                    <input type="text" value={cmnt} onChange={(e) => setcmnt(e.target.value)} className='form-control back-border text-black inp' name="" id="" />
-                                                                                    : <input type="text" value={item.body} readOnly className='form-control back-border text-black inp' name="" id="" />
-                                                                                }
-                                                                                <div className="d-flex mt-1 align-items-center">
-                                                                                    {/* <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => RplyComments(i)} >Rply</p> */}
-                                                                                    {item.user_id == UserProfiledata?.data?.id &&
-                                                                                        <>
-                                                                                            {EditCmnt[i] ?
-                                                                                                <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => sendeditcomment(item.id)} >Save</p>
-                                                                                                : <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { EditComments(i), setcmnt(item.body) }} >Edit</p>
-                                                                                            }
-                                                                                            <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { setdltcommentmodal(true), setCommentid(item.id) }}>Delete </p>
-                                                                                        </>
+                                                    
+                                                </div>
+                                                {cmntloader ?
+                                                        <div className="w-100 text-center mt-4">
+                                                            <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                                                            <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                                                            <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                                                        </div> :
+                                                        <div className='comment-body'>
+                                                            <div className=' pb-3'>
+                                                                <div className="post-card-comments ">
+                                                                    {Comments.map((item, i) => (
+                                                                        <div key={i}>
+                                                                            <div className="d-flex mt-3" >
+                                                                                <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-m me-2'></Image>
+                                                                                <div className='w-100'>
+                                                                                    {EditCmnt[i] ?
+                                                                                        <input type="text" value={cmnt} onChange={(e) => setcmnt(e.target.value)} className='form-control back-border text-black inp' name="" id="" />
+                                                                                        : <input type="text" value={item.body} readOnly className='form-control back-border text-black inp' name="" id="" />
                                                                                     }
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        {RplyArea[i] && (
-                                                                            <div className="post-card-comments ms-5">
-                                                                                <div className="d-flex mt-3">
-                                                                                    <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile me-3'></Image>
-                                                                                    <div className='w-100'>
-                                                                                        <input type="text" placeholder='Whats new, admin?' className='form-control inp' name="" id="" />
-                                                                                        <p className="para-sm ms-2 mb-0 clr-primary">Rply to @admin</p>
-                                                                                        <div className="d-flex mt-3 align-items-center">
-                                                                                            <button className='btn primary-btn py-0 px-3 '><p className='para '>Post</p></button>
-                                                                                            <p className="para mb-0 ms-3 pointer clr-primary" onClick={(e) => { setRplyArea(false) }}>Cancel</p>
-                                                                                        </div>
+                                                                                    <div className="d-flex mt-1 align-items-center">
+                                                                                        {/* <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => RplyComments(i)} >Rply</p> */}
+                                                                                        {item.user_id == UserProfiledata?.data?.id &&
+                                                                                            <>
+                                                                                                {EditCmnt[i] ?
+                                                                                                    <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => sendeditcomment(item.id)} >Save</p>
+                                                                                                    : <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { EditComments(i), setcmnt(item.body) }} >Edit</p>
+                                                                                                }
+                                                                                                <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { setdltcommentmodal(true), setCommentid(item.id) }}>Delete </p>
+                                                                                            </>
+                                                                                        }
                                                                                     </div>
                                                                                 </div>
-
                                                                             </div>
-                                                                        )}
 
-                                                                    </div>
-                                                                ))}
+                                                                            {RplyArea[i] && (
+                                                                                <div className="post-card-comments ms-5">
+                                                                                    <div className="d-flex mt-3">
+                                                                                        <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile me-3'></Image>
+                                                                                        <div className='w-100'>
+                                                                                            <input type="text" placeholder='Whats new, admin?' className='form-control inp' name="" id="" />
+                                                                                            <p className="para-sm ms-2 mb-0 clr-primary">Rply to @admin</p>
+                                                                                            <div className="d-flex mt-3 align-items-center">
+                                                                                                <button className='btn primary-btn py-0 px-3 '><p className='para '>Post</p></button>
+                                                                                                <p className="para mb-0 ms-3 pointer clr-primary" onClick={(e) => { setRplyArea(false) }}>Cancel</p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            )}
+
+                                                                        </div>
+                                                                    ))}
+
+
+                                                                </div>
 
 
                                                             </div>
-
-
                                                         </div>
-                                                    </div>
-                                                </div>
+                                                    }
                                                 <form className='pb-3 d-flex align-items-center' onSubmit={sendcomment}>
                                                     <InputEmoji
                                                         className="inp form-control"

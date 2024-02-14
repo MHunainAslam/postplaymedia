@@ -11,7 +11,7 @@ import DeleteComment from './posts/DeleteComment';
 import { message } from 'antd';
 import { deleteCookie } from 'cookies-next';
 import { useAppContext } from '@/context/AppContext';
-const FancyBoxPostColaage = ({ images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId, name, profile, time, item, likepost, dislikepost, handleToggle, likecount, Comments, getcomment }) => {
+const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId, name, profile, time, item, likepost, dislikepost, handleToggle, likecount, Comments, getcomment }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const token = GetToken('userdetail')
     const [EditCmnt, setEditCmnt] = useState(false)
@@ -148,9 +148,9 @@ const FancyBoxPostColaage = ({ images, modalOpen, closeModal, selectedImage, set
 
                                         <div className="fancyimgsec position-relative d-flex align-items-center collage-fancybox">
                                             <div className='w-100'>
-                                               
+
                                                 {images[selectedImage]?.media?.url.slice(-4) == '.mp4' ?
-                                              
+
                                                     <video
                                                         className='pointer h-100 postimg w-100 dsd'
                                                         src={IMG_URL + item?.media[0]?.media?.url}
@@ -194,6 +194,15 @@ const FancyBoxPostColaage = ({ images, modalOpen, closeModal, selectedImage, set
                                                         <span className='pointer'><i class="bi bi-chat-left mb-0 clr-primary"></i> {Comments?.length}</span>
 
                                                     </div>
+
+                                                </div>
+                                                {cmntloader ?
+                                                    <div className="w-100 text-center mt-4">
+                                                        <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                                                        <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                                                        <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                                                    </div>
+                                                    :
                                                     <div className='comment-body'>
                                                         <div className=' pb-3'>
                                                             <div className="post-card-comments ">
@@ -247,7 +256,7 @@ const FancyBoxPostColaage = ({ images, modalOpen, closeModal, selectedImage, set
 
                                                         </div>
                                                     </div>
-                                                </div>
+                                                }
                                                 <form className='pb-3 d-flex align-items-center' onSubmit={sendcomment}>
                                                     <InputEmoji
                                                         className="inp form-control"
