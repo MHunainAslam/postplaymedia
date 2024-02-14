@@ -76,7 +76,8 @@ const JobsTab = () => {
                     <li className="nav-item nav-link active" id="AllTeams-tab" onClick={() => handleComponentChange('AllTeams')} data-bs-toggle="tab" data-bs-target="#AllTeams" type="button" role="tab" aria-controls="AllTeams" aria-selected="false" tabIndex="-1">
                         All Teams
                     </li>
-                    {UserProfiledata?.data?.role?.name === 'Admin' || UserProfiledata?.data?.role?.name === 'Coach' ?
+                    {/* || UserProfiledata?.data?.role?.name === 'Coach'  */}
+                    {UserProfiledata?.data?.role?.name === 'Admin' ?
                         <li className="nav-item nav-link " id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab" aria-controls="categories" aria-selected="false" tabIndex="-1">
                             Create Team
                         </li>
