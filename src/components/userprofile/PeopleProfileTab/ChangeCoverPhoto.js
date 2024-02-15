@@ -8,8 +8,10 @@ import React, { useContext, useRef, useState } from 'react'
 import { APP_URL } from '../../../../config';
 import { GetToken } from '@/utils/Token';
 import { UserContext } from '@/app/UserProfileLayout';
+import { useAppContext } from '@/context/AppContext';
 
 const ChangeCoverPhoto = () => {
+    const { UserProfiledata, UserProfileloader, authme } = useAppContext()
     const token = GetToken('userdetail')
     const { Userdata } = useContext(UserContext);
     const [isloading, setisloading] = useState(false)
@@ -61,6 +63,7 @@ const ChangeCoverPhoto = () => {
                 message.success(response.data?.message)
                 router.push('/profile/activity')
                 setisloading(false)
+                authme()
             })
             .catch(error => {
                 console.error(error);
@@ -71,6 +74,7 @@ const ChangeCoverPhoto = () => {
                     localStorage.removeItem('userdetail')
                 }
                 setisloading(false)
+                
 
 
             });
@@ -87,6 +91,7 @@ const ChangeCoverPhoto = () => {
                 message.success(response.data?.message)
                 router.push('/profile/activity')
                 setisloading(false)
+                authme()
             })
             .catch(error => {
                 console.error(error);

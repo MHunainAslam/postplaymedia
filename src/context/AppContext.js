@@ -42,31 +42,34 @@ export function AppWrapper({ children }) {
     }
   }, [])
 
+  const authme = () => {
+
+    axios.get(`${APP_URL}/api/authMe`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => {
+        console.log('context authMe', response);
+        setUserProfiledata(response?.data)
+        setUserProfileloader(false)
+
+      })
+      .catch(error => {
+        // setUserProfileloader(false)
+        // console.error(error);
+        if (error?.response?.status === 401) {
+          // router.replace('/')
+          deleteCookie('logged');
+          localStorage.removeItem('userdetail')
+        }
+      });
+  }
 
   useEffect(() => {
     if (login) {
+      authme()
 
-
-      axios.get(`${APP_URL}/api/authMe`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        }
-      })
-        .then(response => {
-          console.log('context authMe', response);
-          setUserProfiledata(response?.data)
-          setUserProfileloader(false)
-
-        })
-        .catch(error => {
-          // setUserProfileloader(false)
-          // console.error(error);
-          if (error?.response?.status === 401) {
-            // router.replace('/')
-            deleteCookie('logged');
-            localStorage.removeItem('userdetail')
-          }
-        });
     }
   }, [login])
 
@@ -152,8 +155,83 @@ export function AppWrapper({ children }) {
         }
       });
   }
+  const [Notifications, setNotifications] = useState([])
 
+  const [totalMembernoti, settotalMembernoti] = useState(1)
+  const [CurrentPageNoti, setCurrentPageNoti] = useState(1)
+  const [TotalPagesnoti, setTotalPagesnoti] = useState()
+  const [loading, setLoading] = useState(1)
+  const fetchNoti = async (page) => {
+    try {
+      const response = await fetch(
+        `${APP_URL}/api/get-notifications?is_read=false&per_page=15&page=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // Add other headers if needed
+          },
+        }
+      );
+      const data = await response.json();
+      if (data.success) {
+        // Prepend new messages to the beginning of the array
+        console.log('all req', data);
+        setNotifications(data.data.data)
+        console.log(data)
+        setCurrentPageNoti(data.data.current_page);
+        setTotalPagesnoti(data.data.last_page);
+        settotalMembernoti(data.data.total);
 
+      } else {
+        console.error('Failed to fetch notification');
+
+      }
+    } catch (error) {
+      console.error('Error fetching notification', error);
+      if (error?.response?.status === 401) {
+        router.push('/')
+        deleteCookie('logged');
+        localStorage.removeItem('userdetail')
+      }
+    } finally {
+    }
+  };
+  const fetchNotis = async (page) => {
+    try {
+      const response = await fetch(
+        `${APP_URL}/api/get-notifications?is_read=false&per_page=20&page=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // Add other headers if needed
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Prepend new messages to the beginning of the array
+        console.log('data noti', data)
+        setNotifications((prevMessages) => [...prevMessages, ...data?.data?.data]);
+        setCurrentPageNoti(data.data.current_page);
+        setTotalPagesnoti(data.data.last_page);
+        console.log((prevMessages) => [...prevMessages, data?.data?.data], 'hnxcx')
+      } else {
+        console.error('Failed to fetch messages');
+      }
+    } catch (error) {
+      console.error('Error fetching messages', error);
+      if (error?.response?.status === 401) {
+        router.push('/')
+        deleteCookie('logged');
+        localStorage.removeItem('userdetail')
+      }
+    } finally {
+      setLoading(false);
+
+    }
+  };
   useEffect(() => {
     if (login) {
       spamchatfunc()
@@ -166,12 +244,13 @@ export function AppWrapper({ children }) {
       recentchatfunc()
       receivefrndreq()
       receivegrpreq()
+      fetchNoti()
     }
   }, [login])
 
 
 
-  return <AppContext.Provider value={{ UserProfiledata, UserProfileloader, setlogin, receivefrndreq, FrndReq, receivegrpreq, GrpReq, recentchat, recentchatfunc, spamchatfunc, spamchat }}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{ Notifications, TotalPagesnoti,fetchNotis, CurrentPageNoti, setLoading, fetchNoti, authme, UserProfiledata, UserProfileloader, setlogin, receivefrndreq, FrndReq, receivegrpreq, GrpReq, recentchat, recentchatfunc, spamchatfunc, spamchat }}>{children}</AppContext.Provider>;
 }
 
 export function useAppContext() {

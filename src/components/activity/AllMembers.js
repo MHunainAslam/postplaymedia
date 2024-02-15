@@ -34,11 +34,7 @@ const AllMembers = ({ postdone }) => {
     const router = useRouter()
     const [AllFrndsData, setAllFrndsData] = useState([])
     const [UserDataLoader, setUserDataLoader] = useState(true)
-    const handleLike = (index, like) => {
-        const newLiked = [...Liked];
-        newLiked[index] = !newLiked[index];
-        setLiked(newLiked);
-    };
+
     const toggleComments = (postId) => {
         setCommentArea((prevState) => ({
             ...prevState,
@@ -54,9 +50,6 @@ const AllMembers = ({ postdone }) => {
     };
 
 
-
-    // for fancy box 
-    const postimages = [{}]; // Replace with your image URLs
 
     const [PostmodalOpen, setPostModalOpen] = useState(false);
     const [PostselectedImage, setPostSelectedImage] = useState(null);
@@ -79,7 +72,7 @@ const AllMembers = ({ postdone }) => {
     const fetchPosts = async (page) => {
         try {
             const response = await fetch(
-                `${APP_URL}/api/post?section=groups&per_page=20&page=${page}`,
+                `${APP_URL}/api/post?section=all&per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -90,7 +83,7 @@ const AllMembers = ({ postdone }) => {
             const data = await response.json();
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('posts', data)
+                console.log('posts xx', data)
                 setAllPosts(data.data.data);
                 console.log(data)
                 setCurrentPagefrnd(data.data.current_page);
@@ -179,8 +172,6 @@ const AllMembers = ({ postdone }) => {
             window.removeEventListener('scroll', handleScrollfrnd);
         };
     }, [handleScrollfrnd]);
-
-
     useEffect(() => {
         // getallfrnds()
         fetchPosts()
@@ -258,7 +249,37 @@ const AllMembers = ({ postdone }) => {
             });
     }
 
+    const parseText = (text) => {
+        // Adjusted regex to also match text within square brackets
+        const mentionRegex = /(@\[([^\]]+)\]\((\d+)\))|\[([^\]]+)\]/g;
+        const parts = text.split(mentionRegex).filter(part => part !== undefined);
+        return parts;
+    };
 
+    // Render text segments and convert mentions to Link components
+    const renderText = (text) => {
+        const parts = parseText(text);
+        return parts.map((part, index) => {
+            const mentionMatch = part.match(/@\[([^\]]+)\]\((\d+)\)/);
+            const squareBracketsMatch = part.match(/\[([^\]]+)\]/);
+
+            if (mentionMatch) {
+                const name = mentionMatch[1];
+                const id = mentionMatch[2];
+                return <Link key={index} href={`/user/${id}`}>{name}</Link>;
+            } else if (squareBracketsMatch) {
+                // Ignore parts that match the square brackets pattern
+                return null;
+            }
+            return part; // Render plain text for non-matching parts
+        }).filter(part => part !== null); // Filter out nulls from ignored square bracket parts
+    };
+    const formatMentionsToLinks = (text) => {
+        const mentionRegex = /@\[([^\]]+)\]\((\d+)\)/g;
+        return text.replace(mentionRegex, (match, name, id) => {
+            return `<a href="/user/${id}">${name}</a>`; // Adjust the href as needed
+        });
+    };
     return (
         <>
 
@@ -278,9 +299,12 @@ const AllMembers = ({ postdone }) => {
                         timeDiffString = `${minutesDifference} minutes ago`;
                     } else if (hoursDifference >= 1 && hoursDifference <= 24) {
                         timeDiffString = `${hoursDifference} hours ago`;
-                    } else {
+                    } else if (daysDifference >= 1 && daysDifference <= 7) {
                         timeDiffString = `${daysDifference} days ago`;
+                    } else {
+                        timeDiffString = `${providedTimestamp.slice(0, 10)}`;
                     }
+                    const formattedText = formatMentionsToLinks(item.post_text);
                     return <>
 
                         <div className='post-card mt-4 ' key={i}>
@@ -309,7 +333,13 @@ const AllMembers = ({ postdone }) => {
                                         </li>
                                     }
                                 </div>
-                                <p className='px-3'>{item.post_text}</p>
+                                {/* dangerouslySetInnerHTML={{ __html: formattedText }} */}
+                                {/* <p className='px-3' dangerouslySetInnerHTML={{ __html: formattedText }}></p> */}
+                                {/* <p className='px-3' > {renderText(item.post_text)}</p> */}
+                                <p className='px-3'
+                                    dangerouslySetInnerHTML={{ __html: formattedText }}
+
+                                />
 
                                 {item?.media?.length > 0 ?
                                     <div className={`post-card-main ${item.media.length === 2 ? 'flex-collage' : ''}`}  >
@@ -323,7 +353,7 @@ const AllMembers = ({ postdone }) => {
                                                         <ShowAllImages images={item.media} item={item} />
 
                                                     </div>
-                                                    <FancyBoxPostColaage images={item?.media} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader}/>
+                                                    <FancyBoxPostColaage images={item?.media} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
                                                 </>
                                                 :
                                                 <>
@@ -343,18 +373,7 @@ const AllMembers = ({ postdone }) => {
                                                                 />}
                                                         </>
                                                     ))}
-                                                    {/* {item?.media[0]?.media?.url.slice(-4) == '.mp4' ?
-                                                        <video
-                                                            className='pointer h-100 postimg w-100 dsd'
-                                                            src={IMG_URL + item?.media[0]?.media?.url}
-                                                            controls
-                                                        />
-                                                        :
-                                                        <Image
-                                                            className='pointer h-100 postimg w-100 dsd'
-                                                            src={IMG_URL + item?.media[0]?.media?.url}
-                                                        />
-                                                    } */}
+
                                                 </>
                                             }
                                         </>
@@ -362,12 +381,22 @@ const AllMembers = ({ postdone }) => {
                                     : ''
                                 }
                                 <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} para={item.post_text} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
+
+
                                 <hr className='my-0' />
+
+
                                 <div className="d-flex">
-                                    <p className='para mb-0 p-2 clr-primary'> <i className="bi bi-hand-thumbs-up-fill "></i> {likecount === '' ? item.like_count : item.like_count + likecount}</p>
+                                    <p className='para mb-0 p-2 clr-primary'>
+                                        <i className="bi bi-hand-thumbs-up-fill "></i> {likecount === '' ? item.like_count : item.like_count + likecount}
+                                    </p>
                                     <p className='para text-black mb-0 p-2 clr-primary' ><i class="bi bi-chat-left"></i> {item.comment_count} </p>
                                 </div>
+
+
                                 <hr className='my-0' />
+
+
                                 <div className="post-card-actions mt-0 px-3 py-0">
                                     <div className="d-flex ">
                                         <div className="col-6 text-center border-right-dark py-2">

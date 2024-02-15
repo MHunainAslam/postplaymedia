@@ -27,7 +27,9 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
             <div className="position-relative">
                 <div className="profile-page-cover">
                     {UserdataLoader ?
-                        <Skeleton.Image active />
+                        <div className='skeleton'>
+                            <Skeleton.Image active />
+                        </div>
                         : <>
                             {Userdata?.data?.cover_photo === null ?
                                 <Skeleton.Image /> :
@@ -41,7 +43,9 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                             <div className="row g-0 justify-content-center">
                                 <div className="img-p" style={UserdataLoader ? { height: '200px' } : {}}>
                                     {UserdataLoader ?
-                                        <Skeleton.Image active /> : <>
+                                        <div className='skeleton'>
+                                            <Skeleton.Image active />
+                                        </div> : <>
                                             {Userdata?.data?.profile_photo === null ?
                                                 <Image src="/assets/images/avatar/user.jpg" width={500} height={500} alt='' className="img-fluid rounded-start user-img" /> :
                                                 <Image loader={imgurl} src={Userdata?.data?.profile_photo.url} width={500} height={500} alt='' className="img-fluid rounded-start user-img" />

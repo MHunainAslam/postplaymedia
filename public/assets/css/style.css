@@ -539,6 +539,21 @@ h5 {
   outline: none !important;
 }
 
+.cmnt-i textarea {
+  border: 1px solid var(--border) !important;
+  border-radius: 20px !important;
+  font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))) !important;
+  color: var(--dark-text) !important;
+  width: 100%;
+  padding: 10px;
+  height: auto;
+}
+
+.cmnt-i textarea:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 .para-sm {
   font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))) !important;
 }
@@ -1264,16 +1279,17 @@ h5 {
   cursor: pointer;
 }
 
-:where(.css-dev-only-do-not-override-1g853jt).ant-image-preview-root .ant-image-preview-mask {
-  z-index: 9999;
+.ant-image-preview-mask,:where(.css-dev-only-do-not-override-1g853jt).ant-image-preview-root .ant-image-preview-mask {
+  z-index: 9999 !important;
 }
 
+.ant-image-preview-wrap,
 :where(.css-dev-only-do-not-override-1g853jt).ant-image-preview-root .ant-image-preview-wrap {
-  z-index: 99999;
+  z-index: 99999 !important;
 }
 
 :where(.css-dev-only-do-not-override-1g853jt).ant-image-preview-operations-wrapper {
-  z-index: 999999;
+  z-index: 999999 !important;
 }
 
 .collageContainer2 {
@@ -1434,7 +1450,7 @@ h5 {
   color: var(--dark-text);
 }
 
-.comment-body{
+.comment-body {
   /* max-height:  80vh; */
   overflow: auto;
   flex: 1;
@@ -1604,6 +1620,7 @@ h5 {
   width: 100%;
   border-radius: 30px;
   object-fit: cover;
+  object-position: top;
 }
 
 .addorremoveinv {
@@ -1798,9 +1815,13 @@ h5 {
   min-height: 300px;
 }
 
-.profile-page-cover img {
+.profile-page-cover .ant-image {
   width: 100%;
-  height: calc(250px + (350 - 250) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.profile-page-cover img {
+  width: 100% !important;
+  height: calc(250px + (350 - 250) * ((100vw - 320px) / (1920 - 320))) !important;
   object-fit: cover;
   object-position: center;
   /* opacity: 0.7; */
@@ -2160,12 +2181,13 @@ h5 {
   background-color: white;
   box-shadow: 0 1px 12px 0 #00000021;
   padding: 5px;
-  
+
 }
 
 .suggestion-item .focused {
   background-color: var(--primary);
 }
+
 .suggestion-item li {
   text-decoration: none;
   list-style: none;
@@ -2176,6 +2198,18 @@ h5 {
 .suggestion-item li:hover {
   background-color: var(--primary);
   color: white !important;
+}
+
+.skeleton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+}
+
+.skeleton svg {
+  max-width: 30px;
 }
 
 @-webkit-keyframes mover {

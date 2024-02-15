@@ -17,7 +17,7 @@ const DltGrpModal = () => {
                             Want To Delete This Group ?
                         </div>
                         <div className="modal-footer bg-transparent justify-content-center border-0 pt-4">
-                            <button type="button" className="btn secondary-btn close-grp-dlt-modal px-5 text-white" data-bs-dismiss="modal">No</button>
+                            <button type="button" className="btn secondary-btn close-grp-dlt-modalll px-5 text-white" data-bs-dismiss="modal">No</button>
                             <button type="button" onClick={() => DltGrp({ grpid: groupbyid, router: router.push })} className="btn primary-btn px-5"><p>Yes</p></button>
                         </div>
                     </div>

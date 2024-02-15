@@ -9,6 +9,7 @@ import { APP_URL } from '../../../../config';
 import { GetToken } from '@/utils/Token';
 import { UserContext } from '@/app/UserProfileLayout';
 import Webcam from 'react-webcam'
+import { useAppContext } from '@/context/AppContext';
 const WebcamComponent = () => <Webcam />
 const videoConstraints = {
     width: 400,
@@ -17,6 +18,7 @@ const videoConstraints = {
 }
 
 const PeopleChangeProfile = () => {
+    const { UserProfiledata, UserProfileloader, authme } = useAppContext()
     const token = GetToken('userdetail')
     const { Userdata } = useContext(UserContext);
     const [isloading, setisloading] = useState(false)
@@ -70,6 +72,7 @@ const PeopleChangeProfile = () => {
                 router.push('/profile/activity')
                 setisloading(false)
                 setbtnActive(false)
+                authme()
             })
             .catch(error => {
                 console.error(error);
@@ -97,6 +100,7 @@ const PeopleChangeProfile = () => {
                 message.success(response.data?.message)
                 router.push('/profile/activity')
                 setisloading(false)
+                authme()
             })
             .catch(error => {
                 console.error(error);

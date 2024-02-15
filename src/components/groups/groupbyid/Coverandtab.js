@@ -1,15 +1,16 @@
 'use client'
-import Image from 'next/image'
+// import Image from 'next/image'
+
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Skeleton } from 'antd'
+import { Image, Skeleton } from 'antd'
 import UserProfileTabs from '@/components/userprofile/UserProfileTabs'
 import { IMG_URL } from '../../../../config'
 import GroupProfileTab from './GroupProfileTab'
 import { imgurl } from '@/utils/Token'
 
 const Coverandtab = ({ grpdata, isLoading }) => {
-   
+
     const router = useRouter()
 
     const movetoedit = () => {
@@ -41,7 +42,7 @@ const Coverandtab = ({ grpdata, isLoading }) => {
                         : <>
                             {grpdata?.data?.group?.cover_photo === null ?
                                 <Skeleton.Image /> :
-                                <Image loader={imgurl} src={grpdata?.data?.group?.cover_photo.url} width={1920} height={1080} alt=''></Image>
+                                <Image src={IMG_URL + grpdata?.data?.group?.cover_photo.url} alt=''></Image>
                             }
                         </>}
                 </div>
@@ -56,7 +57,7 @@ const Coverandtab = ({ grpdata, isLoading }) => {
                                         <>
                                             {grpdata?.data?.group?.profile_photo === null ?
                                                 <Image src="/assets/images/avatar/user.jpg" width={500} height={500} alt='' className="img-fluid rounded-start user-img" /> :
-                                                <Image loader={imgurl} src={grpdata?.data?.group?.profile_photo.url} width={500} height={500} alt='' className="img-fluid rounded-start user-img" />
+                                                <Image src={IMG_URL + grpdata?.data?.group?.profile_photo.url} width={500} height={500} alt='' className="img-fluid rounded-start user-img" />
                                             }
                                         </>}
 
@@ -80,7 +81,7 @@ const Coverandtab = ({ grpdata, isLoading }) => {
                             <div className="mx-auto mt-auto">
 
                                 <div className=" profile-tabs d-md-flex d-none  my-3">
-                                    <GroupProfileTab grpdata={grpdata}/>
+                                    <GroupProfileTab grpdata={grpdata} />
                                 </div>
                             </div>
                         </div>
@@ -89,7 +90,7 @@ const Coverandtab = ({ grpdata, isLoading }) => {
             </div >
             <div className="container d-md-none">
                 <div className="profile-tabs  " >
-                    <GroupProfileTab grpdata={grpdata}/>
+                    <GroupProfileTab grpdata={grpdata} />
                 </div>
             </div>
 

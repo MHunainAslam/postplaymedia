@@ -17,6 +17,9 @@ const LoginForm = () => {
   const router = useRouter()
   const { UserProfiledata, UserProfileloader, setlogin } = useAppContext()
   const { setfrnd } = useFrndContext()
+  useEffect(() => {
+    setlogin(false)
+  }, [])
 
 
   const loginuser = (e) => {
@@ -36,12 +39,12 @@ const LoginForm = () => {
           router.push('/activity')
           setisLoading(false)
           document.querySelector('.closelogin-modal').click()
-          
+
+
         })
         .catch(error => {
           console.error(error);
           if (error.response) {
-
             message.error(error?.response?.data?.message)
           } else {
             message.error(error?.message)

@@ -11,7 +11,7 @@ import { useAppContext } from '@/context/AppContext'
 
 const PeopleProfileEdit = ({ }) => {
     const token = GetToken('userdetail')
-    const { UserProfiledata, UserProfileloader } = useAppContext()
+    const { UserProfiledata, UserProfileloader ,authme} = useAppContext()
     const [Name, setName] = useState(UserProfiledata?.data?.name)
     const [number, setnumber] = useState(UserProfiledata?.data?.phone)
     const [DateofBirth, setDateofBirth] = useState(UserProfiledata?.data?.dob)
@@ -90,6 +90,7 @@ const PeopleProfileEdit = ({ }) => {
                 message.success(response.data?.message)
                 router.push('/profile/activity')
                 setisloading(false)
+                authme()
             })
             .catch(error => {
                 console.error(error);
@@ -116,6 +117,7 @@ const PeopleProfileEdit = ({ }) => {
                 message.success(response.data?.message)
                 router.push('/profile/activity')
                 setisloading(false)
+                authme()
             })
             .catch(error => {
                 console.error(error);

@@ -103,7 +103,7 @@ const GroupInv = ({ xl, md, lg }) => {
                             ))}
                         </>
                         : <div className="alert-box">
-                            <p>You don&apos;t have friends</p>
+                            <p>No Group Invitations!</p>
                         </div>}
                 </>
             }

@@ -1,10 +1,10 @@
 'use client'
-import Image from 'next/image'
+// import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import UserProfileTabs from '../userprofile/UserProfileTabs'
 import { APP_URL, IMG_URL } from '../../../config'
 import { useParams, useRouter } from 'next/navigation'
-import { Skeleton, message } from 'antd'
+import { Image, Skeleton, message } from 'antd'
 import ProfileTabs from './ProfileTabs'
 import { GetToken } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
@@ -135,11 +135,13 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
             <div className="position-relative">
                 <div className="profile-page-cover">
                     {UserdataLoader ?
-                        <Skeleton.Image active />
+                        <div className='skeleton'>
+                            <Skeleton.Image active />
+                        </div>
                         : <>
                             {Userdata?.data?.cover_photo === null ?
                                 <Skeleton.Image /> :
-                                <Image loader={imgurl} src={Userdata?.data?.cover_photo.url} width={1920} height={1080} alt=''></Image>
+                                <Image src={IMG_URL + Userdata?.data?.cover_photo.url} className='h-100 ' alt=''></Image>
                             }
                         </>}
                 </div>
@@ -149,10 +151,12 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                             <div className="row g-0 justify-content-center">
                                 <div className="img-p" style={UserdataLoader ? { height: '200px' } : {}}>
                                     {UserdataLoader ?
-                                        <Skeleton.Image active /> : <>
+                                        <div className='skeleton'>
+                                            <Skeleton.Image active />
+                                        </div> : <>
                                             {Userdata?.data?.profile_photo === null ?
-                                                <Image src="/assets/images/avatar/user.jpg" width={500} height={500} alt='' className="img-fluid rounded-start user-img" /> :
-                                                <Image loader={imgurl} src={Userdata?.data?.profile_photo.url} width={500} height={500} alt='' className="img-fluid rounded-start user-img" />
+                                                <img src="/assets/images/avatar/user.jpg" alt='' className="img-fluid rounded-start user-img" /> :
+                                                <Image src={IMG_URL + Userdata?.data?.profile_photo.url}  alt='' className="img-fluid rounded-start user-img" />
                                             }
                                         </>}
 
@@ -192,7 +196,7 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                                             : ''
                                             }
                                         </div>
-                                       
+
                                     </div>
                                 </div>
                             </div>

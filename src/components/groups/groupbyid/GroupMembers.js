@@ -11,6 +11,7 @@ import { grpContext } from '@/app/GroupLayout'
 import AppContext from 'antd/es/app/context'
 import { useAppContext } from '@/context/AppContext'
 import LeaveGroup from './LeaveGroup'
+import RemoveUserFromGrp from './RemoveUserFromGrp'
 
 const GroupMembers = () => {
     const { UserProfiledata } = useAppContext()
@@ -19,7 +20,7 @@ const GroupMembers = () => {
     const { grpdata, getgrpdata } = useContext(grpContext)
     const [isLoading, setisLoading] = useState(true)
     const [grpMembers, setgrpMembers] = useState([])
-
+    const [userid, setuserid] = useState('')
     useEffect(() => {
         setisLoading(false)
         setgrpMembers(grpdata?.data?.participants?.participants)
@@ -40,7 +41,7 @@ const GroupMembers = () => {
                             <>
                                 {grpMembers?.map((item, i) => (
                                     <div className="col-xl-4 col-md-6 mt-3" key={i}>
-                                        <div className="card people-card">
+                                        <div className="card people-card h-100">
                                             <div className="card-body">
 
 
@@ -75,9 +76,12 @@ const GroupMembers = () => {
                                             </div>
                                             <div className="card-footer">
                                                 {UserProfiledata?.data?.id === item?.user?.id ?
-                                                    <button className='btn-outline-danger rounded-5 btn px-2 py-1' data-bs-toggle="modal" data-bs-target="#LeaveGroup">Leave</button>
+                                                    ''
                                                     :
-                                                    <Link href={`/people/${item?.user?.id}/activity`} className='btn secondary-btn' ><p className='mb-0 px-4'>Profile</p></Link>
+                                                    <>
+                                                        {UserProfiledata?.data?.id === grpdata?.data?.group?.created_by?.id &&
+                                                            <button className='btn-outline-danger rounded-5 btn px-4 py-1' data-bs-toggle="modal" onClick={(e) => setuserid(item?.user?.id)} data-bs-target="#RemoveUserFromGrp">Remove User </button>}
+                                                    </>
                                                 }
                                             </div>
                                         </div>
@@ -88,7 +92,7 @@ const GroupMembers = () => {
                     </>
                 }
             </div>
-            <LeaveGroup getgrpdata={getgrpdata} />
+            <RemoveUserFromGrp getgrpdata={getgrpdata} userid={userid} />
         </>
     )
 }

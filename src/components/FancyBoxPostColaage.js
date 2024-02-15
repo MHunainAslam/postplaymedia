@@ -152,7 +152,7 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
                                                 {images[selectedImage]?.media?.url.slice(-4) == '.mp4' ?
 
                                                     <video
-                                                        className='pointer h-100 postimg w-100 dsd'
+                                                        className='pointer h-100 postimg w-100 dsd postmodalimg'
                                                         src={IMG_URL + item?.media[0]?.media?.url}
                                                         controls
                                                     />

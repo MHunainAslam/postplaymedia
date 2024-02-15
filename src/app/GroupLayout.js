@@ -142,7 +142,7 @@ const GroupLayout = ({ children, GroupPage }) => {
                                                 {UserProfiledata?.data?.id === grpdata?.data?.group?.created_by?.id ?
                                                     <button className='btn-outline-danger rounded-5 btn px-2 py-1' data-bs-toggle="modal" data-bs-target="#DltGroup">Delete Group</button>
                                                     : <>{Btn_Trigger === 'view-group' ?
-                                                        <button className='btn-outline-danger rounded-5 btn px-2 py-1' data-bs-toggle="modal" data-bs-target="#LeaveGroup">Leave</button>
+                                                        <button className='btn-outline-danger rounded-5 btn px-4 py-1' data-bs-toggle="modal" data-bs-target="#LeaveGroup">Leave </button>
 
 
                                                         :
@@ -211,8 +211,8 @@ const GroupLayout = ({ children, GroupPage }) => {
                         </div>
                     </>}
             </>}
-            <DltGrpModal />
             <LeaveGroup getgrpdata={getgrpdata} />
+            <DltGrpModal />
         </>
     )
 }

@@ -10,7 +10,7 @@ const PeopleActivityTab = () => {
             <div className="mt-3 profile-tabs">
                 <ul className="peopletab nav nav-tabs border-0 border-b-0  " role="tablist">
                     <li className="nav-item nav-link active text-center" id="PeopleActivityPersonal-tab" data-bs-toggle="tab" data-bs-target="#PeopleActivityPersonal" type="button" role="tab" aria-controls="PeopleActivityPersonal" aria-selected="false" tabIndex="-1">
-                        <p className="para clr-text mb-0">Personal sss</p>
+                        <p className="para clr-text mb-0">Personal </p>
                     </li>
                     <li className="nav-item nav-link text-center" id="PeopleActivityMention-tab" data-bs-toggle="tab" data-bs-target="#PeopleActivityMention" type="button" role="tab" aria-controls="PeopleActivityMention" aria-selected="false" tabIndex="-1">
                         <p className="para clr-text mb-0">Mentions</p>

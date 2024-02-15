@@ -17,11 +17,13 @@ const ActivityHeader = ({ }) => {
     // const [UserProfiledata, setUserProfiledata] = useState()
     // const [UserProfileloader, setUserProfileloader] = useState(true)
     const [NotiShow, setNotiShow] = useState(false)
-    const [Notifications, setNotifications] = useState([])
+
+
     const router = useRouter()
     const token = GetToken('userdetail')
     const ref = useRef(null);
-    const { UserProfiledata, UserProfileloader, receivefrndreq, FrndReq, receivegrpreq, GrpReq } = useAppContext()
+    const FrndContainerRef = useRef(null);
+    const { fetchNoti, Notifications, TotalPagesnoti,fetchNotis, UserProfiledata, UserProfileloader, receivefrndreq, FrndReq, receivegrpreq, GrpReq, CurrentPageNoti, setLoading } = useAppContext()
     const logout = () => {
         deleteCookie('logged');
         localStorage.removeItem('userdetail')
@@ -118,25 +120,41 @@ const ActivityHeader = ({ }) => {
     }
 
 
-    useEffect(() => {
-        axios.get(`${APP_URL}/api/get-notifications`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('all req', response);
-                setNotifications(response.data.data.data)
-            })
-            .catch(error => {
+    const handleLoadMorenoti = () => {
+        if (CurrentPageNoti < TotalPagesnoti) {
+            setLoading(true);
+            fetchNotis(CurrentPageNoti + 1);
+        }
+    };
+    const handleScrollnoti = () => {
+        const container = FrndContainerRef.current;
+        // Check if the user has scrolled to the bottom of the div
+        // if (container && container.scrollTop <= 200) {
+        if (container &&
+            container.scrollHeight - container.scrollTop <= container.clientHeight - 0) {
+            console.log('hn')
+            handleLoadMorenoti();
+        }
+    };
 
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router?.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
+    useEffect(() => {
+        const container = FrndContainerRef.current;
+        container.addEventListener('scroll', handleScrollnoti);
+        return () => {
+            container.removeEventListener('scroll', handleScrollnoti);
+        };
+    }, [handleScrollnoti]);
+    useEffect(() => {
+        // Fetch initial messages when the component mounts
+        if (CurrentPageNoti === 1 && Notifications.length === 0) {
+            fetchNoti(CurrentPageNoti);
+        }
+    }, [CurrentPageNoti, token]);
+
+
+    useEffect(() => {
+        // getallfrnds()
+
     }, [])
 
     return (
@@ -203,11 +221,11 @@ const ActivityHeader = ({ }) => {
                                     {/* <li><button className="btn secondary-btn w-100"  >All Request</button></li> */}
                                 </ul>
                             </li>
-                            <li onClick={receivegrpreq} className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
+                            <li onClick={fetchNoti} className={`nav-item dropdown list-unstyled header-btns ${Notifications?.length === 0 ? '' : 'header-btns-active'}`}>
                                 <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-bell"></i>
                                 </a>
-                                <ul className={`dropdown-menu py-1 border-0 div-notifications ${NotiShow ? 'show show-c' : ''}`} ref={ref}>
+                                <ul className={`dropdown-menu py-1 border-0 div-notifications ${NotiShow ? 'show show-c' : ''}`} ref={FrndContainerRef}>
                                     <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Notifications</a></li>
                                     <hr />
                                     {Notifications?.length === 0 ?
@@ -231,7 +249,7 @@ const ActivityHeader = ({ }) => {
                                                                 </Link>
                                                             }
                                                             <p className='mb-0 para text-black ms-2 fw-normal'>
-                                                                <span className='text-capitalize'> {item.body} </span>
+                                                                <span className='text-capitalize'> {item.body}  {i}</span>
                                                                 <span className='fw-bold text-capitalize'> {item.group_id}</span>
                                                             </p>
                                                         </div>

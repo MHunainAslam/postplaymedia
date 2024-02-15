@@ -15,7 +15,7 @@ export const DltGrp = ({ grpid, router }) => {
                 console.log('dlt grp', response);
                 message.success(response.data.message)
                 router('/groups')
-                document.querySelector('.close-grp-dlt-modal').click()
+                document.querySelector('.close-grp-dlt-modalll').click()
             })
             .catch(error => {
                 console.error(error);

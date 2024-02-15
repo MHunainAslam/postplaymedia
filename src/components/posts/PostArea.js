@@ -8,16 +8,16 @@ import { useAppContext } from '@/context/AppContext'
 import axios from 'axios'
 import { GetToken } from '@/utils/Token'
 import { useParams } from 'next/navigation'
-import { message } from 'antd'
+import { Skeleton, message } from 'antd'
 import { Mention, MentionsInput } from 'react-mentions'
 import { useFrndContext } from '@/context/FriendContext'
 
 const PostArea = ({ postdone, setpostdone }) => {
     const token = GetToken('userdetail')
     const { groupbyid } = useParams()
-    const { UserProfiledata } = useAppContext()
+    const { UserProfiledata, UserProfileloader } = useAppContext()
     const { Datafrnd } = useFrndContext()
-
+    const [mentionuserid, setmentionuserid] = useState([])
     const [PostArea, setPostArea] = useState(false)
     const [img, setimg] = useState([])
     const [PostText, setPostText] = useState()
@@ -91,6 +91,7 @@ const PostArea = ({ postdone, setpostdone }) => {
             post_text: PostText?.toString(),
             status: 'active',
             post_in: 'profile',
+            mentioned_users: mentionuserid,
             ...(img.length > 0 && { media: img }),
 
         }, {
@@ -117,8 +118,10 @@ const PostArea = ({ postdone, setpostdone }) => {
 
     // Prepare friends data for mention
     const friendsData = Datafrnd.map(friend => ({
+
         id: String(friend.friend.id),
         display: String(friend.friend.name),
+
     }));
 
     useEffect(() => {
@@ -132,12 +135,32 @@ const PostArea = ({ postdone, setpostdone }) => {
             // setFocusedSuggestionIndex(i => i != friendsData.length - 1 && Math.min(i + 1, friendsData.length - 1));
             setFocusedSuggestionIndex(i => friendsData.length - 1 != i && i + 1);
             console.log('doewn', focusedSuggestionIndex, friendsData.length)
+            console.log(friendsData)
         } else if (event.key === "ArrowUp") {
             event.preventDefault(); // Prevent cursor movement
             setFocusedSuggestionIndex(i => i != 0 ? i - 1 : i = friendsData.length - 1);
             console.log('up')
         }
     };
+    const parseMentionsForIds = (text) => {
+        const mentionRegex = /\@\[([^\]]+)\]\((\d+)\)/g; // Adjusted regex to capture ID within parentheses
+        let match;
+        const ids = [];
+
+        while ((match = mentionRegex.exec(text)) !== null) {
+            ids.push(match[2]); // match[2] is the captured group for the ID
+        }
+
+        return ids;
+    };
+
+    useEffect(() => {
+        const ids = parseMentionsForIds(PostText);
+        setmentionuserid(ids);
+        console.log(ids)
+    }, [PostText]);
+
+
 
     return (
         <>
@@ -167,10 +190,13 @@ const PostArea = ({ postdone, setpostdone }) => {
                 <div className="card-body p-md-4">
                     <div className="d-flex">
                         <Link href='/profile'>
-                            {UserProfiledata?.data?.profile_photo === null ?
-                                <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
-                                :
-                                <Image className='post-profile object-fit-cover' loader={imgurl} src={UserProfiledata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
+                            {UserProfileloader ?
+                                <Skeleton.Avatar active size={25} /> :
+                                UserProfiledata?.data?.profile_photo === null ?
+                                    <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
+                                    :
+                                    <Image className='post-profile object-fit-cover' loader={imgurl} src={UserProfiledata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
+
                             }
                         </Link>
                         {PostArea === true ?
@@ -182,6 +208,7 @@ const PostArea = ({ postdone, setpostdone }) => {
                                 placeholder={`What's new, ${UserProfiledata?.data?.name}?`}
                                 onKeyUp={handleKeyDown}
                             >
+
                                 <Mention
                                     trigger="@"
                                     data={friendsData}

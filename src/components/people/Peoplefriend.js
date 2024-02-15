@@ -20,7 +20,7 @@ const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
 
 
 
-    console.log('userdetail', userdata?.user_id)
+    console.log('userdetail', AllFrndsData)
 
     const unfriend = (e) => {
         setbtndisable(true)
@@ -96,13 +96,13 @@ const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                                                 }
 
                                                 {userprofile == item.user?.id ?
-                                                  
-                                                        <p className="heading text-black mb-2 mt-4 text-capitalize">{item?.friend?.name}</p>
-                                                  
+
+                                                    <p className="heading text-black mb-2 mt-4 text-capitalize">{item?.friend?.name}</p>
+
                                                     :
-                                                   
-                                                        <p className="heading text-black mb-2 mt-4 text-capitalize">{item?.user?.name}</p>
-                                                   
+
+                                                    <p className="heading text-black mb-2 mt-4 text-capitalize">{item?.user?.name}</p>
+
                                                 }
 
                                                 {/* <p className="para clr-light">Active 2 minutes ago </p> */}
@@ -118,10 +118,11 @@ const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                                                 </div>
                                             </div>
                                             <div className="card-footer">
+
                                                 {userdata.user_id == item.user?.id ?
                                                     <Link href={'/profile/profile'} className='btn secondary-btn px-4'>Profile</Link>
                                                     :
-                                                    <Link href={`/people/${item?.user?.id}/activity`} className='btn secondary-btn px-4'>Profile</Link>
+                                                    <Link href={`/people/${item.friend_id == userprofile ? item.user_id : item.friend_id}/activity`} className='btn secondary-btn px-4'>Profile</Link>
                                                 }
                                             </div>
                                         </div>
