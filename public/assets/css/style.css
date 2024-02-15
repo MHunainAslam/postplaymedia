@@ -2207,7 +2207,9 @@ h5 {
   height: 100%;
   align-items: center;
 }
-
+.asd{
+text-decoration: none !important;
+}
 .skeleton svg {
   max-width: 30px;
 }

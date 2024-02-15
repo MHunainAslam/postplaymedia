@@ -266,7 +266,7 @@ const AllMembers = ({ postdone }) => {
             if (mentionMatch) {
                 const name = mentionMatch[1];
                 const id = mentionMatch[2];
-                return <Link key={index} href={`/user/${id}`}>{name}</Link>;
+                return <Link key={index} href={`/people/${id}`}>{name}</Link>;
             } else if (squareBracketsMatch) {
                 // Ignore parts that match the square brackets pattern
                 return null;
@@ -274,12 +274,23 @@ const AllMembers = ({ postdone }) => {
             return part; // Render plain text for non-matching parts
         }).filter(part => part !== null); // Filter out nulls from ignored square bracket parts
     };
+    const ss = 'ff'
+    const [MentionName, setMentionName] = useState('')
+
     const formatMentionsToLinks = (text) => {
+        const router = useRouter(); // Get the router object using the useRouter hook
+        var handleClick = (id) => {
+            router.push(`/people/${id}/activity`);
+        };
         const mentionRegex = /@\[([^\]]+)\]\((\d+)\)/g;
         return text.replace(mentionRegex, (match, name, id) => {
-            return `<a href="/user/${id}">${name}</a>`; // Adjust the href as needed
+            return `<a class="asd" href="/people/${id}/activity">${name}</a>`
         });
     };
+    // const handleClick = (id) => {
+    //     const router = useRouter(); // Get the router object using the useRouter hook
+    //     router.push(`/people/${id}/activity`);
+    // };
     return (
         <>
 
@@ -340,6 +351,8 @@ const AllMembers = ({ postdone }) => {
                                     dangerouslySetInnerHTML={{ __html: formattedText }}
 
                                 />
+                                {/* <Link href={'/'} className='text-decoration-none'>lll</Link> */}
+                                {/* <p>{formattedText}</p> */}
 
                                 {item?.media?.length > 0 ?
                                     <div className={`post-card-main ${item.media.length === 2 ? 'flex-collage' : ''}`}  >
