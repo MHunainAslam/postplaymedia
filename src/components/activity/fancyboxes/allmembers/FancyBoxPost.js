@@ -3,15 +3,17 @@ import { GetToken, imgurl } from '@/utils/Token';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import InputEmoji from "react-input-emoji";
-import { APP_URL, IMG_URL } from '../../config';
+import { APP_URL, IMG_URL } from '../../../../../config';
 import { useAppContext } from '@/context/AppContext';
-import DeleteComment from './posts/DeleteComment';
+import DeleteComment from '../../../posts/DeleteComment';
 import axios from 'axios';
 import { useFrndContext } from '@/context/FriendContext';
 import { Mention, MentionsInput } from 'react-mentions';
 import Link from 'next/link';
+import { formatMentionsToLinks } from '@/utils/GrpFunctions';
 const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId, para, name, profile, time, item, likepost, dislikepost, handleToggle, likecount, Comments, getcomment }) => {
     const { Datafrnd } = useFrndContext()
+
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const token = GetToken('userdetail')
     const [EditCmnt, setEditCmnt] = useState(false)
@@ -73,7 +75,7 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
 
         } else {
 
-            axios.put(`${APP_URL}/api/edit-comment/${e}`, { body: cmnt }, {
+            axios.put(`${APP_URL}/api/edit-comment/${e}`, { body: cmnt, mentioned_users: mentionuserid }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -152,9 +154,7 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
             console.log('up')
         }
     };
-    const closemodal = () => {
-        document.querySelector('.close.pointer')?.click()
-    }
+
 
     const parseMentionsForIds = (text) => {
         const mentionRegex = /\@\[([^\]]+)\]\((\d+)\)/g; // Adjusted regex to capture ID within parentheses
@@ -173,8 +173,22 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
         setmentionuserid(ids);
         console.log(ids)
     }, [text]);
+    useEffect(() => {
+        const ids = parseMentionsForIds(cmnt);
+        setmentionuserid(ids);
+        console.log(ids)
+    }, [cmnt]);
+    const closemodal = () => {
+        document.querySelector('.close-fancybox-s')?.click()
+    }
+    // const formatMentionsToLinks = (text) => {
+    //     const aa = () => { console.log('first') }
+    //     const mentionRegex = /@\[([^\]]+)\]\((\d+)\)/g;
+    //     return text.replace(mentionRegex, (match, name, id) => {
+    //         return `<p>${name}</p>`
+    //     });
 
-
+    // };
     return (
 
         <>
@@ -200,7 +214,7 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                             <Image width={5000} height={5000} src={images} loader={imgurl} className='w-100 postmodalimg object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
                                                         }
                                                     </>
-                                                    : <p className='para-lg w-100 text-white text-center px-5'>{para}</p>}
+                                                    : <p className='para-lg w-100 text-white text-center px-5'>{formatMentionsToLinks(para)}</p>}
                                                 {/* <button className='post-back-btn' onClick={prevImage}><i className="bi bi-chevron-left"></i></button>
                                         <button className='post-next-btn' onClick={nextImage}><i className="bi bi-chevron-right"></i></button> */}
                                             </div>
@@ -210,16 +224,18 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                 <div>
 
                                                     <div className="d-flex align-items-center">
-                                                        {profile === null ?
-                                                            <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
-                                                            : <Image loader={imgurl} src={profile?.url} alt="" width={100} height={100} className='object-fit-cover post-profile'></Image>
-                                                        }
+                                                        <Link href={`${item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/activity' : `/people/${item?.created_by?.id}/activity`}`} onClick={closemodal}>
+                                                            {profile === null ?
+                                                                <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
+                                                                : <Image loader={imgurl} src={profile?.url} alt="" width={100} height={100} className='object-fit-cover post-profile'></Image>
+                                                            }
+                                                        </Link>
                                                         <div className="">
                                                             <p className="heading-sm text-black mb-0 ms-3 text-capitalize">{name}</p>
                                                             <p className="para clr-light mb-0 ms-3">{time}</p>
                                                         </div>
                                                         <div className="d-flex justify-content-end ms-auto">
-                                                            <span className="close pointer" data-bs-dismiss="modal" onClick={closeModal}><i class="bi bi-x-lg"></i></span>
+                                                            <span className="close pointer close-fancybox-s" data-bs-dismiss="modal" onClick={closeModal}><i className="bi bi-x-lg"></i></span>
                                                         </div>
                                                     </div>
                                                     <div className="post-card-actions py-2">
@@ -231,7 +247,7 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                                 <i className="bi bi-hand-thumbs-up "></i> {likecount === '' ? item.like_count : item.like_count + likecount}
                                                             </span>
                                                         }
-                                                        <span className='pointer'><i class="bi bi-chat-left mb-0 clr-primary"></i> {Comments?.length}</span>
+                                                        <span className='pointer'><i className="bi bi-chat-left mb-0 clr-primary"></i> {Comments?.length}</span>
 
                                                     </div>
 
@@ -256,18 +272,47 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                                             </Link>
                                                                             <div className='w-100'>
                                                                                 {EditCmnt[i] ?
-                                                                                    <input type="text" value={cmnt} onChange={(e) => setcmnt(e.target.value)} className='form-control back-border text-black inp' name="" id="" />
-                                                                                    : <input type="text" value={item.body} readOnly className='form-control back-border text-black inp' name="" id="" />
+                                                                                    <>
+                                                                                        <MentionsInput
+                                                                                            value={cmnt}
+                                                                                            onChange={(event, newValue) => setcmnt(newValue)}
+                                                                                            className=" cmnt-e-i"
+                                                                                            style={{ width: '100%', height: '35px' }}
+                                                                                            placeholder={`What's new, ${UserProfiledata?.data?.name}?`}
+                                                                                            onKeyUp={handleKeyDown}
+                                                                                        >
+                                                                                            <Mention
+                                                                                                trigger="@"
+                                                                                                data={friendsData}
+                                                                                                renderSuggestion={(entry, search, highlightedDisplay, index, focused) => (
+                                                                                                    <ul className='suggestion-item'>
+                                                                                                        <li className={` para  ${index == focusedSuggestionIndex ? 'focused' : ''}`}
+                                                                                                            style={{ color: index == focusedSuggestionIndex ? 'white' : '#1763ac' }}
+                                                                                                        >
+                                                                                                            {highlightedDisplay}
+                                                                                                        </li>
+                                                                                                    </ul>
+                                                                                                )}
+                                                                                            />
+                                                                                        </MentionsInput>
+
+                                                                                    </>
+                                                                                    :
+                                                                                    <p className='form-control back-border text-black inp mb-0' name="" id="" >{formatMentionsToLinks(item.body)}</p>
                                                                                 }
                                                                                 <div className="d-flex mt-1 align-items-center">
                                                                                     {/* <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => RplyComments(i)} >Rply</p> */}
                                                                                     {item.user_id == UserProfiledata?.data?.id &&
                                                                                         <>
                                                                                             {EditCmnt[i] ?
-                                                                                                <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => sendeditcomment(item.id)} >Save</p>
-                                                                                                : <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { EditComments(i), setcmnt(item.body) }} >Edit</p>
-                                                                                            }
-                                                                                            <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { setdltcommentmodal(true), setCommentid(item.id) }}>Delete </p>
+                                                                                                <>
+                                                                                                    <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => sendeditcomment(item.id)} >Save</p>
+                                                                                                    <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { EditComments(i) }} >Cancel</p>
+                                                                                                </>
+                                                                                                :
+                                                                                                <> <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { EditComments(i), setcmnt(item.body) }} >Edit</p>
+                                                                                                    <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { setdltcommentmodal(true), setCommentid(item.id) }}>Delete </p>
+                                                                                                </>}
                                                                                         </>
                                                                                     }
                                                                                 </div>
@@ -331,7 +376,7 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                         />
                                                     </MentionsInput>
 
-                                                    <button className='btn primary-btn commentsendbtn' type='submit'><p>{isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : <i class="bi bi-send"></i>}</p></button>
+                                                    <button className='btn primary-btn commentsendbtn' type='submit'><p>{isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : <i className="bi bi-send"></i>}</p></button>
                                                 </form>
                                             </div>
                                         </div>

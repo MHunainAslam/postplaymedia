@@ -47,8 +47,8 @@ const CreateChatGrp = () => {
         <>
 
 
-            <div class="modal fade" id="createchtgrp" tabindex="-1" aria-labelledby="createchtgrpLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
+            <div className="modal fade" id="createchtgrp" tabIndex="-1" aria-labelledby="createchtgrpLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
                     {ActiveComponent === 'grp_name' && <>
                         <div className="modal-content  py-4">
                             <div className="modal-body ">

@@ -186,9 +186,7 @@ const Chat = ({ TabState, param }) => {
 
         // Add scroll event listener when the component mounts
         container.addEventListener('scroll', handleScroll);
-        console.log('yahi');
-
-        // Remove the event listener when the component unmounts
+      // Remove the event listener when the component unmounts
         return () => {
             container.removeEventListener('scroll', handleScroll);
         };
@@ -238,7 +236,6 @@ const Chat = ({ TabState, param }) => {
         console.log(currentPage)
         const interval = setInterval(() => {
             every10(1)
-            console.log('im' ,params)
         }, 10000);
         return () => clearInterval(interval);
     }, [params])

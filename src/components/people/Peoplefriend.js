@@ -120,7 +120,7 @@ const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                                             <div className="card-footer">
 
                                                 {userdata.user_id == item.user?.id ?
-                                                    <Link href={'/profile/profile'} className='btn secondary-btn px-4'>Profile</Link>
+                                                    <Link href={'/profile/activity'} className='btn secondary-btn px-4'>Profile</Link>
                                                     :
                                                     <Link href={`/people/${item.friend_id == userprofile ? item.user_id : item.friend_id}/activity`} className='btn secondary-btn px-4'>Profile</Link>
                                                 }

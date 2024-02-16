@@ -58,7 +58,7 @@ const ActivitySidebar = () => {
                                             }
                                         </div>
                                         {UserProfileloader ? <div className='text-skeleton-2'> <Skeleton active paragraph={{ rows: 0 }} height={50} /> </div> :
-                                            <Link href={'/profile/profile'} className="heading mb-0 text-decoration-none text-capitalize">
+                                            <Link href={'/profile/activity'} className="heading mb-0 text-decoration-none text-capitalize">
                                                 {UserProfiledata?.data?.name}
                                             </Link>
                                         }

@@ -8,16 +8,16 @@ import { useAppContext } from '@/context/AppContext'
 import axios from 'axios'
 import { GetToken } from '@/utils/Token'
 import { useParams } from 'next/navigation'
-import { message } from 'antd'
+import { Skeleton, message } from 'antd'
 import { Mention, MentionsInput } from 'react-mentions'
 import { useFrndContext } from '@/context/FriendContext'
 
 const GrpPostArea = ({ postdone, setpostdone }) => {
     const token = GetToken('userdetail')
     const { groupbyid } = useParams()
-    const { UserProfiledata } = useAppContext()
+    const { UserProfiledata, UserProfileloader } = useAppContext()
     const { Datafrnd } = useFrndContext()
-
+    const [mentionuserid, setmentionuserid] = useState([])
     const [PostArea, setPostArea] = useState(false)
     const [img, setimg] = useState([])
     const [PostText, setPostText] = useState()
@@ -37,7 +37,12 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
             // Array.from(e.target.files).forEach((file, index) => {
             //     PostMedia.append(`media[${index}]`, file);
             // });
-            PostMedia.append('media', e.target.files[0]);
+            for (const file of e.target.files) {
+                // Append each file under the same key 'media[]'
+                PostMedia.append('media[]', file);
+            }
+
+            console.log(e.target.files)
             reader.onload = (event) => {
                 axios.post(`${APP_URL}/api/post-media`, PostMedia, {
                     headers: {
@@ -45,8 +50,8 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
                     }
                 })
                     .then(response => {
-                        console.log('img', response);
-                        setimg((img) => [...img, response.data.data.last_inserted_id])
+                        console.log('img', response.data.data.media_ids);
+                        setimg(response.data.data.media_ids)
                         console.log(img)
                         setActivebtn(false)
 
@@ -81,6 +86,7 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
         const newImgs = [...img];
         newImgs.splice(index, 1);
         setimg(newImgs);
+        setActivebtn(false)
     };
 
     const post = ({ e, endpoint }) => {
@@ -91,7 +97,8 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
             post_text: PostText?.toString(),
             status: 'active',
             post_in: 'group',
-            group_id: '',
+            group_id: groupbyid,
+            mentioned_users: mentionuserid,
             ...(img.length > 0 && { media: img }),
 
         }, {
@@ -101,12 +108,11 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
         })
             .then(response => {
                 setisLoading(false)
-                console.log('Post', response.data);
+                console.log('Post in grp', response.data);
                 setImages([])
                 setimg([])
                 setPostArea('')
                 setPostText('')
-                setpostdone(!postdone)
             })
             .catch(error => {
                 setisLoading(false)
@@ -118,8 +124,10 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
 
     // Prepare friends data for mention
     const friendsData = Datafrnd.map(friend => ({
+
         id: String(friend.friend.id),
         display: String(friend.friend.name),
+
     }));
 
     useEffect(() => {
@@ -133,12 +141,32 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
             // setFocusedSuggestionIndex(i => i != friendsData.length - 1 && Math.min(i + 1, friendsData.length - 1));
             setFocusedSuggestionIndex(i => friendsData.length - 1 != i && i + 1);
             console.log('doewn', focusedSuggestionIndex, friendsData.length)
+            console.log(friendsData)
         } else if (event.key === "ArrowUp") {
             event.preventDefault(); // Prevent cursor movement
             setFocusedSuggestionIndex(i => i != 0 ? i - 1 : i = friendsData.length - 1);
             console.log('up')
         }
     };
+    const parseMentionsForIds = (text) => {
+        const mentionRegex = /\@\[([^\]]+)\]\((\d+)\)/g; // Adjusted regex to capture ID within parentheses
+        let match;
+        const ids = [];
+
+        while ((match = mentionRegex.exec(text)) !== null) {
+            ids.push(match[2]); // match[2] is the captured group for the ID
+        }
+
+        return ids;
+    };
+
+    useEffect(() => {
+        const ids = parseMentionsForIds(PostText);
+        setmentionuserid(ids);
+        console.log(ids)
+    }, [PostText]);
+
+
 
     return (
         <>
@@ -168,10 +196,13 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
                 <div className="card-body p-md-4">
                     <div className="d-flex">
                         <Link href='/profile'>
-                            {UserProfiledata?.data?.profile_photo === null ?
-                                <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
-                                :
-                                <Image className='post-profile object-fit-cover' loader={imgurl} src={UserProfiledata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
+                            {UserProfileloader ?
+                                <Skeleton.Avatar active size={25} /> :
+                                UserProfiledata?.data?.profile_photo === null ?
+                                    <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
+                                    :
+                                    <Image className='post-profile object-fit-cover' loader={imgurl} src={UserProfiledata?.data?.profile_photo.url} alt="" width={100} height={100}></Image>
+
                             }
                         </Link>
                         {PostArea === true ?
@@ -183,6 +214,7 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
                                 placeholder={`What's new, ${UserProfiledata?.data?.name}?`}
                                 onKeyUp={handleKeyDown}
                             >
+
                                 <Mention
                                     trigger="@"
                                     data={friendsData}
@@ -258,3 +290,4 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
 }
 
 export default GrpPostArea
+

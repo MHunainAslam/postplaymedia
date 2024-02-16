@@ -7,7 +7,7 @@ const UserProfileTabs = ({ Userdata }) => {
     const pathname = usePathname()
     const segments = pathname.split('/');
     const lastSegment = segments[segments.length - 1];
-    console.log(lastSegment)
+
 
     return (
         <>

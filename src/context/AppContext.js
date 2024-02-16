@@ -124,7 +124,6 @@ export function AppWrapper({ children }) {
       }
     })
       .then(response => {
-        console.log('recent chat', response);
         setrecentchat(response)
       })
       .catch(error => {
@@ -177,7 +176,6 @@ export function AppWrapper({ children }) {
         // Prepend new messages to the beginning of the array
         console.log('all req', data);
         setNotifications(data.data.data)
-        console.log(data)
         setCurrentPageNoti(data.data.current_page);
         setTotalPagesnoti(data.data.last_page);
         settotalMembernoti(data.data.total);
@@ -216,7 +214,6 @@ export function AppWrapper({ children }) {
         setNotifications((prevMessages) => [...prevMessages, ...data?.data?.data]);
         setCurrentPageNoti(data.data.current_page);
         setTotalPagesnoti(data.data.last_page);
-        console.log((prevMessages) => [...prevMessages, data?.data?.data], 'hnxcx')
       } else {
         console.error('Failed to fetch messages');
       }

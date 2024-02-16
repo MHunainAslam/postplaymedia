@@ -53,7 +53,7 @@ const GroupMembers = () => {
 
                                                 }
                                                 {UserProfiledata?.data?.id === item?.user?.id ?
-                                                    <Link href={`/profile/profile`} className='link-hov' >
+                                                    <Link href={`/profile/activity`} className='link-hov' >
                                                         <p className=' heading text-black my-4 text-capitalize'>{item?.user?.name}</p>
                                                     </Link>
                                                     :

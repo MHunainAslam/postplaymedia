@@ -233,6 +233,11 @@ h5 {
   color: white;
 }
 
+.post-text {
+  font-size: 15px;
+  word-break: break-all;
+}
+
 .jobdesc p {
   font-size: calc(11px + (14 - 11) * ((100vw - 320px) / (1920 - 320)));
   color: var(--dark-text);
@@ -524,6 +529,7 @@ h5 {
 
 .t-area:focus {
   box-shadow: none !important;
+  outline: none !important;
 }
 
 .t-area textarea {
@@ -550,6 +556,21 @@ h5 {
 }
 
 .cmnt-i textarea:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.cmnt-e-i textarea {
+  border: 1px solid var(--border) !important;
+  border-radius: 20px !important;
+  font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320))) !important;
+  color: var(--dark-text) !important;
+  width: 100%;
+  padding: 7px 10px;
+  height: auto;
+}
+
+.cmnt-e-i textarea:focus {
   box-shadow: none !important;
   outline: none !important;
 }
@@ -1279,7 +1300,8 @@ h5 {
   cursor: pointer;
 }
 
-.ant-image-preview-mask,:where(.css-dev-only-do-not-override-1g853jt).ant-image-preview-root .ant-image-preview-mask {
+.ant-image-preview-mask,
+:where(.css-dev-only-do-not-override-1g853jt).ant-image-preview-root .ant-image-preview-mask {
   z-index: 9999 !important;
 }
 
@@ -2207,11 +2229,17 @@ h5 {
   height: 100%;
   align-items: center;
 }
-.asd{
-text-decoration: none !important;
+
+.asd {
+  text-decoration: none !important;
 }
+
 .skeleton svg {
   max-width: 30px;
+}
+.btn-close:focus{
+  box-shadow: none !important;
+
 }
 
 @-webkit-keyframes mover {
@@ -2311,6 +2339,10 @@ text-decoration: none !important;
 }
 
 @media (max-width: 768px) {
+  .comment-body {
+    height: 300px !important;
+  }
+
   .grp-img {
     min-height: 120px !important;
   }
@@ -2321,6 +2353,11 @@ text-decoration: none !important;
 
   .profile-page-user .img-p {
     min-height: 170px;
+  }
+
+  .fancyimgsec,
+  .commentsec {
+    min-width: 100%;
   }
 }
 

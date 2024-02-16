@@ -56,8 +56,8 @@ const Coverandtab = ({ grpdata, isLoading }) => {
                                         <Skeleton.Image active style={{ height: '200px' }} className='' /> :
                                         <>
                                             {grpdata?.data?.group?.profile_photo === null ?
-                                                <Image src="/assets/images/avatar/user.jpg" width={500} height={500} alt='' className="img-fluid rounded-start user-img" /> :
-                                                <Image src={IMG_URL + grpdata?.data?.group?.profile_photo.url} width={500} height={500} alt='' className="img-fluid rounded-start user-img" />
+                                                <Image src="/assets/images/avatar/user.jpg"  alt='' className="img-fluid rounded-start user-img" /> :
+                                                <Image src={IMG_URL + grpdata?.data?.group?.profile_photo.url}  alt='' className="img-fluid rounded-start user-img" />
                                             }
                                         </>}
 

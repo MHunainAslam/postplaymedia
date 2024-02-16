@@ -5,15 +5,16 @@ import { deleteCookie } from 'cookies-next'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import FancyBoxPost from '../FancyBoxPost'
+import FancyBoxPost from './fancyboxes/allmembers/FancyBoxPost'
 import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
 // import { ReactPhotoCollage } from 'react-photo-collage'
-import FancyBoxPostColaage from '../FancyBoxPostColaage'
+import FancyBoxPostColaage from './fancyboxes/allmembers/FancyBoxPostColaage'
 import DeletePost from './DeletePost'
 import { useAppContext } from '@/context/AppContext'
 import ShowAllImages from './ShowAllImages'
 import { Image } from 'antd'
+import { formatMentionsToLinks } from '@/utils/GrpFunctions'
 
 const MyFriends = ({ postdone }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
@@ -34,6 +35,9 @@ const MyFriends = ({ postdone }) => {
     const router = useRouter()
     const [AllFrndsData, setAllFrndsData] = useState([])
     const [UserDataLoader, setUserDataLoader] = useState(true)
+    const [PostmodalOpen, setPostModalOpen] = useState(false);
+    const [PostselectedImage, setPostSelectedImage] = useState(null);
+    const [loadmoreloader, setloadmoreloader] = useState(false)
 
     const toggleComments = (postId) => {
         setCommentArea((prevState) => ({
@@ -48,31 +52,19 @@ const MyFriends = ({ postdone }) => {
             [postId]: !prevState[postId]
         }));
     };
-
-
-
-    const [PostmodalOpen, setPostModalOpen] = useState(false);
-    const [PostselectedImage, setPostSelectedImage] = useState(null);
-
-
     const PostopenModal = (index) => {
         setPostSelectedImage(index);
         setPostModalOpen(true);
-        console.log('oprn')
         console.log(PostselectedImage, index)
     };
     const PostcloseModal = () => {
         setPostSelectedImage(null);
         setPostModalOpen(false);
     };
-
-
-
-
     const fetchPosts = async (page) => {
         try {
             const response = await fetch(
-                `${APP_URL}/api/post?section=groups&per_page=20&page=${page}`,
+                `${APP_URL}/api/post?section=friends&per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -83,7 +75,7 @@ const MyFriends = ({ postdone }) => {
             const data = await response.json();
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('posts', data)
+                console.log('posts xx', data)
                 setAllPosts(data.data.data);
                 console.log(data)
                 setCurrentPagefrnd(data.data.current_page);
@@ -108,9 +100,10 @@ const MyFriends = ({ postdone }) => {
         }
     };
     const fetchPostss = async (page) => {
+        setloadmoreloader(true)
         try {
             const response = await fetch(
-                `${APP_URL}/api/post?section=all&per_page=20&page=${page}`,
+                `${APP_URL}/api/post?section=friends&per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -123,6 +116,7 @@ const MyFriends = ({ postdone }) => {
 
             if (data.success) {
                 // Prepend new messages to the beginning of the array
+                setloadmoreloader(false)
                 console.log('data', data)
                 setAllPosts((prevMessages) => [...prevMessages, ...data?.data?.data]);
                 setCurrentPagefrnd(data.data.current_page);
@@ -130,9 +124,11 @@ const MyFriends = ({ postdone }) => {
                 console.log((prevMessages) => [...prevMessages, data?.data?.data], 'hn')
             } else {
                 console.error('Failed to fetch messages');
+                setloadmoreloader(false)
             }
         } catch (error) {
             console.error('Error fetching messages', error);
+            setloadmoreloader(false)
             if (error?.response?.status === 401) {
                 router.push('/')
                 deleteCookie('logged');
@@ -140,7 +136,7 @@ const MyFriends = ({ postdone }) => {
             }
         } finally {
             setLoading(false);
-
+            setloadmoreloader(false)
         }
     };
     useEffect(() => {
@@ -250,6 +246,7 @@ const MyFriends = ({ postdone }) => {
     }
 
 
+
     return (
         <>
 
@@ -274,12 +271,13 @@ const MyFriends = ({ postdone }) => {
                     } else {
                         timeDiffString = `${providedTimestamp.slice(0, 10)}`;
                     }
+                    // const formattedText = formatMentionsToLinks(item.post_text);
                     return <>
 
                         <div className='post-card mt-4 ' key={i}>
                             <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 col-xxl-5 col-lg-7 col-md-8' >
                                 <div className='head-content p-3'>
-                                    <Link href={item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/profile' : `/people/${item?.created_by?.id}/activity`}>
+                                    <Link href={item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/activity' : `/people/${item?.created_by?.id}/activity`}>
                                         {item?.created_by?.profile_photo === null ?
                                             <img src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile  d-block me-2 object-fit-cover'></img>
                                             :
@@ -291,7 +289,7 @@ const MyFriends = ({ postdone }) => {
                                         {item?.media?.length > 0 &&
                                             'added a post'
                                         }
-                                        <p className='clr-light mt-md-0 mb-0 mt-2 para'>{timeDiffString}</p>
+                                        <span className='clr-light mt-md-0 mb-0 mt-2 para fw-light'>{timeDiffString}</span>
                                     </p>
                                     {item?.created_by?.id === UserProfiledata?.data?.id &&
                                         <li className='ms-auto'>
@@ -302,48 +300,62 @@ const MyFriends = ({ postdone }) => {
                                         </li>
                                     }
                                 </div>
-                                <p className='px-3'>{item.post_text}</p>
+                                {/* dangerouslySetInnerHTML={{ __html: formattedText }} */}
+                                {/* <p className='px-3' dangerouslySetInnerHTML={{ __html: formattedText }}></p> */}
+                                {/* <p className='px-3' > {renderText(item.post_text)}</p> */}
+                                {/* <p className='px-3'
+                                    dangerouslySetInnerHTML={{ __html: formattedText }}
+
+                                /> */}
+                                {/* {formattedText} */}
+                                <p className="px-3">{formatMentionsToLinks(item.post_text)}</p>
+                                <br />
+                                {/* {item.post_text} */}
+                                {/* <Link href={'/'} className='text-decoration-none'>lll</Link> */}
+                                {/* <p>{formattedText}</p> */}
 
                                 {item?.media?.length > 0 ?
                                     <div className={`post-card-main ${item.media.length === 2 ? 'flex-collage' : ''}`}  >
-                                        <>
 
-                                            {item.media.length > 1 ?
+
+                                        {item.media.length > 1 ?
+                                            <>
+
+
+                                                <div className='cvxc' >
+                                                    <ShowAllImages images={item.media} item={item} />
+
+                                                </div>
+                                                <FancyBoxPostColaage images={item?.media} fancyBoxId={`AllFriendsFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
+                                            </>
+                                            :
+
+                                            item.media.map((media, i) => (
                                                 <>
+                                                    {media?.media?.url.slice(-4) == '.mp4' ?
 
-
-                                                    <div className='cvxc' >
-                                                        <ShowAllImages images={item.media} item={item} />
-
-                                                    </div>
-                                                    <FancyBoxPostColaage images={item?.media} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
+                                                        <video
+                                                            className='pointer h-100 postimg w-100 dsd'
+                                                            src={IMG_URL + media?.media?.url}
+                                                            controls
+                                                        />
+                                                        :
+                                                        // IMG_URL + media?.media?.url
+                                                        <Image
+                                                            className='pointer h-100 postimg w-100 dsd'
+                                                            src={IMG_URL + media?.media?.url}
+                                                        />
+                                                    }
                                                 </>
-                                                :
-                                                <>
-                                                    {item.media.map((media, i) => (
-                                                        <>
-                                                            {media?.media?.url.slice(-4) == '.mp4' ?
+                                            ))
 
-                                                                <video
-                                                                    className='pointer h-100 postimg w-100 dsd'
-                                                                    src={IMG_URL + media?.media?.url}
-                                                                    controls
-                                                                />
-                                                                :
-                                                                <Image
-                                                                    className='pointer h-100 postimg w-100 dsd'
-                                                                    src={IMG_URL + media?.media?.url}
-                                                                />}
-                                                        </>
-                                                    ))}
+                                        }
 
-                                                </>
-                                            }
-                                        </>
+
                                     </div>
                                     : ''
                                 }
-                                <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`postimages${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} para={item.post_text} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
+                                <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`AllFriendsFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} para={item.post_text} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
 
 
                                 <hr className='my-0' />
@@ -353,10 +365,10 @@ const MyFriends = ({ postdone }) => {
                                     <p className='para mb-0 p-2 clr-primary'>
                                         <i className="bi bi-hand-thumbs-up-fill "></i> {likecount === '' ? item.like_count : item.like_count + likecount}
                                     </p>
-                                    <p className='para text-black mb-0 p-2 clr-primary' ><i class="bi bi-chat-left"></i> {item.comment_count} </p>
+                                    <p className='para text-black mb-0 p-2 clr-primary' ><i className="bi bi-chat-left"></i> {item.comment_count} </p>
                                 </div>
-                                
-                                
+
+
                                 <hr className='my-0' />
 
 
@@ -374,15 +386,15 @@ const MyFriends = ({ postdone }) => {
                                         </div>
                                         <div className="col-6 text-center py-2">
                                             <span className='pointer' onClick={() => { PostopenModal(0), getcomment(item.id), setcmntloader(true) }}
-                                                data-bs-toggle="modal" data-bs-target={`#postimages${i}`}>
-                                                <i class="bi bi-chat-left"></i> Comment
+                                                data-bs-toggle="modal" data-bs-target={`#AllFriendsFancyBox${i}`}>
+                                                <i className="bi bi-chat-left"></i> Comment
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                 {/* <span className='comment-active'> 1</span> */}
 
-                                {CommentArea[i] && (
+                                {/* {CommentArea[i] && (
                                     <div className='px-3 pb-3'>
                                         <div className="post-card-comments ">
                                             <div className="d-flex mt-3">
@@ -426,7 +438,7 @@ const MyFriends = ({ postdone }) => {
 
                                         </div>
                                     </div>
-                                )}
+                                )} */}
                             </div>
 
                         </div>
@@ -434,7 +446,11 @@ const MyFriends = ({ postdone }) => {
                     </>
                 })}
 
-
+                {loadmoreloader && <div className="w-100 text-center mt-4">
+                    <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                    <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                    <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                </div>}
             </ul>
             <DeletePost grpid={grpid} setisdlt={setisdlt} isdlt={isdlt} />
         </>
@@ -442,4 +458,5 @@ const MyFriends = ({ postdone }) => {
 }
 
 export default MyFriends
+
 

@@ -131,7 +131,7 @@ const Profiledetail = ({ }) => {
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-lg-4 col-md-6'>Number </label>
-                    <p className="para-lg text-dark mb-0" text-capitalize>
+                    <p className="para-lg text-dark mb-0 text-capitalize" >
                         {Userdata?.data?.number === null ? '--' : Userdata?.data?.number}
                     </p>
                 </div>

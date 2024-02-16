@@ -1,5 +1,5 @@
 'use client'
-import FancyBoxPost from '@/components/FancyBoxPost';
+import FancyBoxPost from '@/components/activity/fancyboxes/allmembers/FancyBoxPost';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react'

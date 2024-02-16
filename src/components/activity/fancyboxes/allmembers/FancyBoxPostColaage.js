@@ -4,15 +4,21 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import InputEmoji from "react-input-emoji";
 // import { ReactPhotoCollage } from 'react-photo-collage';
-import { APP_URL, IMG_URL } from '../../config';
-import ShowAllImages from './activity/ShowAllImages';
+import { APP_URL, IMG_URL } from '../../../../../config';
+import ShowAllImages from '../../ShowAllImages';
 import axios from 'axios';
-import DeleteComment from './posts/DeleteComment';
+import DeleteComment from '../../../posts/DeleteComment';
 import { message } from 'antd';
 import { deleteCookie } from 'cookies-next';
 import { useAppContext } from '@/context/AppContext';
+import { Mention, MentionsInput } from 'react-mentions';
+import { useFrndContext } from '@/context/FriendContext';
+import { formatMentionsToLinks } from '@/utils/GrpFunctions';
+import Link from 'next/link';
 const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId, name, profile, time, item, likepost, dislikepost, handleToggle, likecount, Comments, getcomment }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
+    const { Datafrnd } = useFrndContext()
+    const [mentionuserid, setmentionuserid] = useState([])
     const token = GetToken('userdetail')
     const [EditCmnt, setEditCmnt] = useState(false)
     const [cmnt, setcmnt] = useState('')
@@ -21,7 +27,7 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
     const [dltcommentmodal, setdltcommentmodal] = useState(false)
     const [isloading, setisloading] = useState(false)
     const [comntloading, setcomntloading] = useState(false)
-
+    
     const toggleComments = (postId) => {
         setCommentArea((prevState) => ({
             ...prevState,
@@ -60,7 +66,7 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
 
         } else {
             setisloading(true)
-            axios.post(`${APP_URL}/api/comment-on-post`, { post_id: item.id, body: text }, {
+            axios.post(`${APP_URL}/api/comment-on-post`, { post_id: item.id, body: text, mentioned_users: mentionuserid }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -85,7 +91,7 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
 
         } else {
 
-            axios.put(`${APP_URL}/api/edit-comment/${e}`, { body: cmnt }, {
+            axios.put(`${APP_URL}/api/edit-comment/${e}`, { body: cmnt, mentioned_users: mentionuserid }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -128,10 +134,62 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
                 }
             });
     }
+
+    const [focusedSuggestionIndex, setFocusedSuggestionIndex] = useState(0);
+
+    // Prepare friends data for mention
+    const friendsData = Datafrnd.map(friend => ({
+        id: String(friend.friend.id),
+        display: String(friend.friend.name),
+    }));
+
+    useEffect(() => {
+        // Reset suggestion focus when setText changes
+        setFocusedSuggestionIndex(0);
+    }, [setText]);
+
+    const handleKeyDown = (event) => {
+        if (event.key === "ArrowDown") {
+            event.preventDefault(); // Prevent cursor movement
+            // setFocusedSuggestionIndex(i => i != friendsData.length - 1 && Math.min(i + 1, friendsData.length - 1));
+            setFocusedSuggestionIndex(i => friendsData.length - 1 != i && i + 1);
+            console.log('doewn', focusedSuggestionIndex, friendsData.length)
+        } else if (event.key === "ArrowUp") {
+            event.preventDefault(); // Prevent cursor movement
+            setFocusedSuggestionIndex(i => i != 0 ? i - 1 : i = friendsData.length - 1);
+            console.log('up')
+        }
+    };
+
+
+    const parseMentionsForIds = (text) => {
+        const mentionRegex = /\@\[([^\]]+)\]\((\d+)\)/g; // Adjusted regex to capture ID within parentheses
+        let match;
+        const ids = [];
+
+        while ((match = mentionRegex.exec(text)) !== null) {
+            ids.push(match[2]); // match[2] is the captured group for the ID
+        }
+
+        return ids;
+    };
+
+    useEffect(() => {
+        const ids = parseMentionsForIds(text);
+        setmentionuserid(ids);
+        console.log(ids)
+    }, [text]);
+    useEffect(() => {
+        const ids = parseMentionsForIds(cmnt);
+        setmentionuserid(ids);
+        console.log(ids)
+    }, [cmnt]);
     // useEffect(() => {
     //     getcomment()
     // }, [])
-
+    const closemodal = () => {
+        document.querySelector('.close.pointer')?.click()
+    }
 
     return (
         <>
@@ -170,16 +228,18 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
                                                 <div>
 
                                                     <div className="d-flex align-items-center">
-                                                        {profile === null ?
-                                                            <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
-                                                            : <Image loader={imgurl} src={profile?.url} alt="" width={100} height={100} className='object-fit-cover post-profile'></Image>
-                                                        }
+                                                        <Link href={`${item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/profile' : `/people/${item?.created_by?.id}/activity`}`} onClick={closemodal}>
+                                                            {profile === null ?
+                                                                <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
+                                                                : <Image loader={imgurl} src={profile?.url} alt="" width={100} height={100} className='object-fit-cover post-profile'></Image>
+                                                            }
+                                                        </Link>
                                                         <div className="">
                                                             <p className="heading-sm text-black mb-0 ms-3 text-capitalize">{name}</p>
                                                             <p className="para clr-light mb-0 ms-3">{time}</p>
                                                         </div>
                                                         <div className="d-flex justify-content-end ms-auto">
-                                                            <span className="close pointer" data-bs-dismiss="modal" onClick={closeModal}><i class="bi bi-x-lg"></i></span>
+                                                            <span className="close pointer" data-bs-dismiss="modal" onClick={closeModal}><i className="bi bi-x-lg"></i></span>
                                                         </div>
                                                     </div>
                                                     <div className="post-card-actions py-2">
@@ -191,7 +251,7 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
                                                                 <i className="bi bi-hand-thumbs-up "></i> {likecount === '' ? item.like_count : item.like_count + likecount}
                                                             </span>
                                                         }
-                                                        <span className='pointer'><i class="bi bi-chat-left mb-0 clr-primary"></i> {Comments?.length}</span>
+                                                        <span className='pointer'><i className="bi bi-chat-left mb-0 clr-primary"></i> {Comments?.length}</span>
 
                                                     </div>
 
@@ -209,21 +269,55 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
                                                                 {Comments.map((item, i) => (
                                                                     <div key={i}>
                                                                         <div className="d-flex mt-3" >
-                                                                            <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-m me-2'></Image>
+                                                                            <Link href={`${item?.user?.id === UserProfiledata?.data?.id ? '/profile/profile' : `/people/${item?.user?.id}/activity`}`} onClick={closemodal}>
+                                                                                {item?.user?.profile_photo == null ?
+                                                                                    <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-m me-2'></Image> :
+                                                                                    <Image loader={imgurl} src={item?.user?.profile_photo?.url} alt="" width={100} height={100} className='post-profile-m me-2 object-fit-cover'></Image>
+                                                                                }
+                                                                            </Link>
                                                                             <div className='w-100'>
                                                                                 {EditCmnt[i] ?
-                                                                                    <input type="text" value={cmnt} onChange={(e) => setcmnt(e.target.value)} className='form-control back-border text-black inp' name="" id="" />
-                                                                                    : <input type="text" value={item.body} readOnly className='form-control back-border text-black inp' name="" id="" />
+                                                                                    <>
+                                                                                        <MentionsInput
+                                                                                            value={cmnt}
+                                                                                            onChange={(event, newValue) => setcmnt(newValue)}
+                                                                                            className=" cmnt-e-i"
+                                                                                            style={{ width: '100%', height: '35px' }}
+                                                                                            placeholder={`What's new, ${UserProfiledata?.data?.name}?`}
+                                                                                            onKeyUp={handleKeyDown}
+                                                                                        >
+                                                                                            <Mention
+                                                                                                trigger="@"
+                                                                                                data={friendsData}
+                                                                                                renderSuggestion={(entry, search, highlightedDisplay, index, focused) => (
+                                                                                                    <ul className='suggestion-item'>
+                                                                                                        <li className={` para  ${index == focusedSuggestionIndex ? 'focused' : ''}`}
+                                                                                                            style={{ color: index == focusedSuggestionIndex ? 'white' : '#1763ac' }}
+                                                                                                        >
+                                                                                                            {highlightedDisplay}
+                                                                                                        </li>
+                                                                                                    </ul>
+                                                                                                )}
+                                                                                            />
+                                                                                        </MentionsInput>
+
+                                                                                    </>
+                                                                                    :
+                                                                                    <p className='form-control back-border text-black inp mb-0' name="" id="" >{formatMentionsToLinks(item.body)}</p>
                                                                                 }
                                                                                 <div className="d-flex mt-1 align-items-center">
                                                                                     {/* <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => RplyComments(i)} >Rply</p> */}
                                                                                     {item.user_id == UserProfiledata?.data?.id &&
                                                                                         <>
                                                                                             {EditCmnt[i] ?
-                                                                                                <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => sendeditcomment(item.id)} >Save</p>
-                                                                                                : <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { EditComments(i), setcmnt(item.body) }} >Edit</p>
-                                                                                            }
-                                                                                            <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { setdltcommentmodal(true), setCommentid(item.id) }}>Delete </p>
+                                                                                                <>
+                                                                                                    <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => sendeditcomment(item.id)} >Save</p>
+                                                                                                    <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { EditComments(i) }} >Cancel</p>
+                                                                                                </>
+                                                                                                :
+                                                                                                <> <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { EditComments(i), setcmnt(item.body) }} >Edit</p>
+                                                                                                    <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => { setdltcommentmodal(true), setCommentid(item.id) }}>Delete </p>
+                                                                                                </>}
                                                                                         </>
                                                                                     }
                                                                                 </div>
@@ -257,15 +351,37 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
                                                         </div>
                                                     </div>
                                                 }
-                                                <form className='pb-3 d-flex align-items-center' onSubmit={sendcomment}>
-                                                    <InputEmoji
+                                                <form className='pb-3 d-flex align-items-center justify-content-between' onSubmit={sendcomment}>
+                                                    {/* <InputEmoji
                                                         className="inp form-control"
                                                         value={text}
                                                         onChange={setText}
                                                         placeholder="Type a message"
-                                                    />
+                                                    /> */}
+                                                    <MentionsInput
+                                                        value={text}
+                                                        onChange={(event, newValue) => setText(newValue)}
+                                                        className=" cmnt-i"
+                                                        style={{ width: '85%', height: '40px' }}
+                                                        placeholder={`What's new, ${UserProfiledata?.data?.name}?`}
+                                                        onKeyUp={handleKeyDown}
+                                                    >
+                                                        <Mention
+                                                            trigger="@"
+                                                            data={friendsData}
+                                                            renderSuggestion={(entry, search, highlightedDisplay, index, focused) => (
+                                                                <ul className='suggestion-item'>
+                                                                    <li className={` para  ${index == focusedSuggestionIndex ? 'focused' : ''}`}
+                                                                        style={{ color: index == focusedSuggestionIndex ? 'white' : '#1763ac' }}
+                                                                    >
+                                                                        {highlightedDisplay}
+                                                                    </li>
+                                                                </ul>
+                                                            )}
+                                                        />
+                                                    </MentionsInput>
 
-                                                    <button className='btn primary-btn commentsendbtn' type='submit'><p>{isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : <i class="bi bi-send"></i>}</p></button>
+                                                    <button className='btn primary-btn commentsendbtn' type='submit'><p>{isloading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : <i className="bi bi-send"></i>}</p></button>
                                                 </form>
                                             </div>
                                         </div>

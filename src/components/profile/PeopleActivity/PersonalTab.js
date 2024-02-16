@@ -1,7 +1,7 @@
 'use client'
 
 import FancyBox from '@/components/FancyBox'
-import FancyBoxPost from '@/components/FancyBoxPost'
+import FancyBoxPost from '@/components/activity/fancyboxes/allmembers/FancyBoxPost'
 import PostArea from '@/components/posts/PostArea'
 import Image from 'next/image'
 import Link from 'next/link'

@@ -30,7 +30,6 @@ const Message = ({ TabState }) => {
   
     useEffect(() => {
         if (firstRun) {
-            console.log('han yahi')
             const chatBody = chatBodyRef.current;
             chatBody.scrollTop = chatBody.scrollHeight;
         }

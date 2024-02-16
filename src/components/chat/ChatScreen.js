@@ -209,7 +209,6 @@ const ChatScreen = ({ TabState }) => {
         console.log(currentPage)
         const interval = setInterval(() => {
             // every10sec(currentPage + 0)
-            console.log(currentPage, 'im')
         }, 10000);
         return () => clearInterval(interval);
     }, [])

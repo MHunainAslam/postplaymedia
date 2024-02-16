@@ -12,19 +12,30 @@ import { Skeleton, message } from 'antd'
 import { Mention, MentionsInput } from 'react-mentions'
 import { useFrndContext } from '@/context/FriendContext'
 
-const PostArea = ({ postdone, setpostdone }) => {
+const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditDone, EditDone }) => {
     const token = GetToken('userdetail')
     const { groupbyid } = useParams()
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const { Datafrnd } = useFrndContext()
     const [mentionuserid, setmentionuserid] = useState([])
-    const [PostArea, setPostArea] = useState(false)
-    const [img, setimg] = useState([])
+    const [Postid, setPostid] = useState()
+    const [PostArea, setPostArea] = useState(true)
+    const [img, setimgs] = useState([])
     const [PostText, setPostText] = useState()
     const [PostinGrp, setPostinGrp] = useState('profile')
-    const [images, setImages] = useState([]);
+    const [images, setImagess] = useState([]);
     const [isLoading, setisLoading] = useState(false);
     const [Activebtn, setActivebtn] = useState(false);
+    useEffect(() => {
+        console.log('prevData', prevData)
+        setPostText(prevData?.post_text)
+        setPostid(prevData?.id)
+        setPostArea(true)
+        setImagess(prevData?.media)
+        setimgs(prevData?.media.map((item) => (item.media.id)))
+        console.log('id', prevData?.media.map((item) => (item.media.id)))
+    }, [prevData])
+
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
     }
@@ -51,15 +62,14 @@ const PostArea = ({ postdone, setpostdone }) => {
                 })
                     .then(response => {
                         console.log('img', response.data.data.media_ids);
-                        // setimg(response.data.data.media_ids)
-                        setimg(prevArray => [...prevArray, ...response.data.data.media_ids])
+                        setimgs(prevArray => [...prevArray, ...response.data.data.media_ids])
                         console.log(img)
                         setActivebtn(false)
 
                     })
                     .catch(error => {
                         console.error(error);
-                        message.error(error?.response.data?.message)
+                        message.error(error?.response?.data?.message)
                         setActivebtn(false)
                         if (error?.response?.status === 401) {
                             router.push('/')
@@ -67,7 +77,7 @@ const PostArea = ({ postdone, setpostdone }) => {
                             localStorage.removeItem('userdetail')
                         }
                     });
-                setImages((imgs) => [
+                setImagess((imgs) => [
                     ...imgs,
                     {
                         name: file.name,
@@ -83,10 +93,11 @@ const PostArea = ({ postdone, setpostdone }) => {
     const removeImage = (index) => {
         const newImages = [...images];
         newImages.splice(index, 1);
-        setImages(newImages);
+        setImagess(newImages);
         const newImgs = [...img];
         newImgs.splice(index, 1);
-        setimg(newImgs);
+        setimgs(newImgs);
+        console.log('newImgs', newImgs)
         setActivebtn(false)
     };
 
@@ -94,11 +105,12 @@ const PostArea = ({ postdone, setpostdone }) => {
 
         setisLoading(true)
         console.log('take', images)
-        axios.post(`${APP_URL}/api/post`, {
+        axios.put(`${APP_URL}/api/post/${Postid}`, {
             post_text: PostText?.toString(),
             status: 'active',
-            post_in: 'profile',
+            post_in: postin,
             mentioned_users: mentionuserid,
+            group_id: grpid,
             ...(img.length > 0 && { media: img }),
 
         }, {
@@ -108,12 +120,12 @@ const PostArea = ({ postdone, setpostdone }) => {
         })
             .then(response => {
                 setisLoading(false)
-                console.log('Post', response.data);
-                setImages([])
-                setimg([])
+                console.log('Post edit', response.data);
+                setImagess([])
+                setimgs([])
                 setPostArea('')
                 setPostText('')
-                setpostdone(!postdone)
+                setEditDone(!EditDone)
             })
             .catch(error => {
                 setisLoading(false)
@@ -239,8 +251,8 @@ const PostArea = ({ postdone, setpostdone }) => {
                         <>
                             <div className=" border-top ">
                                 <div className='d-flex align-items-center'>
-                                    <input type="file" accept="image/*,video/*" multiple onChange={handleImageChange} className='d-none' name="" id="postmedia" />
-                                    <label className="d-flex pointer mt-3" htmlFor="postmedia">
+                                    <input type="file" accept="image/*,video/*" multiple onChange={handleImageChange} className='d-none' name="" id="postmediaedit" />
+                                    <label className="d-flex pointer mt-3" htmlFor="postmediaedit">
                                         <li className="header-btns ms-0 ">
                                             <i className="bi bi-paperclip clr-primary"></i>
                                         </li>
@@ -250,16 +262,21 @@ const PostArea = ({ postdone, setpostdone }) => {
                                     </label>
                                     {/* <p className='m-0 para-sm clr-text mt-3 '>Max. File Size: 64M</p> */}
                                 </div>
-                                {images.map((item, i) => (
+                                {images?.map((item, i) => (
                                     <div className='ShowAttachedFile' key={i}>
-                                        <div className='d-flex align-items-center'>
 
-                                            <Image src={item.dataURL} alt="" width={100} height={100} className='post-img '></Image>
+                                        <div className='d-flex align-items-center'>
+                                            {item.media ?
+                                                <img src={IMG_URL + item?.media?.url} alt="" width={100} height={100} className=' post-img'></img>
+                                                :
+                                                <Image src={item.dataURL} alt="" width={100} height={100} className='post-img '></Image>
+                                            }
                                             {/* <p className="para clr-text mb-0 ms-2">{item.name}</p> */}
                                         </div>
                                         <div className='d-flex align-items-center'>
-                                            <p className="para-sm me-3 mb-0">{(item.size / 1024).toString().split('.')[0]} KB</p>
-
+                                            {!item.media &&
+                                                <p className="para-sm me-3 mb-0">{(item.size / 1024).toString().split('.')[0]} KB</p>
+                                            }
                                             <i className="bi bi-x-circle pointer" onClick={() => removeImage(i)}></i>
                                         </div>
                                     </div>
@@ -277,7 +294,7 @@ const PostArea = ({ postdone, setpostdone }) => {
                                         : ''}
                                 </div>
                                 <div className='mt-3 d-flex align-items-center'>
-                                    <p className='para clr-primary me-3 mb-0 pointer' onClick={(e) => { setPostArea(false) }}>Cancel</p>
+                                    {/* <p className='para clr-primary me-3 mb-0 pointer' onClick={(e) => { setPostArea(false) }}>Cancel</p> */}
                                     <button className='btn primary-btn px-5' disabled={Activebtn} onClick={post}><p className='para'>Post {isLoading ? <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span> : ''} </p></button>
                                 </div>
                             </div>
@@ -285,9 +302,9 @@ const PostArea = ({ postdone, setpostdone }) => {
 
                         : ''}
                 </div>
-            </div>
+            </div >
         </>
     )
 }
 
-export default PostArea
+export default EditPostArea

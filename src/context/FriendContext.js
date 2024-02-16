@@ -43,7 +43,6 @@ export function FrndWrapper({ children }) {
                 // Prepend new messages to the beginning of the array
                 console.log('fetchfrnds', data)
                 setDatafrnd(data.message.data);
-                console.log(data)
                 setCurrentPage(data.message.current_page);
                 setTotalPagesfrnd(data.message.last_page);
                 settotalMemberfrnd(data.message.total);
@@ -105,7 +104,6 @@ export function FrndWrapper({ children }) {
 
         if (CurrentPage < TotalPagesfrnd) {
             setLoading(true);
-            console.log('yyy')
             fetchFrndss(CurrentPage + 1);
         }
     };
@@ -144,10 +142,8 @@ export function FrndWrapper({ children }) {
 
     useEffect(() => {
         if (frnd) {
-
             // getallfrnds()
             fetchFrnds()
-            console.log('hey')
         }
     }, [frnd])
 

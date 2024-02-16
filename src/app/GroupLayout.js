@@ -88,18 +88,7 @@ const GroupLayout = ({ children, GroupPage }) => {
     }
 
 
-    const openModal = (index) => {
-        setSelectedImage(index);
-        setModalOpen(true);
-    };
 
-    const closeModal = () => {
-        setSelectedImage(null);
-        setModalOpen(false);
-    };
-    const asd = () => {
-        console.log('asd')
-    }
 
     const accptgrpreq = ({ e, endpoint }) => {
         axios.post(`${APP_URL}/api/groups/${endpoint}`, {

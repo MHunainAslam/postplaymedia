@@ -60,7 +60,7 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
                 <div className="col-lg-3 mb-3 col-md-6 ">
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0" ><i className="bi bi-search"></i></span>
-                        <input type="text" className="form-control " placeholder="Search Member" aria-label="Username" />
+                        <input type="text" className="form-control " placeholder="Search Group" aria-label="Username" />
                     </div>
                 </div>
                 {/* <div className="col-lg-3 mb-3 col-md-6 ">

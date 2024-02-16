@@ -1,18 +1,26 @@
 'use client'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Fancybox from './Fancybox';
 import FancyBox from '../FancyBox';
+import { GetToken } from '@/utils/Token';
+import { APP_URL } from '../../../config';
+import axios from 'axios';
+import { deleteCookie } from 'cookies-next';
 
 
 
 const AllPhotos = () => {
-
+    const token = GetToken('userdetail')
     const images = [{ url: '/assets/images/posts/covers.jpg', comment: '123' }, { url: '/assets/images/posts/cover.jpeg', comment: '321' }, { url: '/assets/images/Modal/Avatar.png', comment: '567' }]; // Replace with your image URLs
-
+    const [AllPosts, setAllPosts] = useState([])
+    const [CurrentPagefrnd, setCurrentPagefrnd] = useState(1)
+    const [TotalPagesfrnd, setTotalPagesfrnd] = useState()
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
-
+    const [UserDataLoader, setUserDataLoader] = useState(true)
+    const [Datafrnd, setDatafrnd] = useState([])
+    const [loading, setLoading] = useState(1)
     const openModal = (index) => {
         setSelectedImage(index);
         setModalOpen(true);
@@ -24,6 +32,132 @@ const AllPhotos = () => {
         setModalOpen(false);
     };
 
+    useEffect(() => {
+        axios.get(`${APP_URL}/api/posted-activity-media?user_id=10`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('grp media', response);
+            })
+            .catch(error => {
+
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }, [])
+
+    const fetchPosts = async (page) => {
+        try {
+            const response = await fetch(
+                `${APP_URL}/api/posted-activity-media`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        // Add other headers if needed
+                    },
+                }
+            );
+            const data = await response.json();
+            if (data.success) {
+                // Prepend new messages to the beginning of the array
+                console.log('All Images', data)
+                setAllPosts(data.data.data);
+                console.log(data)
+                setCurrentPagefrnd(data.data.current_page);
+                setTotalPagesfrnd(data.data.last_page);
+                settotalMemberfrnd(data.data.total);
+                setUserDataLoader(false)
+            } else {
+                console.error('Failed to fetch messages');
+                setUserDataLoader(false)
+            }
+        } catch (error) {
+            console.error('Error fetching messages', error);
+            setUserDataLoader(false)
+            if (error?.response?.status === 401) {
+                router.push('/')
+                deleteCookie('logged');
+                localStorage.removeItem('userdetail')
+            }
+        } finally {
+            setLoading(false);
+            setUserDataLoader(false)
+        }
+    };
+    const fetchPostss = async (page) => {
+        try {
+            const response = await fetch(
+                `${APP_URL}/api/posted-activity-media`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        // Add other headers if needed
+                    },
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Prepend new messages to the beginning of the array
+                console.log('all images prepend', data)
+                setAllPosts((prevMessages) => [...prevMessages, ...data?.data?.data]);
+                setCurrentPagefrnd(data.data.current_page);
+                setTotalPagesfrnd(data.data.last_page);
+                console.log((prevMessages) => [...prevMessages, data?.data?.data], 'hn')
+            } else {
+                console.error('Failed to fetch messages');
+            }
+        } catch (error) {
+            console.error('Error fetching messages', error);
+            if (error?.response?.status === 401) {
+                router.push('/')
+                deleteCookie('logged');
+                localStorage.removeItem('userdetail')
+            }
+        } finally {
+            setLoading(false);
+
+        }
+    };
+    useEffect(() => {
+        // Fetch initial messages when the component mounts
+        if (CurrentPagefrnd === 1 && Datafrnd.length === 0) {
+            fetchPosts(CurrentPagefrnd);
+        }
+    }, [CurrentPagefrnd, token]);
+    const handleLoadMorefrnd = () => {
+        if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
+            setLoading(true);
+            fetchPostss(CurrentPagefrnd + 1);
+        }
+    };
+    const handleScrollfrnd = () => {
+
+        // Check if the user has scrolled to the bottom of the window
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 0) {
+            handleLoadMorefrnd();
+
+        }
+    };
+    useEffect(() => {
+        // Add scroll event listener to the window when the component mounts
+        window.addEventListener('scroll', handleScrollfrnd);
+
+        // Remove the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('scroll', handleScrollfrnd);
+        };
+    }, [handleScrollfrnd]);
+    useEffect(() => {
+        // getallfrnds()
+        fetchPosts()
+    }, [])
 
     return (
         <>

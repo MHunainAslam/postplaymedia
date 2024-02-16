@@ -23,7 +23,7 @@ const ActivityHeader = ({ }) => {
     const token = GetToken('userdetail')
     const ref = useRef(null);
     const FrndContainerRef = useRef(null);
-    const { fetchNoti, Notifications, TotalPagesnoti,fetchNotis, UserProfiledata, UserProfileloader, receivefrndreq, FrndReq, receivegrpreq, GrpReq, CurrentPageNoti, setLoading } = useAppContext()
+    const { fetchNoti, Notifications, TotalPagesnoti, fetchNotis, UserProfiledata, UserProfileloader, receivefrndreq, FrndReq, receivegrpreq, GrpReq, CurrentPageNoti, setLoading } = useAppContext()
     const logout = () => {
         deleteCookie('logged');
         localStorage.removeItem('userdetail')
@@ -167,7 +167,9 @@ const ActivityHeader = ({ }) => {
                     <div className="col-md-3 col-12 py-md-0 py-2 resposive-search-header">
                         <div className="input-group header-search ">
                             <i className="bi bi-text-left clr-primary fs-4 d-md-none" data-bs-toggle="offcanvas" data-bs-target="#ActivitySidebar" aria-controls="ActivitySidebar"></i>
-                            <span className="input-group-text border-0 bg-transparent" id="basic-addon1"><i className="bi bi-search"></i></span>
+                            <span className="input-group-text border-0 bg-transparent" id="basic-addon1">
+                                <i className="bi bi-search"></i>
+                            </span>
                             <input type="text" className="form-control border-0 bg-transparent" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
                         </div>
                     </div>

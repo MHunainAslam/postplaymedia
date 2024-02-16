@@ -17,13 +17,11 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
     const [frndstatus, setfrndstatus] = useState('')
     const [isDisable, setisDisable] = useState(false)
     const token = GetToken('userdetail')
-    console.log('Userdata profiletab', Userdata, Userdata?.data?.friendship_status)
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
     }
     useEffect(() => {
         setfrndstatus(Userdata?.data?.friendship_status)
-        console.log(frndstatus, 'frndstatus')
     }, [Userdata])
 
     const movetoedit = () => {
@@ -37,14 +35,12 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
     }
     const unfriend = (e) => {
         setisDisable(true)
-        console.log(e)
         axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('unfriend', response);
                 setfrndstatus('send-request')
                 setisDisable(false)
             })
@@ -61,14 +57,12 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
     }
     const sendreq = (e) => {
         setisDisable(true)
-        console.log(e)
         axios.post(`${APP_URL}/api/friend-requests/send`, { receiver_id: e }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log(response);
                 setfrndstatus('pending')
                 setisDisable(false)
             })
@@ -93,7 +87,6 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
         })
             .then(response => {
                 setfrndstatus('friends')
-                console.log('profile edit', response);
                 setisDisable(false)
             })
             .catch(error => {
@@ -115,7 +108,6 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
             }
         })
             .then(response => {
-                console.log('profile edit', response);
                 setfrndstatus('send-request')
                 setisDisable(false)
             })
