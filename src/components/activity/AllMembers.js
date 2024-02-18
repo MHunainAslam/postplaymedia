@@ -155,9 +155,8 @@ const AllMembers = ({ postdone }) => {
         }
     };
     const handleScrollfrnd = () => {
-
         // Check if the user has scrolled to the bottom of the window
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 0) {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10) {
             handleLoadMorefrnd();
 
         }

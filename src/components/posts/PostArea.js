@@ -30,43 +30,13 @@ const PostArea = ({ postdone, setpostdone }) => {
     }
     const handleImageChange = (e) => {
         const selectedFiles = e.target.files;
-        setActivebtn(true)
+        setActivebtn(true);
+        const PostMedia = new FormData();
+    
         for (const file of selectedFiles) {
             const reader = new FileReader();
-            const PostMedia = new FormData();
-            // Array.from(e.target.files).forEach((file, index) => {
-            //     PostMedia.append(`media[${index}]`, file);
-            // });
-            for (const file of e.target.files) {
-                // Append each file under the same key 'media[]'
-                PostMedia.append('media[]', file);
-            }
-
-            console.log(e.target.files)
+            
             reader.onload = (event) => {
-                axios.post(`${APP_URL}/api/post-media`, PostMedia, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    }
-                })
-                    .then(response => {
-                        console.log('img', response.data.data.media_ids);
-                        // setimg(response.data.data.media_ids)
-                        setimg(prevArray => [...prevArray, ...response.data.data.media_ids])
-                        console.log(img)
-                        setActivebtn(false)
-
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        message.error(error?.response.data?.message)
-                        setActivebtn(false)
-                        if (error?.response?.status === 401) {
-                            router.push('/')
-                            deleteCookie('logged');
-                            localStorage.removeItem('userdetail')
-                        }
-                    });
                 setImages((imgs) => [
                     ...imgs,
                     {
@@ -76,10 +46,39 @@ const PostArea = ({ postdone, setpostdone }) => {
                     },
                 ]);
             };
-
+    
             reader.readAsDataURL(file);
+    
+            // Append each file under the same key 'media[]'
+            PostMedia.append('media[]', file);
         }
+    
+        console.log(selectedFiles);
+        axios.post(`${APP_URL}/api/post-media`, PostMedia, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        .then(response => {
+            console.log('img', response.data.data.media_ids);
+            console.log(response?.data?.data?.media_ids?.length);
+            setimg(prevArray => [...prevArray , ...response.data.data.media_ids])
+            console.log(img)
+        })
+        .catch(error => {
+            console.error(error);
+            message.error(error?.response.data?.message)
+            if (error?.response?.status === 401) {
+                router.push('/')
+                deleteCookie('logged');
+                localStorage.removeItem('userdetail')
+            }
+        })
+        .finally(() => {
+            setActivebtn(false);
+        });
     };
+    
     const removeImage = (index) => {
         const newImages = [...images];
         newImages.splice(index, 1);
@@ -91,34 +90,38 @@ const PostArea = ({ postdone, setpostdone }) => {
     };
 
     const post = ({ e, endpoint }) => {
+        if (PostText || img.length > 0) {
+            setisLoading(true)
+            console.log('take', images)
+            axios.post(`${APP_URL}/api/post`, {
+                post_text: PostText?.toString(),
+                status: 'active',
+                post_in: 'profile',
+                mentioned_users: mentionuserid,
+                ...(img.length > 0 && { media: img }),
 
-        setisLoading(true)
-        console.log('take', images)
-        axios.post(`${APP_URL}/api/post`, {
-            post_text: PostText?.toString(),
-            status: 'active',
-            post_in: 'profile',
-            mentioned_users: mentionuserid,
-            ...(img.length > 0 && { media: img }),
-
-        }, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                setisLoading(false)
-                console.log('Post', response.data);
-                setImages([])
-                setimg([])
-                setPostArea('')
-                setPostText('')
-                setpostdone(!postdone)
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
             })
-            .catch(error => {
-                setisLoading(false)
-                console.error(error);
-            });
+                .then(response => {
+                    setisLoading(false)
+                    console.log('Post', response.data);
+                    setImages([])
+                    setimg([])
+                    setPostArea('')
+                    setPostText()
+                    setpostdone(!postdone)
+                })
+                .catch(error => {
+                    setisLoading(false)
+                    console.error(error);
+                });
+        } else {
+            console.log('object', img);
+
+        }
     }
 
     const [focusedSuggestionIndex, setFocusedSuggestionIndex] = useState(0);

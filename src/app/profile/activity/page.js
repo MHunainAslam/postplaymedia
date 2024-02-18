@@ -18,9 +18,9 @@ const page = () => {
                         <p className="para clr-text mb-0">Mentions</p>
                     </li>
 
-                    <li className="nav-item nav-link text-center" id="PeopleActivityFriends-tab" data-bs-toggle="tab" data-bs-target="#PeopleActivityFriends" type="button" role="tab" aria-controls="PeopleActivityFriends" aria-selected="false" tabIndex="-1">
+                    {/* <li className="nav-item nav-link text-center" id="PeopleActivityFriends-tab" data-bs-toggle="tab" data-bs-target="#PeopleActivityFriends" type="button" role="tab" aria-controls="PeopleActivityFriends" aria-selected="false" tabIndex="-1">
                         <p className="para clr-text mb-0">Friends</p>
-                    </li>
+                    </li> */}
                     <li className="nav-item nav-link text-center" id="PeopleActivityGroup-tab" data-bs-toggle="tab" data-bs-target="#PeopleActivityGroup" type="button" role="tab" aria-controls="PeopleActivityGroup" aria-selected="false" tabIndex="-1">
                         <p className="para clr-text mb-0">Groups</p>
                     </li>

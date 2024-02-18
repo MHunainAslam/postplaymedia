@@ -174,7 +174,7 @@ export function AppWrapper({ children }) {
       const data = await response.json();
       if (data.success) {
         // Prepend new messages to the beginning of the array
-        console.log('all req', data);
+        console.log('all noti', data);
         setNotifications(data.data.data)
         setCurrentPageNoti(data.data.current_page);
         setTotalPagesnoti(data.data.last_page);
@@ -195,6 +195,7 @@ export function AppWrapper({ children }) {
     }
   };
   const fetchNotis = async (page) => {
+    console.log('not');
     try {
       const response = await fetch(
         `${APP_URL}/api/get-notifications?is_read=false&per_page=20&page=${page}`,
@@ -229,6 +230,13 @@ export function AppWrapper({ children }) {
 
     }
   };
+  
+  const handleLoadMorenoti = () => {
+    if (CurrentPageNoti < TotalPagesnoti) {
+      setLoading(true);
+      fetchNotis(CurrentPageNoti + 1);
+    }
+  };
   useEffect(() => {
     if (login) {
       spamchatfunc()
@@ -247,7 +255,7 @@ export function AppWrapper({ children }) {
 
 
 
-  return <AppContext.Provider value={{ Notifications, TotalPagesnoti,fetchNotis, CurrentPageNoti, setLoading, fetchNoti, authme, UserProfiledata, UserProfileloader, setlogin, receivefrndreq, FrndReq, receivegrpreq, GrpReq, recentchat, recentchatfunc, spamchatfunc, spamchat }}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{ Notifications, TotalPagesnoti, fetchNotis, CurrentPageNoti,handleLoadMorenoti, setLoading, fetchNoti, authme, UserProfiledata, UserProfileloader, setlogin, receivefrndreq, FrndReq, receivegrpreq, GrpReq, recentchat, recentchatfunc, spamchatfunc, spamchat }}>{children}</AppContext.Provider>;
 }
 
 export function useAppContext() {

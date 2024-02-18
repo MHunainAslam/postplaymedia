@@ -23,7 +23,7 @@ const ActivityHeader = ({ }) => {
     const token = GetToken('userdetail')
     const ref = useRef(null);
     const FrndContainerRef = useRef(null);
-    const { fetchNoti, Notifications, TotalPagesnoti, fetchNotis, UserProfiledata, UserProfileloader, receivefrndreq, FrndReq, receivegrpreq, GrpReq, CurrentPageNoti, setLoading } = useAppContext()
+    const { fetchNoti, Notifications, TotalPagesnoti, fetchNotis, handleLoadMorenoti, UserProfiledata, UserProfileloader, receivefrndreq, FrndReq, receivegrpreq, GrpReq, CurrentPageNoti, setLoading } = useAppContext()
     const logout = () => {
         deleteCookie('logged');
         localStorage.removeItem('userdetail')
@@ -120,36 +120,25 @@ const ActivityHeader = ({ }) => {
     }
 
 
-    const handleLoadMorenoti = () => {
-        if (CurrentPageNoti < TotalPagesnoti) {
-            setLoading(true);
-            fetchNotis(CurrentPageNoti + 1);
-        }
-    };
+
     const handleScrollnoti = () => {
-        const container = FrndContainerRef.current;
+        const noticontainer = FrndContainerRef.current;
         // Check if the user has scrolled to the bottom of the div
         // if (container && container.scrollTop <= 200) {
-        if (container &&
-            container.scrollHeight - container.scrollTop <= container.clientHeight - 0) {
+        if (noticontainer && noticontainer.scrollHeight - noticontainer.scrollTop <= noticontainer.clientHeight + 1) {
             console.log('hn')
             handleLoadMorenoti();
         }
     };
 
     useEffect(() => {
-        const container = FrndContainerRef.current;
-        container.addEventListener('scroll', handleScrollnoti);
+        const noticontainer = FrndContainerRef.current;
+        noticontainer.addEventListener('scroll', handleScrollnoti);
         return () => {
-            container.removeEventListener('scroll', handleScrollnoti);
+            noticontainer.removeEventListener('scroll', handleScrollnoti);
         };
     }, [handleScrollnoti]);
-    useEffect(() => {
-        // Fetch initial messages when the component mounts
-        if (CurrentPageNoti === 1 && Notifications.length === 0) {
-            fetchNoti(CurrentPageNoti);
-        }
-    }, [CurrentPageNoti, token]);
+
 
 
     useEffect(() => {
@@ -227,7 +216,7 @@ const ActivityHeader = ({ }) => {
                                 <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-bell"></i>
                                 </a>
-                                <ul className={`dropdown-menu py-1 border-0 div-notifications ${NotiShow ? 'show show-c' : ''}`} ref={FrndContainerRef}>
+                                <ul className={`dropdown-menu p-0 m-0 border-0 div-notifications ${NotiShow ? 'show show-c' : ''}`} ref={FrndContainerRef}>
                                     <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Notifications</a></li>
                                     <hr />
                                     {Notifications?.length === 0 ?

@@ -21,14 +21,14 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
     const [Postid, setPostid] = useState()
     const [PostArea, setPostArea] = useState(true)
     const [img, setimgs] = useState([])
-    const [PostText, setPostText] = useState()
+    const [PostTextEdit, setPostTextEdit] = useState()
     const [PostinGrp, setPostinGrp] = useState('profile')
     const [images, setImagess] = useState([]);
     const [isLoading, setisLoading] = useState(false);
     const [Activebtn, setActivebtn] = useState(false);
     useEffect(() => {
         console.log('prevData', prevData)
-        setPostText(prevData?.post_text)
+        setPostTextEdit(prevData?.post_text)
         setPostid(prevData?.id)
         setPostArea(true)
         setImagess(prevData?.media)
@@ -41,42 +41,13 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
     }
     const handleImageChange = (e) => {
         const selectedFiles = e.target.files;
-        setActivebtn(true)
+        setActivebtn(true);
+        const PostMedia = new FormData();
+
         for (const file of selectedFiles) {
             const reader = new FileReader();
-            const PostMedia = new FormData();
-            // Array.from(e.target.files).forEach((file, index) => {
-            //     PostMedia.append(`media[${index}]`, file);
-            // });
-            for (const file of e.target.files) {
-                // Append each file under the same key 'media[]'
-                PostMedia.append('media[]', file);
-            }
 
-            console.log(e.target.files)
             reader.onload = (event) => {
-                axios.post(`${APP_URL}/api/post-media`, PostMedia, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    }
-                })
-                    .then(response => {
-                        console.log('img', response.data.data.media_ids);
-                        setimgs(prevArray => [...prevArray, ...response.data.data.media_ids])
-                        console.log(img)
-                        setActivebtn(false)
-
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        message.error(error?.response?.data?.message)
-                        setActivebtn(false)
-                        if (error?.response?.status === 401) {
-                            router.push('/')
-                            deleteCookie('logged');
-                            localStorage.removeItem('userdetail')
-                        }
-                    });
                 setImagess((imgs) => [
                     ...imgs,
                     {
@@ -88,7 +59,35 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
             };
 
             reader.readAsDataURL(file);
+
+            // Append each file under the same key 'media[]'
+            PostMedia.append('media[]', file);
         }
+
+        console.log(selectedFiles);
+        axios.post(`${APP_URL}/api/post-media`, PostMedia, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('img', response.data.data.media_ids);
+                console.log(response?.data?.data?.media_ids?.length);
+                setimgs(prevArray => [...prevArray, ...response.data.data.media_ids])
+                console.log(img)
+            })
+            .catch(error => {
+                console.error(error);
+                message.error(error?.response.data?.message)
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            })
+            .finally(() => {
+                setActivebtn(false);
+            });
     };
     const removeImage = (index) => {
         const newImages = [...images];
@@ -106,12 +105,12 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
         setisLoading(true)
         console.log('take', images)
         axios.put(`${APP_URL}/api/post/${Postid}`, {
-            post_text: PostText?.toString(),
+            post_text: PostTextEdit?.toString(),
             status: 'active',
             post_in: postin,
             mentioned_users: mentionuserid,
             group_id: grpid,
-            ...(img.length > 0 && { media: img }),
+            media: img,
 
         }, {
             headers: {
@@ -124,7 +123,7 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
                 setImagess([])
                 setimgs([])
                 setPostArea('')
-                setPostText('')
+                setPostTextEdit()
                 setEditDone(!EditDone)
             })
             .catch(error => {
@@ -144,9 +143,9 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
     }));
 
     useEffect(() => {
-        // Reset suggestion focus when PostText changes
+        // Reset suggestion focus when PostTextEdit changes
         setFocusedSuggestionIndex(0);
-    }, [PostText]);
+    }, [PostTextEdit]);
 
     const handleKeyDown = (event) => {
         if (event.key === "ArrowDown") {
@@ -174,10 +173,10 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
     };
 
     useEffect(() => {
-        const ids = parseMentionsForIds(PostText);
+        const ids = parseMentionsForIds(PostTextEdit);
         setmentionuserid(ids);
         console.log(ids)
-    }, [PostText]);
+    }, [PostTextEdit]);
 
 
 
@@ -185,8 +184,8 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
         <>
             {/* <div className="form-group">
                 <MentionsInput
-                    value={PostText}
-                    onChange={(event, newValue) => setPostText(newValue)}
+                    value={PostTextEdit}
+                    onChange={(event, newValue) => setPostTextEdit(newValue)}
                     className="form-control ms-3 t-area"
                     style={{ minWidth: '300px', minHeight: '100px', padding: '10px' }}
                     placeholder={`What's new, ${UserProfiledata?.data?.name}?`}
@@ -220,8 +219,8 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
                         </Link>
                         {PostArea === true ?
                             <MentionsInput
-                                value={PostText}
-                                onChange={(event, newValue) => setPostText(newValue)}
+                                value={PostTextEdit}
+                                onChange={(event, newValue) => setPostTextEdit(newValue)}
                                 className="form-control ms-3 t-area"
                                 style={{ minWidth: '300px', minHeight: '100px', padding: '10px' }}
                                 placeholder={`What's new, ${UserProfiledata?.data?.name}?`}
@@ -242,7 +241,7 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
                                     )}
                                 />
                             </MentionsInput>
-                            // <textarea name="" className='form-control ms-3 t-area' id="" value={PostText} onChange={(e) => setPostText(e.target.value)} cols="30" rows="4" placeholder={`Whats new, ${UserProfiledata?.data?.name}?`}></textarea> 
+                            // <textarea name="" className='form-control ms-3 t-area' id="" value={PostTextEdit} onChange={(e) => setPostTextEdit(e.target.value)} cols="30" rows="4" placeholder={`Whats new, ${UserProfiledata?.data?.name}?`}></textarea> 
                             :
                             <input type="text" placeholder={`Whats new, ${UserProfiledata?.data?.name}?`} onClick={() => { setPostArea(true) }} className='form-control ms-3 inp' name="" id="" />
                         }

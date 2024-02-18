@@ -1,12 +1,13 @@
 'use client'
-import Image from 'next/image'
+// import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Fancybox from './Fancybox';
 import FancyBox from '../FancyBox';
 import { GetToken } from '@/utils/Token';
-import { APP_URL } from '../../../config';
+import { APP_URL, IMG_URL } from '../../../config';
 import axios from 'axios';
 import { deleteCookie } from 'cookies-next';
+import { Image } from 'antd';
 
 
 
@@ -20,6 +21,7 @@ const AllPhotos = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [UserDataLoader, setUserDataLoader] = useState(true)
     const [Datafrnd, setDatafrnd] = useState([])
+    const [AllMedia, setAllMedia] = useState([])
     const [loading, setLoading] = useState(1)
     const openModal = (index) => {
         setSelectedImage(index);
@@ -33,13 +35,14 @@ const AllPhotos = () => {
     };
 
     useEffect(() => {
-        axios.get(`${APP_URL}/api/posted-activity-media?user_id=10`, {
+        axios.get(`${APP_URL}/api/posted-activity-media`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
                 console.log('grp media', response);
+                setAllMedia(response?.data?.data)
             })
             .catch(error => {
 
@@ -170,31 +173,49 @@ const AllPhotos = () => {
                 </div>
             </div>
             <div className="row">
-                {images.map((image, index) => (
-                    <div className="col-xl-3 col-lg-4 col-md-6 mt-3" key={index}>
-                        <div className="card gallery-card">
-                            <div className="card-body p-0">
+                <Image.PreviewGroup
+                    preview={{
+                        onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
+                    }}
+                >
+                    {AllMedia.filter(media => media.url.slice(-4) !== '.mp4').map((image, index) => (
+                        <div className="col-xl-3 col-lg-4 col-md-6 mt-3" key={index}>
+                            <div className="card gallery-card">
+                                <div className="card-body p-0">
 
-                                <div className='gallery-img'>
-                                    <Image
-                                        className='pointer'
-                                        key={index}
-                                        src={image.url}
-                                        alt={`Image ${index + 1}`}
-                                        onClick={() => openModal(index)}
-                                        data-bs-toggle="modal" data-bs-target={`#selectedImage`}
-                                        width={500} height={500}
-                                    />
-                                </div>
+                                    <div className='gallery-img'>
 
-                                <div className="d-flex mt-3 align-items-center">
-                                    <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-m'></Image>
-                                    <p className="heading-sm text-black mb-0 ms-2">Scott</p>
+                                        {image.url.slice(-4) == '.mp4' ?
+
+                                            <video
+                                                className='pointer h-100 postimg w-100 dsd'
+                                                src={IMG_URL + image.url}
+                                                controls
+                                            />
+                                            :
+
+                                            <Image
+                                                className='pointer'
+                                                key={index}
+                                                src={IMG_URL + image.url}
+                                                alt={`Image ${index + 1}`}
+                                            // onClick={() => openModal(index)}
+                                            // data-bs-toggle="modal" data-bs-target={`#selectedImage`}
+                                            // width={500} height={500}
+                                            />
+                                        }
+                                    </div>
+
+                                    <div className="d-flex mt-3 align-items-center">
+                                        <img src={'/assets/images/Modal/Avatar.png'} alt="" width={40} height={40} className='post-profile-m'></img>
+
+                                        <p className="heading-sm text-black mb-0 ms-2">Scott</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </Image.PreviewGroup >
             </div>
 
             <FancyBox images={images} modalOpen={modalOpen} closeModal={closeModal} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
