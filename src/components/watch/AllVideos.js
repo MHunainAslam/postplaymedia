@@ -88,7 +88,7 @@ const AllVideos = () => {
                         onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
                     }}
                 >
-                    {AllMedia.filter(media => media.url.slice(-4) == '.mp4').map((image, index) => (
+                    {AllMedia?.i?.filter(media => media.url.slice(-4) == '.mp4').map((image, index) => (
                         <div className=" col-md-6 mt-3" key={index}>
                             <div className="card gallery-card">
                                 <div className="card-body p-0">
