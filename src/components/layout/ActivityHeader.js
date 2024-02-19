@@ -165,11 +165,11 @@ const ActivityHeader = ({ }) => {
                     <div className="col d-flex justify-content-md-end justify-content-between align-items-center py-md-0 py-3">
                         <div className="d-flex">
                             <li onClick={receivefrndreq} className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
-                                <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <Link className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-person-plus"></i>
-                                </a>
+                                </Link>
                                 <ul className={`dropdown-menu py-1 border-0 ${NotiShow ? 'show show-c' : ''}`} ref={ref}>
-                                    <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Friend Requests</a></li>
+                                    <li><Link className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Friend Requests</Link></li>
                                     <hr />
                                     {FrndReq?.length === 0 ?
                                         <li>
@@ -213,11 +213,11 @@ const ActivityHeader = ({ }) => {
                                 </ul>
                             </li>
                             <li onClick={fetchNoti} className={`nav-item dropdown list-unstyled header-btns ${Notifications?.length === 0 ? '' : 'header-btns-active'}`}>
-                                <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <Link className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-bell"></i>
-                                </a>
+                                </Link>
                                 <ul className={`dropdown-menu p-0 m-0 border-0 div-notifications ${NotiShow ? 'show show-c' : ''}`} ref={FrndContainerRef}>
-                                    <li><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Notifications</a></li>
+                                    <li><Link className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Notifications</Link></li>
                                     <hr />
                                     {Notifications?.length === 0 ?
                                         <li>
@@ -229,7 +229,7 @@ const ActivityHeader = ({ }) => {
                                         <>
                                             {Notifications?.map((item, i) => (
                                                 <li key={i}>
-                                                    <Link href={`/groups/${item.trigger_id}`} className="text-decoration-none no-msg-req d-flex justify-content-between">
+                                                    <div onClick={() => router.push(`/groups/${item.trigger_id}`)} className="pointer text-decoration-none no-msg-req d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
                                                             {item?.sender?.profile_photo === null ?
                                                                 <Link href={`/people/${item.sender?.id}/friends`}>
@@ -254,7 +254,7 @@ const ActivityHeader = ({ }) => {
                                                             </button>
 
                                                         </div> */}
-                                                    </Link>
+                                                    </div>
                                                 </li>
                                             ))}
                                         </>

@@ -19,9 +19,10 @@ import { Mention, MentionsInput } from 'react-mentions'
 import { useFrndContext } from '@/context/FriendContext'
 import EditPostModal from '../posts/EditPostModal'
 
-const AllMembers = ({ postdone }) => {
+const AllMembers = ({ postdone, endpoint }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const [Comments, setComments] = useState([])
+    const [isloading, setisloading] = useState(true)
     const [grpid, setgrpid] = useState()
     const [isdlt, setisdlt] = useState(true)
     const [cmntloader, setcmntloader] = useState(false)
@@ -66,7 +67,8 @@ const AllMembers = ({ postdone }) => {
     const fetchPosts = async (page) => {
         try {
             const response = await fetch(
-                `${APP_URL}/api/post?section=all&per_page=20&page=${page}`,
+                // `${APP_URL}/api/post?{section=all}&per_page=20&page=${page}`,
+                `${APP_URL}/api/post${endpoint}per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -84,19 +86,23 @@ const AllMembers = ({ postdone }) => {
                 setTotalPagesfrnd(data.data.last_page);
                 settotalMemberfrnd(data.data.total);
                 setUserDataLoader(false)
+                setisloading(false)
             } else {
                 console.error('Failed to fetch messages');
                 setUserDataLoader(false)
+                setisloading(false)
             }
         } catch (error) {
             console.error('Error fetching messages', error);
             setUserDataLoader(false)
+            setisloading(false)
             if (error?.response?.status === 401) {
                 router.push('/')
                 deleteCookie('logged');
                 localStorage.removeItem('userdetail')
             }
         } finally {
+            setisloading(false)
             setLoading(false);
             setUserDataLoader(false)
         }
@@ -105,7 +111,7 @@ const AllMembers = ({ postdone }) => {
         setloadmoreloader(true)
         try {
             const response = await fetch(
-                `${APP_URL}/api/post?section=all&per_page=20&page=${page}`,
+                `${APP_URL}/api/post${endpoint}per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -173,7 +179,7 @@ const AllMembers = ({ postdone }) => {
     useEffect(() => {
         // getallfrnds()
         fetchPosts()
-    }, [postdone, isdlt, EditDone])
+    }, [postdone, isdlt, EditDone, endpoint])
     const handleToggle = (postId) => {
         setAllPosts(prevData => prevData.map(post => {
             if (post.id === postId) {
@@ -306,6 +312,16 @@ const AllMembers = ({ postdone }) => {
 
     return (
         <>
+            {isloading ? <div className="w-100 text-center mt-4">
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+            </div> :
+                AllPosts.length == 0 &&
+                <div div className=" mt-3 alert-box text-center">
+                    <p className='heading-m clr-primary '>No Post Avaiable!</p>
+                </div>
+            }
 
 
             <ul className='px-0 mt-5'>
@@ -329,47 +345,60 @@ const AllMembers = ({ postdone }) => {
                         timeDiffString = `${providedTimestamp.slice(0, 10)}`;
                     }
                     // const formattedText = formatMentionsToLinks(item.post_text);
-                    return <>
-
-                        <div className='post-card mt-4 ' key={i}>
-                            <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 col-xxl-5 col-lg-7 col-md-8' >
-                                <div className='head-content p-3'>
-                                    <Link href={item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/activity' : `/people/${item?.created_by?.id}/activity`}>
-                                        {item?.created_by?.profile_photo === null ?
-                                            <img src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile  d-block me-2 object-fit-cover'></img>
-                                            :
-                                            <img src={IMG_URL + item?.created_by?.profile_photo?.url} alt="" width={100} height={100} className='post-profile d-block  me-2 object-fit-cover'></img>
-                                        }
-                                    </Link>
-                                    <p className='mb-0 text-black para'>
-                                        <span> {item.created_by.name}  </span>
-                                        {item?.media?.length > 0 &&
-                                            'added a post '
-                                        }
-                                        <span className='clr-light mt-md-0 mb-0 mt-2 para fw-light'>{timeDiffString}</span>
-                                    </p>
-                                    {item?.created_by?.id === UserProfiledata?.data?.id &&
-                                        <li className='ms-auto'>
-                                            <i className="bi bi-three-dots-vertical fs-5 nav-link" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                            <ul className="dropdown-menu">
-                                                <li><Link className="dropdown-item " href={`#`} onClick={() => setgrpid(item.id)} data-bs-toggle="modal" data-bs-target="#DltPost" >Delete Post</Link></li>
-                                                <li><Link className="dropdown-item " href={`#`} data-bs-toggle="modal" onClick={() => setprevData(item)} data-bs-target="#allmembereditpost" >Edit Post</Link></li>
-                                                {/* <li><Link className="dropdown-item " href={`#`} onClick={() => { editpost(i), setPostText(item.post_text) }} >Edit Post</Link></li> */}
-                                            </ul>
-                                        </li>
+                    return (<div className='post-card mt-4 ' key={i}>
+                        <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 col-xxl-5 col-lg-7 col-md-8' >
+                            <div className='head-content p-3'>
+                                <Link href={item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/activity' : `/people/${item?.created_by?.id}/activity`}>
+                                    {item?.created_by?.profile_photo === null ?
+                                        <img src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile  d-block me-2 object-fit-cover'></img>
+                                        :
+                                        <img src={IMG_URL + item?.created_by?.profile_photo?.url} alt="" width={100} height={100} className='post-profile d-block  me-2 object-fit-cover'></img>
                                     }
+                                </Link>
+                                <div className="">
+                                    <div className="d-flex">
+                                        <p className='mb-0 text-black para'>
+                                            <span> {item.created_by.name}&nbsp;</span>
+                                            {item?.media?.length > 0 &&
+                                                'added a post'
+                                            }
+                                        </p>
+                                        {item.post_in == 'group' &&
+                                            <p className='mb-0 text-black para'>
+                                                {item?.media?.length <= 0 ?
+                                                    'posted in' : <> &nbsp;in</>
+                                                }
+
+                                                <span className='text-capitalize'>&nbsp;<Link href={`/groups/${item.group_id}`} className='link-hov clr-primary'>
+                                                    {item.group_name} </Link>  </span>
+                                            </p>
+                                        }
+                                    </div>
+                                    <span className='clr-light mt-md-0 mb-0 mt-2 para fw-light '>{timeDiffString}</span>
                                 </div>
-                                {/* dangerouslySetInnerHTML={{ __html: formattedText }} */}
-                                {/* <p className='px-3' dangerouslySetInnerHTML={{ __html: formattedText }}></p> */}
-                                {/* <p className='px-3' > {renderText(item.post_text)}</p> */}
-                                {/* <p className='px-3'
+
+                                {item?.created_by?.id === UserProfiledata?.data?.id &&
+                                    <li className='ms-auto'>
+                                        <i className="bi bi-three-dots-vertical fs-5 nav-link" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                        <ul className="dropdown-menu">
+                                            <li><Link className="dropdown-item " href={`#`} onClick={() => setgrpid(item.id)} data-bs-toggle="modal" data-bs-target="#DltPostAll" >Delete Post</Link></li>
+                                            <li><Link className="dropdown-item " href={`#`} data-bs-toggle="modal" onClick={() => setprevData(item)} data-bs-target="#allmembereditpost" >Edit Post</Link></li>
+                                            {/* <li><Link className="dropdown-item " href={`#`} onClick={() => { editpost(i), setPostText(item.post_text) }} >Edit Post</Link></li> */}
+                                        </ul>
+                                    </li>
+                                }
+                            </div>
+                            {/* dangerouslySetInnerHTML={{ __html: formattedText }} */}
+                            {/* <p className='px-3' dangerouslySetInnerHTML={{ __html: formattedText }}></p> */}
+                            {/* <p className='px-3' > {renderText(item.post_text)}</p> */}
+                            {/* <p className='px-3'
                                     dangerouslySetInnerHTML={{ __html: formattedText }}
 
                                 /> */}
-                                {/* {formattedText} */}
-                                <p className="px-3 post-text">{formatMentionsToLinks(item.post_text)}</p>
-                                <div className="px-3">
-                                    {/* {EditPost[i] &&
+                            {/* {formattedText} */}
+                            <p className="px-3 post-text">{formatMentionsToLinks(item.post_text)}</p>
+                            <div className="px-3">
+                                {/* {EditPost[i] &&
                                         <>
                                             <MentionsInput
                                                 value={PostText}
@@ -397,93 +426,95 @@ const AllMembers = ({ postdone }) => {
                                             
                                         </>
                                     } */}
+                            </div>
+                            <br />
+                            {/* {item.post_text} */}
+                            {/* <Link href={'/'} className='text-decoration-none'>lll</Link> */}
+                            {/* <p>{formattedText}</p> */}
+
+                            {item?.media?.length > 0 ?
+                                <div className={`post-card-main ${item.media.length === 2 ? 'flex-collage' : ''}`}  >
+
+
+                                    {item.media.length > 1 ?
+                                        <>
+
+
+                                            <div className='cvxc' >
+                                                <ShowAllImages images={item.media} item={item} />
+
+                                            </div>
+                                            {/* <FancyBoxPostColaage images={item?.media} fancyBoxId={`AllMembersFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} /> */}
+                                        </>
+                                        :
+
+                                        item.media.map((media, i) => (
+
+                                            media?.media?.url.slice(-4) == '.mp4' ?
+
+                                                <video
+                                                    className='pointer h-100 postimg w-100 dsd'
+                                                    src={IMG_URL + media?.media?.url}
+                                                    controls
+                                                    key={i}
+                                                />
+                                                :
+                                                // IMG_URL + media?.media?.url
+                                                <Image
+                                                    className='pointer h-100 postimg w-100 dsd'
+                                                    src={IMG_URL + media?.media?.url}
+                                                    key={i}
+                                                />
+
+
+                                        ))
+
+                                    }
+
+
                                 </div>
-                                <br />
-                                {/* {item.post_text} */}
-                                {/* <Link href={'/'} className='text-decoration-none'>lll</Link> */}
-                                {/* <p>{formattedText}</p> */}
-
-                                {item?.media?.length > 0 ?
-                                    <div className={`post-card-main ${item.media.length === 2 ? 'flex-collage' : ''}`}  >
+                                : ''
+                            }
+                            {/* <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`AllMembersFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} para={item.post_text} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} /> */}
 
 
-                                        {item.media.length > 1 ?
-                                            <>
+                            <hr className='my-0' />
 
 
-                                                <div className='cvxc' >
-                                                    <ShowAllImages images={item.media} item={item} />
-
-                                                </div>
-                                                <FancyBoxPostColaage images={item?.media} fancyBoxId={`AllMembersFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
-                                            </>
-                                            :
-
-                                            item.media.map((media, i) => (
-                                                <>
-                                                    {media?.media?.url.slice(-4) == '.mp4' ?
-
-                                                        <video
-                                                            className='pointer h-100 postimg w-100 dsd'
-                                                            src={IMG_URL + media?.media?.url}
-                                                            controls
-                                                        />
-                                                        :
-                                                        // IMG_URL + media?.media?.url
-                                                        <Image
-                                                            className='pointer h-100 postimg w-100 dsd'
-                                                            src={IMG_URL + media?.media?.url}
-                                                        />
-                                                    }
-                                                </>
-                                            ))
-
-                                        }
+                            <div className="d-flex">
+                                <p className='para mb-0 p-2 clr-primary'>
+                                    <i className="bi bi-hand-thumbs-up-fill "></i> {likecount === '' ? item.like_count : item.like_count + likecount}
+                                </p>
+                                <p className='para text-black mb-0 p-2 clr-primary' ><i className="bi bi-chat-left"></i> {item.comment_count} </p>
+                            </div>
 
 
-                                    </div>
-                                    : ''
-                                }
-                                <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`AllMembersFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} para={item.post_text} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
+                            <hr className='my-0' />
 
 
-                                <hr className='my-0' />
-
-
-                                <div className="d-flex">
-                                    <p className='para mb-0 p-2 clr-primary'>
-                                        <i className="bi bi-hand-thumbs-up-fill "></i> {likecount === '' ? item.like_count : item.like_count + likecount}
-                                    </p>
-                                    <p className='para text-black mb-0 p-2 clr-primary' ><i className="bi bi-chat-left"></i> {item.comment_count} </p>
-                                </div>
-
-
-                                <hr className='my-0' />
-
-
-                                <div className="post-card-actions mt-0 px-3 py-0">
-                                    <div className="d-flex ">
-                                        <div className="col-6 text-center border-right-dark py-2">
-                                            {item.isLiked ?
-                                                <span className='pointer clr-primary' onClick={() => { handleToggle(item.id), dislikepost(item.id) }}>
-                                                    <i className="bi bi-hand-thumbs-up-fill " ></i> Like
-                                                </span> :
-                                                <span className='pointer' onClick={() => { handleToggle(item.id), likepost(item.id) }}>
-                                                    <i className="bi bi-hand-thumbs-up "></i> Like
-                                                </span>
-                                            }
-                                        </div>
-                                        <div className="col-6 text-center py-2">
-                                            <span className='pointer' onClick={() => { PostopenModal(0), getcomment(item.id), setcmntloader(true) }}
-                                                data-bs-toggle="modal" data-bs-target={`#AllMembersFancyBox${i}`}>
-                                                <i className="bi bi-chat-left"></i> Comment
+                            <div className="post-card-actions mt-0 px-3 py-0">
+                                <div className="d-flex ">
+                                    <div className="col-6 text-center border-right-dark py-2">
+                                        {item.isLiked ?
+                                            <span className='pointer clr-primary' onClick={() => { handleToggle(item.id), dislikepost(item.id) }}>
+                                                <i className="bi bi-hand-thumbs-up-fill " ></i> Like
+                                            </span> :
+                                            <span className='pointer' onClick={() => { handleToggle(item.id), likepost(item.id) }}>
+                                                <i className="bi bi-hand-thumbs-up "></i> Like
                                             </span>
-                                        </div>
+                                        }
+                                    </div>
+                                    <div className="col-6 text-center py-2">
+                                        <span className='pointer' onClick={() => { PostopenModal(0), getcomment(item.id), setcmntloader(true) }}
+                                            data-bs-toggle="modal" data-bs-target={`#AllMembersFancyBox${i}`}>
+                                            <i className="bi bi-chat-left"></i> Comment
+                                        </span>
                                     </div>
                                 </div>
-                                {/* <span className='comment-active'> 1</span> */}
+                            </div>
+                            {/* <span className='comment-active'> 1</span> */}
 
-                                {/* {CommentArea[i] && (
+                            {/* {CommentArea[i] && (
                                     <div className='px-3 pb-3'>
                                         <div className="post-card-comments ">
                                             <div className="d-flex mt-3">
@@ -528,11 +559,12 @@ const AllMembers = ({ postdone }) => {
                                         </div>
                                     </div>
                                 )} */}
-                            </div>
-
                         </div>
 
-                    </>
+                    </div>
+                    )
+
+
                 })}
                 {loadmoreloader && <div className="w-100 text-center mt-4">
                     <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
@@ -542,8 +574,8 @@ const AllMembers = ({ postdone }) => {
 
 
             </ul>
-            <DeletePost grpid={grpid} setisdlt={setisdlt} isdlt={isdlt} />
-            <EditPostModal postin={'profile'} prevData={prevData} setEditDone={setEditDone} EditDone={EditDone} editmodalid={'allmembereditpost'}/>
+            <DeletePost grpid={grpid} setisdlt={setisdlt} isdlt={isdlt} modalid={'DltPostAll'} />
+            <EditPostModal postin={'profile'} prevData={prevData} setEditDone={setEditDone} EditDone={EditDone} editmodalid={'allmembereditpost'} />
         </>
     )
 }

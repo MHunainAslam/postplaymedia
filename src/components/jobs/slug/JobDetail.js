@@ -104,7 +104,10 @@ const JobDetail = () => {
                     </div>
                     <div className='mt-5 col-md-6 '>
                         {Jobdata?.video === null ? '' :
-                            <video width="640" height="380" src={` ${IMG_URL + Jobdata?.video?.url}`} controls> Sorry, your browser doesnt support HTML5 <code>video</code>, but you can download this video from the <a href="https://archive.org/details/Popeye_forPresident" target="_blank">Internet Archive</a>. </video>
+                            <video width="640" height="380" src={` ${IMG_URL + Jobdata?.video?.url}`} controls>
+                                Sorry, your browser doesnt support HTML5 <code>video</code>, but you can download this video from the
+                                <Link href="https://archive.org/details/Popeye_forPresident" target="_blank">Internet Archive</Link>.
+                            </video>
                         }
 
                     </div>

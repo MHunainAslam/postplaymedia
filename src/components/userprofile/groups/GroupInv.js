@@ -10,6 +10,7 @@ import axios from 'axios'
 import Loader from '@/components/Loader'
 import Pagination from '@/components/jobs/Pagination'
 import { useAppContext } from '@/context/AppContext'
+import { joingrp } from '@/utils/GrpFunctions'
 
 const GroupInv = ({ xl, md, lg }) => {
     const { UserProfiledata } = useAppContext()
@@ -29,7 +30,6 @@ const GroupInv = ({ xl, md, lg }) => {
     const indexOfFirstItemmine = indexOfLastItemmine - itemsPerPagemine;
     // console.log('mine grp', GrpInv);
     const getGrpInv = () => {
-        setisLoading(true)
         axios.get(`${APP_URL}/api/get-my-group-invitations?status=pending&per_page=${dataOnPagemine}&page=${currentPagemine}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -54,6 +54,26 @@ const GroupInv = ({ xl, md, lg }) => {
     useEffect(() => {
         getGrpInv()
     }, [dataOnPagemine, currentPagemine])
+
+    const accptgrpreq = ({ e, endpoint }) => {
+        axios.post(`${APP_URL}/api/groups/${endpoint}`, {
+            user_id: UserProfiledata?.data?.id,
+            group_id: e
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                // Handle successful response here
+                console.log('accept grp inv', response.data);
+                getGrpInv()
+            })
+            .catch(error => {
+                // Handle error here
+                console.error(error);
+            });
+    }
     return (
         <>
             <div className="border-bottom row justify-content-between">
@@ -110,27 +130,27 @@ const GroupInv = ({ xl, md, lg }) => {
                                             <p className="para text-black mt-3 text-capitalize">{item.group?.privacy} Group / {item.group?.member_count} members</p>
                                         </div>
                                         <div className="card-footer">
-                                            {UserProfiledata?.data?.id === item?.group?.created_by ?
+                                            {UserProfiledata?.data?.id == item?.group?.created_by ?
                                                 <button className='btn secondary-btn px-4' onClick={() => router.push(`/groups/${item.group?.id}`)}>View</button> :
                                                 <>
-                                                    {item.group?.button_trigger != 'accept-request' ?
+                                                    {item?.button_trigger != 'accept-request' ?
 
                                                         <button className='btn secondary-btn ' onClick={
-                                                            item.group?.button_trigger === 'join-now' ? () => joingrp({ e: item.group?.id, getallgrp: getallgrp, type: 'send' }) :
-                                                                item.group?.button_trigger === 'withdrawl-request' ? () => joingrp({ e: item.group?.id, getallgrp: getallgrp, type: 'withdraw' }) :
-                                                                    item.group?.button_trigger === 'view-group' ? () => router.push(`/groups/${item.group?.id}`) :
+                                                            item?.button_trigger == 'join-now' ? () => joingrp({ e: item.group?.id, getallgrp: getallgrp, type: 'send' }) :
+                                                                item?.button_trigger === 'withdrawl-request' ? () => joingrp({ e: item.group?.id, getallgrp: getallgrp, type: 'withdraw' }) :
+                                                                    item?.button_trigger === 'view-group' ? () => router.push(`/groups/${item.group?.id}`) :
                                                                         ''
                                                         }>
                                                             <p className='mb-0 px-4'>
                                                                 {
-                                                                    item.group?.button_trigger === 'join-now' ? 'Join' :
-                                                                        item.group?.button_trigger === 'withdrawl-request' ? 'Pending' :
-                                                                            item.group?.button_trigger === 'pending' ? 'Cancel Request' :
-                                                                                item.group?.button_trigger === 'view-group' ? 'View' :
+                                                                    item?.button_trigger == 'join-now' ? 'Join' :
+                                                                        item?.button_trigger == 'withdrawl-request' ? 'Pending' :
+                                                                            item?.button_trigger == 'pending' ? 'Cancel Request' :
+                                                                                item?.button_trigger == 'view-group' ? 'View' :
                                                                                     ''}
                                                             </p>
                                                         </button>
-                                                        : item.group?.button_trigger === 'accept-request' ?
+                                                        : item?.button_trigger == 'accept-request' ?
                                                             <>
                                                                 <button className='btn secondary-btn mx-1' onClick={() => accptgrpreq({ e: item.group?.id, endpoint: 'acceptInvite' })}>Accept</button>
                                                                 <button className='btn secondary-btn mx-1' onClick={() => accptgrpreq({ e: item.group?.id, endpoint: 'rejectInvite' })}>Reject</button>

@@ -31,7 +31,6 @@ export const Authme = (key) => {
             }
         })
         .then(response => {
-            console.log('authMe utils', response);
             resolve(response.data); // Resolve with the data from the API call
         })
         .catch(error => {

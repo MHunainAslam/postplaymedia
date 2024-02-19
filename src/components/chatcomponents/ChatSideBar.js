@@ -229,16 +229,16 @@ const ChatSideBar = () => {
                     </div>
                     <div className='chat-detail'>
                         <li className="nav-item dropdown list-unstyled">
-                            <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <Link className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i className="bi bi-three-dots"></i>
-                            </a>
+                            </Link>
                             <ul className="dropdown-menu py-1">
                                 <li>
-                                    <a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" data-bs-toggle="modal" data-bs-target="#createchtgrp" >
+                                    <Link className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" data-bs-toggle="modal" data-bs-target="#createchtgrp" >
                                         Create Group
-                                    </a>
+                                    </Link>
                                 </li>
-                                {/* <li onClick={(e) => { setmute(!mute) }}><a className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >{mute === false ? "unmute" : 'mute'}</a></li> */}
+                                {/* <li onClick={(e) => { setmute(!mute) }}><Link className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >{mute === false ? "unmute" : 'mute'}</Link></li> */}
                             </ul>
                         </li>
                     </div>

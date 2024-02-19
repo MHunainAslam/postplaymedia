@@ -44,7 +44,7 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
 
             console.log(e.target.files)
             reader.onload = (event) => {
-                axios.post(`${APP_URL}/api/post-media`, PostMedia, {
+                axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     }
@@ -113,6 +113,7 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
                 setimg([])
                 setPostArea('')
                 setPostText('')
+                setpostdone(!postdone)
             })
             .catch(error => {
                 setisLoading(false)

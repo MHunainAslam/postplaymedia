@@ -177,12 +177,10 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
     useEffect(() => {
         const ids = parseMentionsForIds(text);
         setmentionuserid(ids);
-        console.log(ids)
     }, [text]);
     useEffect(() => {
         const ids = parseMentionsForIds(cmnt);
         setmentionuserid(ids);
-        console.log(ids)
     }, [cmnt]);
     // useEffect(() => {
     //     getcomment()

@@ -1,14 +1,15 @@
+import Link from 'next/link'
 import React from 'react'
 
 const NavLinks = () => {
   return (
     <>
     <ul className='NavLinks'>
-        <li><a href="">Home</a></li>
-        <li><a href="">About Us</a></li>
-        <li><a href="">FAQs</a></li>
-        <li><a href="">Blog</a></li>
-        <li><a href="">Contact</a></li>
+        <li><Link href="#">Home</Link></li>
+        <li><Link href="#">About Us</Link></li>
+        <li><Link href="#">FAQs</Link></li>
+        <li><Link href="#">Blog</Link></li>
+        <li><Link href="#">Contact</Link></li>
     </ul>
     </>
   )

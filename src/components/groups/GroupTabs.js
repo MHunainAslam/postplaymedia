@@ -22,7 +22,7 @@ const GroupTabs = () => {
     const [minegrpcount, setminegrpcount] = useState()
     const [Allgrp, setAllgrp] = useState([])
     const [isLoading, setisLoading] = useState(true)
-    const [dataOnPage, setdataOnPage] = useState(21)
+    const [dataOnPage, setdataOnPage] = useState(18)
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = dataOnPage;
     const indexOfLastItem = currentPage * itemsPerPage;

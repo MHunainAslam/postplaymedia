@@ -4,11 +4,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import AllMembers from './AllMembers'
 import MyFriends from './MyFriends'
 import MyGroups from './MyGroups'
-import Mention from './Mention'
 import { UserContext } from '@/app/ActivityLayout'
 import PostArea from '../posts/PostArea'
 import { Authme, GetToken } from '@/utils/Token'
 import { useAppContext } from '@/context/AppContext'
+import MyMention from './MyMention'
 
 const ActivityTabs = () => {
 
@@ -41,16 +41,18 @@ const ActivityTabs = () => {
                 </ul>
                 <div className="tab-content ">
                     <div className="tab-pane fade active show" id="AllMembers" role="tabpanel" aria-labelledby="AllMembers-tab">
-                        <AllMembers postdone={postdone} />
+                        <AllMembers postdone={postdone} endpoint={`?section=all&`} />
                     </div>
                     <div className="tab-pane fade" id="MyFriends" role="tabpanel" aria-labelledby="MyFriends-tab">
+                        {/* <AllMembers postdone={postdone} endpoint={`?section=friend&`} /> */}
                         <MyFriends />
                     </div>
                     <div className="tab-pane fade" id="MyGroups" role="tabpanel" aria-labelledby="MyGroups-tab">
+                        {/* <AllMembers postdone={postdone} endpoint={`?section=friend&`} /> */}
                         <MyGroups />
                     </div>
                     <div className="tab-pane fade" id="MyMention" role="tabpanel" aria-labelledby="MyMention-tab">
-                        <Mention />
+                        <MyMention />
                     </div>
                 </div>
             </div>

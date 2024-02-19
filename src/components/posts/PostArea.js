@@ -54,7 +54,7 @@ const PostArea = ({ postdone, setpostdone }) => {
         }
     
         console.log(selectedFiles);
-        axios.post(`${APP_URL}/api/post-media`, PostMedia, {
+        axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }

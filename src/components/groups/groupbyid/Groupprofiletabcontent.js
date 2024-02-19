@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
 import GrpActivity from './GrpActivity'
 import GroupMembers from './GroupMembers'
@@ -6,10 +6,15 @@ import Invitetabs from '../Invitetabs'
 import GroupSetting from './GroupSetting'
 import { grpContext } from '@/app/GroupLayout'
 import AddRemoveUser from './AddRemoveUser'
+import AllMembers from '@/components/activity/AllMembers'
+import { useAppContext } from '@/context/AppContext'
+import GrpPostArea from '../GrpPostArea'
 
 const Groupprofiletabcontent = () => {
     const router = useRouter()
     const { grpdata } = useContext(grpContext)
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+    const { groupbyid } = useParams()
     const searchParams = useSearchParams()
     const param = searchParams.get('group-tab')
     const [inviteuserid, setinviteuserid] = useState([])
@@ -17,6 +22,12 @@ const Groupprofiletabcontent = () => {
     const [btnActive, setbtnActive] = useState(false)
     const [isLoading, setisLoading] = useState(false)
     const [TabState, setTabState] = useState('grpactivity')
+    let matchingItem = grpdata?.data?.participants?.participants?.find(item => item.user_id == UserProfiledata?.data?.id);
+    if (matchingItem) {
+        console.log("Matching item found:", matchingItem);
+    } else {
+        console.log("No matching item found.");
+    }
     useEffect(() => {
         setgrpId(grpdata?.data?.group?.id)
     }, [grpdata])
@@ -42,7 +53,7 @@ const Groupprofiletabcontent = () => {
                 setbtnActive(false)
                 setisLoading(false)
                 message.success(response.data.message)
-               
+
             })
             .catch(error => {
                 console.error(error);
@@ -58,12 +69,21 @@ const Groupprofiletabcontent = () => {
             });
 
     }
+    const [postdone, setpostdone] = useState(false)
     return (
         <>
             <div className="tab-content ">
-
                 <div className={`tab-pane fade  ${TabState === 'grpactivity' ? 'active show' : ''}`} id="grpactivity" role="tabpanel" aria-labelledby="grpactivity-tab">
-                    <GrpActivity />
+                    <div className="pt-3 pb-3">
+                        {grpdata?.data?.group?.privacy == 'public' || UserProfiledata?.data?.id == grpdata?.data?.group?.created_by?.id || matchingItem ?
+                            <GrpPostArea setpostdone={setpostdone} postdone={postdone} />
+                            :
+                            <div className="alert-box">
+                                <p className='heading-m clr-primary text-center'>Join Group To Start Posting!</p>
+                            </div>
+                        }
+                    </div>
+                    <AllMembers endpoint={`?group_id=${groupbyid}&`} postdone={postdone} />
                 </div>
                 <div className={`tab-pane fade  ${TabState === 'grpabout' ? 'active show' : ''}`} id="grpabout" role="tabpanel" aria-labelledby="grpabout-tab">
                 </div>

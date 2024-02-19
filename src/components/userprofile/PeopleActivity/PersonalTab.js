@@ -61,6 +61,8 @@ const PersonalTab = ({ postdone }) => {
         setPostSelectedImage(null);
         setPostModalOpen(false);
     };
+   
+
     const fetchPosts = async (page) => {
         try {
             const response = await fetch(

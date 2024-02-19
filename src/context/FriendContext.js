@@ -41,7 +41,6 @@ export function FrndWrapper({ children }) {
             const data = await response.json();
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('fetchfrnds', data)
                 setDatafrnd(data.message.data);
                 setCurrentPage(data.message.current_page);
                 setTotalPagesfrnd(data.message.last_page);
@@ -119,7 +118,6 @@ export function FrndWrapper({ children }) {
     //     // if (container && container.scrollTop <= 200) {
     //     if (container &&
     //         container.scrollHeight - container.scrollTop <= container.clientHeight - 0) {
-    //         console.log('hn')
     //         handleLoadMore();
     //     }
     // };

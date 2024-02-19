@@ -12,7 +12,7 @@ import { Skeleton, message } from 'antd'
 import { Mention, MentionsInput } from 'react-mentions'
 import { useFrndContext } from '@/context/FriendContext'
 
-const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditDone, EditDone }) => {
+const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditDone, EditDone, editmodalid }) => {
     const token = GetToken('userdetail')
     const { groupbyid } = useParams()
     const { UserProfiledata, UserProfileloader } = useAppContext()
@@ -65,7 +65,7 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
         }
 
         console.log(selectedFiles);
-        axios.post(`${APP_URL}/api/post-media`, PostMedia, {
+        axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -125,6 +125,7 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
                 setPostArea('')
                 setPostTextEdit()
                 setEditDone(!EditDone)
+                document.querySelector(`.${editmodalid}`)?.click()
             })
             .catch(error => {
                 setisLoading(false)

@@ -11,7 +11,7 @@ import { Image } from 'antd';
 
 
 
-const AllPhotos = () => {
+const AllPhotos = ({ endpoint }) => {
     const token = GetToken('userdetail')
     const images = [{ url: '/assets/images/posts/covers.jpg', comment: '123' }, { url: '/assets/images/posts/cover.jpeg', comment: '321' }, { url: '/assets/images/Modal/Avatar.png', comment: '567' }]; // Replace with your image URLs
     const [AllPosts, setAllPosts] = useState([])
@@ -35,7 +35,7 @@ const AllPhotos = () => {
     };
 
     useEffect(() => {
-        axios.get(`${APP_URL}/api/posted-activity-media`, {
+        axios.get(`${APP_URL}/api/${endpoint}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -172,13 +172,19 @@ const AllPhotos = () => {
                     </div>
                 </div>
             </div>
+            {AllMedia.length == 0 &&
+                <div div className=" mt-3 alert-box text-center">
+                    <p className='heading-m clr-primary '>No Media Posted!</p>
+                </div>
+            }
             <div className="row">
+
                 <Image.PreviewGroup
                     preview={{
                         onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
                     }}
                 >
-                    {AllMedia?.i?.filter(media => media.url.slice(-4) !== '.mp4').map((image, index) => (
+                    {AllMedia.filter(media => media.url.slice(-4) !== '.mp4').map((image, index) => (
                         <div className="col-xl-3 col-lg-4 col-md-6 mt-3" key={index}>
                             <div className="card gallery-card">
                                 <div className="card-body p-0">
@@ -216,7 +222,7 @@ const AllPhotos = () => {
                         </div>
                     ))}
                 </Image.PreviewGroup >
-            </div>
+            </div >
 
             <FancyBox images={images} modalOpen={modalOpen} closeModal={closeModal} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
 

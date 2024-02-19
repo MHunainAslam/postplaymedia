@@ -8,7 +8,7 @@ const page = () => {
 
     <ActivityLayout ActivityPages>
       <WatchPhotosTab />
-      </ActivityLayout>
+    </ActivityLayout>
   )
 }
 

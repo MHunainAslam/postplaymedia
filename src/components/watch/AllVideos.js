@@ -7,7 +7,7 @@ import { Image } from 'antd';
 import axios from 'axios';
 import { APP_URL, IMG_URL } from '../../../config';
 import { GetToken } from '@/utils/Token';
-const AllVideos = () => {
+const AllVideos = ({ endpoint }) => {
     const token = GetToken('userdetail')
     const [AllMedia, setAllMedia] = useState([])
     const images = [{ url: '/assets/videos/Login_bg.mp4', comment: '123' }]; // Replace with your image URLs
@@ -25,7 +25,7 @@ const AllVideos = () => {
         setModalOpen(false);
     };
     useEffect(() => {
-        axios.get(`${APP_URL}/api/posted-activity-media`, {
+        axios.get(`${APP_URL}/api/${endpoint}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -51,7 +51,6 @@ const AllVideos = () => {
         // Pause the currently playing video if there is one
         if (currentlyPlayingRef.current !== null) {
             currentlyPlayingRef.current.pause();
-            console.log('play');
             setisvideo(false)
         }
 
@@ -62,12 +61,10 @@ const AllVideos = () => {
                 ...prevState,
                 [index]: !prevState[index]
             }));
-            console.log('object');
             video.play();
             currentlyPlayingRef.current = video;
         } else {
             video.pause();
-            console.log('else');
         }
     };
 
@@ -82,13 +79,18 @@ const AllVideos = () => {
                 </div>
             </div>
             {/* <p className="para text-black mt-3">Sorry !! There&lsquo;s no media found for the request !!</p> */}
+            {AllMedia.length == 0 &&
+                <div div className=" mt-3 alert-box text-center">
+                    <p className='heading-m clr-primary '>No Media Posted!</p>
+                </div>
+            }
             <div className="row">
                 <Image.PreviewGroup
                     preview={{
                         onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
                     }}
                 >
-                    {AllMedia?.i?.filter(media => media.url.slice(-4) == '.mp4').map((image, index) => (
+                    {AllMedia.filter(media => media.url.slice(-4) == '.mp4').map((image, index) => (
                         <div className=" col-md-6 mt-3" key={index}>
                             <div className="card gallery-card">
                                 <div className="card-body p-0">

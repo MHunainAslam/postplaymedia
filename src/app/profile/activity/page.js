@@ -1,5 +1,7 @@
 import ProfileLayout from '@/app/ProfileLayout'
 import UserProfileLayout from '@/app/UserProfileLayout'
+import AllMembers from '@/components/activity/AllMembers'
+import PostArea from '@/components/posts/PostArea'
 import FriendsTab from '@/components/userprofile/PeopleActivity/FriendsTab'
 import GroupsTab from '@/components/userprofile/PeopleActivity/GroupsTab'
 import MentionTab from '@/components/userprofile/PeopleActivity/MentionTab'
@@ -28,7 +30,8 @@ const page = () => {
             </div>
             <div className="tab-content ">
                 <div className="tab-pane fade active show" id="PeopleActivityPersonal" role="tabpanel" aria-labelledby="PeopleActivityPersonal-tab">
-                    <PersonalTab />
+                    <PostArea />
+                    <AllMembers endpoint={`?`} />
                 </div>
                 <div className="tab-pane fade " id="PeopleActivityMention" role="tabpanel" aria-labelledby="PeopleActivityMention-tab">
                     <MentionTab />

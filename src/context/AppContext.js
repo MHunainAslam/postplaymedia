@@ -50,7 +50,6 @@ export function AppWrapper({ children }) {
       }
     })
       .then(response => {
-        console.log('context authMe', response);
         setUserProfiledata(response?.data)
         setUserProfileloader(false)
 
@@ -142,7 +141,6 @@ export function AppWrapper({ children }) {
       }
     })
       .then(response => {
-        console.log('spam chat', response);
         setspamchat(response)
       })
       .catch(error => {
@@ -195,7 +193,7 @@ export function AppWrapper({ children }) {
     }
   };
   const fetchNotis = async (page) => {
-    console.log('not');
+    
     try {
       const response = await fetch(
         `${APP_URL}/api/get-notifications?is_read=false&per_page=20&page=${page}`,

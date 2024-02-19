@@ -71,7 +71,6 @@ const GroupLayout = ({ children, GroupPage }) => {
             }
         })
             .then(response => {
-                console.log('leave grp', response);
                 message.success(response.data.message)
                 router.push('/groups')
 
