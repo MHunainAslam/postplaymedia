@@ -15,7 +15,7 @@ const PhotosTab = () => {
                 </ul>
                 <div className="tab-content ">
                     <div className="tab-pane fade active show" id="AllPhotos" role="tabpanel" aria-labelledby="AllPhotos-tab">
-                        <AllPhotos />
+                        <AllPhotos endpoint={'posted-activity-media-associative?'}/>
                     </div>
 
                 </div>

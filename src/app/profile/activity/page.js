@@ -31,7 +31,7 @@ const page = () => {
             <div className="tab-content ">
                 <div className="tab-pane fade active show" id="PeopleActivityPersonal" role="tabpanel" aria-labelledby="PeopleActivityPersonal-tab">
                     <PostArea />
-                    <AllMembers endpoint={`?`} />
+                    <AllMembers endpoint={`/get-all-my-posts?`} />
                 </div>
                 <div className="tab-pane fade " id="PeopleActivityMention" role="tabpanel" aria-labelledby="PeopleActivityMention-tab">
                     <MentionTab />

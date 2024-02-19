@@ -44,7 +44,7 @@ const AllTeams = ({ loadcomponent }) => {
     console.log(conferencefield)
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const [Userdata, setUserdata] = useState(UserProfiledata)
- 
+
     useEffect(() => {
         setAllJobisLoader(true)
         axios.get(`${APP_URL}/api/teams?conference=${Conference}&state=${state}&level=${level}&sports=${sports}&per_page=${dataOnPage}&page=${currentPage}&search=${SearchTitle}`, {
@@ -68,6 +68,10 @@ const AllTeams = ({ loadcomponent }) => {
                 setAllJobisLoader(false)
             });
     }, [dlt, loadcomponent, Conference, state, level, sports, currentPage, SearchTitle])
+    useEffect(() => {
+      setCurrentPage(1)
+    }, [Conference, state, level, sports])
+
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
         // setisLoading(true)

@@ -13,7 +13,7 @@ const Page = () => {
             <div className="mt-3 profile-tabs">
                 <ul className="peopletab nav nav-tabs border-0 border-b-0  " role="tablist">
                     <li className="nav-item nav-link active  text-center" id="AllPhotos-tab" data-bs-toggle="tab" data-bs-target="#AllPhotos" type="button" role="tab" aria-controls="AllPhotos" aria-selected="false" tabIndex="-1">
-                        <p className="para clr-text mb-0">Photos </p>
+                        <p className="para clr-text mb-0">Photos  </p>
                     </li>
                     <li className="nav-item nav-link text-center" id="AllVideo-tab" data-bs-toggle="tab" data-bs-target="#AllVideo" type="button" role="tab" aria-controls="AllVideo" aria-selected="false" tabIndex="-1">
                         <p className="para clr-text mb-0">Video</p>
@@ -23,10 +23,10 @@ const Page = () => {
             <div className="tab-content ">
 
                 <div className="tab-pane fade active show" id="AllPhotos" role="tabpanel" aria-labelledby="AllPhotos-tab">
-                    <AllPhotos endpoint={'posted-activity-media'} />
+                    <AllPhotos endpoint={`posted-activity-media?user_id=${userprofile}&`} />
                 </div>
                 <div className="tab-pane fade " id="AllVideo" role="tabpanel" aria-labelledby="AllVideo-tab">
-                    <AllVideos endpoint={`posted-activity-media?user_id=${userprofile}`} />
+                    <AllVideos endpoint={`posted-activity-media?user_id=${userprofile}&`} />
                 </div>
 
             </div>

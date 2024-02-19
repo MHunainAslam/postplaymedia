@@ -2418,6 +2418,16 @@ h5 {
   .commentsec {
     min-width: 100%;
   }
+  .gallery-card .gallery-img {
+    height: 220px;
+  
+  }
+  
+  .gallery-card .gallery-img img,
+  .gallery-card .gallery-img video {
+    height: 220px;
+   
+  }
 }
 
 @media (min-width: 768px) {

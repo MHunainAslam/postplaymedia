@@ -9,6 +9,7 @@ import { deleteCookie } from 'cookies-next'
 import Loader from '@/components/Loader'
 import { UserContext } from '@/app/ProfileLayout'
 import { useAppContext } from '@/context/AppContext'
+import Link from 'next/link'
 
 const Profiledetail = ({ }) => {
     const token = GetToken('userdetail')
@@ -37,7 +38,7 @@ const Profiledetail = ({ }) => {
     const [getRoles, setgetRoles] = useState([])
     const [isloading, setisloading] = useState(true)
     const router = useRouter()
-    console.log("first", Userdata)
+ 
 
 
     useEffect(() => {
@@ -178,9 +179,9 @@ const Profiledetail = ({ }) => {
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-lg-4 col-md-6'>Current institute website</label>
-                    <p className="para-lg text-dark mb-0 text-capitalize">
+                    <Link href={`${Userdata?.data?.current_ins_website}`} target='_blank'  className="para-lg link-hov text-dark mb-0 text-capitalize">
                         {Userdata?.data?.current_ins_website === '' ? '--' : Userdata?.data?.current_ins_website}
-                    </p>
+                    </Link>
                 </div>
                 {Userdata?.data?.role?.slug != 'athlete' ?
                     <div className='d-md-flex align-items-center my-3'>

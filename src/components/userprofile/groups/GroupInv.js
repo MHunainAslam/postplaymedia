@@ -96,7 +96,12 @@ const GroupInv = ({ xl, md, lg }) => {
             </div>
             <div className="row position-relative">
                 {isLoading ? <Loader /> : <>
-                    {GrpInv?.data?.data?.data?.length === 0 ? <p className='heading-sm text-center text-black my-5'>No Groups Found!</p> :
+
+                    {GrpInv?.data?.data?.data?.length === 0 ?
+                        <div className="alert-box text-center">
+                            <p className='heading-sm  text-black '>No Group Invitation Found!</p>
+                        </div> :
+
                         <>
                             {GrpInv?.data?.data?.data?.map((item, i) => (
                                 <div className="col-xl-4 col-md-6 mt-3" key={i}>

@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 import Loader from '@/components/Loader'
 import { useAppContext } from '@/context/AppContext'
+import Link from 'next/link'
 
 const Profiledetail = ({ }) => {
     const token = GetToken('userdetail')
@@ -164,9 +165,9 @@ const Profiledetail = ({ }) => {
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-lg-4 col-md-6'>Current institute website</label>
-                    <p className="para-lg text-dark mb-0 text-capitalize">
+                    <Link href={`${UserProfiledata?.data?.current_ins_website}`} target='_blank'  className="para-lg text-dark mb-0 text-capitalize">
                         {UserProfiledata?.data?.current_ins_website === '' ? '--' : UserProfiledata?.data?.current_ins_website}
-                    </p>
+                    </Link>
                 </div>
                 {UserProfiledata?.data?.role?.slug != 'athlete' ?
                     <div className='d-md-flex align-items-center my-3'>

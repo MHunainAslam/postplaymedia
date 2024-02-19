@@ -1,12 +1,17 @@
+'use client'
 import ProfileLayout from '@/app/ProfileLayout'
 import UserProfileLayout from '@/app/UserProfileLayout'
+import AllMembers from '@/components/activity/AllMembers'
 import FriendsTab from '@/components/profile/PeopleActivity/FriendsTab'
 import GroupsTab from '@/components/profile/PeopleActivity/GroupsTab'
 import MentionTab from '@/components/profile/PeopleActivity/MentionTab'
 import PersonalTab from '@/components/profile/PeopleActivity/PersonalTab'
+import { useParams } from 'next/navigation'
 import React from 'react'
 
-const page = () => {
+const Page = () => {
+    const { userprofile } = useParams()
+
     return (
         <ProfileLayout ProfilePages>
             <div className="mt-3 profile-tabs">
@@ -22,15 +27,15 @@ const page = () => {
             </div>
             <div className="tab-content ">
                 <div className="tab-pane fade active show" id="PeopleActivityPersonal" role="tabpanel" aria-labelledby="PeopleActivityPersonal-tab">
-                    <PersonalTab />
+                    <AllMembers endpoint={`/get-all-my-posts?user_id=${userprofile}&`} />
                 </div>
                 <div className="tab-pane fade " id="PeopleActivityMention" role="tabpanel" aria-labelledby="PeopleActivityMention-tab">
                     <MentionTab />
                 </div>
-               
+
             </div>
         </ProfileLayout>
     )
 }
 
-export default page
+export default Page

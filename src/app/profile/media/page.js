@@ -34,10 +34,10 @@ const page = () => {
                     b
                 </div> */}
                 <div className="tab-pane fade active show" id="AllPhotos" role="tabpanel" aria-labelledby="AllPhotos-tab">
-                    <AllPhotos endpoint={'posted-activity-media'}  />
+                    <AllPhotos endpoint={'posted-activity-media?'}  />
                 </div>
                 <div className="tab-pane fade " id="AllVideo" role="tabpanel" aria-labelledby="AllVideo-tab">
-                    <AllVideos endpoint={'posted-activity-media'} />
+                    <AllVideos endpoint={'posted-activity-media?'} />
                 </div>
                 {/* <div className="tab-pane fade " id="AllMusic" role="tabpanel" aria-labelledby="AllMusic-tab">
                     e

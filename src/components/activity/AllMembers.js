@@ -368,7 +368,6 @@ const AllMembers = ({ postdone, endpoint }) => {
                                                 {item?.media?.length <= 0 ?
                                                     'posted in' : <> &nbsp;in</>
                                                 }
-
                                                 <span className='text-capitalize'>&nbsp;<Link href={`/groups/${item.group_id}`} className='link-hov clr-primary'>
                                                     {item.group_name} </Link>  </span>
                                             </p>
@@ -444,7 +443,7 @@ const AllMembers = ({ postdone, endpoint }) => {
                                                 <ShowAllImages images={item.media} item={item} />
 
                                             </div>
-                                            {/* <FancyBoxPostColaage images={item?.media} fancyBoxId={`AllMembersFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} /> */}
+                                            <FancyBoxPostColaage images={item?.media} fancyBoxId={`AllMembersFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
                                         </>
                                         :
 
@@ -475,7 +474,7 @@ const AllMembers = ({ postdone, endpoint }) => {
                                 </div>
                                 : ''
                             }
-                            {/* <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`AllMembersFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} para={item.post_text} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} /> */}
+                            <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`AllMembersFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} para={item.post_text} name={item.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
 
 
                             <hr className='my-0' />
