@@ -9,9 +9,10 @@ import { APP_URL } from '../../../config';
 import { useAppContext } from '@/context/AppContext';
 import { useFrndContext } from '@/context/FriendContext';
 
-const LoginForm = () => {
+const LoginForm = ({ id }) => {
   const [UserEmail, setUserEmail] = useState('')
   const [UserPass, setUserPass] = useState('')
+  const [RememberMe, setRememberMe] = useState()
   const [ShowPass, setShowPass] = useState(false)
   const [isLoading, setisLoading] = useState(false)
   const router = useRouter()
@@ -63,6 +64,30 @@ const LoginForm = () => {
     document.querySelector('.closelogin-modal').click()
     router.push('/register')
   }
+  useEffect(() => {
+    if (localStorage.getItem('rememberppm')) {
+      setRememberMe(true)
+      const rememberdetail = JSON.parse(localStorage.getItem('rememberppm'))
+      setUserEmail(rememberdetail.email)
+      setUserPass(rememberdetail.password)
+    }
+  }, [])
+
+  const rememberuser = () => {
+    if (RememberMe) {
+      localStorage.setItem('rememberppm', JSON.stringify({ email: UserEmail, password: UserPass }))
+    }
+  }
+  useEffect(() => {
+    rememberuser()
+  }, [RememberMe, UserEmail, UserPass])
+  useEffect(() => {
+    if (RememberMe == false) {
+      localStorage.removeItem('rememberppm')
+    }
+  }, [RememberMe])
+
+
 
   return (
     <>
@@ -81,8 +106,8 @@ const LoginForm = () => {
         </div>
         <div className="justify-content-between d-flex mt-3 align-items-center">
           <div className="form-check custome-checkbox ">
-            <input className="form-check-input" type="checkbox" value="" id="remember" />
-            <label className="form-check-label" htmlFor="remember">
+            <input className="form-check-input" type="checkbox" value={RememberMe} onClick={() => { setRememberMe(!RememberMe) }} checked={RememberMe} id={id} />
+            <label className="form-check-label" htmlFor={id}>
               Remember
             </label>
           </div>

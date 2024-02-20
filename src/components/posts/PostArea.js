@@ -32,10 +32,10 @@ const PostArea = ({ postdone, setpostdone }) => {
         const selectedFiles = e.target.files;
         setActivebtn(true);
         const PostMedia = new FormData();
-    
+
         for (const file of selectedFiles) {
             const reader = new FileReader();
-            
+
             reader.onload = (event) => {
                 setImages((imgs) => [
                     ...imgs,
@@ -46,39 +46,35 @@ const PostArea = ({ postdone, setpostdone }) => {
                     },
                 ]);
             };
-    
+
             reader.readAsDataURL(file);
-    
+
             // Append each file under the same key 'media[]'
             PostMedia.append('media[]', file);
         }
-    
-        console.log(selectedFiles);
+
         axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
-        .then(response => {
-            console.log('img', response.data.data.media_ids);
-            console.log(response?.data?.data?.media_ids?.length);
-            setimg(prevArray => [...prevArray , ...response.data.data.media_ids])
-            console.log(img)
-        })
-        .catch(error => {
-            console.error(error);
-            message.error(error?.response.data?.message)
-            if (error?.response?.status === 401) {
-                router.push('/')
-                deleteCookie('logged');
-                localStorage.removeItem('userdetail')
-            }
-        })
-        .finally(() => {
-            setActivebtn(false);
-        });
+            .then(response => {
+                setimg(prevArray => [...prevArray, ...response.data.data.media_ids])
+            })
+            .catch(error => {
+                console.error(error);
+                message.error(error?.response.data?.message)
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            })
+            .finally(() => {
+                setActivebtn(false);
+            });
     };
-    
+
     const removeImage = (index) => {
         const newImages = [...images];
         newImages.splice(index, 1);
@@ -92,7 +88,6 @@ const PostArea = ({ postdone, setpostdone }) => {
     const post = ({ e, endpoint }) => {
         if (PostText || img.length > 0) {
             setisLoading(true)
-            console.log('take', images)
             axios.post(`${APP_URL}/api/post`, {
                 post_text: PostText?.toString(),
                 status: 'active',
@@ -107,7 +102,6 @@ const PostArea = ({ postdone, setpostdone }) => {
             })
                 .then(response => {
                     setisLoading(false)
-                    console.log('Post', response.data);
                     setImages([])
                     setimg([])
                     setPostArea('')
@@ -119,7 +113,6 @@ const PostArea = ({ postdone, setpostdone }) => {
                     console.error(error);
                 });
         } else {
-            console.log('object', img);
 
         }
     }
@@ -127,10 +120,12 @@ const PostArea = ({ postdone, setpostdone }) => {
     const [focusedSuggestionIndex, setFocusedSuggestionIndex] = useState(0);
 
     // Prepare friends data for mention
+    console.log(Datafrnd)
     const friendsData = Datafrnd.map(friend => ({
 
-        id: String(friend.friend.id),
-        display: String(friend.friend.name),
+        // id: String(friend.friend.id),
+        id: String(UserProfiledata?.data?.id == friend?.friend?.id ? friend?.user?.id : friend?.friend?.id),
+        display: String(UserProfiledata?.data?.name == friend?.friend?.name ? friend?.user?.name : friend?.friend?.name),
 
     }));
 
@@ -144,12 +139,10 @@ const PostArea = ({ postdone, setpostdone }) => {
             event.preventDefault(); // Prevent cursor movement
             // setFocusedSuggestionIndex(i => i != friendsData.length - 1 && Math.min(i + 1, friendsData.length - 1));
             setFocusedSuggestionIndex(i => friendsData.length - 1 != i && i + 1);
-            console.log('doewn', focusedSuggestionIndex, friendsData.length)
-            console.log(friendsData)
+
         } else if (event.key === "ArrowUp") {
             event.preventDefault(); // Prevent cursor movement
             setFocusedSuggestionIndex(i => i != 0 ? i - 1 : i = friendsData.length - 1);
-            console.log('up')
         }
     };
     const parseMentionsForIds = (text) => {
@@ -167,7 +160,6 @@ const PostArea = ({ postdone, setpostdone }) => {
     useEffect(() => {
         const ids = parseMentionsForIds(PostText);
         setmentionuserid(ids);
-        console.log(ids)
     }, [PostText]);
 
 
@@ -256,8 +248,9 @@ const PostArea = ({ postdone, setpostdone }) => {
                                 {images.map((item, i) => (
                                     <div className='ShowAttachedFile' key={i}>
                                         <div className='d-flex align-items-center'>
-
+                                     
                                             <Image src={item.dataURL} alt="" width={100} height={100} className='post-img '></Image>
+                                            <video src={item.dataURL} alt="" width={100} height={100} className='post-img '></video>
                                             {/* <p className="para clr-text mb-0 ms-2">{item.name}</p> */}
                                         </div>
                                         <div className='d-flex align-items-center'>

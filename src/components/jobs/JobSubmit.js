@@ -105,7 +105,7 @@ const JobSubmit = ({ JobCategorydd }) => {
             const reader = new FileReader();
             reader.onload = () => {
                 setLogoImg(reader.result);
-                console.log(e.target.files[0])
+                
                 axios.post(`${APP_URL}/api/post-media`, formDataimg, {
                     headers: {
                         'Authorization': `Bearer ${token}`,

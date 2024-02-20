@@ -30,7 +30,7 @@ const CreateTeam = () => {
             reader.onload = () => {
                 setisLoading(true)
                 setProfileImage(reader.result);
-                console.log(e.target.files[0])
+                
                 axios.post(`${APP_URL}/api/post-media`, formDataimg, {
                     headers: {
                         'Authorization': `Bearer ${token}`,

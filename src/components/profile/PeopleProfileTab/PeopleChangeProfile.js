@@ -11,7 +11,7 @@ const PeopleChangeProfile = () => {
             const reader = new FileReader();
             reader.onload = () => {
                 setProfileImage(reader.result);
-                console.log(e.target.files[0])
+                
 
             };
             reader.readAsDataURL(file);

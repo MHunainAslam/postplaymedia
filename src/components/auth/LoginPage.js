@@ -61,7 +61,7 @@ const LoginPage = () => {
                                                 </div>
                                                 <p className='heading text-center mt-4 text-dark'>Welcome</p>
                                                 <p className="para text-dark text-center">Join gazillions of people online</p>
-                                                <LoginForm />
+                                                <LoginForm id={'remember'}/>
                                             </div>
                                         </div>
                                     </div>

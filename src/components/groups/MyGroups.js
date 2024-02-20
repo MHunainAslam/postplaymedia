@@ -58,7 +58,7 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
         <>
             <div className="border-bottom row justify-content-between">
                 <div className="col-lg-3 mb-3 col-md-6 ">
-                    
+
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0" ><i className="bi bi-search"></i></span>
                         <input type="text" className="form-control " placeholder="Search Group" aria-label="Username" />
@@ -77,7 +77,11 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
             </div>
             <div className="row position-relative">
                 {isLoading ? <Loader /> : <>
-                    {Minegrp?.data?.data?.data?.length === 0 ? <p className='heading-sm text-center text-black my-5'>No Groups Found!</p> :
+                    {Minegrp?.data?.data?.data?.length === 0 ?
+                        <div className="alert-box text-center">
+                            <p className='heading-sm  text-black '>No Groups Found!</p>
+                        </div>
+                        :
                         <>
                             {Minegrp?.data?.data?.data?.map((item, i) => (
                                 <div className="col-xl-4 col-md-6 mt-3" key={i}>

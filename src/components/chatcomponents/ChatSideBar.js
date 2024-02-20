@@ -21,7 +21,6 @@ const ChatSideBar = () => {
         // if (container && container.scrollTop <= 200) {
         if (container &&
             container.scrollHeight - container.scrollTop <= container.clientHeight - 0) {
-            console.log('hn')
             handleLoadMore();
         }
     };

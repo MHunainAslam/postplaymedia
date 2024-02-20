@@ -52,7 +52,8 @@ const ActivityTabs = () => {
                         <MyGroups />
                     </div>
                     <div className="tab-pane fade" id="MyMention" role="tabpanel" aria-labelledby="MyMention-tab">
-                        <MyMention />
+                        {/* <MyMention endpoint={'/section=mentions?'} /> */}
+                        <MyMention endpoint={'/get-my-post-mentions?'} />
                     </div>
                 </div>
             </div>

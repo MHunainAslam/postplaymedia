@@ -27,7 +27,7 @@ const ShowAllImages = ({ images, item }) => {
                             {image.media?.url.slice(-4) == '.mp4' ?
                                 <video
                                     className='pointer h-100 postimg w-100 dsd'
-                                    src={IMG_URL + item?.media[0]?.media?.url}
+                                    src={IMG_URL + image?.media?.url}
                                     controls
                                 />
                                 :

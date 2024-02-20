@@ -263,8 +263,8 @@ const AllMembers = ({ postdone, endpoint }) => {
     const { Datafrnd } = useFrndContext()
     const friendsData = Datafrnd.map(friend => ({
 
-        id: String(friend.friend.id),
-        display: String(friend.friend.name),
+        id: String(UserProfiledata?.data?.id == friend?.friend?.id ? friend?.user?.id : friend?.friend?.id),
+        display: String(UserProfiledata?.data?.name == friend?.friend?.name ? friend?.user?.name : friend?.friend?.name),
 
     }));
 
@@ -344,7 +344,7 @@ const AllMembers = ({ postdone, endpoint }) => {
                     } else {
                         timeDiffString = `${providedTimestamp.slice(0, 10)}`;
                     }
-                    // const formattedText = formatMentionsToLinks(item.post_text);
+                    // const formattedText = formatMentionsToLinks(item.post_text, UserProfiledata?.data?.id);
                     return (<div className='post-card mt-4 ' key={i}>
                         <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 col-xxl-5 col-lg-7 col-md-8' >
                             <div className='head-content p-3'>
@@ -395,7 +395,7 @@ const AllMembers = ({ postdone, endpoint }) => {
 
                                 /> */}
                             {/* {formattedText} */}
-                            <p className="px-3 post-text">{formatMentionsToLinks(item.post_text)}</p>
+                            <p className="px-3 post-text">{formatMentionsToLinks(item.post_text, UserProfiledata?.data?.id)}</p>
                             <div className="px-3">
                                 {/* {EditPost[i] &&
                                         <>

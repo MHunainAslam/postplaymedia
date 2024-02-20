@@ -139,8 +139,8 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
 
     // Prepare friends data for mention
     const friendsData = Datafrnd.map(friend => ({
-        id: String(friend.friend.id),
-        display: String(friend.friend.name),
+        id: String(UserProfiledata?.data?.id == friend?.friend?.id ? friend?.user?.id : friend?.friend?.id),
+        display: String(UserProfiledata?.data?.name == friend?.friend?.name ? friend?.user?.name : friend?.friend?.name),
     }));
 
     useEffect(() => {
@@ -301,7 +301,10 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
 
                                                                                     </>
                                                                                     :
-                                                                                    <p className='form-control back-border text-black inp mb-0' name="" id="" >{formatMentionsToLinks(item.body)}</p>
+                                                                                    <p className='form-control back-border text-black inp mb-0' name="" id="" >
+                                                                                       {formatMentionsToLinks(item.body, UserProfiledata?.data?.id)}
+                                                                                    
+                                                                                    </p>
                                                                                 }
                                                                                 <div className="d-flex mt-1 align-items-center">
                                                                                     {/* <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => RplyComments(i)} >Rply</p> */}

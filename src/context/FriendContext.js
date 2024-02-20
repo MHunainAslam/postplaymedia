@@ -83,7 +83,6 @@ export function FrndWrapper({ children }) {
                 setDatafrnd((prevMessages) => [...prevMessages, ...data?.message?.data]);
                 setCurrentPage(data.message.current_page);
                 setTotalPagesfrnd(data.message.last_page);
-                console.log('data', data.message.current_page)
             } else {
                 console.error('Failed to fetch messages');
             }

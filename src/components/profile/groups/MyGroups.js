@@ -9,9 +9,12 @@ import { deleteCookie } from 'cookies-next';
 import { APP_URL } from '../../../../config';
 import Pagination from '@/components/jobs/Pagination';
 import Loader from '@/components/Loader'
+import { useAppContext } from '@/context/AppContext';
+import { joingrp } from '@/utils/GrpFunctions';
 
 const MyGroups = ({ setminegrpcount, runminegrp }) => {
     const { userprofile } = useParams()
+    const { UserProfiledata } = useAppContext()
     const [Minegrp, setMinegrp] = useState([])
     const router = useRouter()
     const token = GetToken('userdetail')
@@ -53,6 +56,25 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
     useEffect(() => {
         getminegrp()
     }, [dataOnPagemine, currentPagemine, runminegrp])
+    const accptgrpreq = ({ e, endpoint }) => {
+        axios.post(`${APP_URL}/api/groups/${endpoint}`, {
+            user_id: UserProfiledata?.data?.id,
+            group_id: e
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                // Handle successful response here
+                console.log('accept grp inv', response.data);
+                getallgrp()
+            })
+            .catch(error => {
+                // Handle error here
+                console.error(error);
+            });
+    }
     return (
 
         <>
@@ -110,7 +132,34 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
                                             <p className="para text-black mt-3 text-capitalize">{item.privacy} Group / {item.member_count} members</p>
                                         </div>
                                         <div className="card-footer">
-                                            <Link href={`/groups/${item.id}`} className='btn secondary-btn '><p className='mb-0 px-4'>Visit</p></Link>
+                                            {/* <Link href={`/groups/${item.id}`} className='btn secondary-btn '><p className='mb-0 px-4'>Visit</p></Link>zxcv */}
+                                            {UserProfiledata?.data?.id === item?.created_by?.id ?
+                                                <button className='btn secondary-btn px-4' onClick={() => router.push(`/groups/${item.id}`)}>View</button> :
+                                                <>
+                                                    {item.button_trigger != 'accept-request' ?
+
+                                                        <button className='btn secondary-btn ' onClick={
+                                                            item.button_trigger === 'join-now' ? () => joingrp({ e: item.id, getallgrp: getminegrp, type: 'send' }) :
+                                                                item.button_trigger === 'withdrawl-request' ? () => joingrp({ e: item.id, getallgrp: getminegrp, type: 'withdraw' }) :
+                                                                    item.button_trigger === 'view-group' ? () => router.push(`/groups/${item.id}`) :
+                                                                        ''
+                                                        }>
+                                                            <p className='mb-0 px-4'>
+                                                                {
+                                                                    item.button_trigger === 'join-now' ? 'Join' :
+                                                                        item.button_trigger === 'withdrawl-request' ? 'Pending' :
+                                                                            item.button_trigger === 'pending' ? 'Cancel Request' :
+                                                                                item.button_trigger === 'view-group' ? 'View' :
+                                                                                    ''}
+                                                            </p>
+                                                        </button>
+                                                        : item.button_trigger === 'accept-request' ?
+                                                            <>
+                                                                <button className='btn secondary-btn mx-1' onClick={() => accptgrpreq({ e: item.id, endpoint: 'acceptInvite' })}>Accept</button>
+                                                                <button className='btn secondary-btn mx-1' onClick={() => accptgrpreq({ e: item.id, endpoint: 'rejectInvite' })}>Reject</button>
+                                                            </>
+                                                            : ''}
+                                                </>}
                                         </div>
                                     </div>
                                 </div>

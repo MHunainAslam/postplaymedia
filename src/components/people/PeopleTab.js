@@ -21,6 +21,7 @@ const PeopleTab = () => {
     const [totalMember, settotalMember] = useState(1)
     const [totalPages, setTotalPages] = useState()
     const [loading, setLoading] = useState(1)
+    const [MemberSearch, setMemberSearch] = useState('')
     const [CurrentPagefrnd, setCurrentPagefrnd] = useState(1)
     const [TotalPagesfrnd, setTotalPagesfrnd] = useState()
     // const [Datafrnd, setDatafrnd] = useState([])
@@ -30,7 +31,7 @@ const PeopleTab = () => {
     const fetchMembers = async (page) => {
         try {
             const response = await fetch(
-                `${APP_URL}/api/users?per_page=20&page=${page}`,
+                `${APP_URL}/api/users?per_page=20&page=${page}&search=${MemberSearch}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -247,7 +248,7 @@ const PeopleTab = () => {
     useEffect(() => {
         fetchMembers()
         // fetchFrnds()
-    }, [])
+    }, [MemberSearch])
     return (
         <>
             <div className="activity-tabs mt-5">
@@ -263,7 +264,7 @@ const PeopleTab = () => {
                 </ul>
                 <div className="tab-content ">
                     <div className="tab-pane fade active show" id="ActiveMembers" role="tabpanel" aria-labelledby="ActiveMembers-tab">
-                        <ActiveMembers fetchMembers={fetchMembers} UserData={Data} UserDataLoader={UserDataLoader} />
+                        <ActiveMembers fetchMembers={fetchMembers} UserData={Data} UserDataLoader={UserDataLoader} setMemberSearch={setMemberSearch} MemberSearch={MemberSearch}/>
                     </div>
                     <div className="tab-pane fade " id="MyFriends" role="tabpanel" aria-labelledby="MyFriends-tab">
                         <MyFriends getallfrnds={fetchFrnds} AllFrndsData={Datafrnd} UserDataLoader={UserDataLoader} />

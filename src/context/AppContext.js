@@ -79,10 +79,7 @@ export function AppWrapper({ children }) {
       }
     })
       .then(response => {
-        console.log('frnd Req', response.data?.data);
         setFrndReq(response?.data?.data)
-
-
       })
       .catch(error => {
 
@@ -101,10 +98,7 @@ export function AppWrapper({ children }) {
       }
     })
       .then(response => {
-        console.log('grpReq', response.data?.data);
         setGrpReq(response?.data?.data?.data)
-
-
       })
       .catch(error => {
 

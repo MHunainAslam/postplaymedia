@@ -10,7 +10,7 @@ import { GetToken } from '@/utils/Token'
 import { useRouter } from 'next/navigation'
 import { message } from 'antd'
 import { useAppContext } from '@/context/AppContext'
-const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader }) => {
+const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader, MemberSearch, setMemberSearch }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const token = GetToken('userdetail')
     const [btndisable, setbtndisable] = useState(false)
@@ -114,7 +114,7 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader }) => {
                 <div className="col-lg-3 mb-3 col-md-6 ">
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0" ><i className="bi bi-search"></i></span>
-                        <input type="text" className="form-control " placeholder="Search Member" aria-label="Username" />
+                        <input type="text" className="form-control " placeholder="Search Member"  value={MemberSearch} onChange={(e) => setMemberSearch(e.target.value)} />
                     </div>
                 </div>
 
@@ -174,7 +174,7 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader }) => {
                                 ))}
                             </>
                             : <div className="alert-box">
-                                <p>0 Member Registered</p>
+                                <p>No Member Found!</p>
                             </div>}
                     </>
                 }

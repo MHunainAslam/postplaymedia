@@ -7,11 +7,16 @@ import { Image } from 'antd';
 import axios from 'axios';
 import { APP_URL, IMG_URL } from '../../../config';
 import { GetToken } from '@/utils/Token';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useAppContext } from '@/context/AppContext';
 const AllVideos = ({ endpoint }) => {
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+    const router = useRouter()
     const token = GetToken('userdetail')
     const [AllMedia, setAllMedia] = useState([])
     const images = [{ url: '/assets/videos/Login_bg.mp4', comment: '123' }]; // Replace with your image URLs
-
+    const [isloading, setisloading] = useState(true)
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
 
@@ -33,6 +38,7 @@ const AllVideos = ({ endpoint }) => {
             .then(response => {
                 console.log('grp media', response);
                 setAllMedia(response?.data?.data)
+                setisloading(false)
             })
             .catch(error => {
 
@@ -40,6 +46,7 @@ const AllVideos = ({ endpoint }) => {
                     router.push('/')
                     deleteCookie('logged');
                     localStorage.removeItem('userdetail')
+                    setisloading(false)
                 }
             });
     }, [])
@@ -71,17 +78,23 @@ const AllVideos = ({ endpoint }) => {
     return (
         <>
             <div className="border-bottom ">
-                <div className="col-lg-3 mb-3 col-md-6 ">
+                {/* <div className="col-lg-3 mb-3 col-md-6 ">
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0" ><i className="bi bi-search"></i></span>
                         <input type="text" className="form-control " placeholder="Search Media" aria-label="Username" />
                     </div>
-                </div>
+                </div> */}
             </div>
             {/* <p className="para text-black mt-3">Sorry !! There&lsquo;s no media found for the request !!</p> */}
-            {AllMedia.length == 0 &&
+            {isloading ? <div className="w-100 text-center mt-4">
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+            </div>
+                :
+                AllMedia.filter(media => media.url.slice(-4) == '.mp4').length == 0 &&
                 <div div className=" mt-3 alert-box text-center">
-                    <p className='heading-m clr-primary '>No Media Posted!</p>
+                    <p className='heading-m clr-primary '>No Video Posted!</p>
                 </div>
             }
             <div className="row">
@@ -122,11 +135,23 @@ const AllVideos = ({ endpoint }) => {
                                         }
                                     </div>
 
-                                    <div className="d-flex mt-3 align-items-center">
-                                        <img src={'/assets/images/Modal/Avatar.png'} alt="" width={40} height={40} className='post-profile-m'></img>
 
-                                        <p className="heading-sm text-black mb-0 ms-2">Scott</p>
-                                    </div>
+                                   
+                                        {/* {image.user_image == null ?
+                                            <img src={'/assets/images/Modal/Avatar.png'} alt="" width={40} height={40} className='post-profile-m'></img>
+                                            : <img src={IMG_URL + image.user_image} alt="" width={40} height={40} className='post-profile-m object-fit-cover'></img>
+                                        } */}
+                                        {/* <Link href={UserProfiledata?.data?.id === }></Link> */}
+                                        {/* <p className="heading-sm text-black mb-0 ms-2">{image.user_name} </p> */}
+                                        <Link href={`${UserProfiledata?.data?.id == image.user_id ? '/profile/activity' : `/people/${image.user_id}/activity`}`} className="link-hov d-flex mt-3 align-items-center">
+                                            {image.user_image == null ?
+                                                <img src={'/assets/images/Modal/Avatar.png'} alt="" width={40} height={40} className='post-profile-m'></img>
+                                                : <img src={IMG_URL + image.user_image} alt="" width={40} height={40} className='post-profile-m object-fit-cover'></img>
+                                            }
+                                            {/* <Link href={UserProfiledata?.data?.id === }></Link> */}
+                                            <p className="heading-sm text-black mb-0 ms-2">{image.user_name}</p>
+                                        </Link>
+                                    
                                 </div>
                             </div>
                         </div>

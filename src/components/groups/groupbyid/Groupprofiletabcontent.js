@@ -83,7 +83,7 @@ const Groupprofiletabcontent = () => {
                             </div>
                         }
                     </div>
-                    <AllMembers endpoint={`?group_id=${groupbyid}&`} postdone={postdone} />
+                    <AllMembers endpoint={`/getPostByGroupId?group_id=${groupbyid}&`} postdone={postdone} />
                 </div>
                 <div className={`tab-pane fade  ${TabState === 'grpabout' ? 'active show' : ''}`} id="grpabout" role="tabpanel" aria-labelledby="grpabout-tab">
                 </div>

@@ -288,7 +288,7 @@ const PersonalTab = ({ postdone }) => {
                     } else {
                         timeDiffString = `${providedTimestamp.slice(0, 10)}`;
                     }
-                    // const formattedText = formatMentionsToLinks(item.post_text);
+                    // const formattedText = formatMentionsToLinks(item.post_text, UserProfiledata?.data?.id);
                     return <>
 
                         <div className='post-card mt-4 ' key={i}>
@@ -325,7 +325,7 @@ const PersonalTab = ({ postdone }) => {
 
                                 /> */}
                                 {/* {formattedText} */}
-                                <p className="px-3">{formatMentionsToLinks(item.post_text)}</p>
+                                <p className="px-3">{formatMentionsToLinks(item.post_text, UserProfiledata?.data?.id)}</p>
                                 <br />
                                 {/* {item.post_text} */}
                                 {/* <Link href={'/'} className='text-decoration-none'>lll</Link> */}

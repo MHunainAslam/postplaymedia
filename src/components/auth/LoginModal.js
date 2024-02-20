@@ -19,7 +19,7 @@ const LoginModal = () => {
                             <p className="heading clr-dark text-center">
                                 Log into your account
                             </p>
-                            <LoginForm />
+                            <LoginForm id={'remembermodal'}/>
                         </div>
                     </div>
                 </div>

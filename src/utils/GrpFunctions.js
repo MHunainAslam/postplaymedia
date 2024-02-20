@@ -4,6 +4,7 @@ import { deleteCookie } from "cookies-next";
 import axios from "axios";
 import { APP_URL } from "../../config";
 import Link from "next/link";
+import { useAppContext } from "@/context/AppContext";
 const token = GetToken('userdetail')
 export const DltGrp = ({ grpid, router }) => {
     return new Promise((resolve, reject) => {
@@ -49,7 +50,7 @@ export const joingrp = ({ e, getallgrp, type }) => {
             });
     });
 }
-export const formatMentionsToLinks = (text) => {
+export const formatMentionsToLinks = (text, userid) => {
     const mentionRegex = /@\[([^\]]+)\]\((\d+)\)/g;
     let elements = [];
     let lastIndex = 0;
@@ -58,7 +59,7 @@ export const formatMentionsToLinks = (text) => {
             elements.push(text.slice(lastIndex, index)); // Yeh non-mention text ko add karega
         }
         elements.push(
-            <Link key={index} href={`/people/${id}/activity`} className='fw-bold clr-primary text-decoration-none' style={{ cursor: 'pointer', display: 'inline' }}>
+            <Link key={index} href={`${userid == id ? '/profile/activity' : `/people/${id}/activity`}  `} className='fw-bold clr-primary text-decoration-none' style={{ cursor: 'pointer', display: 'inline' }}>
                 {name}
             </Link>
         );

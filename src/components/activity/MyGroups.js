@@ -29,7 +29,7 @@ const MyGroups = ({ postdone, endpoint }) => {
     const [Liked, setLiked] = useState([])
     const token = GetToken('userdetail')
     const [CommentArea, setCommentArea] = useState(false)
-    const [AllPosts, setAllPosts] = useState([])
+    const [AllGroupsPosts, setAllGroupsPosts] = useState([])
     const [likecount, setlikecount] = useState('')
     const [loading, setLoading] = useState(1)
     const [CurrentPagefrnd, setCurrentPagefrnd] = useState(1)
@@ -79,8 +79,8 @@ const MyGroups = ({ postdone, endpoint }) => {
             const data = await response.json();
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('posts xx', data)
-                setAllPosts(data.data.data);
+                console.log('posts greoup', data)
+                setAllGroupsPosts(data.data.data);
                 console.log(data)
                 setCurrentPagefrnd(data.data.current_page);
                 setTotalPagesfrnd(data.data.last_page);
@@ -125,7 +125,7 @@ const MyGroups = ({ postdone, endpoint }) => {
             if (data.success) {
                 // Prepend new messages to the beginning of the array
                 console.log('data', data)
-                setAllPosts((prevMessages) => [...prevMessages, ...data?.data?.data]);
+                setAllGroupsPosts((prevMessages) => [...prevMessages, ...data?.data?.data]);
                 setCurrentPagefrnd(data.data.current_page);
                 setTotalPagesfrnd(data.data.last_page);
                 console.log((prevMessages) => [...prevMessages, data?.data?.data], 'hn')
@@ -181,7 +181,7 @@ const MyGroups = ({ postdone, endpoint }) => {
         fetchPosts()
     }, [postdone, isdlt, EditDone, endpoint])
     const handleToggle = (postId) => {
-        setAllPosts(prevData => prevData.map(post => {
+        setAllGroupsPosts(prevData => prevData.map(post => {
             if (post.id === postId) {
                 return { ...post, isLiked: !post.isLiked }
 
@@ -190,7 +190,7 @@ const MyGroups = ({ postdone, endpoint }) => {
         }));
     };
     const likepost = (postId) => {
-        setAllPosts(prevData => prevData.map(post => {
+        setAllGroupsPosts(prevData => prevData.map(post => {
             if (post.id === postId) {
                 return { ...post, like_count: post.like_count + 1 }
 
@@ -213,7 +213,7 @@ const MyGroups = ({ postdone, endpoint }) => {
 
     };
     const dislikepost = (postId) => {
-        setAllPosts(prevData => prevData.map(post => {
+        setAllGroupsPosts(prevData => prevData.map(post => {
             if (post.id === postId) {
                 return { ...post, like_count: post.like_count - 1 }
 
@@ -263,8 +263,8 @@ const MyGroups = ({ postdone, endpoint }) => {
     const { Datafrnd } = useFrndContext()
     const friendsData = Datafrnd.map(friend => ({
 
-        id: String(friend.friend.id),
-        display: String(friend.friend.name),
+        id: String(UserProfiledata?.data?.id == friend?.friend?.id ? friend?.user?.id : friend?.friend?.id),
+        display: String(UserProfiledata?.data?.name == friend?.friend?.name ? friend?.user?.name : friend?.friend?.name),
 
     }));
 
@@ -317,7 +317,7 @@ const MyGroups = ({ postdone, endpoint }) => {
                 <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
                 <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
             </div> :
-                AllPosts.length == 0 &&
+                AllGroupsPosts.length == 0 &&
                 <div div className=" mt-3 alert-box text-center">
                     <p className='heading-m clr-primary '>No Post Avaiable!</p>
                 </div>
@@ -325,7 +325,7 @@ const MyGroups = ({ postdone, endpoint }) => {
 
 
             <ul className='px-0 mt-5'>
-                {AllPosts?.map((item, i) => {
+                {AllGroupsPosts?.map((item, i) => {
                     const providedTimestamp = item.created_at;
                     const providedDate = new Date(providedTimestamp);
                     const currentDate = new Date();
@@ -344,7 +344,7 @@ const MyGroups = ({ postdone, endpoint }) => {
                     } else {
                         timeDiffString = `${providedTimestamp.slice(0, 10)}`;
                     }
-                    // const formattedText = formatMentionsToLinks(item.post_text);
+                    // const formattedText = formatMentionsToLinks(item.post_text, UserProfiledata?.data?.id);
                     return (
                         <div className='post-card mt-4 ' key={i}>
                             <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 col-xxl-5 col-lg-7 col-md-8' >
@@ -397,7 +397,7 @@ const MyGroups = ({ postdone, endpoint }) => {
 
                                 /> */}
                                 {/* {formattedText} */}
-                                <p className="px-3 post-text">{formatMentionsToLinks(item.post_text)}</p>
+                                <p className="px-3 post-text">{formatMentionsToLinks(item.post_text, UserProfiledata?.data?.id)}</p>
                                 <div className="px-3">
                                     {/* {EditPost[i] &&
                                         <>

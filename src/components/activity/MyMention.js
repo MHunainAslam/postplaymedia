@@ -68,7 +68,7 @@ const MyMention = ({ postdone, endpoint }) => {
         try {
             const response = await fetch(
                 // `${APP_URL}/api/post?{section=all}&per_page=20&page=${page}`,
-                `${APP_URL}/api/post?section=mentions&per_page=20&page=${page}`,
+                `${APP_URL}/api${endpoint}per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -79,7 +79,7 @@ const MyMention = ({ postdone, endpoint }) => {
             const data = await response.json();
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('posts xx', data)
+                console.log('posts mentiuon', data)
                 setAllPosts(data.data.data);
                 console.log(data)
                 setCurrentPagefrnd(data.data.current_page);
@@ -111,7 +111,7 @@ const MyMention = ({ postdone, endpoint }) => {
         setloadmoreloader(true)
         try {
             const response = await fetch(
-                `${APP_URL}/api/post?section=mentions&per_page=20&page=${page}`,
+                `${APP_URL}/api${endpoint}per_page=20&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -263,8 +263,8 @@ const MyMention = ({ postdone, endpoint }) => {
     const { Datafrnd } = useFrndContext()
     const friendsData = Datafrnd.map(friend => ({
 
-        id: String(friend.friend.id),
-        display: String(friend.friend.name),
+        id: String(UserProfiledata?.data?.id == friend?.friend?.id ? friend?.user?.id : friend?.friend?.id),
+        display: String(UserProfiledata?.data?.name == friend?.friend?.name ? friend?.user?.name : friend?.friend?.name),
 
     }));
 
@@ -344,7 +344,7 @@ const MyMention = ({ postdone, endpoint }) => {
                     } else {
                         timeDiffString = `${providedTimestamp.slice(0, 10)}`;
                     }
-                    // const formattedText = formatMentionsToLinks(item.post_text);
+                    // const formattedText = formatMentionsToLinks(item.post_text, UserProfiledata?.data?.id);
                     return (
 
                         <div className='post-card mt-4 ' key={i}>
@@ -398,7 +398,7 @@ const MyMention = ({ postdone, endpoint }) => {
 
                                 /> */}
                                 {/* {formattedText} */}
-                                <p className="px-3 post-text">{formatMentionsToLinks(item.post_text)}</p>
+                                <p className="px-3 post-text">{formatMentionsToLinks(item.post_text, UserProfiledata?.data?.id)}</p>
                                 <div className="px-3">
                                     {/* {EditPost[i] &&
                                         <>

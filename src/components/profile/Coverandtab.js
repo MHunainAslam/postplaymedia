@@ -148,7 +148,7 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                         </div> : <>
                                             {Userdata?.data?.profile_photo === null ?
                                                 <img src="/assets/images/avatar/user.jpg" alt='' className="img-fluid rounded-start user-img" /> :
-                                                <Image src={IMG_URL + Userdata?.data?.profile_photo.url}  alt='' className="img-fluid rounded-start user-img" />
+                                                <Image src={IMG_URL + Userdata?.data?.profile_photo.url} alt='' className="img-fluid rounded-start user-img" />
                                             }
                                         </>}
 
@@ -171,9 +171,16 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                     <div className=" profile-tabs d-md-flex d-none justify-content-between my-3 align-items-center">
                                         <ProfileTabs Userdata={Userdata} />
                                         <div className='d-flex align-items-center'>
+
                                             {frndstatus === 'send-request' || frndstatus === 'pending' || frndstatus === 'accept-request' ?
                                                 <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } }} className='btn h-fit-content secondary-btn me-2' ><i className="bi bi-envelope"></i></Link>
-                                                : ''}
+                                                :
+                                                <Link href={Userdata?.data?.room_id === null ? { pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } } : { pathname: `/messages`, query: { profile: JSON.stringify(Userdata?.data), chat: (Userdata?.data?.room_id) } }} className="btn h-fit-content secondary-btn me-2" >
+                                                    <i className="bi bi-envelope"></i>
+                                                </Link>
+
+
+                                            }
                                             {frndstatus === 'send-request' ?
                                                 <button className='btn secondary-btn ' disabled={isDisable} onClick={() => sendreq(Userdata?.data?.id)}><p className='mb-0 px-md-3 px-1'> Add Friend</p></button>
                                                 : frndstatus === 'pending' ?

@@ -212,7 +212,7 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                             <Image width={5000} height={5000} src={images} loader={imgurl} className='w-100 postmodalimg object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
                                                         }
                                                     </>
-                                                    : <p className='para-lg w-100 text-white text-center px-5'>{formatMentionsToLinks(para)}</p>}
+                                                    : <p className='para-lg w-100 text-white text-center px-5'>{formatMentionsToLinks(para, UserProfiledata?.data?.id) }</p>}
                                                 {/* <button className='post-back-btn' onClick={prevImage}><i className="bi bi-chevron-left"></i></button>
                                         <button className='post-next-btn' onClick={nextImage}><i className="bi bi-chevron-right"></i></button> */}
                                             </div>
@@ -296,7 +296,9 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
 
                                                                                     </>
                                                                                     :
-                                                                                    <p className='form-control back-border text-black inp mb-0' name="" id="" >{formatMentionsToLinks(item.body)}</p>
+                                                                                    <p className='form-control back-border text-black inp mb-0' name="" id="" >
+                                                                                    {formatMentionsToLinks(item.body, UserProfiledata?.data?.id)}
+                                                                                    </p>
                                                                                 }
                                                                                 <div className="d-flex mt-1 align-items-center">
                                                                                     {/* <p className="para-sm mb-0 ms-3 pointer text-black" onClick={() => RplyComments(i)} >Rply</p> */}

@@ -138,8 +138,8 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
     // Prepare friends data for mention
     const friendsData = Datafrnd.map(friend => ({
 
-        id: String(friend.friend.id),
-        display: String(friend.friend.name),
+        id: String(UserProfiledata?.data?.id == friend?.friend?.id ? friend?.user?.id : friend?.friend?.id),
+        display: String(UserProfiledata?.data?.name == friend?.friend?.name ? friend?.user?.name : friend?.friend?.name),
 
     }));
 

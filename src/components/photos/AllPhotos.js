@@ -25,6 +25,7 @@ const AllPhotos = ({ endpoint }) => {
     const [UserDataLoader, setUserDataLoader] = useState(true)
     const [Datafrnd, setDatafrnd] = useState([])
     const [AllMedia, setAllMedia] = useState([])
+    const [isloading, setisloading] = useState(true)
     const [loading, setLoading] = useState(1)
     const openModal = (index) => {
         setSelectedImage(index);
@@ -46,9 +47,10 @@ const AllPhotos = ({ endpoint }) => {
             .then(response => {
                 console.log('grp media', response);
                 // setAllMedia(response?.data?.data)
+                setisloading(false)
             })
             .catch(error => {
-
+                setisloading(false)
                 if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
@@ -204,14 +206,19 @@ const AllPhotos = ({ endpoint }) => {
     return (
         <>
             <div className="border-bottom ">
-                <div className="col-lg-3 mb-3 col-md-6 ">
+                {/* <div className="col-lg-3 mb-3 col-md-6 ">
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0" ><i className="bi bi-search"></i></span>
                         <input type="text" className="form-control " placeholder="Search Media" aria-label="Username" />
                     </div>
-                </div>
+                </div> */}
             </div>
-            {AllMedia.length == 0 &&
+            {isloading ? <div className="w-100 text-center mt-4">
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+            </div>
+                : AllMedia.length == 0 &&
                 <div div className=" mt-3 alert-box text-center">
                     <p className='heading-m clr-primary '>No Media Posted!</p>
                 </div>
@@ -250,15 +257,14 @@ const AllPhotos = ({ endpoint }) => {
                                             />
                                         }
                                     </div>
-
-                                    <div className="d-flex mt-3 align-items-center">
+                                    <Link href={`${UserProfiledata?.data?.id == image.user_id ? '/profile/activity' : `/people/${image.user_id}/activity`}`} className="link-hov d-flex mt-3 align-items-center">
                                         {image.user_image == null ?
                                             <img src={'/assets/images/Modal/Avatar.png'} alt="" width={40} height={40} className='post-profile-m'></img>
                                             : <img src={IMG_URL + image.user_image} alt="" width={40} height={40} className='post-profile-m object-fit-cover'></img>
                                         }
                                         {/* <Link href={UserProfiledata?.data?.id === }></Link> */}
                                         <p className="heading-sm text-black mb-0 ms-2">{image.user_name}</p>
-                                    </div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

@@ -62,7 +62,7 @@ const GroupSetting = () => {
             reader.onload = () => {
                 setshowGrpCoverImg(null)
                 setGrpCoverImg(reader.result);
-                console.log(e.target.files[0])
+                
                 axios.post(`${APP_URL}/api/post-media`, formDataimg, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -102,7 +102,7 @@ const GroupSetting = () => {
             const reader = new FileReader();
             reader.onload = () => {
                 setSelectGrpImg(reader.result);
-                console.log(e.target.files[0])
+                
                 axios.post(`${APP_URL}/api/post-media`, formDataimg, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
