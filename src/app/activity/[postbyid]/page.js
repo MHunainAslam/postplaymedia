@@ -48,6 +48,7 @@ const Page = () => {
                 'Authorization': `Bearer ${token}`,
             }
         })
+        
             .then(response => {
                 console.log('post by id', response);
                 setAllPosts([response.data.data])
