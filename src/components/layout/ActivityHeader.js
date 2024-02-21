@@ -18,6 +18,7 @@ const ActivityHeader = ({ }) => {
     // const [UserProfiledata, setUserProfiledata] = useState()
     // const [UserProfileloader, setUserProfileloader] = useState(true)
     const [NotiShow, setNotiShow] = useState(false)
+    const [AllNotiShow, setAllNotiShow] = useState(false)
 
 
     const router = useRouter()
@@ -35,6 +36,7 @@ const ActivityHeader = ({ }) => {
     }
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) setNotiShow(false);
+        if (ref.current && !ref.current.contains(event.target)) setAllNotiShow(false);
     };
     useEffect(() => {
         document.addEventListener('click', handleClickOutside, true);
@@ -74,7 +76,26 @@ const ActivityHeader = ({ }) => {
         }
     }, [])
 
-
+    const accptgrpreq = (e, u_id, g_id) => {
+        setAllNotiShow(true)
+        console.log(e,u_id,g_id);
+        axios.patch(`${APP_URL}/groups/${e}`, { user_id: '10', group_id: g_id }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('grp inv req', response);
+            })
+            .catch(error => {
+                console.error(error);
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
     const accptfrndreq = (e) => {
         setNotiShow(true)
         console.log(e, token, 'cjeck')
@@ -212,7 +233,7 @@ const ActivityHeader = ({ }) => {
                                 <Link className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-bell"></i>
                                 </Link>
-                                <ul className={`dropdown-menu p-0 m-0 border-0 div-notifications ${NotiShow ? 'show show-c' : ''}`} ref={FrndContainerRef}>
+                                <ul className={`dropdown-menu p-0 m-0 border-0 div-notifications ${AllNotiShow ? 'show show-c' : ''}`} ref={FrndContainerRef}>
                                     <li><Link className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Notifications</Link></li>
                                     <hr />
                                     {Notifications?.length === 0 ?
@@ -226,7 +247,7 @@ const ActivityHeader = ({ }) => {
                                             {Notifications?.map((item, i) => (
                                                 <li key={i}>
                                                     <div onClick={() =>
-                                                        router.push(`${item.notification_type == 'commented' || item.notification_type == 'post-liked'|| item.notification_type == 'post-mentioned' ?
+                                                        router.push(`${item.notification_type == 'commented' || item.notification_type == 'post-liked' || item.notification_type == 'post-mentioned' ?
                                                             `/activity/${item.trigger_id}`
                                                             :
                                                             `/groups/${item.trigger_id}`}`)}
@@ -245,16 +266,16 @@ const ActivityHeader = ({ }) => {
                                                                 {/* <span className='fw-bold text-capitalize'> {item.group_id}</span> */}
                                                             </p>
                                                         </div>
-
-                                                        {/* <div className="d-flex">
-                                                            <button className='btn secondary-btn-rounded p-1 rounded-5 mx-2' id={item.id} onClick={() => dltfrndreq(item.id)}>
-                                                                <i className="bi bi-x-lg"></i>
-                                                            </button>
-                                                            <button id={item.id} onClick={() => accptfrndreq(item.id)} className='btn secondary-btn-rounded p-1 rounded-5 mx-2'>
-                                                                <i className="bi bi-check2"></i>
-                                                            </button>
-
-                                                        </div> */}
+                                                        {/* {item.notification_type == 'sent-request' &&
+                                                            <div className="d-flex">
+                                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-2' id={item.id} onClick={() => accptgrpreq(item.id)}>
+                                                                    <i className="bi bi-x-lg"></i>
+                                                                </button>
+                                                                <button id={item.id} onClick={() => accptgrpreq('acceptRequest', item.sender_id, item.trigger_id)} className='btn secondary-btn-rounded p-1 rounded-5 mx-2'>
+                                                                    <i className="bi bi-check2"></i>
+                                                                </button>
+                                                            </div>
+                                                        } */}
                                                     </div>
                                                 </li>
                                             ))}

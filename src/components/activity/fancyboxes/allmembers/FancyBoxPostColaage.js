@@ -204,12 +204,11 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
 
                                         <div className="fancyimgsec position-relative d-flex align-items-center collage-fancybox">
                                             <div className='w-100'>
-
                                                 {images[selectedImage]?.media?.url.slice(-4) == '.mp4' ?
 
                                                     <video
                                                         className='pointer h-100 postimg w-100 dsd postmodalimg'
-                                                        src={IMG_URL + item?.media[0]?.media?.url}
+                                                        src={IMG_URL + images[selectedImage]?.media?.url}
                                                         controls
                                                     />
                                                     :

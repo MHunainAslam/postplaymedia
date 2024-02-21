@@ -14,7 +14,7 @@ const LoginHeader = () => {
                 <div className='Login-register'>
                     <Link href={'#'} data-bs-toggle="modal" data-bs-target="#LoginModal">Login</Link>
                     <Link href={'/register'}>Register</Link>
-                    <i className="bi bi-text-left main-menu-btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"></i>
+                    {/* <i className="bi bi-text-left main-menu-btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"></i> */}
                 </div>
 
 

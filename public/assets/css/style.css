@@ -317,7 +317,7 @@ h5 {
   /* min-height: 75vh; */
   height: 100%;
   align-items: center;
-  padding-top: 50px !important;
+  padding-block: 50px !important;
 }
 
 .Login-panel .left {

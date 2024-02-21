@@ -38,7 +38,7 @@ const GlobalSearch = () => {
                     localStorage.removeItem('userdetail')
                 }
             });
-    }, [])
+    }, [inputValue])
 
 
     const listItems = ['Item 1', 'Item 2', 'Item 3']; // Example list items
@@ -48,11 +48,11 @@ const GlobalSearch = () => {
         setShowList(e.target.value !== '');
     };
 
-    const handleKeyDown = (e, type, ids) => {
-        // if (e.key === "Enter") {
-        //     router.push(`${type == 'group' ? `/groups/${ids}` : `/people/${ids}/activity`}`)
-        //     // Perform your action here
-        // }
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            router.push(`${type == 'group' ? `/groups/${ids}` : `/people/${ids}/activity`}`)
+            // Perform your action here
+        }
         if (e.key === 'ArrowDown') {
             setActiveIndex((prevIndex) => (prevIndex + 1) % global.length);
         } else if (e.key === 'ArrowUp') {

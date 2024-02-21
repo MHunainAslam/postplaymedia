@@ -67,7 +67,7 @@ const LoginPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <LoginFooter />
+                            {/* <LoginFooter /> */}
                         </div>
                     </div>
                 </div>

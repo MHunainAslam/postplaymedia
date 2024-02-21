@@ -26,7 +26,7 @@ const Page = () => {
     const [cmntloader, setcmntloader] = useState(false)
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const [likecount, setlikecount] = useState('')
-    const [loadmoreloader, setloadmoreloader] = useState(false)
+    const [loadmoreloader, setloadmoreloader] = useState(true)
     const [Data, setData] = useState()
     const [AllPosts, setAllPosts] = useState([])
     const [PostmodalOpen, setPostModalOpen] = useState(false);
@@ -51,9 +51,11 @@ const Page = () => {
             .then(response => {
                 console.log('post by id', response);
                 setAllPosts([response.data.data])
+                setloadmoreloader(false)
             })
             .catch(error => {
                 console.error(error);
+                setloadmoreloader(false)
                 if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
@@ -249,7 +251,7 @@ const Page = () => {
                                         </div>
                                         : ''
                                     }
-                                    <FancyBoxPost images={item?.media?.media?.url} fancyBoxId={`AllMembersFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} para={item?.post_text} name={item?.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
+                                    <FancyBoxPost images={item?.media[0]?.media?.url} fancyBoxId={`AllMembersFancyBox${i}`} modalOpen={PostmodalOpen} closeModal={PostcloseModal} selectedImage={PostselectedImage} setSelectedImage={setPostSelectedImage} para={item?.post_text} name={item?.created_by.name} profile={item?.created_by?.profile_photo} time={timeDiffString} item={item} dislikepost={dislikepost} handleToggle={handleToggle} likepost={likepost} likecount={likecount} Comments={Comments} getcomment={getcomment} cmntloader={cmntloader} />
 
 
                                     <hr className='my-0' />
