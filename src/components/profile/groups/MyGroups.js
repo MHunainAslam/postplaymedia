@@ -134,7 +134,7 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
                                         <div className="card-footer">
                                             {/* <Link href={`/groups/${item.id}`} className='btn secondary-btn '><p className='mb-0 px-4'>Visit</p></Link>zxcv */}
                                             {UserProfiledata?.data?.id === item?.created_by?.id ?
-                                                <button className='btn secondary-btn px-4' onClick={() => router.push(`/groups/${item.id}`)}>View</button> :
+                                                <button className='btn secondary-btn px-4' onClick={() => router.push(`/groups/${item.id}`)}>View Group</button> :
                                                 <>
                                                     {item.button_trigger != 'accept-request' ?
 
@@ -146,10 +146,10 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
                                                         }>
                                                             <p className='mb-0 px-4'>
                                                                 {
-                                                                    item.button_trigger === 'join-now' ? 'Join' :
-                                                                        item.button_trigger === 'withdrawl-request' ? 'Pending' :
-                                                                            item.button_trigger === 'pending' ? 'Cancel Request' :
-                                                                                item.button_trigger === 'view-group' ? 'View' :
+                                                                    item.button_trigger === 'join-now' ? 'Join Group' :
+                                                                        item.button_trigger === 'withdrawl-request' ? 'Pending Group' :
+                                                                            item.button_trigger === 'pending' ? 'Cancel Group Request' :
+                                                                                item.button_trigger === 'view-group' ? 'View Group' :
                                                                                     ''}
                                                             </p>
                                                         </button>

@@ -64,49 +64,6 @@ const GroupLayout = ({ children, GroupPage }) => {
         getgrpdata()
     }, [])
 
-    const LeaveGrp = (e) => {
-        axios.delete(`${APP_URL}/api/groups/${groupbyid}`, { user_id: e, type: 'remove' }, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                message.success(response.data.message)
-                router.push('/groups')
-
-            })
-            .catch(error => {
-                console.error(error);
-                message.error(error?.response.data?.message)
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }
-
-
-
-
-    const accptgrpreq = ({ e, endpoint }) => {
-        axios.post(`${APP_URL}/api/groups/${endpoint}`, {
-            user_id: UserProfiledata?.data?.id,
-            group_id: e
-        }, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                // Handle successful response here
-                console.log('accept grp inv', response.data);
-            })
-            .catch(error => {
-                // Handle error here
-                console.error(error);
-            });
-    }
 
 
     return (
@@ -123,44 +80,11 @@ const GroupLayout = ({ children, GroupPage }) => {
                                     <div className="">
                                         <ActivityHeader />
                                         <div className="col">
-                                            <Coverandtab grpdata={grpdata} isLoading={isLoading} />
+                                            <Coverandtab grpdata={grpdata} isLoading={isLoading} Btn_Trigger={Btn_Trigger} getgrpdata={getgrpdata}/>
                                             <div className="mx-auto text-center mb-3">
                                                 {/* {Btn_Trigger} */}
 
-                                                {UserProfiledata?.data?.id === grpdata?.data?.group?.created_by?.id ?
-                                                    <button className='btn-outline-danger rounded-5 btn px-2 py-1' data-bs-toggle="modal" data-bs-target="#DltGroup">Delete Group</button>
-                                                    : <>{Btn_Trigger === 'view-group' ?
-                                                        <button className='btn-outline-danger rounded-5 btn px-4 py-1' data-bs-toggle="modal" data-bs-target="#LeaveGroup">Leave </button>
-
-
-                                                        :
-                                                        Btn_Trigger != 'accept-request' ?
-
-                                                            <button className='btn secondary-btn ' onClick={
-                                                                Btn_Trigger === 'join-now' ? () => joingrp({ e: grpdata?.data?.group?.id, type: 'send', getallgrp: getgrpdata }) :
-                                                                    Btn_Trigger === 'withdrawl-request' ? () => joingrp({ e: grpdata?.data?.group?.id, getallgrp: getgrpdata, type: 'withdraw' }) :
-                                                                        ''
-                                                            }>
-                                                                <p className='mb-0 px-4'>
-                                                                    {
-                                                                        Btn_Trigger === 'join-now' ? 'Join' :
-                                                                            Btn_Trigger === 'withdrawl-request' ? 'Pending' :
-                                                                                Btn_Trigger === 'pending' ? 'Cancel Request' :
-                                                                                    ''}
-                                                                </p>
-                                                            </button>
-                                                            : Btn_Trigger === 'accept-request' ?
-                                                                <>
-                                                                    <button className='btn secondary-btn mx-1' onClick={() => { accptgrpreq({ e: grpdata?.data?.group?.id, endpoint: 'acceptInvite' }), getgrpdata() }}>Accept</button>
-                                                                    <button className='btn secondary-btn mx-1' onClick={() => { accptgrpreq({ e: grpdata?.data?.group?.id, endpoint: 'rejectInvite' }), getgrpdata() }}>Reject</button>
-                                                                </>
-                                                                :
-
-                                                                ''
-                                                    }
-                                                    </>
-
-                                                }
+                                                
                                             </div>
                                             {/* < button className='btn-outline-danger rounded-5 btn px-2 py-1'>Leave Group</button> */}
 
@@ -181,7 +105,7 @@ const GroupLayout = ({ children, GroupPage }) => {
 
                                                     </div>
                                                     <div className="col-md-9 col-lg-10 ">
-                                                        <grpContext.Provider value={{ grpdata, setUserdata, getgrpdata }}>
+                                                        <grpContext.Provider value={{ grpdata, setUserdata, getgrpdata , Btn_Trigger}}>
                                                             {children}
                                                         </grpContext.Provider>
                                                         {/* {childrenWithProps} */}

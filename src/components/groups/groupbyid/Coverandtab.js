@@ -9,7 +9,7 @@ import { IMG_URL } from '../../../../config'
 import GroupProfileTab from './GroupProfileTab'
 import { imgurl } from '@/utils/Token'
 
-const Coverandtab = ({ grpdata, isLoading }) => {
+const Coverandtab = ({ grpdata, isLoading ,Btn_Trigger, getgrpdata}) => {
 
     const router = useRouter()
 
@@ -81,7 +81,7 @@ const Coverandtab = ({ grpdata, isLoading }) => {
                             <div className="mx-auto mt-auto">
 
                                 <div className=" profile-tabs d-md-flex d-none  my-3">
-                                    <GroupProfileTab grpdata={grpdata} />
+                                    <GroupProfileTab grpdata={grpdata} Btn_Trigger={Btn_Trigger} getgrpdata={getgrpdata}/>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@ const Coverandtab = ({ grpdata, isLoading }) => {
             </div >
             <div className="container d-md-none">
                 <div className="profile-tabs  " >
-                    <GroupProfileTab grpdata={grpdata} />
+                    <GroupProfileTab grpdata={grpdata} Btn_Trigger={Btn_Trigger} getgrpdata={getgrpdata}/>
                 </div>
             </div>
 

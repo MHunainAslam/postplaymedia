@@ -173,7 +173,7 @@ const CoachRegistration = ({ back, RoleId }) => {
 
                     {/* number */}
                     <div className="col-md-6">
-                        <label className='para-sm clr-text mt-4' htmlFor="">Number (optional)</label>
+                        <label className='para-sm clr-text mt-4' htmlFor="">Contact Number (optional)</label>
                         <input type="text" className="form-control inp" onKeyPress={(e) => !/[+0-9]/.test(e.key) && e.preventDefault()} placeholder="" value={Number} onChange={(e) => { setNumber(e.target.value) }} />
                     </div>
 

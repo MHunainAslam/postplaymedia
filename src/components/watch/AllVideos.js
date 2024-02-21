@@ -14,11 +14,16 @@ const AllVideos = ({ endpoint }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const router = useRouter()
     const token = GetToken('userdetail')
-    const [AllMedia, setAllMedia] = useState([])
+    const [AllVideos, setAllVideos] = useState([])
     const images = [{ url: '/assets/videos/Login_bg.mp4', comment: '123' }]; // Replace with your image URLs
-    const [isloading, setisloading] = useState(true)
+    const [isvideoloading, setisvideoloading] = useState(true)
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [CurrentPageVideo, setCurrentPageVideo] = useState(1)
+    const [TotalPagesVideo, setTotalPagesVideo] = useState()
+    const [videoloading, setvideoloading] = useState(1)
+    const [loadmoreloader , setloadmoreloader ] = useState(1)
+    // const [loading, setvideoloading] = useState(false)
 
     const openModal = (index) => {
         setSelectedImage(index);
@@ -29,29 +34,123 @@ const AllVideos = ({ endpoint }) => {
         setSelectedImage(null);
         setModalOpen(false);
     };
-    useEffect(() => {
-        axios.get(`${APP_URL}/api/${endpoint}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('grp media', response);
-                setAllMedia(response?.data?.data)
-                setisloading(false)
-            })
-            .catch(error => {
+    const fetchVideo = async (page) => {
+        setisvideoloading(true);
 
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                    setisloading(false)
-                }
+        try {
+            const response = await fetch(`${APP_URL}/api/${endpoint}per_page=50&page=${page}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+
+                },
             });
-    }, [])
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok, status: ${response.status}`);
+                setisvideoloading(false);
+            }
+            setisvideoloading(false);
+            const { data, meta } = await response.json();
+
+
+            if (Array.isArray(data) && data.length) {
+                console.log(data, 'all video hjf')
+                setAllVideos(data);
+            }
+
+
+            if (meta && typeof meta === 'object') {
+                console.log(meta, 'meta')
+                setCurrentPageVideo(Number(meta.page));
+                setTotalPagesVideo(Number(meta.total_pages));
+                console.log(meta)
+            }
+        } catch (error) {
+            console.error('Error fetching photos', error);
+
+        } finally {
+            setisvideoloading(false);
+            setvideoloading(false);
+        }
+    };
+
+    const fetchVideos = async (page) => {
+        setloadmoreloader(true)
+        try {
+            const response = await fetch(`${APP_URL}/api/${endpoint}per_page=50&page=${page}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok, status: ${response.status}`);
+                setloadmoreloader(false)
+            }
+
+            const { data, meta } = await response.json();
+            setloadmoreloader(false)
+
+            if (Array.isArray(data) && data.length) {
+                console.log(data, 'all cfgdf')
+                setAllVideos((prevMessages) => [...prevMessages, ...data]);
+            }
+
+
+            if (meta && typeof meta === 'object') {
+                setCurrentPageVideo(Number(meta.page));
+                setTotalPagesVideo(Number(meta.total_pages));
+                console.log(meta)
+            }
+        } catch (error) {
+            console.error('Error fetching photos', error);
+            setloadmoreloader(false)
+
+        } finally {
+            setloadmoreloader(false)
+            setvideoloading(false);
+        }
+    };
+
+    useEffect(() => {
+        // Fetch initial messages when the component mounts
+        if (CurrentPageVideo === 1 && AllVideos.length === 0) {
+            fetchVideo(CurrentPageVideo);
+        }
+    }, [CurrentPageVideo, token]);
+    const handleLoadMorefrnd = () => {
+
+        if (CurrentPageVideo < TotalPagesVideo && !videoloading) {
+            console.log('adssa')
+            fetchVideos(CurrentPageVideo + 1);
+        }
+    };
+    const handleScrollfrnd = () => {
+
+        // Check if the user has scrolled to the bottom of the window
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 0) {
+            console.log('first')
+            handleLoadMorefrnd();
+
+        }
+    };
+    useEffect(() => {
+        // Add scroll event listener to the window when the component mounts
+        window.addEventListener('scroll', handleScrollfrnd);
+
+        // Remove the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('scroll', handleScrollfrnd);
+        };
+    }, [handleScrollfrnd]);
+    useEffect(() => {
+        // getallfrnds()
+        fetchVideo(1)
+    }, [token])
+
     const [isvideo, setisvideo] = useState(false)
-    const videoRefs = useRef(Array(AllMedia.filter(media => media.url.slice(-4) == '.mp4').length).fill(null));
+    const videoRefs = useRef(Array(AllVideos.filter(media => media.url.slice(-4) == '.mp4').length).fill(null));
     const currentlyPlayingRef = useRef(null);
 
     const playVideo = (index) => {
@@ -86,13 +185,13 @@ const AllVideos = ({ endpoint }) => {
                 </div> */}
             </div>
             {/* <p className="para text-black mt-3">Sorry !! There&lsquo;s no media found for the request !!</p> */}
-            {isloading ? <div className="w-100 text-center mt-4">
+            {isvideoloading ? <div className="w-100 text-center mt-4">
                 <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
                 <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
                 <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
             </div>
                 :
-                AllMedia.filter(media => media.url.slice(-4) == '.mp4').length == 0 &&
+                AllVideos.filter(media => media.url.slice(-4) == '.mp4').length == 0 &&
                 <div div className=" mt-3 alert-box text-center">
                     <p className='heading-m clr-primary '>No Video Posted!</p>
                 </div>
@@ -103,7 +202,7 @@ const AllVideos = ({ endpoint }) => {
                         onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
                     }}
                 >
-                    {AllMedia.filter(media => media.url.slice(-4) == '.mp4').map((image, index) => (
+                    {AllVideos.filter(media => media.url.slice(-4) == '.mp4').map((image, index) => (
                         <div className=" col-md-6 mt-3" key={index}>
                             <div className="card gallery-card">
                                 <div className="card-body p-0">
@@ -136,22 +235,22 @@ const AllVideos = ({ endpoint }) => {
                                     </div>
 
 
-                                   
-                                        {/* {image.user_image == null ?
+
+                                    {/* {image.user_image == null ?
                                             <img src={'/assets/images/Modal/Avatar.png'} alt="" width={40} height={40} className='post-profile-m'></img>
                                             : <img src={IMG_URL + image.user_image} alt="" width={40} height={40} className='post-profile-m object-fit-cover'></img>
                                         } */}
+                                    {/* <Link href={UserProfiledata?.data?.id === }></Link> */}
+                                    {/* <p className="heading-sm text-black mb-0 ms-2">{image.user_name} </p> */}
+                                    <Link href={`${UserProfiledata?.data?.id == image.user_id ? '/profile/activity' : `/people/${image.user_id}/activity`}`} className="link-hov d-flex mt-3 align-items-center">
+                                        {image.user_image == null ?
+                                            <img src={'/assets/images/Modal/Avatar.png'} alt="" width={40} height={40} className='post-profile-m'></img>
+                                            : <img src={IMG_URL + image.user_image} alt="" width={40} height={40} className='post-profile-m object-fit-cover'></img>
+                                        }
                                         {/* <Link href={UserProfiledata?.data?.id === }></Link> */}
-                                        {/* <p className="heading-sm text-black mb-0 ms-2">{image.user_name} </p> */}
-                                        <Link href={`${UserProfiledata?.data?.id == image.user_id ? '/profile/activity' : `/people/${image.user_id}/activity`}`} className="link-hov d-flex mt-3 align-items-center">
-                                            {image.user_image == null ?
-                                                <img src={'/assets/images/Modal/Avatar.png'} alt="" width={40} height={40} className='post-profile-m'></img>
-                                                : <img src={IMG_URL + image.user_image} alt="" width={40} height={40} className='post-profile-m object-fit-cover'></img>
-                                            }
-                                            {/* <Link href={UserProfiledata?.data?.id === }></Link> */}
-                                            <p className="heading-sm text-black mb-0 ms-2">{image.user_name}</p>
-                                        </Link>
-                                    
+                                        <p className="heading-sm text-black mb-0 ms-2">{image.user_name}</p>
+                                    </Link>
+
                                 </div>
                             </div>
                         </div>

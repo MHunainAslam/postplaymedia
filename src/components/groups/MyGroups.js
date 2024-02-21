@@ -11,7 +11,7 @@ import axios from 'axios';
 import { deleteCookie } from 'cookies-next';
 
 const MyGroups = ({ setminegrpcount, runminegrp }) => {
-
+    const [MyGrpSearch, setMyGrpSearch] = useState('')
     const [Minegrp, setMinegrp] = useState([])
     const router = useRouter()
     const token = GetToken('userdetail')
@@ -29,7 +29,7 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
     // console.log('mine grp', Minegrp);
     const getminegrp = () => {
         setisLoading(true)
-        axios.get(`${APP_URL}/api/groups/mine?per_page=${dataOnPagemine}&page=${currentPagemine}`, {
+        axios.get(`${APP_URL}/api/groups/mine?per_page=${dataOnPagemine}&page=${currentPagemine}&search=${MyGrpSearch}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -52,7 +52,7 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
     }
     useEffect(() => {
         getminegrp()
-    }, [dataOnPagemine, currentPagemine, runminegrp])
+    }, [dataOnPagemine, currentPagemine, runminegrp, MyGrpSearch])
     return (
 
         <>
@@ -61,7 +61,7 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
 
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0" ><i className="bi bi-search"></i></span>
-                        <input type="text" className="form-control " placeholder="Search Group" aria-label="Username" />
+                        <input type="text" className="form-control " placeholder="Search Group" aria-label="Username" value={MyGrpSearch} onChange={(e) => setMyGrpSearch(e.target.value)}/>
                     </div>
                 </div>
                 {/* <div className="col-lg-3 mb-3 col-md-6 ">

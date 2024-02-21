@@ -18,6 +18,8 @@ const GroupTabs = () => {
     const router = useRouter()
     const token = GetToken('userdetail')
     const [GrpBtn, setGrpBtn] = useState()
+    const [GrpSearch, setGrpSearch] = useState('')
+
     const [runminegrp, setrunminegrp] = useState(true)
     const [minegrpcount, setminegrpcount] = useState()
     const [Allgrp, setAllgrp] = useState([])
@@ -30,7 +32,7 @@ const GroupTabs = () => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const getallgrp = () => {
 
-        axios.get(`${APP_URL}/api/groups?per_page=${dataOnPage}&page=${currentPage}`, {
+        axios.get(`${APP_URL}/api/groups?per_page=${dataOnPage}&page=${currentPage}&search=${GrpSearch}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -56,7 +58,7 @@ const GroupTabs = () => {
     useEffect(() => {
         setisLoading(true)
         getallgrp()
-    }, [dataOnPage, currentPage])
+    }, [dataOnPage, currentPage, GrpSearch])
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -123,7 +125,7 @@ const GroupTabs = () => {
                 </ul>
                 <div className="tab-content ">
                     <div className="tab-pane fade active show" id="AllGroups" role="tabpanel" aria-labelledby="AllGroups-tab">
-                        <AllGroups Allgrp={Allgrp} isLoading={isLoading} getallgrp={getallgrp} reqjoingrp={reqjoingrp} canceljoingrp={canceljoingrp} accptgrpreq={accptgrpreq} />
+                        <AllGroups setGrpSearch={setGrpSearch} GrpSearch={GrpSearch} Allgrp={Allgrp} isLoading={isLoading} getallgrp={getallgrp} reqjoingrp={reqjoingrp} canceljoingrp={canceljoingrp} accptgrpreq={accptgrpreq} />
                         {Allgrp?.data?.data?.data?.length > 0 &&
                             <Pagination
                                 dataOnPage={dataOnPage}

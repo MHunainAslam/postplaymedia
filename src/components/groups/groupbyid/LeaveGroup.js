@@ -20,7 +20,8 @@ const LeaveGroup = ({ getgrpdata }) => {
         })
             .then(response => {
                 console.log('left grp', response);
-                document.querySelector('.close-grp-leave-modal').click()
+                document.querySelector('.close-grp-leave-modal')?.click()
+                document.querySelector('.LeaveGroup')?.click()
                 getgrpdata()
 
             })
@@ -46,7 +47,7 @@ const LeaveGroup = ({ getgrpdata }) => {
                             Want To Leave This Group ?
                         </div>
                         <div className="modal-footer bg-transparent justify-content-center border-0 pt-4">
-                            <button type="button" className="btn secondary-btn close-grp-leave-modal px-5 text-white" data-bs-dismiss="modal">No</button>
+                            <button type="button" className="btn secondary-btn close-grp-leave-modal px-5 text-white LeaveGroup" data-bs-dismiss="modal">No</button>
                             <button type="button" onClick={() => sendinv(UserProfiledata?.data?.id, 'remove')} className="btn primary-btn px-5"><p>Yes</p></button>
                         </div>
                     </div>

@@ -27,10 +27,11 @@ export function FrndWrapper({ children }) {
     const [Datafrnd, setDatafrnd] = useState([])
     const [totalMemberfrnd, settotalMemberfrnd] = useState(1)
     const [UserDataLoader, setUserDataLoader] = useState(true)
+    const [SearchFriend, setSearchFriend] = useState('')
     const fetchFrnds = async (page) => {
         try {
             const response = await fetch(
-                `${APP_URL}/api/friendships?per_page=25&page=${page}`,
+                `${APP_URL}/api/friendships?per_page=25&page=${page}&search=${SearchFriend}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -138,14 +139,15 @@ export function FrndWrapper({ children }) {
     }, [CurrentPage, token])
 
     useEffect(() => {
+        console.log('first')
         if (frnd) {
             // getallfrnds()
             fetchFrnds()
         }
-    }, [frnd])
+    }, [frnd, SearchFriend])
 
 
-    return <FrndContext.Provider value={{ Datafrnd, setfrnd, FrndContainerRef, handleLoadMore, fetchFrnds, totalMemberfrnd }}>{children}</FrndContext.Provider>;
+    return <FrndContext.Provider value={{ Datafrnd, setfrnd, FrndContainerRef, handleLoadMore, fetchFrnds, totalMemberfrnd, SearchFriend, setSearchFriend }}>{children}</FrndContext.Provider>;
 }
 
 export function useFrndContext() {

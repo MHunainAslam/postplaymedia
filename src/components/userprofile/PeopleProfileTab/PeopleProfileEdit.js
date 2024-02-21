@@ -202,13 +202,13 @@ const PeopleProfileEdit = ({ }) => {
                     </div>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Number </label>
+                    <label htmlFor="" className='col-md-2'>Contact Number </label>
                     <div className="col">
                         <input type="text" name="" id="" className='form-control inp col-m' value={number} onChange={(e) => setnumber(e.target.value)} />
                     </div>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Sex </label>
+                    <label htmlFor="" className='col-md-2'>Gender </label>
                     <div className="col">
                         <input type="radio" name="gender" className='form-check-input me-2' id="male" value={'male'} onChange={handlegender} />
                         <label htmlFor="male" className='para clr-text'>Male</label>

@@ -124,7 +124,7 @@ const MyFriends = ({ postdone, endpoint }) => {
 
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('data', data)
+                console.log('data frnd', data)
                 setAllFriendsPosts((prevMessages) => [...prevMessages, ...data?.data?.data]);
                 setCurrentPagefrnd(data.data.current_page);
                 setTotalPagesfrnd(data.data.last_page);

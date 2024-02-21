@@ -21,11 +21,15 @@ const ActivitySidebar = () => {
     const [UserProfiledata2, setUserProfiledata2] = useState()
     // const [UserProfileloader, setUserProfileloader] = useState(true)
     const token = GetToken('userdetail')
-    const {UserProfiledata, UserProfileloader} = useAppContext()
-    
+    const { UserProfiledata, UserProfileloader } = useAppContext()
+
 
     const imgurl = ({ src }) => {
         return `${IMG_URL}${src}`
+    }
+    const logoclick = () => {
+        router.push('/activity')
+        document.querySelector('#AllMembers-tab')?.click()
     }
     return (
         <>
@@ -41,7 +45,8 @@ const ActivitySidebar = () => {
                         <div className=" p-0">
                             <div className='SideBarTop'>
                                 <button type="button" className="close-canva d-md-none" data-bs-dismiss="offcanvas" aria-label="Close"><i className="bi bi-x-lg"></i></button>
-                                <Image src={'/assets/images/logo/Logo.png'} alt='' width={100} height={100}></Image>
+                                <Image onClick={logoclick} src={'/assets/images/logo/Logo.png'} alt='' className='pointer' width={100} height={100}></Image>
+
                                 <div className="card admin-card c-card">
                                     <div className="card-body py-4">
                                         <div className='admin-img mb-4'>

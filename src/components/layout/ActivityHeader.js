@@ -12,6 +12,7 @@ import Loader from '../Loader';
 import { Skeleton, message } from 'antd';
 import LogoutConfirmation from './LogoutConfirmation';
 import { useAppContext } from '@/context/AppContext';
+import GlobalSearch from './GlobalSearch';
 
 const ActivityHeader = ({ }) => {
     // const [UserProfiledata, setUserProfiledata] = useState()
@@ -153,16 +154,11 @@ const ActivityHeader = ({ }) => {
 
             <div className="activity-header">
                 <div className="row justify-content-between px-md-3 px-0 w-100">
-                    <div className="col-md-3 col-12 py-md-0 py-2 resposive-search-header">
-                        <div className="input-group header-search ">
-                            <i className="bi bi-text-left clr-primary fs-4 d-md-none" data-bs-toggle="offcanvas" data-bs-target="#ActivitySidebar" aria-controls="ActivitySidebar"></i>
-                            <span className="input-group-text border-0 bg-transparent" id="basic-addon1">
-                                <i className="bi bi-search"></i>
-                            </span>
-                            <input type="text" className="form-control border-0 bg-transparent" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
-                        </div>
+                    <div className="col-md-8 col-12 py-md-0 py-2 resposive-search-header">
+                        <GlobalSearch />
+
                     </div>
-                    <div className="col d-flex justify-content-md-end justify-content-between align-items-center py-md-0 py-3">
+                    <div className="col-md d-flex justify-content-md-end justify-content-between align-items-center py-md-0 py-3">
                         <div className="d-flex">
                             <li onClick={receivefrndreq} className={`nav-item dropdown list-unstyled header-btns ${FrndReq?.length === 0 ? '' : 'header-btns-active'}`}>
                                 <Link className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -229,7 +225,12 @@ const ActivityHeader = ({ }) => {
                                         <>
                                             {Notifications?.map((item, i) => (
                                                 <li key={i}>
-                                                    <div onClick={() => router.push(`/groups/${item.trigger_id}`)} className="pointer text-decoration-none no-msg-req d-flex justify-content-between">
+                                                    <div onClick={() =>
+                                                        router.push(`${item.notification_type == 'commented' || item.notification_type == 'post-liked'|| item.notification_type == 'post-mentioned' ?
+                                                            `/activity/${item.trigger_id}`
+                                                            :
+                                                            `/groups/${item.trigger_id}`}`)}
+                                                        className="pointer text-decoration-none no-msg-req d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
                                                             {item?.sender?.profile_photo === null ?
                                                                 <Link href={`/people/${item.sender?.id}/friends`}>
@@ -240,8 +241,8 @@ const ActivityHeader = ({ }) => {
                                                                 </Link>
                                                             }
                                                             <p className='mb-0 para text-black ms-2 fw-normal'>
-                                                                <span className='text-capitalize'> {item.body}  {i}</span>
-                                                                <span className='fw-bold text-capitalize'> {item.group_id}</span>
+                                                                <span className='text-capitalize'> {item.body} </span>
+                                                                {/* <span className='fw-bold text-capitalize'> {item.group_id}</span> */}
                                                             </p>
                                                         </div>
 

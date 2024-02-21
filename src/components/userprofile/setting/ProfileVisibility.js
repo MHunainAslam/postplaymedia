@@ -59,7 +59,7 @@ const ProfileVisibility = () => {
         </div>
         <div className="d-flex justify-content-between border-bottom py-3 align-items-center">
           <p className="para clr-text mb-0">
-            Sex
+            Gender
           </p>
           <div className='col-4 col-lg-2'>
             <select name="" id="" className='form-select slct'>

@@ -23,10 +23,11 @@ const AllPhotos = ({ endpoint }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [UserDataLoader, setUserDataLoader] = useState(true)
+    const [loadmoreloader, setloadmoreloader] = useState(true)
     const [Datafrnd, setDatafrnd] = useState([])
     const [AllMedia, setAllMedia] = useState([])
     const [isloading, setisloading] = useState(true)
-    const [loading, setLoading] = useState(1)
+    const [loading, setLoading] = useState(false)
     const openModal = (index) => {
         setSelectedImage(index);
         setModalOpen(true);
@@ -38,36 +39,54 @@ const AllPhotos = ({ endpoint }) => {
         setModalOpen(false);
     };
 
-    useEffect(() => {
-        axios.get(`${APP_URL}/api/${endpoint}per_page=20&page=1`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('grp media', response);
-                // setAllMedia(response?.data?.data)
-                setisloading(false)
-            })
-            .catch(error => {
-                setisloading(false)
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
-                }
-            });
-    }, [])
 
 
     const fetchphotos = async (page) => {
-        setLoading(true); // Maan lijiye ki ye state aapko loading indicator manage karne ke liye chahiye
 
         try {
-            const response = await fetch(`${APP_URL}/api/${endpoint}?per_page=20&page=${page}`, {
+            const response = await fetch(`${APP_URL}/api/${endpoint}per_page=20&page=${page}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    // Yadi aur headers hain toh yahan add karein
+
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok, status: ${response.status}`);
+            }
+            setisloading(false)
+            const { data, meta } = await response.json();
+
+
+            if (Array.isArray(data) && data.length) {
+                console.log(data, 'all cfgdf')
+                setAllMedia(data);
+            }
+
+
+            if (meta && typeof meta === 'object') {
+                console.log(meta, 'meta')
+                setCurrentPagefrnd(Number(meta.page));
+                setTotalPagesfrnd(Number(meta.total_pages));
+                console.log(meta)
+            }
+        } catch (error) {
+            setisloading(false)
+            console.error('Error fetching photos', error);
+
+        } finally {
+            setLoading(false);
+            setisloading(false)
+        }
+    };
+
+    const fetchphotoss = async (page) => {
+        console.log('fetch photo')
+        try {
+            const response = await fetch(`${APP_URL}/api/${endpoint}per_page=20&page=${page}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+
                 },
             });
 
@@ -75,100 +94,28 @@ const AllPhotos = ({ endpoint }) => {
                 throw new Error(`Network response was not ok, status: ${response.status}`);
             }
 
-            const { data, meta } = await response.json(); // Destructuring se data aur meta ko alag kiya ja raha hai
+            const { data, meta } = await response.json();
 
-            // Yadi data array hai aur usme elements hain, toh unhe process karein
+
             if (Array.isArray(data) && data.length) {
-                console.log(data, 'all')
-                setAllMedia(data); // Maan lijiye setAllMedia existing media array me new media add karta hai
+                console.log(data, 'all cfgdf')
+                setAllMedia((prevMessages) => [...prevMessages, ...data]);
             }
 
-            // Meta object ko handle karein, jaise ki current page aur total pages set karna
+
             if (meta && typeof meta === 'object') {
-                // setCurrentPage(meta.current_page); 
-                // setTotalPages(meta.last_page); 
+                setCurrentPagefrnd(Number(meta.page));
+                setTotalPagesfrnd(Number(meta.total_pages));
                 console.log(meta)
             }
         } catch (error) {
             console.error('Error fetching photos', error);
-            // Error handling logic yahan likhein, jaise ki user ko error message dikhana
-        } finally {
-            setLoading(false); // Finally block me setLoading ko false set karke loading indicator ko band karein
-        }
-    };
-    // const fetchphotos = async (page) => {
-    //     try {
-    //         const response = await fetch(
-    //             `${APP_URL}/api/posted-activity-media?per_page=20&page=${page}`,
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`,
-    //                     // Add other headers if needed
-    //                 },
-    //             }
-    //         );
-    //         const data = await response.json();
-    //         if (data.meta) {
-    //             console.log('All Images', data)
-    //             setAllMedia(data.data.data);
-    //             console.log(data)
-    //             setCurrentPagefrnd(data.data.current_page);
-    //             setTotalPagesfrnd(data.data.last_page);
-    //             settotalMemberfrnd(data.data.total);
-    //             setUserDataLoader(false)
-    //         } else {
-    //             console.error('Failed to fetch messages');
-    //             setUserDataLoader(false)
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching messages', error);
-    //         setUserDataLoader(false)
-    //         if (error?.response?.status === 401) {
-    //             router.push('/')
-    //             deleteCookie('logged');
-    //             localStorage.removeItem('userdetail')
-    //         }
-    //     } finally {
-    //         setLoading(false);
-    //         setUserDataLoader(false)
-    //     }
-    // };
-    const fetchphotoss = async (page) => {
-        try {
-            const response = await fetch(
-                `${APP_URL}/api/${endpoint}per_page=20&page=${page}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        // Add other headers if needed
-                    },
-                }
-            );
 
-            const data = await response?.data?.json();
-
-            if (data.success) {
-                // Prepend new messages to the beginning of the array
-                console.log('all images prepend', data)
-                setAllMedia((prevMessages) => [...prevMessages, ...data?.data?.data]);
-                setCurrentPagefrnd(data.data.current_page);
-                setTotalPagesfrnd(data.data.last_page);
-                console.log((prevMessages) => [...prevMessages, data?.data?.data], 'hn')
-            } else {
-                console.error('Failed to fetch messages');
-            }
-        } catch (error) {
-            console.error('Error fetching messages', error);
-            if (error?.response?.status === 401) {
-                router.push('/')
-                deleteCookie('logged');
-                localStorage.removeItem('userdetail')
-            }
         } finally {
             setLoading(false);
-
         }
     };
+
     useEffect(() => {
         // Fetch initial messages when the component mounts
         if (CurrentPagefrnd === 1 && AllMedia.length === 0) {
@@ -176,7 +123,9 @@ const AllPhotos = ({ endpoint }) => {
         }
     }, [CurrentPagefrnd, token]);
     const handleLoadMorefrnd = () => {
+
         if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
+            console.log('adssa')
             setLoading(true);
             fetchphotoss(CurrentPagefrnd + 1);
         }
@@ -185,6 +134,7 @@ const AllPhotos = ({ endpoint }) => {
 
         // Check if the user has scrolled to the bottom of the window
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 0) {
+            console.log('first')
             handleLoadMorefrnd();
 
         }
@@ -231,11 +181,11 @@ const AllPhotos = ({ endpoint }) => {
                     }}
                 >
                     {AllMedia.filter(media => media.url.slice(-4) !== '.mp4').map((image, index) => (
-                        <div className="col-xxl-3 col-lg-4 col-6 mt-3" key={index}>
+                        <div className="col-xxl-3 col-lg-4 col-12 mt-3" key={index}>
                             <div className="card gallery-card">
                                 <div className="card-body p-0">
 
-                                    <div className='gallery-img'>
+                                    <div className='gallery-img ' >
 
                                         {image.url.slice(-4) == '.mp4' ?
 
@@ -271,7 +221,11 @@ const AllPhotos = ({ endpoint }) => {
                     ))}
                 </Image.PreviewGroup >
             </div >
-
+            {loading && <div className="w-100 text-center mt-4">
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+                <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
+            </div>}
             <FancyBox images={images} modalOpen={modalOpen} closeModal={closeModal} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
 
         </>

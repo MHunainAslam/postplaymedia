@@ -39,7 +39,7 @@ const PeopleProfileEdit = () => {
                 </div>
 
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Sex <span>(Required)</span></label>
+                    <label htmlFor="" className='col-md-2'>Gender <span>(Required)</span></label>
                     <div className="col">
                         <input type="radio" name="gender" className='form-check-input me-2' id="male" />
                         <label htmlFor="male" className='para clr-text'>Male</label>

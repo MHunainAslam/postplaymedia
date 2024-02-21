@@ -9,7 +9,7 @@ import axios from 'axios'
 import { deleteCookie } from 'cookies-next'
 import { GetLocaldata, GetToken } from '@/utils/Token'
 
-const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
+const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader, frndsearch, setfrndsearch }) => {
     const [authme, setauthme] = useState('')
     const token = GetToken('userdetail')
     const [btndisable, setbtndisable] = useState(false)
@@ -56,7 +56,7 @@ const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                 <div className="col-lg-3 mb-3 col-md-6  ">
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0 " ><i className="bi bi-search"></i></span>
-                        <input type="text" className="form-control " placeholder="Search Member" aria-label="Username" />
+                        <input type="text" className="form-control " placeholder="Search Friend" value={frndsearch} onChange={(e) => setfrndsearch(e.target.value)} aria-label="Username" />
                     </div>
                 </div>
 

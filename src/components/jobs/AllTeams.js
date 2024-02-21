@@ -69,7 +69,7 @@ const AllTeams = ({ loadcomponent }) => {
             });
     }, [dlt, loadcomponent, Conference, state, level, sports, currentPage, SearchTitle])
     useEffect(() => {
-      setCurrentPage(1)
+        setCurrentPage(1)
     }, [Conference, state, level, sports])
 
     const handlePageChange = (pageNumber) => {
@@ -149,6 +149,13 @@ const AllTeams = ({ loadcomponent }) => {
     //             console.error(error);
     //         });
     // }, [state])
+    useEffect(() => {
+        setSearchTitle('')
+    }, [level,
+        sports,
+        state,
+        Conference])
+    
     return (
         <>
 
@@ -157,10 +164,14 @@ const AllTeams = ({ loadcomponent }) => {
             <div className="border-bottom row justify-content-between">
                 <div className="col-sm-8 col-lg-6">
                     <form className="  my-3">
+                        <div className=" search-inp mt-3 w-50">
+                            <span className="input-group-text right-0 " ><i className="bi bi-search"></i></span>
+                            <input type="text" className="form-control  " placeholder="Search Team" value={SearchTitle} onChange={(e) => setSearchTitle(e.target.value)} aria-label="Username" />
+                        </div>
                         <div className="d-flex">
-                            <input type="text" className="form-control w-50 inp me-2 " placeholder="keywords" aria-label="Username" value={SearchTitle} onChange={(e) => { setSearchTitle(e.target.value) }} />
+                            {/* <input type="text" className="form-control w-50 inp me-2 " placeholder="keywords" aria-label="Username" value={SearchTitle} onChange={(e) => { setSearchTitle(e.target.value) }} /> */}
                             {/* <input type="text" className="form-control inp me-2 " placeholder="Location" aria-label="Username" /> */}
-                            <button className='btn primary-btn rounded-5 '><p><i className="bi bi-search"></i></p></button>
+                            {/* <button className='btn primary-btn rounded-5 '><p><i className="bi bi-search"></i></p></button> */}
                         </div>
                     </form>
                 </div>

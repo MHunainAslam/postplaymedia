@@ -18,8 +18,9 @@ const AllFriends = ({ xl, md }) => {
     const { userprofile } = useParams()
     const [AllFrndsData, setAllFrndsData] = useState([])
     const [UserDataLoader, setUserDataLoader] = useState(true)
+    const [frndsearch, setfrndsearch] = useState('')
     const allfrnd = () => {
-        axios.get(`${APP_URL}/api/friendships-by-user-id/${userprofile}`, {
+        axios.get(`${APP_URL}/api/friendships-by-user-id/${userprofile}&search=${frndsearch}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -71,7 +72,7 @@ const AllFriends = ({ xl, md }) => {
         <>
 
 
-            <Peoplefriend getallfrnds={allfrnd} AllFrndsData={AllFrndsData} UserDataLoader={UserDataLoader} />
+            <Peoplefriend getallfrnds={allfrnd} AllFrndsData={AllFrndsData} UserDataLoader={UserDataLoader} frndsearch={frndsearch} setfrndsearch={setfrndsearch}/>
         </>
     )
 }

@@ -23,6 +23,7 @@ const GroupInv = ({ xl, md, lg }) => {
         console.log(pageNumber);
     };
     const [isLoading, setisLoading] = useState(true)
+    const [GrpInvSearch, setGrpInvSearch] = useState('')
     const [dataOnPagemine, setdataOnPagemine] = useState(20)
     const [currentPagemine, setCurrentPagemine] = useState(1);
     const itemsPerPagemine = dataOnPagemine;
@@ -30,7 +31,7 @@ const GroupInv = ({ xl, md, lg }) => {
     const indexOfFirstItemmine = indexOfLastItemmine - itemsPerPagemine;
     // console.log('mine grp', GrpInv);
     const getGrpInv = () => {
-        axios.get(`${APP_URL}/api/get-my-group-invitations?status=pending&per_page=${dataOnPagemine}&page=${currentPagemine}`, {
+        axios.get(`${APP_URL}/api/get-my-group-invitations?status=pending&per_page=${dataOnPagemine}&page=${currentPagemine}&search=${GrpInvSearch}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -53,7 +54,7 @@ const GroupInv = ({ xl, md, lg }) => {
     }
     useEffect(() => {
         getGrpInv()
-    }, [dataOnPagemine, currentPagemine])
+    }, [dataOnPagemine, currentPagemine, GrpInvSearch])
 
     const accptgrpreq = ({ e, endpoint }) => {
         axios.post(`${APP_URL}/api/groups/${endpoint}`, {
@@ -80,7 +81,7 @@ const GroupInv = ({ xl, md, lg }) => {
                 <div className="col-lg-3 mb-3 col-md-6 ">
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0" ><i className="bi bi-search"></i></span>
-                        <input type="text" className="form-control " placeholder="Search Group" aria-label="Username" />
+                        <input type="text" className="form-control " value={GrpInvSearch} onChange={(e) => setGrpInvSearch(e.target.value)} placeholder="Search Group" aria-label="Username" />
                     </div>
                 </div>
                 {/* <div className="col-lg-3 mb-3 col-md-6 ">
@@ -136,7 +137,7 @@ const GroupInv = ({ xl, md, lg }) => {
                                         </div>
                                         <div className="card-footer">
                                             {UserProfiledata?.data?.id == item?.group?.created_by ?
-                                                <button className='btn secondary-btn px-4' onClick={() => router.push(`/groups/${item.group?.id}`)}>View</button> :
+                                                <button className='btn secondary-btn px-4' onClick={() => router.push(`/groups/${item.group?.id}`)}>View Group</button> :
                                                 <>
                                                     {item?.button_trigger != 'accept-request' ?
 
@@ -148,10 +149,10 @@ const GroupInv = ({ xl, md, lg }) => {
                                                         }>
                                                             <p className='mb-0 px-4'>
                                                                 {
-                                                                    item?.button_trigger == 'join-now' ? 'Join' :
-                                                                        item?.button_trigger == 'withdrawl-request' ? 'Pending' :
-                                                                            item?.button_trigger == 'pending' ? 'Cancel Request' :
-                                                                                item?.button_trigger == 'view-group' ? 'View' :
+                                                                    item?.button_trigger == 'join-now' ? 'Join Group' :
+                                                                        item?.button_trigger == 'withdrawl-request' ? 'Pending Group' :
+                                                                            item?.button_trigger == 'pending' ? 'Cancel Group Request' :
+                                                                                item?.button_trigger == 'view-group' ? 'View Group' :
                                                                                     ''}
                                                             </p>
                                                         </button>

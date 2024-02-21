@@ -54,7 +54,7 @@ export const formatMentionsToLinks = (text, userid) => {
     const mentionRegex = /@\[([^\]]+)\]\((\d+)\)/g;
     let elements = [];
     let lastIndex = 0;
-    text.replace(mentionRegex, (match, name, id, index) => {
+    text?.replace(mentionRegex, (match, name, id, index) => {
         if (index > lastIndex) {
             elements.push(text.slice(lastIndex, index)); // Yeh non-mention text ko add karega
         }
@@ -65,7 +65,7 @@ export const formatMentionsToLinks = (text, userid) => {
         );
         lastIndex = index + match.length;
     });
-    if (lastIndex < text.length) {
+    if (lastIndex < text?.length) {
         elements.push(text.slice(lastIndex));
     }
     return elements.length > 0 ? elements : [text];

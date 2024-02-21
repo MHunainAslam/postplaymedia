@@ -117,13 +117,13 @@ const Profiledetail = ({ }) => {
                     </p>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-lg-4 col-md-6'>Number </label>
+                    <label htmlFor="" className='col-lg-4 col-md-6'>Contact Number </label>
                     <p className="para-lg text-dark mb-0" text-capitalize>
                         {UserProfiledata?.data?.number === null ? '--' : UserProfiledata?.data?.number}
                     </p>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-lg-4 col-md-6'>Sex </label>
+                    <label htmlFor="" className='col-lg-4 col-md-6'>Gender </label>
                     <p className="para-lg text-dark mb-0 text-capitalize">
                         {UserProfiledata?.data?.gender === null ? '--' : UserProfiledata?.data?.gender}
                     </p>

@@ -347,6 +347,7 @@ const AllMembers = ({ postdone, endpoint }) => {
                     // const formattedText = formatMentionsToLinks(item.post_text, UserProfiledata?.data?.id);
                     return (<div className='post-card mt-4 ' key={i}>
                         <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 col-xxl-5 col-lg-7 col-md-8' >
+                            
                             <div className='head-content p-3'>
                                 <Link href={item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/activity' : `/people/${item?.created_by?.id}/activity`}>
                                     {item?.created_by?.profile_photo === null ?

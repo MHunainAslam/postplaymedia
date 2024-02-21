@@ -8,6 +8,7 @@ import { APP_URL, IMG_URL } from '../../../config'
 import axios from 'axios'
 import { deleteCookie } from 'cookies-next'
 import { GetLocaldata, GetToken } from '@/utils/Token'
+import { useFrndContext } from '@/context/FriendContext'
 
 const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
     const [authme, setauthme] = useState('')
@@ -16,10 +17,7 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
     const [Receiverid, setReceiverid] = useState()
     const router = useRouter()
     const userdata = GetLocaldata('userdetail')
-
-
-
-    console.log(userdata)
+    const { SearchFriend, setSearchFriend } = useFrndContext()
 
     const unfriend = (e) => {
         setbtndisable(true)
@@ -55,7 +53,7 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
                 <div className="col-lg-3 mb-3 col-md-6  ">
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0 " ><i className="bi bi-search"></i></span>
-                        <input type="text" className="form-control " placeholder="Search Member" aria-label="Username" />
+                        <input type="text" className="form-control " placeholder="Search Friend" value={SearchFriend} onChange={(e) => setSearchFriend(e.target.value)} aria-label="Username" />
                     </div>
                 </div>
 

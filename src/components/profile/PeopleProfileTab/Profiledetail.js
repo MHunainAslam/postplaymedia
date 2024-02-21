@@ -137,7 +137,7 @@ const Profiledetail = ({ }) => {
                     </p>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-lg-4 col-md-6'>Sex </label>
+                    <label htmlFor="" className='col-lg-4 col-md-6'>Gender </label>
                     <p className="para-lg text-dark mb-0 text-capitalize">
                         {Userdata?.data?.gender === null ? '--' : Userdata?.data?.gender}
                     </p>

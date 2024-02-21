@@ -62,6 +62,7 @@ export const config = {
   matcher: [
     '/about',
     '/activity',
+    '/activity/:path*',
     '/forums',
     '/forums/:path*',
     '/forums/:path*/:path*',

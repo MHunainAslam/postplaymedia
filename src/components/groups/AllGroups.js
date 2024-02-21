@@ -15,6 +15,8 @@ const AllGroups = ({
     reqjoingrp,
     canceljoingrp,
     accptgrpreq,
+    GrpSearch,
+    setGrpSearch
 }) => {
     const { UserProfiledata } = useAppContext()
     const router = useRouter()
@@ -25,7 +27,7 @@ const AllGroups = ({
                 <div className="col-lg-3 mb-3 col-md-6 ">
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0" ><i className="bi bi-search"></i></span>
-                        <input type="text" className="form-control " placeholder="Search Member" aria-label="Username" />
+                        <input type="text" className="form-control " placeholder="Search Group" value={GrpSearch} onChange={(e) => setGrpSearch(e.target.value)} aria-label="Username" />
                     </div>
                 </div>
                 {/* <div className="col-lg-3 mb-3 col-md-6 ">
@@ -75,9 +77,9 @@ const AllGroups = ({
                                         <div className="card-footer">
                                             {/* () => accptgrpreq({ e: item.id, endpoint: 'rejectInvite' }) */}
                                             {/* item.button_trigger === 'accept-request' ? 'Accept Request' : */}
-      
+
                                             {UserProfiledata?.data?.id === item?.created_by?.id ?
-                                                <button className='btn secondary-btn px-4' onClick={() => router.push(`/groups/${item.id}`)}>View</button> :
+                                                <button className='btn secondary-btn px-4' onClick={() => router.push(`/groups/${item.id}`)}>View Group</button> :
                                                 <>
                                                     {item.button_trigger != 'accept-request' ?
 
@@ -89,10 +91,10 @@ const AllGroups = ({
                                                         }>
                                                             <p className='mb-0 px-4'>
                                                                 {
-                                                                    item.button_trigger === 'join-now' ? 'Join' :
-                                                                        item.button_trigger === 'withdrawl-request' ? 'Pending' :
-                                                                            item.button_trigger === 'pending' ? 'Cancel Request' :
-                                                                                item.button_trigger === 'view-group' ? 'View' :
+                                                                    item.button_trigger === 'join-now' ? 'Join Group' :
+                                                                        item.button_trigger === 'withdrawl-request' ? 'Pending Group Request' :
+                                                                            item.button_trigger === 'pending' ? 'Cancel Group Request' :
+                                                                                item.button_trigger === 'view-group' ? 'View Group' :
                                                                                     ''}
                                                             </p>
                                                         </button>
