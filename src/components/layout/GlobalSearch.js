@@ -21,7 +21,7 @@ const GlobalSearch = () => {
     const [showList, setShowList] = useState(false);
     const [global, setglobal] = useState([])
     useEffect(() => {
-        axios.get(`${APP_URL}/api/gloabl-search`, {
+        axios.get(`${APP_URL}/api/global-search?search=${inputValue}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
