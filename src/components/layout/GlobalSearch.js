@@ -49,17 +49,26 @@ const GlobalSearch = () => {
     };
 
     const handleKeyDown = (e) => {
-        if (e.key === "Enter") {
-            router.push(`${type == 'group' ? `/groups/${ids}` : `/people/${ids}/activity`}`)
-            // Perform your action here
-        }
         if (e.key === 'ArrowDown') {
-            setActiveIndex((prevIndex) => (prevIndex + 1) % global.length);
+            e.preventDefault();
+            setActiveIndex((prevIndex) => (prevIndex < global.length - 1 ? prevIndex + 1 : prevIndex));
+            scrollToActiveItem();
         } else if (e.key === 'ArrowUp') {
-            setActiveIndex((prevIndex) => (prevIndex - 1 + global.length) % global.length);
+            e.preventDefault();
+            setActiveIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
+            scrollToActiveItem();
+        } else if (e.key === 'Enter' && activeIndex !== -1) {
+            const selectedItem = global[activeIndex];
+            const route = selectedItem.type === 'group' ? `/groups/${selectedItem.id}` : `/people/${selectedItem.id}/activity`;
+            router.push(route);
         }
     };
-
+    const scrollToActiveItem = () => {
+        const activeElement = document.querySelector('.global-search-dd .active');
+        if (activeElement) {
+            activeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    };
 
     return (
         <>
@@ -75,15 +84,15 @@ const GlobalSearch = () => {
                         className="form-control border-0 bg-transparent "
                         value={inputValue}
                         onChange={handleChange}
-                        onKeyDown={handleKeyDown}
+                        onKeyDown={handleKeyDown} 
                         placeholder="Search"
                     />
 
                     {showList &&
-                        <ul className='global-search-dd'>
+                        <ul className='global-search-dd' onKeyDown={handleKeyDown} tabIndex="0">
                             {global.map((item, index) => (
                                 <li key={index}
-                                    onKeyDown={() => handleKeyDown(item.name)}
+
                                     onClick={() => router.push(`${item.type == 'group' ? `/groups/${item?.id}` : `/people/${item?.id}/activity`}`)}
                                     className={activeIndex === index ? 'active' : ''}>
                                     {item.name}
