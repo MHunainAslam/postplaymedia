@@ -11,9 +11,11 @@ import { useFrndContext } from '@/context/FriendContext';
 import { Mention, MentionsInput } from 'react-mentions';
 import Link from 'next/link';
 import { formatMentionsToLinks } from '@/utils/GrpFunctions';
-const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId, para, name, profile, time, item, likepost, dislikepost, handleToggle, likecount, Comments, getcomment }) => {
+import { useRouter } from 'next/navigation';
+import { deleteCookie } from 'cookies-next';
+const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId, para, name, profile, time, item, likepost, dislikepost, handleToggle, likecount, Comments, getcomment }) => {
     const { Datafrnd } = useFrndContext()
-
+    const router = useRouter()
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const token = GetToken('userdetail')
     const [EditCmnt, setEditCmnt] = useState(false)
@@ -176,9 +178,9 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
         const ids = parseMentionsForIds(cmnt);
         setmentionuserid(ids);
     }, [cmnt]);
-    const closemodal = () => {
-        document.querySelector('.close-fancybox-s')?.click()
-    }
+    // const closeModal = () => {
+    //     document.querySelector('.close-fancybox-s')?.click()
+    // }
     // const formatMentionsToLinks = (text) => {
     //     const aa = () => { console.log('first') }
     //     const mentionRegex = /@\[([^\]]+)\]\((\d+)\)/g;
@@ -187,6 +189,13 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
     //     });
 
     // };
+    useEffect(() => {
+        // document.querySelectorAll('.close-fancybox-s').forEach(element => {
+        //     element.click();
+        // });
+        closeModal()
+        console.log(fancyBoxId)
+    }, [router])
     return (
 
         <>
@@ -212,7 +221,7 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                             <Image width={5000} height={5000} src={images} loader={imgurl} className='w-100 postmodalimg object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
                                                         }
                                                     </>
-                                                    : <p className='para-lg w-100 text-white text-center px-5'>{formatMentionsToLinks(para, UserProfiledata?.data?.id) }</p>}
+                                                    : <p className='para-lg w-100 text-white text-center px-5'>{formatMentionsToLinks(para, UserProfiledata?.data?.id)}</p>}
                                                 {/* <button className='post-back-btn' onClick={prevImage}><i className="bi bi-chevron-left"></i></button>
                                         <button className='post-next-btn' onClick={nextImage}><i className="bi bi-chevron-right"></i></button> */}
                                             </div>
@@ -222,7 +231,7 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                 <div>
 
                                                     <div className="d-flex align-items-center">
-                                                        <Link href={`${item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/activity' : `/people/${item?.created_by?.id}/activity`}`} onClick={closemodal}>
+                                                        <Link href={`${item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/activity' : `/people/${item?.created_by?.id}/activity`}`} onClick={closeModal}>
                                                             {profile === null ?
                                                                 <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile'></Image>
                                                                 : <Image loader={imgurl} src={profile?.url} alt="" width={100} height={100} className='object-fit-cover post-profile'></Image>
@@ -233,7 +242,8 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                             <p className="para clr-light mb-0 ms-3">{time}</p>
                                                         </div>
                                                         <div className="d-flex justify-content-end ms-auto">
-                                                            <span className="close pointer close-fancybox-s" data-bs-dismiss="modal" onClick={closeModal}><i className="bi bi-x-lg"></i></span>
+                                                            
+                                                            <span className={`close pointer close-fancybox-s ${fancyBoxId}close${i}`} data-bs-dismiss="modal" onClick={closeModal}><i className="bi bi-x-lg"></i></span>
                                                         </div>
                                                     </div>
                                                     <div className="post-card-actions py-2">
@@ -262,7 +272,7 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                                 {Comments.map((item, i) => (
                                                                     <div key={i}>
                                                                         <div className="d-flex mt-3" >
-                                                                            <Link href={`${item?.user?.id === UserProfiledata?.data?.id ? '/profile/profile' : `/people/${item?.user?.id}/activity`}`} onClick={closemodal}>
+                                                                            <Link href={`${item?.user?.id === UserProfiledata?.data?.id ? '/profile/profile' : `/people/${item?.user?.id}/activity`}`} onClick={closeModal}>
                                                                                 {item?.user?.profile_photo == null ?
                                                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-m me-2'></Image> :
                                                                                     <Image loader={imgurl} src={item?.user?.profile_photo?.url} alt="" width={100} height={100} className='post-profile-m me-2 object-fit-cover'></Image>
@@ -297,7 +307,7 @@ const FancyBoxPost = ({ cmntloader, images, modalOpen, closeModal, selectedImage
                                                                                     </>
                                                                                     :
                                                                                     <p className='form-control back-border text-black inp mb-0' name="" id="" >
-                                                                                    {formatMentionsToLinks(item.body, UserProfiledata?.data?.id)}
+                                                                                        {formatMentionsToLinks(item.body, UserProfiledata?.data?.id)}
                                                                                     </p>
                                                                                 }
                                                                                 <div className="d-flex mt-1 align-items-center">

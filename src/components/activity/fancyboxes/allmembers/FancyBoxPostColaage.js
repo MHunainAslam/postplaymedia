@@ -15,6 +15,7 @@ import { Mention, MentionsInput } from 'react-mentions';
 import { useFrndContext } from '@/context/FriendContext';
 import { formatMentionsToLinks } from '@/utils/GrpFunctions';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, selectedImage, setSelectedImage, fancyBoxId, name, profile, time, item, likepost, dislikepost, handleToggle, likecount, Comments, getcomment }) => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const { Datafrnd } = useFrndContext()
@@ -27,7 +28,7 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
     const [dltcommentmodal, setdltcommentmodal] = useState(false)
     const [isloading, setisloading] = useState(false)
     const [comntloading, setcomntloading] = useState(false)
-    
+    const router = useRouter()
     const toggleComments = (postId) => {
         setCommentArea((prevState) => ({
             ...prevState,
@@ -188,6 +189,9 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
     const closemodal = () => {
         document.querySelector('.close.pointer')?.click()
     }
+    useEffect(() => {
+        document.querySelector(`.${fancyBoxId}`)?.click()
+    }, [router])
 
     return (
         <>
@@ -236,7 +240,7 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
                                                             <p className="para clr-light mb-0 ms-3">{time}</p>
                                                         </div>
                                                         <div className="d-flex justify-content-end ms-auto">
-                                                            <span className="close pointer" data-bs-dismiss="modal" onClick={closeModal}><i className="bi bi-x-lg"></i></span>
+                                                            <span className={`close pointer ${fancyBoxId}`} data-bs-dismiss="modal" onClick={closeModal}><i className="bi bi-x-lg"></i></span>
                                                         </div>
                                                     </div>
                                                     <div className="post-card-actions py-2">
@@ -301,8 +305,8 @@ const FancyBoxPostColaage = ({ cmntloader, images, modalOpen, closeModal, select
                                                                                     </>
                                                                                     :
                                                                                     <p className='form-control back-border text-black inp mb-0' name="" id="" >
-                                                                                       {formatMentionsToLinks(item.body, UserProfiledata?.data?.id)}
-                                                                                    
+                                                                                        {formatMentionsToLinks(item.body, UserProfiledata?.data?.id)}
+
                                                                                     </p>
                                                                                 }
                                                                                 <div className="d-flex mt-1 align-items-center">

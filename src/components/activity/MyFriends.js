@@ -64,7 +64,7 @@ const MyFriends = ({ postdone, endpoint }) => {
         setPostSelectedImage(null);
         setPostModalOpen(false);
     };
-    const fetchPosts = async (page) => {
+    const fetchfriendPosts = async (page) => {
         try {
             const response = await fetch(
                 // `${APP_URL}/api/post?{section=all}&per_page=20&page=${page}`,
@@ -107,7 +107,7 @@ const MyFriends = ({ postdone, endpoint }) => {
             setUserDataLoader(false)
         }
     };
-    const fetchPostss = async (page) => {
+    const fetchfriendPostss = async (page) => {
         setloadmoreloader(true)
         try {
             const response = await fetch(
@@ -151,13 +151,13 @@ const MyFriends = ({ postdone, endpoint }) => {
     useEffect(() => {
         // Fetch initial messages when the component mounts
         if (CurrentPagefrnd === 1 && Datafrnds.length === 0) {
-            fetchPosts(CurrentPagefrnd);
+            fetchfriendPosts(CurrentPagefrnd);
         }
     }, [CurrentPagefrnd, token]);
     const handleLoadMorefrnd = () => {
         if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
             setLoading(true);
-            fetchPostss(CurrentPagefrnd + 1);
+            fetchfriendPostss(CurrentPagefrnd + 1);
         }
     };
     const handleScrollfrnd = () => {
@@ -176,10 +176,9 @@ const MyFriends = ({ postdone, endpoint }) => {
             window.removeEventListener('scroll', handleScrollfrnd);
         };
     }, [handleScrollfrnd]);
-    useEffect(() => {
-        // getallfrnds()
-        fetchPosts()
-    }, [postdone, isdlt, EditDone, endpoint])
+    // useEffect(() => {
+    //     fetchfriendPosts()
+    // }, [postdone, isdlt, EditDone, endpoint])
     const handleToggle = (postId) => {
         setAllFriendsPosts(prevData => prevData.map(post => {
             if (post.id === postId) {

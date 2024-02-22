@@ -64,7 +64,7 @@ const MyGroups = ({ postdone, endpoint }) => {
         setPostSelectedImage(null);
         setPostModalOpen(false);
     };
-    const fetchPosts = async (page) => {
+    const fetchGroupPosts = async (page) => {
         try {
             const response = await fetch(
                 // `${APP_URL}/api/post?{section=all}&per_page=20&page=${page}`,
@@ -107,7 +107,7 @@ const MyGroups = ({ postdone, endpoint }) => {
             setUserDataLoader(false)
         }
     };
-    const fetchPostss = async (page) => {
+    const fetchGroupPostss = async (page) => {
         setloadmoreloader(true)
         try {
             const response = await fetch(
@@ -151,13 +151,13 @@ const MyGroups = ({ postdone, endpoint }) => {
     useEffect(() => {
         // Fetch initial messages when the component mounts
         if (CurrentPagefrnd === 1 && Datafrnds.length === 0) {
-            fetchPosts(CurrentPagefrnd);
+            fetchGroupPosts(CurrentPagefrnd);
         }
     }, [CurrentPagefrnd, token]);
     const handleLoadMorefrnd = () => {
         if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
             setLoading(true);
-            fetchPostss(CurrentPagefrnd + 1);
+            fetchGroupPostss(CurrentPagefrnd + 1);
         }
     };
     const handleScrollfrnd = () => {
@@ -178,7 +178,7 @@ const MyGroups = ({ postdone, endpoint }) => {
     }, [handleScrollfrnd]);
     useEffect(() => {
         // getallfrnds()
-        fetchPosts()
+        fetchGroupPosts()
     }, [postdone, isdlt, EditDone, endpoint])
     const handleToggle = (postId) => {
         setAllGroupsPosts(prevData => prevData.map(post => {

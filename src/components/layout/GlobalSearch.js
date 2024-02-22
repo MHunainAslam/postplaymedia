@@ -1,12 +1,14 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
-import { APP_URL } from '../../../config';
+import { APP_URL, IMG_URL } from '../../../config';
 import axios from 'axios';
-import { GetToken } from '@/utils/Token';
+import { GetToken, imgurl } from '@/utils/Token';
 import { deleteCookie } from 'cookies-next';
+import { useAppContext } from '@/context/AppContext';
 
 const GlobalSearch = () => {
     const router = useRouter()
+    const { UserProfiledata } = useAppContext()
     const token = GetToken('userdetail')
 
     const data = [
@@ -59,7 +61,8 @@ const GlobalSearch = () => {
             scrollToActiveItem();
         } else if (e.key === 'Enter' && activeIndex !== -1) {
             const selectedItem = global[activeIndex];
-            const route = selectedItem.type === 'group' ? `/groups/${selectedItem.id}` : `/people/${selectedItem.id}/activity`;
+            const route = selectedItem.type === 'group' ? `/groups/${selectedItem.id}` : 
+            `${UserProfiledata.data.id == selectedItem.id ? '/profile/activity' : `/people/${selectedItem.id}/activity`}`;
             router.push(route);
         }
     };
@@ -84,7 +87,7 @@ const GlobalSearch = () => {
                         className="form-control border-0 bg-transparent "
                         value={inputValue}
                         onChange={handleChange}
-                        onKeyDown={handleKeyDown} 
+                        onKeyDown={handleKeyDown}
                         placeholder="Search"
                     />
 
@@ -93,9 +96,17 @@ const GlobalSearch = () => {
                             {global.map((item, index) => (
                                 <li key={index}
 
-                                    onClick={() => router.push(`${item.type == 'group' ? `/groups/${item?.id}` : `/people/${item?.id}/activity`}`)}
+                                    onClick={() => router.push(`${item.type == 'group' ? `/groups/${item?.id}` :
+                                    `${UserProfiledata.data.id == item?.id ? '/profile/activity' : `/people/${item?.id}/activity`}`}`
+                                    )}
                                     className={activeIndex === index ? 'active' : ''}>
-                                    {item.name}
+                                    <div className="d-flex align-items-center">
+                                        {item.image == '' ?
+                                            <img src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100} className='post-profile-sm  d-block me-2 object-fit-cover'></img>
+                                            : <img src={IMG_URL + item.image} alt="" width={100} height={100} className='post-profile-sm  d-block me-2 object-fit-cover'></img>
+                                        }
+                                        {item.name}
+                                    </div>
                                 </li>
                             ))}
 

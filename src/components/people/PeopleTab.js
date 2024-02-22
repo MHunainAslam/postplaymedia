@@ -10,8 +10,12 @@ import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config'
 import { deleteCookie } from 'cookies-next'
 import { useFrndContext } from '@/context/FriendContext'
+import { useAppContext } from '@/context/AppContext'
+import AllAthelete from './AllAthelete'
+import Allcoach from './Allcoach'
 
 const PeopleTab = () => {
+    const { UserProfiledata } = useAppContext()
     const token = GetToken('userdetail')
     const [UserData, setUserData] = useState([])
     const [UserDataLoader, setUserDataLoader] = useState(true)
@@ -135,101 +139,7 @@ const PeopleTab = () => {
     }, [handleScroll]);
 
 
-    // const fetchFrnds = async (page) => {
-    //     try {
-    //         const response = await fetch(
-    //             `${APP_URL}/api/friendships?per_page=20&page=${page}`,
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`,
-    //                     // Add other headers if needed
-    //                 },
-    //             }
-    //         );
-    //         const data = await response.json();
-    //         if (data.success) {
-    //            console.log('fetchfrnds', data)
-    //             setDatafrnd(data.message.data);
-    //             console.log(data)
-    //             setCurrentPagefrnd(data.message.current_page);
-    //             setTotalPagesfrnd(data.message.last_page);
-    //             settotalMemberfrnd(data.message.total);
-    //             setUserDataLoader(false)
-    //         } else {
-    //             console.error('Failed to fetch messages');
-    //             setUserDataLoader(false)
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching messages', error);
-    //         setUserDataLoader(false)
-    //         if (error?.response?.status === 401) {
-    //             router.push('/')
-    //             deleteCookie('logged');
-    //             localStorage.removeItem('userdetail')
-    //         }
-    //     } finally {
-    //         setLoading(false);
-    //         setUserDataLoader(false)
-    //     }
-    // };
-    // const fetchFrndss = async (page) => {
-    //     try {
-    //         const response = await fetch(
-    //             `${APP_URL}/api/friendships?per_page=20&page=${page}`,
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`,
-    //                 },
-    //             }
-    //         );
 
-    //         const data = await response.json();
-
-    //         if (data.success) {
-
-    //             setDatafrnd((prevMessages) => [...prevMessages, ...data?.message?.data]);
-    //             setCurrentPagefrnd(data.message.current_page);
-    //             setTotalPagesfrnd(data.message.last_page);
-    //             console.log(data, data.message.current_page)
-    //         } else {
-    //             console.error('Failed to fetch messages');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching messages', error);
-    //         if (error?.response?.status === 401) {
-    //             router.push('/')
-    //             deleteCookie('logged');
-    //             localStorage.removeItem('userdetail')
-    //         }
-    //     } finally {
-    //         setLoading(false);
-
-    //     }
-    // };
-    // useEffect(() => {
-    //     if (CurrentPagefrnd === 1 && Datafrnd.length === 0) {
-    //         fetchFrnds(CurrentPagefrnd);
-    //     }
-    // }, [CurrentPagefrnd, token]);
-    // const handleLoadMorefrnd = () => {
-    //     if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
-    //         setLoading(true);
-    //         fetchFrndss(CurrentPagefrnd + 1);
-    //     }
-    // };
-    // const handleScrollfrnd = () => {
-    //     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 0) {
-    //         handleLoadMorefrnd();
-
-    //     }
-    // };
-    // useEffect(() => {
-    //     window.addEventListener('scroll', handleScrollfrnd);
-
-    //     return () => {
-    //         window.removeEventListener('scroll', handleScrollfrnd);
-    //     };
-    // }, [handleScrollfrnd]);
 
     const { Datafrnd, FrndContainerRef, handleLoadMore, fetchFrnds, totalMemberfrnd } = useFrndContext()
     const handleScrollfrnd = () => {
@@ -260,14 +170,31 @@ const PeopleTab = () => {
                     <li className="nav-item nav-link " id="MyFriends-tab" data-bs-toggle="tab" data-bs-target="#MyFriends" type="button" role="tab" aria-controls="MyFriends" aria-selected="false" tabIndex="-1">
                         My Friends <span className='comment-active ms-1'>{totalMemberfrnd}</span>
                     </li>
-
+                    {UserProfiledata?.data?.role?.name === 'Admin' &&
+                        <>
+                            <li className="nav-item nav-link " id="coach-tab" data-bs-toggle="tab" data-bs-target="#coach" type="button" role="tab" aria-controls="coach" aria-selected="false" tabIndex="-1">
+                                Coachs <span className='comment-active ms-1'>0</span>
+                            </li>
+                            <li className="nav-item nav-link " id="athelete-tab" data-bs-toggle="tab" data-bs-target="#athelete" type="button" role="tab" aria-controls="athelete" aria-selected="false" tabIndex="-1">
+                                Atheletes <span className='comment-active ms-1'>0</span>
+                            </li>
+                        </>
+                    }
                 </ul>
                 <div className="tab-content ">
                     <div className="tab-pane fade active show" id="ActiveMembers" role="tabpanel" aria-labelledby="ActiveMembers-tab">
-                        <ActiveMembers fetchMembers={fetchMembers} UserData={Data} UserDataLoader={UserDataLoader} setMemberSearch={setMemberSearch} MemberSearch={MemberSearch}/>
+                        <ActiveMembers fetchMembers={fetchMembers} UserData={Data} UserDataLoader={UserDataLoader} setMemberSearch={setMemberSearch} MemberSearch={MemberSearch} />
                     </div>
                     <div className="tab-pane fade " id="MyFriends" role="tabpanel" aria-labelledby="MyFriends-tab">
                         <MyFriends getallfrnds={fetchFrnds} AllFrndsData={Datafrnd} UserDataLoader={UserDataLoader} />
+                    </div>
+                    <div className="tab-pane fade " id="coach" role="tabpanel" aria-labelledby="coach-tab">
+
+                        <Allcoach fetchMembers={fetchMembers} UserData={Data} UserDataLoader={UserDataLoader} setMemberSearch={setMemberSearch} MemberSearch={MemberSearch} />
+                    </div>
+                    <div className="tab-pane fade " id="athelete" role="tabpanel" aria-labelledby="athelete-tab">
+
+                        <AllAthelete fetchMembers={fetchMembers} UserData={Data} UserDataLoader={UserDataLoader} setMemberSearch={setMemberSearch} MemberSearch={MemberSearch} />
                     </div>
 
                 </div>

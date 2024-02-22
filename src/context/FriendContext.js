@@ -31,7 +31,7 @@ export function FrndWrapper({ children }) {
     const fetchFrnds = async (page) => {
         try {
             const response = await fetch(
-                `${APP_URL}/api/friendships?per_page=25&page=${page}&search=${SearchFriend}`,
+                `${APP_URL}/api/friendships?per_page=30&page=${page}&search=${SearchFriend}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ export function FrndWrapper({ children }) {
     const fetchFrndss = async (page) => {
         try {
             const response = await fetch(
-                `${APP_URL}/api/friendships?per_page=10&page=${page}`,
+                `${APP_URL}/api/friendships?per_page=30&page=${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

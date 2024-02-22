@@ -163,7 +163,7 @@ const AllTeams = ({ loadcomponent }) => {
 
             <div className="border-bottom row justify-content-between">
                 <div className="col-sm-8 col-lg-6">
-                    <form className="  my-3">
+                    <div className="  my-3">
                         <div className=" search-inp mt-3 w-50">
                             <span className="input-group-text right-0 " ><i className="bi bi-search"></i></span>
                             <input type="text" className="form-control  " placeholder="Search Team" value={SearchTitle} onChange={(e) => setSearchTitle(e.target.value)} aria-label="Username" />
@@ -173,7 +173,7 @@ const AllTeams = ({ loadcomponent }) => {
                             {/* <input type="text" className="form-control inp me-2 " placeholder="Location" aria-label="Username" /> */}
                             {/* <button className='btn primary-btn rounded-5 '><p><i className="bi bi-search"></i></p></button> */}
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div className="col-sm-4 col-lg-6 my-3 text-sm-end">
                     <button className='btn secondary-btn px-4' onClick={() => { setFilter(!Filter) }}><i className="bi bi-sliders2-vertical" ></i> Filter</button>

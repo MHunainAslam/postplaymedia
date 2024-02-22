@@ -50,6 +50,11 @@ export const joingrp = ({ e, getallgrp, type }) => {
             });
     });
 }
+const closemodal = () => {
+    document.querySelectorAll('.close-fancybox-s')?.forEach(element => {
+        element?.click();
+    });
+}
 export const formatMentionsToLinks = (text, userid) => {
     const mentionRegex = /@\[([^\]]+)\]\((\d+)\)/g;
     let elements = [];
@@ -59,7 +64,7 @@ export const formatMentionsToLinks = (text, userid) => {
             elements.push(text.slice(lastIndex, index)); // Yeh non-mention text ko add karega
         }
         elements.push(
-            <Link key={index} href={`${userid == id ? '/profile/activity' : `/people/${id}/activity`}  `} className='fw-bold clr-primary text-decoration-none' style={{ cursor: 'pointer', display: 'inline' }}>
+            <Link key={index} onClick={closemodal} href={`${userid == id ? '/profile/activity' : `/people/${id}/activity`}  `} className='fw-bold clr-primary text-decoration-none' style={{ cursor: 'pointer', display: 'inline' }}>
                 {name}
             </Link>
         );

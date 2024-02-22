@@ -1477,7 +1477,7 @@ h5 {
   /* max-height:  80vh; */
   overflow: auto;
   flex: 1;
-  max-height: 300px;
+  /* max-height: 300px; */
 }
 
 .comment-active {
@@ -1817,7 +1817,7 @@ h5 {
   max-height: 80vh;
   overflow: auto;
   background-color: white;
-  min-width: 400px;
+  /* min-width: 400px; */
   min-height: 400px;
 }
 

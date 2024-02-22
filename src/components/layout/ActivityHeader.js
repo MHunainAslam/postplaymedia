@@ -78,14 +78,15 @@ const ActivityHeader = ({ }) => {
 
     const accptgrpreq = (e, u_id, g_id) => {
         setAllNotiShow(true)
-        console.log(e,u_id,g_id);
-        axios.patch(`${APP_URL}/groups/${e}`, { user_id: '10', group_id: g_id }, {
+        console.log(e, u_id, g_id);
+        axios.patch(`${APP_URL}/api/${e}`, { user_id: u_id, group_id: g_id }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
                 console.log('grp inv req', response);
+                message.success(response.data.message)
             })
             .catch(error => {
                 console.error(error);
@@ -162,16 +163,38 @@ const ActivityHeader = ({ }) => {
     }, [handleScrollnoti]);
 
 
-
+  
     useEffect(() => {
-        // getallfrnds()
+        const closeModalOnRouteChange = () => {
+            // Close the modal
+            // Assuming your modal has an ID and you're using Bootstrap 5
+            const modalElement = document.querySelector('.modal-open');
+            if (modalElement) {
+                console.log('hai hai')
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+            }
+        };
 
-    }, [])
+        // Listen for changes in the URL which indicate a route change
+        window.addEventListener('popstate', closeModalOnRouteChange);
+        window.addEventListener('pushState', closeModalOnRouteChange);
+        window.addEventListener('replaceState', closeModalOnRouteChange);
+
+        // Clean up the event listeners when the component unmounts
+        return () => {
+            window.removeEventListener('popstate', closeModalOnRouteChange);
+            window.removeEventListener('pushState', closeModalOnRouteChange);
+            window.removeEventListener('replaceState', closeModalOnRouteChange);
+        };
+    }, []);
 
     return (
         <>
 
-            {/* {UserProfileloader ? <div className="main-loader"> <Loader /></div> : */}
+          
 
             <div className="activity-header">
                 <div className="row justify-content-between px-md-3 px-0 w-100">
@@ -266,16 +289,16 @@ const ActivityHeader = ({ }) => {
                                                                 {/* <span className='fw-bold text-capitalize'> {item.group_id}</span> */}
                                                             </p>
                                                         </div>
-                                                        {/* {item.notification_type == 'sent-request' &&
+                                                        {item.notification_type == 'sent-request' &&
                                                             <div className="d-flex">
-                                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-2' id={item.id} onClick={() => accptgrpreq(item.id)}>
+                                                                <button className='btn secondary-btn-rounded p-1 rounded-5 mx-2' id={item.id} onClick={() => accptgrpreq('reject-group-request', item.sender_id, item.trigger_id)}>
                                                                     <i className="bi bi-x-lg"></i>
                                                                 </button>
-                                                                <button id={item.id} onClick={() => accptgrpreq('acceptRequest', item.sender_id, item.trigger_id)} className='btn secondary-btn-rounded p-1 rounded-5 mx-2'>
+                                                                <button id={item.id} onClick={() => accptgrpreq('accept-group-request', item.sender_id, item.trigger_id)} className='btn secondary-btn-rounded p-1 rounded-5 mx-2'>
                                                                     <i className="bi bi-check2"></i>
                                                                 </button>
                                                             </div>
-                                                        } */}
+                                                        }
                                                     </div>
                                                 </li>
                                             ))}
@@ -325,6 +348,7 @@ const ActivityHeader = ({ }) => {
 
             {/* } */}
             <LogoutConfirmation logout={logout} />
+          
         </>
     )
 }
