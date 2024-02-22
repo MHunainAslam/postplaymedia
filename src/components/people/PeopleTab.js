@@ -167,9 +167,11 @@ const PeopleTab = () => {
                         Active Members <span className='comment-active ms-1'>{totalMember}</span>
                     </li>
                     {/* <li className="nav-item nav-link " onClick={fetchFrnds} id="MyFriends-tab" data-bs-toggle="tab" data-bs-target="#MyFriends" type="button" role="tab" aria-controls="MyFriends" aria-selected="false" tabIndex="-1"> */}
-                    <li className="nav-item nav-link " id="MyFriends-tab" data-bs-toggle="tab" data-bs-target="#MyFriends" type="button" role="tab" aria-controls="MyFriends" aria-selected="false" tabIndex="-1">
-                        My Friends <span className='comment-active ms-1'>{totalMemberfrnd}</span>
-                    </li>
+                    {UserProfiledata?.data?.role?.name != 'Admin' &&
+                        <li className="nav-item nav-link " id="MyFriends-tab" data-bs-toggle="tab" data-bs-target="#MyFriends" type="button" role="tab" aria-controls="MyFriends" aria-selected="false" tabIndex="-1">
+                            My Friends <span className='comment-active ms-1'>{totalMemberfrnd}</span>
+                        </li>
+                    }
                     {UserProfiledata?.data?.role?.name === 'Admin' &&
                         <>
                             <li className="nav-item nav-link " id="coach-tab" data-bs-toggle="tab" data-bs-target="#coach" type="button" role="tab" aria-controls="coach" aria-selected="false" tabIndex="-1">
