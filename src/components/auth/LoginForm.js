@@ -15,6 +15,7 @@ const LoginForm = ({ id }) => {
   const [RememberMe, setRememberMe] = useState()
   const [ShowPass, setShowPass] = useState(false)
   const [isLoading, setisLoading] = useState(false)
+  const [bannedmsg, setbannedmsg] = useState('')
   const router = useRouter()
   const { UserProfiledata, UserProfileloader, setlogin } = useAppContext()
   const { setfrnd } = useFrndContext()
@@ -45,6 +46,7 @@ const LoginForm = ({ id }) => {
         })
         .catch(error => {
           console.error(error);
+          setbannedmsg(error?.response?.data?.data?.error)
           if (error.response) {
             message.error(error?.response?.data?.message)
           } else {
@@ -103,6 +105,7 @@ const LoginForm = ({ id }) => {
             <input type={ShowPass ? 'text' : 'password'} className="form-control" value={UserPass} onChange={(e) => { setUserPass(e.target.value) }} placeholder="Password" />
             <i className={`bi ${ShowPass ? 'bi-eye-fill' : 'bi-eye-slash-fill'}  `} onClick={() => { setShowPass(!ShowPass) }}></i>
           </div>
+          <p className="para text-danger text-center my-3"> {bannedmsg}</p>
         </div>
         <div className="justify-content-between d-flex mt-3 align-items-center">
           <div className="form-check custome-checkbox ">
