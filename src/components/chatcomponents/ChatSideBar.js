@@ -228,7 +228,7 @@ const ChatSideBar = () => {
                         <i className="bi bi-chat "></i>
                         <p className="heading text-black chat-detail ms-2">Messenger</p>
                     </div>
-                    <div className='chat-detail'>
+                    {/* <div className='chat-detail'>
                         <li className="nav-item dropdown list-unstyled">
                             <Link className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i className="bi bi-three-dots"></i>
@@ -239,10 +239,9 @@ const ChatSideBar = () => {
                                         Create Group
                                     </Link>
                                 </li>
-                                {/* <li onClick={(e) => { setmute(!mute) }}><Link className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >{mute === false ? "unmute" : 'mute'}</Link></li> */}
                             </ul>
                         </li>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="offcanvas-body" ref={FrndContainerRef}>
                     <ul className="nav nav-tabs border-0  chat-detail-flex" id="myTab" role="tablist">
