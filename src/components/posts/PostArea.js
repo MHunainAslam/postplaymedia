@@ -20,7 +20,7 @@ const PostArea = ({ postdone, setpostdone }) => {
     const [mentionuserid, setmentionuserid] = useState([])
     const [PostArea, setPostArea] = useState(false)
     const [img, setimg] = useState([])
-    const [PostText, setPostText] = useState()
+    const [PostText, setPostText] = useState('')
     const [PostinGrp, setPostinGrp] = useState('profile')
     const [images, setImages] = useState([]);
     const [isLoading, setisLoading] = useState(false);
@@ -105,7 +105,7 @@ const PostArea = ({ postdone, setpostdone }) => {
                     setImages([])
                     setimg([])
                     setPostArea('')
-                    setPostText()
+                    setPostText('')
                     setpostdone(!postdone)
                 })
                 .catch(error => {

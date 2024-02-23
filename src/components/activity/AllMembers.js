@@ -347,7 +347,7 @@ const AllMembers = ({ postdone, endpoint }) => {
                     // const formattedText = formatMentionsToLinks(item.post_text, UserProfiledata?.data?.id);
                     return (<div className='post-card mt-4 ' key={i}>
                         <div className='post-card-body ms-md-3 mb-3 back-border rounded-3 col-xxl-5 col-lg-7 col-md-8' >
-                            
+
                             <div className='head-content p-3'>
                                 <Link href={item?.created_by?.id === UserProfiledata?.data?.id ? '/profile/activity' : `/people/${item?.created_by?.id}/activity`}>
                                     {item?.created_by?.profile_photo === null ?
@@ -359,20 +359,22 @@ const AllMembers = ({ postdone, endpoint }) => {
                                 <div className="">
                                     <div className="d-flex">
                                         <p className='mb-0 text-black para'>
-                                            <span> {item.created_by.name}&nbsp;</span>
+                                            <span className='text-capitalize'> {item.created_by.name}&nbsp;</span>
                                             {item?.media?.length > 0 &&
                                                 'added a post'
                                             }
+
+                                            {item.post_in == 'group' &&
+                                                <>
+                                                    {item?.media?.length <= 0 ?
+                                                        'posted in' : <> &nbsp;in</>
+                                                    }
+                                                    <span className='text-capitalize'>&nbsp;<Link href={`/groups/${item.group_id}`} className='link-hov clr-primary'>
+                                                        {item.group_name} </Link>  </span>
+
+                                                </>
+                                            }
                                         </p>
-                                        {item.post_in == 'group' &&
-                                            <p className='mb-0 text-black para'>
-                                                {item?.media?.length <= 0 ?
-                                                    'posted in' : <> &nbsp;in</>
-                                                }
-                                                <span className='text-capitalize'>&nbsp;<Link href={`/groups/${item.group_id}`} className='link-hov clr-primary'>
-                                                    {item.group_name} </Link>  </span>
-                                            </p>
-                                        }
                                     </div>
                                     <span className='clr-light mt-md-0 mb-0 mt-2 para fw-light '>{timeDiffString}</span>
                                 </div>

@@ -21,7 +21,7 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
     const [Postid, setPostid] = useState()
     const [PostArea, setPostArea] = useState(true)
     const [img, setimgs] = useState([])
-    const [PostTextEdit, setPostTextEdit] = useState()
+    const [PostTextEdit, setPostTextEdit] = useState('')
     const [PostinGrp, setPostinGrp] = useState('profile')
     const [images, setImagess] = useState([]);
     const [isLoading, setisLoading] = useState(false);
@@ -123,7 +123,7 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
                     setImagess([])
                     setimgs([])
                     setPostArea('')
-                    setPostTextEdit()
+                    setPostTextEdit('')
                     setEditDone(!EditDone)
                     document.querySelector(`.${editmodalid}`)?.click()
                 })

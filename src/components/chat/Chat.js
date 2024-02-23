@@ -26,7 +26,7 @@ const Chat = ({ TabState, param }) => {
     const [Userprofile, setUserprofile] = useState(UserProfiledata?.data?.profile_photo)
     const params = searchParams.get('chat')
     const router = useRouter()
-
+    const [totalmsg, settotalmsg] = useState('')
 
     // useEffect(() => {
     //     Authme(token)
@@ -53,6 +53,7 @@ const Chat = ({ TabState, param }) => {
             const data = await response.json();
             const newMessages = data.data.data;
             console.log('messages', data)
+            settotalmsg(data?.data?.total)
             // Save the previous scroll height before adding new messages
             previousScrollHeightRef.current = chatContainerRef.current.scrollHeight;
             setfirstLoad(false)
@@ -78,6 +79,7 @@ const Chat = ({ TabState, param }) => {
             );
             const data = await response.json();
             const newMessages = data.data.data;
+            settotalmsg(data?.data?.total)
             console.log('scroll', data)
             // Save the previous scroll height before adding new messages
             previousScrollHeightRef.current = chatContainerRef.current.scrollHeight;
@@ -102,6 +104,7 @@ const Chat = ({ TabState, param }) => {
                 }
             );
             const data = await response.json();
+            settotalmsg(data?.data?.total)
             const newMessages = data.data.data;
             console.log('messages 10', newMessages)
             // console.log(params);
@@ -114,7 +117,7 @@ const Chat = ({ TabState, param }) => {
 
             const container = chatContainerRef.current;
             const isAtBottom = container.scrollTop + container.clientHeight + 50 >= container.scrollHeight;
-            
+
             console.log(isAtBottom)
 
 
@@ -166,7 +169,10 @@ const Chat = ({ TabState, param }) => {
 
     const loadMore = () => {
         const nextPage = currentPage + 1;
-        fetchMessagess(nextPage);
+        if (totalmsg != messages?.length) {
+            fetchMessagess(nextPage);
+        }
+        console.log('kikiki')
 
     };
     const handleScroll = () => {

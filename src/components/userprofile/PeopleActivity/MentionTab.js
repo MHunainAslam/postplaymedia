@@ -361,21 +361,22 @@ const MentionTab = ({ postdone, endpoint }) => {
                                     <div className="">
                                         <div className="d-flex">
                                             <p className='mb-0 text-black para'>
-                                                <span> {item.created_by.name}&nbsp;</span>
+                                                <span className='text-capitalize'> {item.created_by.name}&nbsp;</span>
                                                 {item?.media?.length > 0 &&
                                                     'added a post'
                                                 }
-                                            </p>
-                                            {item.post_in == 'group' &&
-                                                <p className='mb-0 text-black para'>
-                                                    {item?.media?.length <= 0 ?
-                                                        'posted in' : <> &nbsp;in</>
-                                                    }
 
-                                                    <span className='text-capitalize'>&nbsp;<Link href={`/groups/${item.group_id}`} className='link-hov clr-primary'>
-                                                        {item.group_name} </Link>  </span>
-                                                </p>
-                                            }
+                                                {item.post_in == 'group' &&
+                                                    <>
+                                                        {item?.media?.length <= 0 ?
+                                                            'posted in' : <> &nbsp;in</>
+                                                        }
+                                                        <span className='text-capitalize'>&nbsp;<Link href={`/groups/${item.group_id}`} className='link-hov clr-primary'>
+                                                            {item.group_name} </Link>  </span>
+
+                                                    </>
+                                                }
+                                            </p>
                                         </div>
                                         <span className='clr-light mt-md-0 mb-0 mt-2 para fw-light '>{timeDiffString}</span>
                                     </div>

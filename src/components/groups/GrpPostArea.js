@@ -20,7 +20,7 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
     const [mentionuserid, setmentionuserid] = useState([])
     const [PostArea, setPostArea] = useState(false)
     const [img, setimg] = useState([])
-    const [PostText, setPostText] = useState()
+    const [PostText, setPostText] = useState('')
     const [PostinGrp, setPostinGrp] = useState('profile')
     const [images, setImages] = useState([]);
     const [isLoading, setisLoading] = useState(false);
