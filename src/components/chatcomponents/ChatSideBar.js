@@ -342,6 +342,7 @@ const ChatSideBar = () => {
                                     {spamchat?.data?.data?.data?.map((item, i) => (
                                         <div className="d-flex align-items-center text-decoration-none" key={i}>
                                             <div className={`MsgIcon  ${item.message_count > 0 ? 'MsgIconActive' : ''}`}>
+                                                {item?.user?.id}
                                                 {item.room_user?.profile_photo === null ?
                                                     <Image src={'/assets/images/Modal/Avatar.png'} alt="" width={100} height={100}></Image>
                                                     :

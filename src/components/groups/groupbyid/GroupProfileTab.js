@@ -86,15 +86,21 @@ const GroupProfileTab = ({ grpdata, Btn_Trigger, getgrpdata }) => {
                     </Link>
                 </li>
 
-                {grpdata?.data?.group?.created_by?.id === UserProfiledata?.data?.id && (
+                {grpdata?.data?.group?.created_by?.id === UserProfiledata?.data?.id && <>
                     <li className={`nav-item nav-link text-center ${lastSegment === 'grpsetting' ? 'active' : ''}`}>
                         <Link className='text-decoration-none' href={`/groups/${groupbyid}?group-tab=grpsetting`}>
                             <i className="clr-text heading-m mb-2 bi bi-gear"></i>
                             <p className="para clr-text mb-0">Settings</p>
                         </Link>
                     </li>
+                    <li className={`nav-item nav-link text-center ${lastSegment === 'joinrequests' ? 'active' : ''}`}>
+                        <Link className='text-decoration-none' href={`/groups/${groupbyid}?group-tab=joinrequests`}>
+                            <i className="clr-text heading-m mb-2 bi bi-person-plus-fill"></i>
+                            <p className="para clr-text mb-0">Join Requests</p>
+                        </Link>
+                    </li>
 
-                )}
+                </>}
                 {grpdata?.data?.group?.invitation === 'all' && (
                     <li className={`nav-item nav-link text-center ${lastSegment === 'grpinvite' ? 'active' : ''}`}>
                         <Link className='text-decoration-none' href={`/groups/${groupbyid}?group-tab=grpinvite`}>

@@ -34,9 +34,9 @@ const StartChat = ({ profile }) => {
             });
     }
     return (
-        <div className='d-flex justify-content-center align-items-center h-100'>
-            <div className="card people-card">
-                <div className="card-body">
+        <div className='d-grid justify-content-center align-items-center  h-100' >
+            <div className="card people-card ">
+                <div className="card-body ">
                     <div className="border px-5 rounded-4 ">
                         <p className="heading-lg fs-1 clr-primary px-5 mb-0 pb-3 pt-4 pointer" onClick={sayhello}>
                             Say

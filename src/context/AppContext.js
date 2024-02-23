@@ -80,6 +80,7 @@ export function AppWrapper({ children }) {
     })
       .then(response => {
         setFrndReq(response?.data?.data)
+        console.log('response', response)
       })
       .catch(error => {
 

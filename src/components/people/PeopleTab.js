@@ -18,6 +18,8 @@ const PeopleTab = () => {
     const { UserProfiledata } = useAppContext()
     const token = GetToken('userdetail')
     const [UserData, setUserData] = useState([])
+    const [coachcount, setcoachcount] = useState('')
+    const [atheletecount, setatheletecount] = useState('')
     const [UserDataLoader, setUserDataLoader] = useState(true)
     const [AllFrndsData, setAllFrndsData] = useState([])
     const [Data, setData] = useState([])
@@ -172,13 +174,13 @@ const PeopleTab = () => {
                             My Friends <span className='comment-active ms-1'>{totalMemberfrnd}</span>
                         </li>
                     }
-                    {UserProfiledata?.data?.role?.name === 'Admin' &&
+                    {UserProfiledata?.data?.role?.name == 'Admin' &&
                         <>
                             <li className="nav-item nav-link " id="coach-tab" data-bs-toggle="tab" data-bs-target="#coach" type="button" role="tab" aria-controls="coach" aria-selected="false" tabIndex="-1">
-                                Coachs <span className='comment-active ms-1'>0</span>
+                                Coachs <span className='comment-active ms-1'>{coachcount}</span>
                             </li>
                             <li className="nav-item nav-link " id="athelete-tab" data-bs-toggle="tab" data-bs-target="#athelete" type="button" role="tab" aria-controls="athelete" aria-selected="false" tabIndex="-1">
-                                Atheletes <span className='comment-active ms-1'>0</span>
+                                Atheletes <span className='comment-active ms-1'>{atheletecount}</span>
                             </li>
                         </>
                     }
@@ -192,11 +194,11 @@ const PeopleTab = () => {
                     </div>
                     <div className="tab-pane fade " id="coach" role="tabpanel" aria-labelledby="coach-tab">
 
-                        <Allcoach fetchMembers={fetchMembers} UserData={Data} UserDataLoader={UserDataLoader} setMemberSearch={setMemberSearch} MemberSearch={MemberSearch} />
+                        <Allcoach setcoachcount={setcoachcount}/>
                     </div>
                     <div className="tab-pane fade " id="athelete" role="tabpanel" aria-labelledby="athelete-tab">
 
-                        <AllAthelete fetchMembers={fetchMembers} UserData={Data} UserDataLoader={UserDataLoader} setMemberSearch={setMemberSearch} MemberSearch={MemberSearch} />
+                        <AllAthelete setatheletecount={setatheletecount} />
                     </div>
 
                 </div>

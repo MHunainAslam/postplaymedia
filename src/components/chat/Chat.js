@@ -274,7 +274,7 @@ const Chat = ({ TabState, param }) => {
             </div>
 
             <div className='' style={{ display: 'contents' }}>
-                <div className="flex-1 chat-body px-0 py-0 position-relative" ref={chatContainerRef} >
+                <div className="flex-1 chat-body px-0 py-0 position-relative " ref={chatContainerRef} >
 
                     {TabState === 'startchating' ? <StartChat profile={profile} /> : <>
                         {firstLoad ?

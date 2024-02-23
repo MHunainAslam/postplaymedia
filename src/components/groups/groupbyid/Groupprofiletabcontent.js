@@ -9,6 +9,7 @@ import AddRemoveUser from './AddRemoveUser'
 import AllMembers from '@/components/activity/AllMembers'
 import { useAppContext } from '@/context/AppContext'
 import GrpPostArea from '../GrpPostArea'
+import JoinReq from './JoinReq'
 
 const Groupprofiletabcontent = () => {
     const router = useRouter()
@@ -93,6 +94,9 @@ const Groupprofiletabcontent = () => {
                 </div>
                 <div className={`tab-pane fade  ${TabState === 'grpsetting' ? 'active show' : ''}`} id="grpsetting" role="tabpanel" aria-labelledby="grpsetting-tab">
                     <GroupSetting />
+                </div>
+                <div className={`tab-pane fade  ${TabState === 'joinrequests' ? 'active show' : ''}`} id="joinrequests" role="tabpanel" aria-labelledby="joinrequests-tab">
+                    <JoinReq  />
                 </div>
                 <div className={`tab-pane fade  ${TabState === 'grpinvite' ? 'active show' : ''}`} id="grpinvite" role="tabpanel" aria-labelledby="grpinvite-tab">
                     <AddRemoveUser setinviteuserid={setinviteuserid} />
