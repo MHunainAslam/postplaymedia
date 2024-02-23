@@ -97,7 +97,7 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
             status: 'active',
             post_in: 'group',
             group_id: groupbyid,
-            mentioned_users: mentionuserid,
+            ...(mentionuserid.length > 0 && { mentioned_users: mentionuserid }),
             ...(img.length > 0 && { media: img }),
 
         }, {

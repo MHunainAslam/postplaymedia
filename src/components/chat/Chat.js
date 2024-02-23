@@ -26,7 +26,7 @@ const Chat = ({ TabState, param }) => {
     const [Userprofile, setUserprofile] = useState(UserProfiledata?.data?.profile_photo)
     const params = searchParams.get('chat')
     const router = useRouter()
- 
+
 
     // useEffect(() => {
     //     Authme(token)
@@ -114,11 +114,13 @@ const Chat = ({ TabState, param }) => {
 
             const container = chatContainerRef.current;
             const isAtBottom = container.scrollTop + container.clientHeight + 50 >= container.scrollHeight;
+            
             console.log(isAtBottom)
 
 
             // if (chatContainerRef.current.scrollTop + chatContainerRef.current.clientHeight == chatContainerRef.current.scrollHeight) {
             if (isAtBottom) {
+                setbottombtn(false)
                 fetchMessages(1)
                 console.log('working');
             } else if (newMessages.length > 0) {
@@ -149,8 +151,8 @@ const Chat = ({ TabState, param }) => {
         if (firstRun) {
             container.scrollTop = container.scrollHeight;
         } else if (container && container.scrollTop <= 0) {
-            
-    
+
+
 
 
             // Calculate the difference in scroll height after adding new messages
@@ -186,7 +188,7 @@ const Chat = ({ TabState, param }) => {
 
         // Add scroll event listener when the component mounts
         container.addEventListener('scroll', handleScroll);
-      // Remove the event listener when the component unmounts
+        // Remove the event listener when the component unmounts
         return () => {
             container.removeEventListener('scroll', handleScroll);
         };
@@ -234,8 +236,14 @@ const Chat = ({ TabState, param }) => {
     };
     useEffect(() => {
         console.log(currentPage)
+
+        const container = chatContainerRef.current;
+        const isAtBottom = container.scrollTop + container.clientHeight + 50 >= container.scrollHeight;
         const interval = setInterval(() => {
+
+
             every10(1)
+
         }, 10000);
         return () => clearInterval(interval);
     }, [params])
@@ -259,8 +267,8 @@ const Chat = ({ TabState, param }) => {
                 </Link>
             </div>
 
-            <div className='flex-1 chat-body px-0 py-0 position-relative' >
-                <div className="h-100 overflow-auto" ref={chatContainerRef}>
+            <div className='' style={{ display: 'contents' }}>
+                <div className="flex-1 chat-body px-0 py-0 position-relative" ref={chatContainerRef} >
 
                     {TabState === 'startchating' ? <StartChat profile={profile} /> : <>
                         {firstLoad ?
@@ -276,7 +284,7 @@ const Chat = ({ TabState, param }) => {
                                     const date = new Date(item.created_at);
                                     const formattedDate = date.toLocaleString();
                                     const uniqueKey = `${item.sender_id}-${formattedDate}-${i}`;
-                                    return <div className={`d-flex py-1 text-decoration-none  ${profile?.id != item.sender_id ? ' flex-row-reverse' : ''}`} key={uniqueKey}>
+                                    return <div className={`d-flex py-1 text-decoration-none   ${profile?.id != item.sender_id ? ' flex-row-reverse' : ''}`} key={uniqueKey} >
                                         <Link href={`${profile?.id === item.sender_id ? `/people/${profile?.id}/activity` : '/profile/profile'} `} className="MsgIcon2  ">
                                             {profile?.id != item.sender_id ?
                                                 <>
@@ -308,8 +316,8 @@ const Chat = ({ TabState, param }) => {
 
                 </div>
 
-                <button className={`chat-arrow ${bottombtn ? '' : 'd-none'}`} onClick={gotobottom}><i className="bi bi-arrow-down-circle"></i></button>
             </div>
+            <button className={`chat-arrow ${bottombtn ? '' : 'd-none'}`} onClick={gotobottom}><i className="bi bi-arrow-down-circle"></i></button>
 
             <div className='p-3 chat-footer'>
                 {TabState != 'startchating' ?
@@ -319,6 +327,7 @@ const Chat = ({ TabState, param }) => {
                     </form>
                     : ''}
             </div>
+
             {/* <button onClick={loadMore} disabled={loading}>
                 Load More
             </button> */}

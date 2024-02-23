@@ -10,7 +10,6 @@ import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config'
 import { deleteCookie } from 'cookies-next'
 import { GetToken } from '@/utils/Token'
-import ChatScreen from '@/components/chat/ChatScreen'
 
 const Page = () => {
     const token = GetToken('userdetail')
@@ -44,11 +43,10 @@ const Page = () => {
                                     <div className="tab-content flex-1">
 
                                         <div className={`tab-pane fade  ${TabState === TabState ? 'active show' : ''}`} id={TabState} role="tabpanel" aria-labelledby="1-tab">
-                                            <div className='chat-sec'>
+                                            <div className='chat-sec position-relative'>
                                                 {TabState === TabState && <ActivityHeader />}
                                        
                                                 <Chat TabState={TabState} param={param} />
-                                                {/* <ChatScreen TabState={TabState} /> */}
                                             </div>
                                         </div>
                                         {/* <div className={`tab-pane fade  ${TabState === '2' ? 'active show' : ''}`} id="2" role="tabpanel" aria-labelledby="2-tab">

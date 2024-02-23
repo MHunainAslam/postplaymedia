@@ -30,9 +30,11 @@ export default function RootLayout({ children, MessagePages, Activity, ProfilePa
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
           </Head>
           <body className={inter.className}>
-            <NextTopLoader color="#383a45"
-              showSpinner={false}
-              crawlSpeed={1} />
+            <NextTopLoader color="yellow"
+              showSpinner={true}
+              crawlSpeed={1} 
+              height={3}
+              />
             <AppWrapper>
               <FrndWrapper>
 
@@ -76,9 +78,11 @@ export default function RootLayout({ children, MessagePages, Activity, ProfilePa
         <AppWrapper>
           <FrndWrapper>
             <body className={inter.className}>
-              <NextTopLoader color="#383a45"
-                showSpinner={false}
-                crawlSpeed={1} />
+            <NextTopLoader color="#1763ac"
+              showSpinner={false}
+              crawlSpeed={1} 
+              height={5}
+                />
 
               {children}
 

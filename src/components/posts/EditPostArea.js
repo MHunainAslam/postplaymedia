@@ -101,36 +101,37 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
     };
 
     const post = ({ e, endpoint }) => {
+        if (PostTextEdit || img.length > 0) {
+            setisLoading(true)
+            console.log('take', images)
+            axios.put(`${APP_URL}/api/post/${Postid}`, {
+                post_text: PostTextEdit?.toString(),
+                status: 'active',
+                post_in: postin,
+                mentioned_users: mentionuserid,
+                group_id: grpid,
+                media: img,
 
-        setisLoading(true)
-        console.log('take', images)
-        axios.put(`${APP_URL}/api/post/${Postid}`, {
-            post_text: PostTextEdit?.toString(),
-            status: 'active',
-            post_in: postin,
-            mentioned_users: mentionuserid,
-            group_id: grpid,
-            media: img,
-
-        }, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                setisLoading(false)
-                console.log('Post edit', response.data);
-                setImagess([])
-                setimgs([])
-                setPostArea('')
-                setPostTextEdit()
-                setEditDone(!EditDone)
-                document.querySelector(`.${editmodalid}`)?.click()
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
             })
-            .catch(error => {
-                setisLoading(false)
-                console.error(error);
-            });
+                .then(response => {
+                    setisLoading(false)
+                    console.log('Post edit', response.data);
+                    setImagess([])
+                    setimgs([])
+                    setPostArea('')
+                    setPostTextEdit()
+                    setEditDone(!EditDone)
+                    document.querySelector(`.${editmodalid}`)?.click()
+                })
+                .catch(error => {
+                    setisLoading(false)
+                    console.error(error);
+                });
+        }
     }
 
     const [focusedSuggestionIndex, setFocusedSuggestionIndex] = useState(0);

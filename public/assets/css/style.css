@@ -21,7 +21,7 @@ body {
 
 ::-webkit-scrollbar {
   width: 5px;
-  height: 0px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -77,7 +77,7 @@ body {
 }
 
 .flex-1 {
-  flex: 1 0 auto;
+  flex: 1 0 auto !important;
 }
 
 .w-fit-content {
@@ -2086,7 +2086,9 @@ h5 {
 
 .chat-body {
   height: 0;
+  /* height: 100px; */
   overflow: auto;
+  /* min-height: 70vh; */
 }
 
 .message-box {
@@ -2166,7 +2168,7 @@ h5 {
 }
 
 .chat-arrow {
-  bottom: 15px;
+  bottom: 15%;
   position: absolute;
   right: 0;
   background: var(--primary);

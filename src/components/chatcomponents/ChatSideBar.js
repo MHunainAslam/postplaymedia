@@ -214,6 +214,7 @@ const ChatSideBar = () => {
     }
     useEffect(() => {
         const interval = setInterval(() => {
+            console.log('double')
             recentchatfunc()
         }, 10000);
         return () => clearInterval(interval);

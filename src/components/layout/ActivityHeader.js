@@ -163,7 +163,7 @@ const ActivityHeader = ({ }) => {
     }, [handleScrollnoti]);
 
 
-  
+
     useEffect(() => {
         const closeModalOnRouteChange = () => {
             // Close the modal
@@ -191,10 +191,28 @@ const ActivityHeader = ({ }) => {
         };
     }, []);
 
+    useEffect(() => {
+        // Condition to check before removing the div
+        const shouldRemoveDiv = true; // This should be replaced with your actual condition
+        if (shouldRemoveDiv) {
+            const element = document.querySelector('.modal-open');
+            // Select the div with the class 'asd'
+            if (element) {
+                element.classList.remove('asd');
+            }
+            const div = document.querySelector('.modal-backdrop');
+
+            // If the div exists, remove it from the DOM
+            if (div) {
+                div.remove();
+                console.log('kesa')
+            }
+        }
+    }, []);
     return (
         <>
 
-          
+
 
             <div className="activity-header">
                 <div className="row justify-content-between px-md-3 px-0 w-100">
@@ -348,7 +366,7 @@ const ActivityHeader = ({ }) => {
 
             {/* } */}
             <LogoutConfirmation logout={logout} />
-          
+
         </>
     )
 }

@@ -92,7 +92,7 @@ const PostArea = ({ postdone, setpostdone }) => {
                 post_text: PostText?.toString(),
                 status: 'active',
                 post_in: 'profile',
-                mentioned_users: mentionuserid,
+                ...(mentionuserid.length > 0 && { mentioned_users: mentionuserid }),
                 ...(img.length > 0 && { media: img }),
 
             }, {
