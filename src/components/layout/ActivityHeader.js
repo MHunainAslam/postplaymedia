@@ -208,6 +208,26 @@ const ActivityHeader = ({ }) => {
             }
         }
     }, []);
+
+    const readnoti = (e) => {
+        axios.get(`${APP_URL}/api/mark-as-read-notification/${e}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log('readnoti', response);
+
+            })
+            .catch(error => {
+                console.error(error);
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
     return (
         <>
 
@@ -285,7 +305,7 @@ const ActivityHeader = ({ }) => {
                                         :
                                         <>
                                             {Notifications?.map((item, i) => (
-                                                <li key={i}>
+                                                <li key={i} onClick={() => readnoti(item.id)}>
                                                     <div onClick={() =>
                                                         router.push(`${item.notification_type == 'commented' || item.notification_type == 'post-liked' || item.notification_type == 'post-mentioned' ?
                                                             `/activity/${item.trigger_id}`
