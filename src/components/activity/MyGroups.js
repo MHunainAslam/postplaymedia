@@ -3,7 +3,7 @@ import { GetToken, imgurl } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import FancyBoxPost from './fancyboxes/allmembers/FancyBoxPost'
 import { APP_URL, IMG_URL } from '../../../config'
@@ -20,6 +20,15 @@ import { useFrndContext } from '@/context/FriendContext'
 import EditPostModal from '../posts/EditPostModal'
 
 const MyGroups = ({ postdone, endpoint }) => {
+    const searchParamsgroup = useSearchParams()
+    const tabgroups = searchParamsgroup.get('activity_tab')
+    const [activeTabgroup, setactiveTabgroup] = useState('')
+    useEffect(() => {
+        if (tabgroups) {
+            setactiveTabgroup(tabgroups)
+        }
+        console.log('tab', activeTabgroup)
+    }, [tabgroups, searchParamsgroup])
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const [Comments, setComments] = useState([])
     const [isloading, setisloading] = useState(true)
@@ -150,14 +159,18 @@ const MyGroups = ({ postdone, endpoint }) => {
     };
     useEffect(() => {
         // Fetch initial messages when the component mounts
-        if (CurrentPagefrnd === 1 && Datafrnds.length === 0) {
-            fetchGroupPosts(CurrentPagefrnd);
+        if (activeTabgroup === 'my_group') {
+            if (CurrentPagefrnd === 1 && Datafrnds.length === 0) {
+                fetchGroupPosts(CurrentPagefrnd);
+            }
         }
-    }, [CurrentPagefrnd, token]);
+    }, [CurrentPagefrnd, token, postdone, isdlt, EditDone, endpoint,activeTabgroup]);
     const handleLoadMorefrnd = () => {
-        if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
-            setLoading(true);
-            fetchGroupPostss(CurrentPagefrnd + 1);
+        if (activeTabgroup === 'my_group') {
+            if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
+                setLoading(true);
+                fetchGroupPostss(CurrentPagefrnd + 1);
+            }
         }
     };
     const handleScrollfrnd = () => {
@@ -176,10 +189,7 @@ const MyGroups = ({ postdone, endpoint }) => {
             window.removeEventListener('scroll', handleScrollfrnd);
         };
     }, [handleScrollfrnd]);
-    useEffect(() => {
-        // getallfrnds()
-        fetchGroupPosts()
-    }, [postdone, isdlt, EditDone, endpoint])
+
     const handleToggle = (postId) => {
         setAllGroupsPosts(prevData => prevData.map(post => {
             if (post.id === postId) {

@@ -170,7 +170,6 @@ const ActivityHeader = ({ }) => {
             // Assuming your modal has an ID and you're using Bootstrap 5
             const modalElement = document.querySelector('.modal-open');
             if (modalElement) {
-                console.log('hai hai')
                 const modalInstance = bootstrap.Modal.getInstance(modalElement);
                 if (modalInstance) {
                     modalInstance.hide();

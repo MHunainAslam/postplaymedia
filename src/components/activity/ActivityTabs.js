@@ -11,13 +11,23 @@ import { useAppContext } from '@/context/AppContext'
 import MyMention from './MyMention'
 import AllGroups from './AllGroups'
 import Allmembersadmin from './Allmembersadmin'
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 const ActivityTabs = () => {
-
+    const searchParams = useSearchParams()
+    const tab = searchParams.get('activity_tab')
     const token = GetToken('userdetail')
     // const { Userdata } = useContext(UserContext);
     const [postdone, setpostdone] = useState(false)
     const { UserProfiledata, UserProfileloader } = useAppContext()
+    const [activeTab, setactiveTab] = useState('all_posts')
+    useEffect(() => {
+        if (tab) {
+            setactiveTab(tab)
+        }
+        console.log('tab', activeTab)
+    }, [tab])
 
 
 
@@ -30,17 +40,26 @@ const ActivityTabs = () => {
                 <ul className="nav nav-tabs border-0 " role="tablist">
                     {UserProfiledata?.data?.role?.name !== 'Admin' &&
                         <>
-                            <li className="nav-item nav-link active" id="AllMembers-tab" data-bs-toggle="tab" data-bs-target="#AllMembers" type="button" role="tab" aria-controls="AllMembers" aria-selected="false" tabIndex="-1">
-                                All Members
+                            <li className={`nav-item nav-link  p-0 ${activeTab === 'all_posts' ? 'active' : ''}`} id="AllMembers-tab" data-bs-toggle="tab" data-bs-target="#AllMembers" type="button" role="tab" aria-controls="AllMembers" aria-selected="false" tabIndex="-1">
+                                <Link className='text-decoration-none text-black w-100 py-3 px-2 my-auto d-inline-block' href={{ pathname: `/activity`, query: { activity_tab: 'all_posts' } }}   >
+                                    All Members
+                                </Link>
                             </li>
-                            <li className="nav-item nav-link" id="MyFriends-tab" data-bs-toggle="tab" data-bs-target="#MyFriends" type="button" role="tab" aria-controls="MyFriends" aria-selected="false" tabIndex="-1">
-                                My Friends
+                            <li className={`nav-item nav-link  p-0 ${activeTab === 'my_friend' ? 'active' : ''}`} id="MyFriends-tab" data-bs-toggle="tab" data-bs-target="#MyFriends" type="button" role="tab" aria-controls="MyFriends" aria-selected="false" tabIndex="-1">
+                                <Link className='text-decoration-none text-black w-100 py-3 px-2 my-auto d-inline-block' href={{ pathname: `/activity`, query: { activity_tab: 'my_friend' } }}   >
+                                    My Friends
+                                </Link>
                             </li>
-                            <li className="nav-item nav-link" id="MyGroups-tab" data-bs-toggle="tab" data-bs-target="#MyGroups" type="button" role="tab" aria-controls="MyGroups" aria-selected="false" tabIndex="-1">
-                                My Groups
+                            <li className={`nav-item nav-link  p-0 ${activeTab === 'my_group' ? 'active' : ''}`} id="MyGroups-tab" data-bs-toggle="tab" data-bs-target="#MyGroups" type="button" role="tab" aria-controls="MyGroups" aria-selected="false" tabIndex="-1">
+                                <Link className='text-decoration-none text-black w-100 py-3 px-2 my-auto d-inline-block' href={{ pathname: `/activity`, query: { activity_tab: 'my_group' } }}   >
+                                    My Groups
+                                </Link>
                             </li>
-                            <li className="nav-item nav-link" id="MyMention-tab" data-bs-toggle="tab" data-bs-target="#MyMention" type="button" role="tab" aria-controls="MyMention" aria-selected="false" tabIndex="-1">
-                                Mentions
+
+                            <li className={`nav-item nav-link  p-0 ${activeTab === 'my_mention' ? 'active' : ''}`} id="MyMention-tab" data-bs-toggle="tab" data-bs-target="#MyMention" type="button" role="tab" aria-controls="MyMention" aria-selected="false" tabIndex="-1">
+                                <Link className='text-decoration-none text-black w-100 py-3 px-2 my-auto d-inline-block' href={{ pathname: `/activity`, query: { activity_tab: 'my_mention' } }}   >
+                                    Mentions
+                                </Link>
                             </li>
                         </>
                     }
@@ -54,21 +73,21 @@ const ActivityTabs = () => {
                             </li>
                         </>
                     }
-                </ul>
+                </ul >
                 <div className="tab-content ">
                     {UserProfiledata?.data?.role?.name !== 'Admin' && <>
-                        <div className="tab-pane fade active show" id="AllMembers" role="tabpanel" aria-labelledby="AllMembers-tab">
+                        <div className={`tab-pane fade ${activeTab === 'all_posts' ? ' active show' : ''}`} id="AllMembers" role="tabpanel" aria-labelledby="AllMembers-tab">
                             <AllMembers postdone={postdone} endpoint={`?section=all&`} />
                         </div>
-                        <div className="tab-pane fade" id="MyFriends" role="tabpanel" aria-labelledby="MyFriends-tab">
+                        <div className={`tab-pane fade ${activeTab === 'my_friend' ? ' active show' : ''}`} id="MyFriends" role="tabpanel" aria-labelledby="MyFriends-tab">
                             {/* <AllMembers postdone={postdone} endpoint={`?section=friend&`} /> */}
                             <MyFriends />
                         </div>
-                        <div className="tab-pane fade" id="MyGroups" role="tabpanel" aria-labelledby="MyGroups-tab">
+                        <div className={`tab-pane fade ${activeTab === 'my_group' ? ' active show' : ''}`} id="MyGroups" role="tabpanel" aria-labelledby="MyGroups-tab">
                             {/* <AllMembers postdone={postdone} endpoint={`?section=friend&`} /> */}
                             <MyGroups />
                         </div>
-                        <div className="tab-pane fade" id="MyMention" role="tabpanel" aria-labelledby="MyMention-tab">
+                        <div className={`tab-pane fade ${activeTab === 'my_mention' ? ' active show' : ''}`} id="MyMention" role="tabpanel" aria-labelledby="MyMention-tab">
                             {/* <MyMention endpoint={'/section=mentions?'} /> */}
                             <MyMention endpoint={'/get-my-post-mentions?'} />
                         </div>
@@ -84,7 +103,7 @@ const ActivityTabs = () => {
                         </>
                     }
                 </div>
-            </div>
+            </div >
         </>
     )
 }

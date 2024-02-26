@@ -172,13 +172,15 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                     <div className=" profile-tabs d-md-flex d-none justify-content-between my-3 align-items-center">
                                         <ProfileTabs Userdata={Userdata} />
                                         <div className='d-flex align-items-center'>
+                                            {frndstatus}
+                                            
+                                            {Userdata?.data?.room_id ?
 
-                                            {frndstatus === 'send-request' || frndstatus === 'pending' || frndstatus === 'accept-request' ?
-                                                <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } }} className='btn h-fit-content secondary-btn me-2' ><i className="bi bi-envelope"></i></Link>
-                                                :
                                                 <Link href={Userdata?.data?.room_id === null ? { pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } } : { pathname: `/messages`, query: { profile: JSON.stringify(Userdata?.data), chat: (Userdata?.data?.room_id) } }} className="btn h-fit-content secondary-btn me-2" >
                                                     <i className="bi bi-envelope"></i>
                                                 </Link>
+                                                :
+                                                <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } }} className='btn h-fit-content secondary-btn me-2' ><i className="bi bi-envelope"></i></Link>
 
 
                                             }
@@ -187,7 +189,7 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                                 : frndstatus === 'pending' ?
                                                     <button className='btn secondary-btn' disabled={isDisable} onClick={() => dltfrndreq(Userdata?.data?.frp_id)}><p className='mb-0 px-md-3 px-1'> Cancel</p></button>
                                                     : frndstatus === 'friends' ?
-                                                        <button className='btn secondary-btn ' disabled={isDisable} onClick={() => unfriend(Userdata?.data?.id)}><p className='mb-0 px-md-3 px-1'> Unfriend</p></button>
+                                                        <button className='btn secondary-btn ' disabled={isDisable} onClick={() => unfriend(Userdata?.data?.id)}><p className='mb-0 px-md-3 px-1'> Unfriend { }</p></button>
                                                         : frndstatus === 'accept-request' ?
                                                             <div className='d-md-flex justify-content-center'>
                                                                 <button className='btn secondary-btn m-1' disabled={isDisable} onClick={() => dltfrndreq(Userdata?.data.frp_id)}><p className='mb-0 px-md-3 px-1'> Cancel</p></button>

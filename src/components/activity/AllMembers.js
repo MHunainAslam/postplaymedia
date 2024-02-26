@@ -153,7 +153,7 @@ const AllMembers = ({ postdone, endpoint }) => {
         if (CurrentPagefrnd === 1 && Datafrnds.length === 0) {
             fetchPosts(CurrentPagefrnd);
         }
-    }, [CurrentPagefrnd, token]);
+    }, [CurrentPagefrnd, token, postdone, isdlt, EditDone, endpoint]);
     const handleLoadMorefrnd = () => {
         if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
             setLoading(true);
@@ -176,10 +176,7 @@ const AllMembers = ({ postdone, endpoint }) => {
             window.removeEventListener('scroll', handleScrollfrnd);
         };
     }, [handleScrollfrnd]);
-    useEffect(() => {
-        // getallfrnds()
-        fetchPosts()
-    }, [postdone, isdlt, EditDone, endpoint])
+
     const handleToggle = (postId) => {
         setAllPosts(prevData => prevData.map(post => {
             if (post.id === postId) {

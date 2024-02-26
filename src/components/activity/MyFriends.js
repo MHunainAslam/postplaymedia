@@ -3,7 +3,7 @@ import { GetToken, imgurl } from '@/utils/Token'
 import { deleteCookie } from 'cookies-next'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import FancyBoxPost from './fancyboxes/allmembers/FancyBoxPost'
 import { APP_URL, IMG_URL } from '../../../config'
@@ -20,6 +20,15 @@ import { useFrndContext } from '@/context/FriendContext'
 import EditPostModal from '../posts/EditPostModal'
 
 const MyFriends = ({ postdone, endpoint }) => {
+    const searchParamsfriend = useSearchParams()
+    const tabfriend = searchParamsfriend.get('activity_tab')
+    const [activeTabfriend, setactiveTabfriend] = useState('')
+    useEffect(() => {
+        if (tabfriend) {
+            setactiveTabfriend(tabfriend)
+        }
+        console.log('tab', activeTabfriend)
+    }, [tabfriend, searchParamsfriend])
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const [Comments, setComments] = useState([])
     const [isloading, setisloading] = useState(true)
@@ -65,6 +74,9 @@ const MyFriends = ({ postdone, endpoint }) => {
         setPostModalOpen(false);
     };
     const fetchfriendPosts = async (page) => {
+
+
+
         try {
             const response = await fetch(
                 // `${APP_URL}/api/post?{section=all}&per_page=20&page=${page}`,
@@ -106,6 +118,7 @@ const MyFriends = ({ postdone, endpoint }) => {
             setLoading(false);
             setUserDataLoader(false)
         }
+
     };
     const fetchfriendPostss = async (page) => {
         setloadmoreloader(true)
@@ -150,14 +163,18 @@ const MyFriends = ({ postdone, endpoint }) => {
     };
     useEffect(() => {
         // Fetch initial messages when the component mounts
-        if (CurrentPagefrnd === 1 && Datafrnds.length === 0) {
-            fetchfriendPosts(CurrentPagefrnd);
+        if (activeTabfriend === 'my_friend') {
+            if (CurrentPagefrnd === 1 && Datafrnds.length === 0) {
+                fetchfriendPosts(CurrentPagefrnd);
+            }
         }
-    }, [CurrentPagefrnd, token]);
+    }, [CurrentPagefrnd, token, activeTabfriend]);
     const handleLoadMorefrnd = () => {
-        if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
-            setLoading(true);
-            fetchfriendPostss(CurrentPagefrnd + 1);
+        if (activeTabfriend === 'my_friend') {
+            if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
+                setLoading(true);
+                fetchfriendPostss(CurrentPagefrnd + 1);
+            }
         }
     };
     const handleScrollfrnd = () => {

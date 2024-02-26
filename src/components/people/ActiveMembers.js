@@ -151,6 +151,7 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader, MemberSearch, s
                                                         <p className="para">Groups</p>
                                                     </div>
                                                 </div>
+        
                                             </div>
                                             <div className="card-footer justify-content-center">
                                                 {UserProfiledata?.data?.id != item.id && (<>
@@ -159,7 +160,7 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader, MemberSearch, s
                                                         : item.friendship_status === 'pending' ?
                                                             <button className='btn secondary-btn' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
                                                             : item.friendship_status === 'friends' ?
-                                                                <button className='btn secondary-btn' onClick={() => unfriend(item.friend_id)}><p className='mb-0 px-4'> Unfriend</p></button>
+                                                                <button className='btn secondary-btn' onClick={() => unfriend(item.id)}><p className='mb-0 px-4'> Unfriend </p></button>
                                                                 : item.friendship_status === 'accept-request' ?
                                                                     <div className='d-md-flex w-100 mx-auto justify-content-center'>
                                                                         <button className='btn secondary-btn m-1' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>

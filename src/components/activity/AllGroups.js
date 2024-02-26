@@ -79,6 +79,7 @@ const AllGroups = ({ postdone, endpoint }) => {
             if (data.success) {
                 // Prepend new messages to the beginning of the array
                 console.log('all grp posts', data)
+                console.log('main chal raha hun')
                 setAllGrpPosts(data.data.data);
                 console.log(data)
                 setAllGrpCurrentPagefrnd(data.data.current_page);
