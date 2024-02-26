@@ -172,7 +172,7 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                     <div className=" profile-tabs d-md-flex d-none justify-content-between my-3 align-items-center">
                                         <ProfileTabs Userdata={Userdata} />
                                         <div className='d-flex align-items-center'>
-                                            {frndstatus}
+                                            
                                             
                                             {Userdata?.data?.room_id ?
 
