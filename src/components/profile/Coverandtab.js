@@ -172,8 +172,8 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                                     <div className=" profile-tabs d-md-flex d-none justify-content-between my-3 align-items-center">
                                         <ProfileTabs Userdata={Userdata} />
                                         <div className='d-flex align-items-center'>
-                                            
-                                            
+
+
                                             {Userdata?.data?.room_id ?
 
                                                 <Link href={Userdata?.data?.room_id === null ? { pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } } : { pathname: `/messages`, query: { profile: JSON.stringify(Userdata?.data), chat: (Userdata?.data?.room_id) } }} className="btn h-fit-content secondary-btn me-2" >
@@ -210,9 +210,16 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
                 <div className="profile-tabs  " >
                     <ProfileTabs Userdata={Userdata} />
                     <div className='d-flex align-items-center justify-content-center pt-3'>
-                        {frndstatus === 'send-request' || frndstatus === 'pending' || frndstatus === 'accept-request' ?
+                        {Userdata?.data?.room_id ?
+
+                            <Link href={Userdata?.data?.room_id === null ? { pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } } : { pathname: `/messages`, query: { profile: JSON.stringify(Userdata?.data), chat: (Userdata?.data?.room_id) } }} className="btn h-fit-content secondary-btn me-2" >
+                                <i className="bi bi-envelope"></i>
+                            </Link>
+                            :
                             <Link href={{ pathname: `/messages`, query: { chat: 'startchating', profile: JSON.stringify(Userdata?.data) } }} className='btn h-fit-content secondary-btn me-2' ><i className="bi bi-envelope"></i></Link>
-                            : ''}
+
+
+                        }
                         {frndstatus === 'send-request' ?
                             <button className='btn secondary-btn ' disabled={isDisable} onClick={() => sendreq(Userdata?.data?.id)}><p className='mb-0 px-md-3 px-1'> Add Friend</p></button>
                             : frndstatus === 'pending' ?

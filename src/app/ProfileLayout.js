@@ -40,7 +40,7 @@ const ProfileLayout = ({ children, ProfilePages }) => {
             .then(response => {
                 setUserdata(response?.data)
                 setUserdataLoader(false)
-            console.log(response)
+            console.log('by id',response)
             })
             .catch(error => {
                 setUserdataLoader(false)
