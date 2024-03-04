@@ -27,13 +27,12 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
     const [isLoading, setisLoading] = useState(false);
     const [Activebtn, setActivebtn] = useState(false);
     useEffect(() => {
-        console.log('prevData', prevData)
         setPostTextEdit(prevData?.post_text)
         setPostid(prevData?.id)
         setPostArea(true)
         setImagess(prevData?.media)
         setimgs(prevData?.media.map((item) => (item.media.id)))
-        console.log('id', prevData?.media.map((item) => (item.media.id)))
+    
     }, [prevData])
 
     const imgurl = ({ src }) => {

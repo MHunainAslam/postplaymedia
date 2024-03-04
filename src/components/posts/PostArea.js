@@ -120,7 +120,6 @@ const PostArea = ({ postdone, setpostdone }) => {
     const [focusedSuggestionIndex, setFocusedSuggestionIndex] = useState(0);
 
     // Prepare friends data for mention
-    console.log(Datafrnd)
     const friendsData = Datafrnd.map(friend => ({
 
         // id: String(friend.friend.id),

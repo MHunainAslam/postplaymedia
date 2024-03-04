@@ -194,7 +194,6 @@ const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedIm
         //     element.click();
         // });
         closeModal()
-        console.log(fancyBoxId)
     }, [router])
     return (
 

@@ -15,7 +15,7 @@ import CreateChatGrp from './CreateChatGrp'
 const ChatSideBar = () => {
     const { Datafrnd, FrndContainerRef, handleLoadMore } = useFrndContext()
     const { recentchat, recentchatfunc, spamchatfunc, spamchat } = useAppContext()
-    console.log(recentchat)
+  
     const handleScroll = () => {
         const container = FrndContainerRef.current;
         // Check if the user has scrolled to the bottom of the div
@@ -214,7 +214,6 @@ const ChatSideBar = () => {
     }
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log('double')
             recentchatfunc()
         }, 10000);
         return () => clearInterval(interval);

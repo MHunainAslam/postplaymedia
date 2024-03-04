@@ -31,7 +31,7 @@ const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
             reader.onload = () => {
                 setisLoading(true)
                 setProfileImage(reader.result);
-                
+
                 axios.post(`${APP_URL}/api/post-media`, formDataimg, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -124,24 +124,28 @@ const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
 
     {/* get cities against state and country api */ }
     useEffect(() => {
-        axios.post(`https://countriesnow.space/api/v0.1/countries/state/cities`, {
-            "country": "United States",
-            "state": states
-        }, {
-            headers: {
+        if (states) {
 
-                'X-RapidAPI-Key': 'c1c3fb6c0cmsh4907d3e33341dbbp1078c6jsnd4b7038ff1c5',
-                'X-RapidAPI-Host': 'countries-states-cities-dataset.p.rapidapi.com'
 
-            }
-        })
-            .then(response => {
-                console.log('llll', response);
-                setAllcity(response?.data?.data)
+            axios.post(`https://countriesnow.space/api/v0.1/countries/state/cities`, {
+                "country": "United States",
+                "state": states
+            }, {
+                headers: {
+
+                    'X-RapidAPI-Key': 'c1c3fb6c0cmsh4907d3e33341dbbp1078c6jsnd4b7038ff1c5',
+                    'X-RapidAPI-Host': 'countries-states-cities-dataset.p.rapidapi.com'
+
+                }
             })
-            .catch(error => {
-                console.error(error);
-            });
+                .then(response => {
+                    console.log('llll', response);
+                    setAllcity(response?.data?.data)
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
     }, [states])
     return (
         <>

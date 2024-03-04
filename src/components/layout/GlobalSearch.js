@@ -23,23 +23,25 @@ const GlobalSearch = () => {
     const [showList, setShowList] = useState(false);
     const [global, setglobal] = useState([])
     useEffect(() => {
-        axios.get(`${APP_URL}/api/global-search?search=${inputValue}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(response => {
-                console.log('global search', response);
-                setglobal(response.data.data)
-            })
-            .catch(error => {
-                console.error(error);
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
+        if (inputValue) {
+            axios.get(`${APP_URL}/api/global-search?search=${inputValue}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
                 }
-            });
+            })
+                .then(response => {
+                    console.log('global search', response);
+                    setglobal(response.data.data)
+                })
+                .catch(error => {
+                    console.error(error);
+                    if (error?.response?.status === 401) {
+                        router.push('/')
+                        deleteCookie('logged');
+                        localStorage.removeItem('userdetail')
+                    }
+                });
+        }
     }, [inputValue])
 
 
@@ -61,8 +63,8 @@ const GlobalSearch = () => {
             scrollToActiveItem();
         } else if (e.key === 'Enter' && activeIndex !== -1) {
             const selectedItem = global[activeIndex];
-            const route = selectedItem.type === 'group' ? `/groups/${selectedItem.id}` : 
-            `${UserProfiledata.data.id == selectedItem.id ? '/profile/activity' : `/people/${selectedItem.id}/activity`}`;
+            const route = selectedItem.type === 'group' ? `/groups/${selectedItem.id}` :
+                `${UserProfiledata.data.id == selectedItem.id ? '/profile/activity' : `/people/${selectedItem.id}/activity`}`;
             router.push(route);
         }
     };
@@ -97,7 +99,7 @@ const GlobalSearch = () => {
                                 <li key={index}
 
                                     onClick={() => router.push(`${item.type == 'group' ? `/groups/${item?.id}` :
-                                    `${UserProfiledata.data.id == item?.id ? '/profile/activity' : `/people/${item?.id}/activity`}`}`
+                                        `${UserProfiledata.data.id == item?.id ? '/profile/activity' : `/people/${item?.id}/activity`}`}`
                                     )}
                                     className={activeIndex === index ? 'active' : ''}>
                                     <div className="d-flex align-items-center">
