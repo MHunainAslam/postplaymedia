@@ -74,4 +74,5 @@ export const formatMentionsToLinks = (text, userid) => {
         elements.push(text.slice(lastIndex));
     }
     return elements.length > 0 ? elements : [text];
+   
 };
