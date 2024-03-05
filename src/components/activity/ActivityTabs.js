@@ -26,7 +26,6 @@ const ActivityTabs = () => {
         if (tab) {
             setactiveTab(tab)
         }
-        console.log('tab', activeTab)
     }, [tab])
 
 

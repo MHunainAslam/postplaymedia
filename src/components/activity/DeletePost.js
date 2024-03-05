@@ -15,7 +15,6 @@ const DeletePost = ({ grpid, setisdlt, isdlt, modalid }) => {
             }
         })
             .then(response => {
-                console.log('Dlt post', response);
                 document.querySelector(`.${modalid}`)?.click()
                 setisdlt(!isdlt)
 

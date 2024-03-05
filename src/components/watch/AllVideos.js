@@ -130,7 +130,6 @@ const AllVideos = ({ endpoint }) => {
 
         // Check if the user has scrolled to the bottom of the window
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 0) {
-            console.log('first')
             handleLoadMorefrnd();
 
         }

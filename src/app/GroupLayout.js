@@ -44,7 +44,6 @@ const GroupLayout = ({ children, GroupPage }) => {
         })
             .then(response => {
                 setisloader(false)
-                console.log('grp by id', response);
                 setisLoading(false)
                 setgrpdata(response?.data)
                 setBtn_Trigger(response?.data?.data?.group?.button_trigger)

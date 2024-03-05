@@ -27,7 +27,6 @@ const MyFriends = ({ postdone, endpoint }) => {
         if (tabfriend) {
             setactiveTabfriend(tabfriend)
         }
-        console.log('tab', activeTabfriend)
     }, [tabfriend, searchParamsfriend])
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const [Comments, setComments] = useState([])
@@ -91,9 +90,7 @@ const MyFriends = ({ postdone, endpoint }) => {
             const data = await response.json();
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('posts friends', data)
                 setAllFriendsPosts(data.data.data);
-                console.log(data)
                 setCurrentPagefrnd(data.data.current_page);
                 setTotalPagesfrnd(data.data.last_page);
                 settotalMemberfrnd(data.data.total);
@@ -137,11 +134,9 @@ const MyFriends = ({ postdone, endpoint }) => {
 
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('data frnd', data)
                 setAllFriendsPosts((prevMessages) => [...prevMessages, ...data?.data?.data]);
                 setCurrentPagefrnd(data.data.current_page);
                 setTotalPagesfrnd(data.data.last_page);
-                console.log((prevMessages) => [...prevMessages, data?.data?.data], 'hn')
                 setloadmoreloader(false)
             } else {
                 console.error('Failed to fetch messages');
@@ -220,7 +215,6 @@ const MyFriends = ({ postdone, endpoint }) => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('liked post', response.data);
             })
             .catch(error => {
                 // Handle error here
@@ -243,7 +237,6 @@ const MyFriends = ({ postdone, endpoint }) => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('disliked post', response.data);
             })
             .catch(error => {
                 // Handle error here
@@ -258,7 +251,6 @@ const MyFriends = ({ postdone, endpoint }) => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('get comment', response);
                 setComments(response?.data?.data)
                 setcmntloader(false)
             })
@@ -294,12 +286,11 @@ const MyFriends = ({ postdone, endpoint }) => {
             event.preventDefault(); // Prevent cursor movement
             // setFocusedSuggestionIndex(i => i != friendsData.length - 1 && Math.min(i + 1, friendsData.length - 1));
             setFocusedSuggestionIndex(i => friendsData.length - 1 != i && i + 1);
-            console.log('doewn', focusedSuggestionIndex, friendsData.length)
-            console.log(friendsData)
+         
         } else if (event.key === "ArrowUp") {
             event.preventDefault(); // Prevent cursor movement
             setFocusedSuggestionIndex(i => i != 0 ? i - 1 : i = friendsData.length - 1);
-            console.log('up')
+    
         }
     };
     const parseMentionsForIds = (text) => {
@@ -317,7 +308,6 @@ const MyFriends = ({ postdone, endpoint }) => {
     useEffect(() => {
         const ids = parseMentionsForIds(PostText);
         setmentionuserid(ids);
-        console.log(ids)
     }, [PostText]);
     const editpost = (postId) => {
         setEditPost((prevState) => ({

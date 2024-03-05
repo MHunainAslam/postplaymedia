@@ -139,7 +139,6 @@ export function FrndWrapper({ children }) {
     }, [CurrentPage, token])
 
     useEffect(() => {
-        console.log('first')
         if (frnd) {
             // getallfrnds()
             fetchFrnds()

@@ -56,23 +56,66 @@ const closemodal = () => {
     });
 }
 export const formatMentionsToLinks = (text, userid) => {
+    // const mentionRegex = /@\[([^\]]+)\]\((\d+)\)/g;
+    // let elements = [];
+    // let lastIndex = 0;
+    // text?.replace(mentionRegex, (match, name, id, index) => {
+    //     if (index > lastIndex) {
+    //         elements.push(text.slice(lastIndex, index)); // Yeh non-mention text ko add karega
+    //     }
+    //     elements.push(
+    //         <Link key={index} onClick={closemodal} href={`${userid == id ? '/profile/activity' : `/people/${id}/activity`}  `} className='fw-bold clr-primary text-decoration-none' style={{ cursor: 'pointer', display: 'inline' }}>
+    //             {name}
+    //         </Link>
+    //     );
+    //     lastIndex = index + match.length;
+    // });
+    // if (lastIndex < text?.length) {
+    //     elements.push(text.slice(lastIndex));
+    // }
+    // return elements.length > 0 ? elements : [text];
     const mentionRegex = /@\[([^\]]+)\]\((\d+)\)/g;
-    let elements = [];
-    let lastIndex = 0;
-    text?.replace(mentionRegex, (match, name, id, index) => {
-        if (index > lastIndex) {
-            elements.push(text.slice(lastIndex, index)); // Yeh non-mention text ko add karega
-        }
-        elements.push(
-            <Link key={index} onClick={closemodal} href={`${userid == id ? '/profile/activity' : `/people/${id}/activity`}  `} className='fw-bold clr-primary text-decoration-none' style={{ cursor: 'pointer', display: 'inline' }}>
-                {name}
-            </Link>
-        );
-        lastIndex = index + match.length;
+  const urlRegex = /https?:\/\/[^\s]+/g;
+  let elements = [];
+  let lastIndex = 0;
+
+  const addTextAsElements = (text, fromIndex, toIndex) => {
+    // Split the text by URLs and add them as separate elements
+    const textPart = text.slice(fromIndex, toIndex);
+    let lastUrlIndex = 0;
+    textPart.replace(urlRegex, (match, index) => {
+      // Text before URL
+      if (index > lastUrlIndex) {
+        elements.push(textPart.slice(lastUrlIndex, index));
+      }
+      // URL itself
+      elements.push(<a key={`url-${fromIndex + index}`} href={match} target="_blank" rel="noopener noreferrer" className='fw-bold clr-primary text-decoration-none' style={{ cursor: 'pointer', display: 'inline' }}>{match}</a>);
+      lastUrlIndex = index + match.length;
     });
-    if (lastIndex < text?.length) {
-        elements.push(text.slice(lastIndex));
+    // Remaining text after the last URL
+    if (lastUrlIndex < textPart.length) {
+      elements.push(textPart.slice(lastUrlIndex));
     }
-    return elements.length > 0 ? elements : [text];
-   
+  };
+
+  text?.replace(mentionRegex, (match, name, id, index) => {
+    // Non-mention text before the current mention
+    if (index > lastIndex) {
+      addTextAsElements(text, lastIndex, index);
+    }
+    // Mention link
+    elements.push(
+      <Link key={`mention-${index}`} onClick={closemodal} href={`${userid == id ? '/profile/activity' : `/people/${id}/activity`}`} className='fw-bold clr-primary text-decoration-none' style={{ cursor: 'pointer', display: 'inline' }}>
+        {name}
+      </Link>
+    );
+    lastIndex = index + match.length;
+  });
+
+  // Remaining text after the last mention (if any)
+  if (lastIndex < text?.length) {
+    addTextAsElements(text, lastIndex, text.length);
+  }
+
+  return elements.length > 0 ? elements : [text];
 };
