@@ -485,6 +485,7 @@ h5 {
   color: var(--dark-text) !important;
   width: 100%;
   height: auto;
+  word-break: break-all;
 }
 
 .inp:focus {
