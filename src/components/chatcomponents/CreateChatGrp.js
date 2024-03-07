@@ -36,7 +36,6 @@ const CreateChatGrp = () => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('accept grp inv', response.data);
             })
             .catch(error => {
                 // Handle error here

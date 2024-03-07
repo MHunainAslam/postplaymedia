@@ -22,7 +22,6 @@ const JobDetail = () => {
             }
         })
             .then(response => {
-                console.log('job slug', response);
                 setJobdata(response.data.data)
                 setisLoading(false)
             })

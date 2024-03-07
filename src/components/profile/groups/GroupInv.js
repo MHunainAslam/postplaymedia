@@ -22,7 +22,6 @@ const GroupInv = ({ xl, md, lg }) => {
             }
         })
             .then(response => {
-                console.log('frnds', response);
                 setAllFrndsData(response)
                 setUserDataLoader(false)
             })
@@ -38,14 +37,12 @@ const GroupInv = ({ xl, md, lg }) => {
     }, [])
     const unfriend = (e) => {
         setReceiverid(e)
-        console.log(e)
         axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('unfriend', response);
                 getallfrnds()
             })
             .catch(error => {

@@ -29,7 +29,6 @@ const Coverandtab = ({ grpdata, isLoading ,Btn_Trigger, getgrpdata}) => {
     useEffect(() => {
         settext(grpdata?.data?.group?.group_description)
         settruncatedText(showMore ? text : text?.slice(0, maxLength));
-        console.log('text', text)
     }, [grpdata, showMore])
 
 

@@ -36,9 +36,7 @@ const AllFriends = ({ xl, md }) => {
             const data = await response.json();
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('fetchfrnds', data)
                 setDatafrnd(data.message.data);
-                console.log(data)
                 setCurrentPagefrnd(data.message.current_page);
                 setTotalPagesfrnd(data.message.last_page);
                 settotalMemberfrnd(data.message.total);
@@ -80,7 +78,6 @@ const AllFriends = ({ xl, md }) => {
                 setDatafrnd((prevMessages) => [...prevMessages, ...data?.message?.data]);
                 setCurrentPagefrnd(data.message.current_page);
                 setTotalPagesfrnd(data.message.last_page);
-                console.log(data, data.message.current_page)
             } else {
                 console.error('Failed to fetch messages');
             }
@@ -133,14 +130,13 @@ const AllFriends = ({ xl, md }) => {
     }, [])
     const unfriend = (e) => {
 
-        console.log(e)
+
         axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('unfriendsd', response);
                 allfrnd()
             })
             .catch(error => {

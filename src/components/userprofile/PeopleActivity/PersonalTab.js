@@ -54,8 +54,7 @@ const PersonalTab = ({ postdone }) => {
     const PostopenModal = (index) => {
         setPostSelectedImage(index);
         setPostModalOpen(true);
-        console.log('oprn')
-        console.log(PostselectedImage, index)
+     
     };
     const PostcloseModal = () => {
         setPostSelectedImage(null);
@@ -77,9 +76,7 @@ const PersonalTab = ({ postdone }) => {
             const data = await response.json();
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('my posts', data)
                 setAllPosts(data.data.data);
-                console.log(data)
                 setCurrentPagefrnd(data.data.current_page);
                 setTotalPagesfrnd(data.data.last_page);
                 settotalMemberfrnd(data.data.total);
@@ -119,11 +116,9 @@ const PersonalTab = ({ postdone }) => {
             if (data.success) {
                 setloadmoreloader(false)
                 // Prepend new messages to the beginning of the array
-                console.log('my post prepend', data)
                 setAllPosts((prevMessages) => [...prevMessages, ...data?.data?.data]);
                 setCurrentPagefrnd(data.data.current_page);
                 setTotalPagesfrnd(data.data.last_page);
-                console.log((prevMessages) => [...prevMessages, data?.data?.data], 'hn')
             } else {
                 setloadmoreloader(false)
                 console.error('Failed to fetch messages');
@@ -198,7 +193,6 @@ const PersonalTab = ({ postdone }) => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('liked post', response.data);
             })
             .catch(error => {
                 // Handle error here
@@ -221,7 +215,6 @@ const PersonalTab = ({ postdone }) => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('disliked post', response.data);
             })
             .catch(error => {
                 // Handle error here
@@ -236,7 +229,6 @@ const PersonalTab = ({ postdone }) => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('get comment', response);
                 setComments(response?.data?.data)
                 setcmntloader(false)
             })

@@ -14,7 +14,6 @@ import { Skeleton } from 'antd'
 import { useAppContext } from '@/context/AppContext';
 
 const ActivitySidebar = () => {
-    // console.log(usePathname())
     const pathname = usePathname()
     const router = useRouter()
     // const [UserProfiledata, setUserProfiledata] = useState()

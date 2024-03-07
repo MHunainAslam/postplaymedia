@@ -109,7 +109,6 @@ const Coverandtab = ({ Userdata, UserdataLoader }) => {
         })
             .then(response => {
                 setfrndstatus('send-request')
-                console.log('dlt req', response)
                 setisDisable(false)
             })
             .catch(error => {

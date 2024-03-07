@@ -37,7 +37,6 @@ const CreateTeam = () => {
                     }
                 })
                     .then(response => {
-                        console.log('img', response);
                         setLogo(response?.data?.data?.last_inserted_id)
                         setisLoading(false)
 
@@ -71,7 +70,6 @@ const CreateTeam = () => {
                 }
             })
                 .then(response => {
-                    console.log('img', response);
                     setLogo('')
                     setProfileImage('')
                     setisLoading(false)
@@ -133,7 +131,6 @@ const CreateTeam = () => {
             }
         })
             .then(response => {
-                console.log('llll', response);
                 setAllcity(response?.data?.data)
             })
             .catch(error => {

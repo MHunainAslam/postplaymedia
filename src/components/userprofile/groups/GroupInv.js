@@ -20,7 +20,6 @@ const GroupInv = ({ xl, md, lg }) => {
     const handlePageChangemine = (pageNumber) => {
         setCurrentPagemine(pageNumber);
         // setisLoading(true)
-        console.log(pageNumber);
     };
     const [isLoading, setisLoading] = useState(true)
     const [GrpInvSearch, setGrpInvSearch] = useState('')
@@ -29,7 +28,6 @@ const GroupInv = ({ xl, md, lg }) => {
     const itemsPerPagemine = dataOnPagemine;
     const indexOfLastItemmine = currentPagemine * itemsPerPagemine;
     const indexOfFirstItemmine = indexOfLastItemmine - itemsPerPagemine;
-    // console.log('mine grp', GrpInv);
     const getGrpInv = () => {
         axios.get(`${APP_URL}/api/get-my-group-invitations?status=pending&per_page=${dataOnPagemine}&page=${currentPagemine}&search=${GrpInvSearch}`, {
             headers: {
@@ -37,9 +35,7 @@ const GroupInv = ({ xl, md, lg }) => {
             }
         })
             .then(response => {
-                console.log('inv grps mine', response);
                 setGrpInv(response)
-
                 setisLoading(false)
             })
             .catch(error => {
@@ -67,7 +63,6 @@ const GroupInv = ({ xl, md, lg }) => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('accept grp inv', response.data);
                 getGrpInv()
             })
             .catch(error => {

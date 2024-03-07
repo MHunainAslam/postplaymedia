@@ -13,7 +13,6 @@ const AllGroups = ({
     getallgrp,
     Allgrp, isLoading,
     reqjoingrp,
-    canceljoingrp,
     accptgrpreq,
     GrpSearch,
     setGrpSearch

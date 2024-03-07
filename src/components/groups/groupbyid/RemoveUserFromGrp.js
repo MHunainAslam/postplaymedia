@@ -19,7 +19,6 @@ const RemoveUserFromGrp = ({ getgrpdata , userid}) => {
             }
         })
             .then(response => {
-                console.log('left grp', response);
                 document.querySelector('.close-grp-leave-modal').click()
                 getgrpdata()
 

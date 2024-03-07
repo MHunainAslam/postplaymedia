@@ -20,19 +20,16 @@ const Peoplefriend = ({ getallfrnds, AllFrndsData, UserDataLoader, frndsearch, s
 
 
 
-    console.log('userdetail', AllFrndsData)
 
     const unfriend = (e) => {
         setbtndisable(true)
         setReceiverid(e)
-        console.log(e)
         axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('unfriend', response);
                 getallfrnds()
                 setbtndisable(false)
             })

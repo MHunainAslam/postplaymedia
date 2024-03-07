@@ -50,9 +50,7 @@ const PeopleTab = () => {
 
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('main', data)
                 setData(data.data.data);
-                console.log(data)
                 setCurrentPage(data.data.current_page);
                 setTotalPages(data.data.last_page);
                 settotalMember(data.data.total);
@@ -94,7 +92,6 @@ const PeopleTab = () => {
                 setData((prevMessages) => [...prevMessages, ...data?.data?.data]);
                 setCurrentPage(data.data.current_page);
                 setTotalPages(data.data.last_page);
-                console.log(data, data.data.current_page)
             } else {
                 console.error('Failed to fetch messages');
             }

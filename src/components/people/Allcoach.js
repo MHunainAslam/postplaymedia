@@ -41,9 +41,7 @@ const Allcoach = ({setcoachcount}) => {
 
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('asdhgzjy', data)
                 setCoachData(data.data.data);
-                console.log(data)
                 setcoachcount(data?.data?.total)
                 setCoachCurrentPage(data.data.current_page);
                 setCoachTotalPages(data.data.last_page);
@@ -86,7 +84,6 @@ const Allcoach = ({setcoachcount}) => {
                 setCoachData((prevMessages) => [...prevMessages, ...data?.data?.data]);
                 setCoachCurrentPage(data.data.current_page);
                 setCoachTotalPages(data.data.last_page);
-                console.log(data, data.data.current_page)
             } else {
                 console.error('Failed to fetch messages');
             }
@@ -146,14 +143,12 @@ const Allcoach = ({setcoachcount}) => {
 
     const bannedmember = (e, type) => {
 
-        console.log(e, token, 'cjeck')
         axios.post(`${APP_URL}/api/user-block-mutation`, { user_id: e, type: type }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('profile edit', response);
             })
             .catch(error => {
                 console.error(error);

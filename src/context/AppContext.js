@@ -80,7 +80,6 @@ export function AppWrapper({ children }) {
     })
       .then(response => {
         setFrndReq(response?.data?.data)
-        console.log('response', response)
       })
       .catch(error => {
 
@@ -167,7 +166,6 @@ export function AppWrapper({ children }) {
       const data = await response.json();
       if (data.success) {
         // Prepend new messages to the beginning of the array
-        console.log('all noti', data);
         setNotifications(data.data.data)
         setCurrentPageNoti(data.data.current_page);
         setTotalPagesnoti(data.data.last_page);
@@ -204,7 +202,6 @@ export function AppWrapper({ children }) {
 
       if (data.success) {
         // Prepend new messages to the beginning of the array
-        console.log('data noti', data)
         setNotifications((prevMessages) => [...prevMessages, ...data?.data?.data]);
         setCurrentPageNoti(data.data.current_page);
         setTotalPagesnoti(data.data.last_page);

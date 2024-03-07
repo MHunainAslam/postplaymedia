@@ -25,7 +25,6 @@ const AddCategory = () => {
                 }
             })
                 .then(response => {
-                    console.log('cat', response);
                     message.success(response.data?.message)
                     document.getElementById('Submit-tab').click()
                     setisLoading(false)

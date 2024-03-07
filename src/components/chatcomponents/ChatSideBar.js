@@ -32,9 +32,7 @@ const ChatSideBar = () => {
             container.removeEventListener('scroll', handleScroll);
         };
     }, [handleScroll]);
-    useEffect(() => {
-        console.log(Datafrnd, 'Datafrnd')
-    }, [Datafrnd])
+
 
 
 
@@ -174,7 +172,6 @@ const ChatSideBar = () => {
             }
         })
             .then(response => {
-                console.log(response);
                 setisDisable(false)
                 spamchatfunc()
             })
@@ -197,7 +194,6 @@ const ChatSideBar = () => {
             }
         })
             .then(response => {
-                console.log(response);
                 setisDisable(false)
                 spamchatfunc()
             })

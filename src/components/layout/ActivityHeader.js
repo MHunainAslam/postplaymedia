@@ -30,13 +30,12 @@ const ActivityHeader = ({ }) => {
         deleteCookie('logged');
         localStorage.removeItem('userdetail')
         router.replace('/')
-        console.log(deleteCookie())
         document.querySelector('.close-logout-modal').click()
         window.location.reload(true)
     }
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) setNotiShow(false);
-        if (ref.current && !ref.current.contains(event.target)) setAllNotiShow(false);
+        if (FrndContainerRef.current && !FrndContainerRef.current.contains(event.target)) setAllNotiShow(false);
     };
     useEffect(() => {
         document.addEventListener('click', handleClickOutside, true);
@@ -71,21 +70,18 @@ const ActivityHeader = ({ }) => {
         if (!myCookieValue || myCookieValue != JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.token) {
             router.replace('/login')
             deleteCookie('logged');
-            console.log(document.cookie.split('=')[0])
-            console.log('eroor')
+
         }
     }, [])
 
     const accptgrpreq = (e, u_id, g_id) => {
         setAllNotiShow(true)
-        console.log(e, u_id, g_id);
         axios.patch(`${APP_URL}/api/${e}`, { user_id: u_id, group_id: g_id }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('grp inv req', response);
                 message.success(response.data.message)
             })
             .catch(error => {
@@ -99,14 +95,12 @@ const ActivityHeader = ({ }) => {
     }
     const accptfrndreq = (e) => {
         setNotiShow(true)
-        console.log(e, token, 'cjeck')
         axios.patch(`${APP_URL}/api/friend-requests/accept/${e}`, null, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('profile edit', response);
                 receivefrndreq()
             })
             .catch(error => {
@@ -121,14 +115,12 @@ const ActivityHeader = ({ }) => {
     }
     const dltfrndreq = (e) => {
         setNotiShow(true)
-        console.log(e, token, 'cjeck')
         axios.delete(`${APP_URL}/api/friend-requests/${e}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('profile edit', response);
                 receivefrndreq()
             })
             .catch(error => {
@@ -149,7 +141,6 @@ const ActivityHeader = ({ }) => {
         // Check if the user has scrolled to the bottom of the div
         // if (container && container.scrollTop <= 200) {
         if (noticontainer && noticontainer.scrollHeight - noticontainer.scrollTop <= noticontainer.clientHeight + 1) {
-            console.log('hn')
             handleLoadMorenoti();
         }
     };
@@ -204,7 +195,6 @@ const ActivityHeader = ({ }) => {
             // If the div exists, remove it from the DOM
             if (div) {
                 div.remove();
-                console.log('kesa')
             }
         }
     }, []);
@@ -216,7 +206,6 @@ const ActivityHeader = ({ }) => {
             }
         })
             .then(response => {
-                console.log('readnoti', response);
 
             })
             .catch(error => {
@@ -228,6 +217,26 @@ const ActivityHeader = ({ }) => {
                 }
             });
     }
+    const readallnoti = (e) => {
+        setAllNotiShow(true)
+        axios.get(`${APP_URL}/api/mark-all-as-read-notification`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                fetchNoti()
+            })
+            .catch(error => {
+                console.error(error);
+                if (error?.response?.status === 401) {
+                    router.push('/')
+                    deleteCookie('logged');
+                    localStorage.removeItem('userdetail')
+                }
+            });
+    }
+
     return (
         <>
 
@@ -289,13 +298,16 @@ const ActivityHeader = ({ }) => {
                                     {/* <li><button className="btn secondary-btn w-100"  >All Request</button></li> */}
                                 </ul>
                             </li>
-                            <li onClick={fetchNoti} className={`nav-item dropdown list-unstyled header-btns ${Notifications?.length === 0 ? '' : 'header-btns-active'}`}>
+                            <li onClick={fetchNoti} className={`nav-item dropdown list-unstyled CXC header-btns ${Notifications?.length === 0 ? '' : 'header-btns-active'}`}>
                                 <Link className="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="bi bi-bell"></i>
                                 </Link>
-                                <ul className={`dropdown-menu p-0 m-0 border-0 div-notifications ${AllNotiShow ? 'show show-c' : ''}`} ref={FrndContainerRef}>
-                                    <li><Link className="text-decoration-none clr-text ms-2 my-1 pointer-event" href="#" >Notifications</Link></li>
-                                    <hr />
+                                <ul  className={`dropdown-menu p-0 m-0 border-0 div-notifications ${AllNotiShow ? 'show show-c' : ''}`} ref={FrndContainerRef}>
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <li><Link className="text-decoration-none clr-text ms-2 pointer-event" href="#" >Notifications</Link></li>
+                                        <li className='pointer' onClick={readallnoti}>Read All</li>
+                                    </div>
+                                    <hr className='mt-0' />
                                     {Notifications?.length === 0 ?
                                         <li>
                                             <div className="no-msg-req">
@@ -326,7 +338,7 @@ const ActivityHeader = ({ }) => {
                                                                 {/* <span className='fw-bold text-capitalize'> {item.group_id}</span> */}
                                                             </p>
                                                         </div>
-                                                        {item.notification_type == 'sent-request' &&
+                                                        {/* {item.notification_type == 'sent-request' &&
                                                             <div className="d-flex">
                                                                 <button className='btn secondary-btn-rounded p-1 rounded-5 mx-2' id={item.id} onClick={() => accptgrpreq('reject-group-request', item.sender_id, item.trigger_id)}>
                                                                     <i className="bi bi-x-lg"></i>
@@ -335,7 +347,7 @@ const ActivityHeader = ({ }) => {
                                                                     <i className="bi bi-check2"></i>
                                                                 </button>
                                                             </div>
-                                                        }
+                                                        } */}
                                                     </div>
                                                 </li>
                                             ))}

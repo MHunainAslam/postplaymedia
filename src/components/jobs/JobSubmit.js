@@ -37,7 +37,6 @@ const JobSubmit = ({ JobCategorydd }) => {
     useEffect(() => {
         setEditorLoaded(true);
     }, []);
-    console.log(JobDesc)
 
     useEffect(() => {
         setUserName(JSON.parse(localStorage.getItem('userdetail'))?.response?.data?.data?.name)
@@ -49,7 +48,6 @@ const JobSubmit = ({ JobCategorydd }) => {
         }
         else {
             setisLoading(true)
-            // console.log(UserName, Email, Password, C_Password, Name, MemberType)
             axios.post(`${APP_URL}/api/jobs-post`,
                 { title: JobTitle, category_id: JobCategory, location: CityLocation + ' ' + CountryLocation, remote_postion: RemotePosition ? 'yes' : 'no', job_type: JobType, description: JobDesc, email_url: ApplicationUrl, company_name: CompanyName, website: Website, tagline: TagLine, video: Video, twitter_username: TwitterUsername, created_by: UserName, image_id: ImgId, expiry_date: Expdate }, {
                 headers: {
@@ -61,7 +59,6 @@ const JobSubmit = ({ JobCategorydd }) => {
                 .then(response => {
                     // Handle successful response here
                     message.success(response.data.message)
-                    console.log(response.data);
                     setisLoading(false)
                     document.getElementById('AllJobs-tab').click()
                     setJobTitle('')
@@ -105,14 +102,13 @@ const JobSubmit = ({ JobCategorydd }) => {
             const reader = new FileReader();
             reader.onload = () => {
                 setLogoImg(reader.result);
-                
+
                 axios.post(`${APP_URL}/api/post-media`, formDataimg, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     }
                 })
                     .then(response => {
-                        console.log('img', response);
                         setImgId(response.data.data.last_inserted_id)
                     })
                     .catch(error => {
@@ -141,7 +137,6 @@ const JobSubmit = ({ JobCategorydd }) => {
                     }
                 })
                     .then(response => {
-                        console.log('img', response);
                         setVideo(response?.data?.data?.last_inserted_id)
                         message.success(response?.data?.message)
 
@@ -163,16 +158,13 @@ const JobSubmit = ({ JobCategorydd }) => {
     const addcat = (e) => {
         if (e.target.value === 'addcat') {
             document.querySelector('.addcat').click()
-            console.log(JobCategory)
         } else {
             setJobCategory(e.target.value)
         }
     }
-    console.log('JobCategorydd', JobCategorydd?.data?.data)
 
     const onChange = (date, dateString) => {
         setExpdate(date)
-        console.log('expdate', dateString, date)
     };
     return (
         <>
@@ -230,11 +222,11 @@ const JobSubmit = ({ JobCategorydd }) => {
                                     <select name="" className='slct form-select' id="" value={JobCategory} onChange={addcat}>
                                         <option value="" selected hidden>-- Select Category --</option>
                                         {JobCategorydd?.data?.data?.map((item, i) => (
-                                           
-                                           
-                                                <option value={item.id} key={i}>{item.name}</option>
-                                            
-                                                
+
+
+                                            <option value={item.id} key={i}>{item.name}</option>
+
+
                                         ))}
                                         <option value="addcat" >Add Category</option>
                                     </select>

@@ -16,7 +16,6 @@ const StartChat = ({ profile }) => {
             }
         })
             .then(response => {
-                console.log('create room', response);
                 if (response?.data?.data) {
                     router.push(`/messages?profile=${JSON.stringify(profile)}&chat=${response?.data?.data?.id}`);
                 }

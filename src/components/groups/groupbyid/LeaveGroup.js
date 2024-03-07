@@ -19,7 +19,6 @@ const LeaveGroup = ({ getgrpdata }) => {
             }
         })
             .then(response => {
-                console.log('left grp', response);
                 document.querySelector('.close-grp-leave-modal')?.click()
                 document.querySelector('.LeaveGroup')?.click()
                 getgrpdata()

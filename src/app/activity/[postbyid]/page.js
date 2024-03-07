@@ -50,7 +50,6 @@ const Page = () => {
         })
         
             .then(response => {
-                console.log('post by id', response);
                 setAllPosts([response.data.data])
                 setloadmoreloader(false)
             })
@@ -90,7 +89,6 @@ const Page = () => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('liked post', response.data);
             })
             .catch(error => {
                 // Handle error here
@@ -113,7 +111,6 @@ const Page = () => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('disliked post', response.data);
             })
             .catch(error => {
                 // Handle error here
@@ -128,7 +125,6 @@ const Page = () => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('get comment', response);
                 setComments(response?.data?.data)
                 setcmntloader(false)
             })

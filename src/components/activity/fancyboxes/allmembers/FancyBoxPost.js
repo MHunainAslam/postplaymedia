@@ -59,7 +59,6 @@ const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedIm
             })
                 .then(response => {
                     // Handle successful response here
-                    console.log('comment post', response);
                     setText('')
                     setisloading(false)
                     getcomment(item.id)
@@ -84,7 +83,6 @@ const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedIm
             })
                 .then(response => {
                     // Handle successful response here
-                    console.log('comment post', response);
 
                     getcomment(item.id)
                     setEditCmnt(false)
@@ -104,7 +102,6 @@ const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedIm
             }
         })
             .then(response => {
-                console.log('Dlt comment', response);
                 getcomment(item.id)
                 setcomntloading(false)
                 setdltcommentmodal(false)
@@ -149,11 +146,9 @@ const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedIm
             event.preventDefault(); // Prevent cursor movement
             // setFocusedSuggestionIndex(i => i != friendsData.length - 1 && Math.min(i + 1, friendsData.length - 1));
             setFocusedSuggestionIndex(i => friendsData.length - 1 != i && i + 1);
-            console.log('doewn', focusedSuggestionIndex, friendsData.length)
         } else if (event.key === "ArrowUp") {
             event.preventDefault(); // Prevent cursor movement
             setFocusedSuggestionIndex(i => i != 0 ? i - 1 : i = friendsData.length - 1);
-            console.log('up')
         }
     };
 
@@ -178,17 +173,7 @@ const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedIm
         const ids = parseMentionsForIds(cmnt);
         setmentionuserid(ids);
     }, [cmnt]);
-    // const closeModal = () => {
-    //     document.querySelector('.close-fancybox-s')?.click()
-    // }
-    // const formatMentionsToLinks = (text) => {
-    //     const aa = () => { console.log('first') }
-    //     const mentionRegex = /@\[([^\]]+)\]\((\d+)\)/g;
-    //     return text.replace(mentionRegex, (match, name, id) => {
-    //         return `<p>${name}</p>`
-    //     });
-
-    // };
+   
     useEffect(() => {
         // document.querySelectorAll('.close-fancybox-s').forEach(element => {
         //     element.click();

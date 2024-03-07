@@ -31,7 +31,6 @@ const AllPhotos = ({ endpoint }) => {
     const openModal = (index) => {
         setSelectedImage(index);
         setModalOpen(true);
-        console.log(selectedImage, index)
     };
 
     const closeModal = () => {
@@ -59,16 +58,13 @@ const AllPhotos = ({ endpoint }) => {
 
 
             if (Array.isArray(data) && data.length) {
-                console.log(data, 'all cfgdf')
                 setAllMedia(data);
             }
 
 
             if (meta && typeof meta === 'object') {
-                console.log(meta, 'meta')
                 setCurrentPagefrnd(Number(meta.page));
                 setTotalPagesfrnd(Number(meta.total_pages));
-                console.log(meta)
             }
         } catch (error) {
             setisloading(false)
@@ -81,7 +77,6 @@ const AllPhotos = ({ endpoint }) => {
     };
 
     const fetchphotoss = async (page) => {
-        console.log('fetch photo')
         try {
             const response = await fetch(`${APP_URL}/api/${endpoint}per_page=20&page=${page}`, {
                 headers: {
@@ -98,7 +93,6 @@ const AllPhotos = ({ endpoint }) => {
 
 
             if (Array.isArray(data) && data.length) {
-                console.log(data, 'all cfgdf')
                 setAllMedia((prevMessages) => [...prevMessages, ...data]);
             }
 
@@ -106,7 +100,6 @@ const AllPhotos = ({ endpoint }) => {
             if (meta && typeof meta === 'object') {
                 setCurrentPagefrnd(Number(meta.page));
                 setTotalPagesfrnd(Number(meta.total_pages));
-                console.log(meta)
             }
         } catch (error) {
             console.error('Error fetching photos', error);
@@ -125,7 +118,6 @@ const AllPhotos = ({ endpoint }) => {
     const handleLoadMorefrnd = () => {
 
         if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
-            console.log('adssa')
             setLoading(true);
             fetchphotoss(CurrentPagefrnd + 1);
         }

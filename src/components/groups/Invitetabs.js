@@ -37,7 +37,6 @@ const Invitetabs = ({ setinviteuserid }) => {
             }
         })
             .then(response => {
-                console.log('grp frnds', response);
                 setMyFriends(response)
             })
             .catch(error => {
@@ -58,8 +57,6 @@ const Invitetabs = ({ setinviteuserid }) => {
         })
             .then(response => {
                 const aa = response.data.data.data.filter(user => user.friendship_status === 'friends')
-                console.log('filter', aa)
-                console.log('grp users', response);
                 setAllMembers(response)
                 setisLoading(false)
             })
@@ -77,80 +74,55 @@ const Invitetabs = ({ setinviteuserid }) => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
         // setisLoading(true)
-        console.log(pageNumber);
     };
     const handlePageChangef = (pageNumber) => {
         setCurrentPagef(pageNumber);
         // setisLoading(true)
-        console.log(pageNumber);
     };
 
     const handleCardSelect = (card) => {
         const isSelected = selectedCards.find((selected) => selected.friend?.id === card.friend?.id || selected.id === card.id);
-        console.log(selectedCards);
         if (isSelected) {
             const updatedSelected = selectedCards.filter((selected) => selected.id !== card.id || selected.id !== card.friend?.id);
             setSelectedCards(updatedSelected);
-            console.log('tt');
+
         } else {
             setSelectedCards([...selectedCards, card]);
         }
     };
-    const handleCardSelectuser = (card) => {
-        const isSelected = selectedCards.find((selected) => selected.id === card.id || selected.friend?.id === card.id);
-        console.log(selectedCards);
-
-        if (isSelected) {
-            const updatedSelected = selectedCards.filter((selected) => selected.id !== card.id);
-            setSelectedCards(updatedSelected);
-        } else {
-            setSelectedCards([...selectedCards, card]);
-        }
-    };
-
-    const handleSendInvitations = () => {
-        console.log('Sending invitations:', selectedCards);
-    };
+  
     const [selectedMembers, setSelectedMembers] = useState([]);
 
     const toggleSelect = (item) => {
         // Check if the item is already selected
         const isSelected = selectedMembers.some((selectedItem) => selectedItem.id === item.id);
-        console.log('select');
         if (isSelected) {
             // If selected, remove it
             setSelectedCards((prevSelected) =>
                 prevSelected.filter((selectedItem) => selectedItem.id !== item.id)
 
             );
-            console.log('rmove');
         } else {
             // If not selected, add it
-            console.log('rmove2');
             setSelectedCards((prevSelected) => [...prevSelected, item]);
         }
-        console.log(selectedCards);
     };
 
     const unselectItem = (item) => {
         // Remove the item from SelectedMembers
-        console.log('rmove3', selectedCards, item);
         setSelectedCards((prevSelected) =>
             prevSelected.filter((selectedItem) => selectedItem?.id !== item.friend?.id && selectedItem?.friend?.id !== item.friend?.id)
         );
     };
     const unselectItemuser = (item) => {
         // Remove the item from SelectedMembers
-        console.log('rmove3');
         setSelectedCards((prevSelected) =>
             prevSelected.filter((selectedItem) => selectedItem?.id !== item.id && selectedItem?.friend?.id !== item?.id)
         );
     };
 
     useEffect(() => {
-        console.log(selectedCards.map((item) => (
-            item.friend?.id ? item.friend?.id : item.id
-        )), 'laa');
+      
         setinviteuserid(selectedCards.map((item) => (
             item.friend?.id ? item.friend?.id : item.id
         )))

@@ -18,15 +18,9 @@ import { GetToken } from '@/utils/Token'
 const GrpActivity = () => {
     const { grpdata } = useContext(grpContext)
     const { UserProfiledata, UserProfileloader } = useAppContext()
-    console.log(grpdata, grpdata?.data?.participants?.participants?.map((item) => (item.user?.id === UserProfiledata?.data?.id)))
     const participants = grpdata?.data?.participants?.participants?.find(item => item.user.id === UserProfiledata?.data?.id)
-    console.log(grpdata?.data?.participants?.participants?.find(item => item.user_id === UserProfiledata?.data?.id), 'll', UserProfiledata?.data?.id)
     let matchingItem = grpdata?.data?.participants?.participants?.find(item => item.user_id == UserProfiledata?.data?.id);
-    if (matchingItem) {
-        console.log("Matching item found:", matchingItem);
-    } else {
-        console.log("No matching item found.");
-    }
+   
 
     const [Comments, setComments] = useState([])
     const [grpid, setgrpid] = useState()
@@ -84,9 +78,7 @@ const GrpActivity = () => {
             const data = await response.json();
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('get posts', data)
                 setAllPosts(data.data.data);
-                console.log(data)
                 setCurrentPagefrnd(data.data.current_page);
                 setTotalPagesfrnd(data.data.last_page);
                 settotalMemberfrnd(data.data.total);
@@ -125,11 +117,9 @@ const GrpActivity = () => {
 
             if (data.success) {
                 // Prepend new messages to the beginning of the array
-                console.log('get grp post', data)
                 setAllPosts((prevMessages) => [...prevMessages, ...data?.data?.data]);
                 setCurrentPagefrnd(data.data.current_page);
                 setTotalPagesfrnd(data.data.last_page);
-                console.log((prevMessages) => [...prevMessages, data?.data?.data], 'hn')
                 setloadmoreloader(false)
             } else {
                 console.error('Failed to fetch messages');
@@ -206,7 +196,6 @@ const GrpActivity = () => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('liked post', response.data);
             })
             .catch(error => {
                 // Handle error here
@@ -229,7 +218,6 @@ const GrpActivity = () => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('disliked post', response.data);
             })
             .catch(error => {
                 // Handle error here
@@ -244,7 +232,6 @@ const GrpActivity = () => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('get comment', response);
                 setComments(response?.data?.data)
                 setcmntloader(false)
             })

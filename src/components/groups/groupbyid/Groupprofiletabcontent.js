@@ -24,11 +24,7 @@ const Groupprofiletabcontent = () => {
     const [isLoading, setisLoading] = useState(false)
     const [TabState, setTabState] = useState('grpactivity')
     let matchingItem = grpdata?.data?.participants?.participants?.find(item => item.user_id == UserProfiledata?.data?.id);
-    if (matchingItem) {
-        console.log("Matching item found:", matchingItem);
-    } else {
-        console.log("No matching item found.");
-    }
+  
     useEffect(() => {
         setgrpId(grpdata?.data?.group?.id)
     }, [grpdata])
@@ -50,7 +46,6 @@ const Groupprofiletabcontent = () => {
             }
         })
             .then(response => {
-                console.log('create grp', response);
                 setbtnActive(false)
                 setisLoading(false)
                 message.success(response.data.message)

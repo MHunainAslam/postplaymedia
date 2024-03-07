@@ -69,7 +69,6 @@ const GroupSetting = () => {
                     }
                 })
                     .then(response => {
-                        console.log('img', response);
                         setgrpcover(response.data.data.last_inserted_id)
                         setisLoading(false)
                         setbtnActive(false)
@@ -109,7 +108,6 @@ const GroupSetting = () => {
                     }
                 })
                     .then(response => {
-                        console.log('img', response);
                         setgrpprofile(response.data.data.last_inserted_id)
                         setbtnActive(false)
                         setisLoading(false)
@@ -152,7 +150,6 @@ const GroupSetting = () => {
             }
         })
             .then(response => {
-                console.log('create grp', response);
                 setbtnActive(false)
                 setisLoading(false)
                 message.success(response.data.message)

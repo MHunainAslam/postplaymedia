@@ -49,7 +49,7 @@ const Profiledetail = ({ }) => {
             }
         })
             .then(response => {
-                console.log('roles', response);
+                
                 setgetRoles(response?.data)
                 setisloading(false)
             })
@@ -79,7 +79,6 @@ const Profiledetail = ({ }) => {
             }
         })
             .then(response => {
-                console.log('authMelayout', response);
                 setAllstate(response?.data?.data?.states)
             })
             .catch(error => {
@@ -101,7 +100,7 @@ const Profiledetail = ({ }) => {
             }
         })
             .then(response => {
-                console.log('llll', response);
+          
                 setAllcity(response?.data?.data)
             })
             .catch(error => {

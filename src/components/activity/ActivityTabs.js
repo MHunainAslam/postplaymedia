@@ -93,11 +93,11 @@ const ActivityTabs = () => {
                     </>}
                     {UserProfiledata?.data?.role?.name == 'Admin' &&
                         <>
-                            <div className="tab-pane fade active show" id="AllGroups" role="tabpanel" aria-labelledby="AllGroups-tab">
-                                <AllGroups endpoint={'/get-my-post-mentions?'} />
+                            <div className="tab-pane fade active show" id="Allmembersadmin" role="tabpanel" aria-labelledby="Allmembersadmin-tab">
+                                <Allmembersadmin endpoint={'/get-all-post-admin-priviliges?'} />
                             </div>
-                            <div className="tab-pane fade" id="Allmembersadmin" role="tabpanel" aria-labelledby="Allmembersadmin-tab">
-                                <Allmembersadmin endpoint={'/get-my-post-mentions?'} />
+                            <div className="tab-pane fade " id="AllGroups" role="tabpanel" aria-labelledby="AllGroups-tab">
+                                <AllGroups endpoint={'/get-all-group-post-admin-priviliges?'} />
                             </div>
                         </>
                     }

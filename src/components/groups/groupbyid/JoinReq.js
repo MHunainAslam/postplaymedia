@@ -39,13 +39,12 @@ const JoinReq = () => {
     const indexOfLastItemf = currentPagef * itemsPerPagef;
     const indexOfFirstItemf = indexOfLastItemf - itemsPerPagef;
     const requeests = () => {
-        axios.get(`${APP_URL}/api/groups/getAllGroupRequestsByGroupId/${groupbyid}?per_page=${dataOnPagef}&page=${currentPagef}`, {
+        axios.get(`${APP_URL}/api/groups/getAllGroupRequestsByGroupId/${groupbyid}?per_page=${dataOnPagef}&page=${currentPagef}&status=pending`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('grp inv req', response);
                 setMyFriends(response)
             })
             .catch(error => {
@@ -64,7 +63,6 @@ const JoinReq = () => {
     const handlePageChangef = (pageNumber) => {
         setCurrentPagef(pageNumber);
         // setisLoading(true)
-        console.log(pageNumber);
     };
 
 
@@ -77,7 +75,6 @@ const JoinReq = () => {
         })
             .then(response => {
                 requeests()
-                console.log('grp inv req accept', response);
                 message.success(response.data.message)
             })
             .catch(error => {
@@ -113,8 +110,8 @@ const JoinReq = () => {
                                                 : <Image loader={imgurl} src={card.sender?.profile_photo?.url} alt="" width={100} height={100} className='post-profile object-fit-cover'></Image>}   <p className='papa mb-0 clr-text fw-bold ms-2'>{card.sender.name}</p>
                                         </Link>
                                         <div className="d-flex">
-                                            <button className='btn secondary-btn px-4 me-2 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => accptgrpreq('reject-group-request', card.sender?.id)}><i class="bi bi-x-circle"></i></button>
-                                            <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => accptgrpreq('accept-group-request', card.sender?.id)}><i class="bi bi-check-circle"></i></button>
+                                            <button className='btn secondary-btn px-4 me-2 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => accptgrpreq('reject-group-request', card.sender?.id)}><i className="bi bi-x-circle"></i></button>
+                                            <button className='btn secondary-btn px-4 py-0 addorremoveinv addorremoveinvfrnd' onClick={() => accptgrpreq('accept-group-request', card.sender?.id)}><i className="bi bi-check-circle"></i></button>
                                         </div>
                                     </div>
                                 </div>

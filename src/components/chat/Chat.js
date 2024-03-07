@@ -28,17 +28,7 @@ const Chat = ({ TabState, param }) => {
     const router = useRouter()
     const [totalmsg, settotalmsg] = useState('')
 
-    // useEffect(() => {
-    //     Authme(token)
-    //         .then(data => {
-    //             console.log('usermsg:', data?.data?.profile_photo);
-    //             setUserprofile(data?.data?.profile_photo)
-    //         })
-    //         .catch(error => {
-    //             console.error('Error from Authme:', error);
-    //         });
-    // }, [])
-
+  
     const fetchMessages = async (page) => {
         try {
             const response = await fetch(
@@ -52,7 +42,6 @@ const Chat = ({ TabState, param }) => {
             );
             const data = await response.json();
             const newMessages = data.data.data;
-            console.log('messages', data)
             settotalmsg(data?.data?.total)
             // Save the previous scroll height before adding new messages
             previousScrollHeightRef.current = chatContainerRef.current.scrollHeight;
@@ -80,7 +69,6 @@ const Chat = ({ TabState, param }) => {
             const data = await response.json();
             const newMessages = data.data.data;
             settotalmsg(data?.data?.total)
-            console.log('scroll', data)
             // Save the previous scroll height before adding new messages
             previousScrollHeightRef.current = chatContainerRef.current.scrollHeight;
 
@@ -106,7 +94,6 @@ const Chat = ({ TabState, param }) => {
             const data = await response.json();
             settotalmsg(data?.data?.total)
             const newMessages = data.data.data;
-            console.log('messages 10', newMessages)
             // console.log(params);
 
             // if (newMessages.id) {
@@ -118,14 +105,10 @@ const Chat = ({ TabState, param }) => {
             const container = chatContainerRef.current;
             const isAtBottom = container.scrollTop + container.clientHeight + 50 >= container.scrollHeight;
 
-            console.log(isAtBottom)
-
-
             // if (chatContainerRef.current.scrollTop + chatContainerRef.current.clientHeight == chatContainerRef.current.scrollHeight) {
             if (isAtBottom) {
                 setbottombtn(false)
                 fetchMessages(1)
-                console.log('working');
             } else if (newMessages.length > 0) {
 
                 setbottombtn(true)
@@ -172,7 +155,6 @@ const Chat = ({ TabState, param }) => {
         if (totalmsg != messages?.length) {
             fetchMessagess(nextPage);
         }
-        console.log('kikiki')
 
     };
     const handleScroll = () => {
@@ -180,7 +162,6 @@ const Chat = ({ TabState, param }) => {
 
         // Check if the user has scrolled to the bottom of the div
         if (container && container.scrollTop <= 0) {
-            console.log('chr');
             setFirstRun(false)
             // if (container &&
             //     container.scrollHeight - container.scrollTop <= container.clientHeight + 200) {
@@ -205,7 +186,6 @@ const Chat = ({ TabState, param }) => {
         setFirstRun(true)
         setfirstLoad(true)
         setCurrentPage(1)
-        console.log(TabState);
     }, [param])
     const appendCustomDay = (e) => {
         const container = chatContainerRef.current;
@@ -215,7 +195,7 @@ const Chat = ({ TabState, param }) => {
         if (NewMessages === '') {
         } else {
             const newMessage = { body: NewMessages, created_at: new Date(), sender: { profile_photo: Userprofile ? { url: Userprofile?.url } : null } }; // 
-            console.log(newMessage)
+        
             setMessages((prevMessages) => [...prevMessages, newMessage]);
 
             axios.post(`${APP_URL}/api/messages`, { body: NewMessages, room_id: TabState }, {
@@ -224,7 +204,6 @@ const Chat = ({ TabState, param }) => {
                 }
             })
                 .then(response => {
-                    console.log('msg send', response);
 
 
                 })
@@ -237,11 +216,9 @@ const Chat = ({ TabState, param }) => {
                     }
                 });
             setNewMessages('')
-            console.log(newMessage)
         }
     };
     useEffect(() => {
-        console.log(currentPage)
 
         const container = chatContainerRef.current;
         const isAtBottom = container.scrollTop + container.clientHeight + 50 >= container.scrollHeight;

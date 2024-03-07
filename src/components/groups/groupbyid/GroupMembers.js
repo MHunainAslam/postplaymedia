@@ -24,7 +24,6 @@ const GroupMembers = () => {
     useEffect(() => {
         setisLoading(false)
         setgrpMembers(grpdata?.data?.participants?.participants)
-        console.log('grpmem', grpdata?.data)
     }, [grpdata])
 
 

@@ -41,19 +41,37 @@ const AllTeams = ({ loadcomponent }) => {
     const a = parseInt(itemsPerPage);
     const b = parseInt(indexOfFirstItem);
     const router = useRouter()
-    console.log(conferencefield)
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const [Userdata, setUserdata] = useState(UserProfiledata)
+    const params = {
+        conference: Conference,
+        state: state,
+        level: level,
+        sports: sports,
+        per_page: dataOnPage,
+        page: currentPage,
+        search: SearchTitle,
+    };
+
+    // Filter out undefined, null, or false parameters
+    const filteredParams = Object.entries(params).reduce((acc, [key, value]) => {
+        if (value) { // This checks for non-empty, non-null, non-false values
+            acc[key] = value;
+        }
+        return acc;
+    }, {});
+
+    // Generate query string
+    const queryString = new URLSearchParams(filteredParams).toString();
 
     useEffect(() => {
         setAllJobisLoader(true)
-        axios.get(`${APP_URL}/api/teams?conference=${Conference}&state=${state}&level=${level}&sports=${sports}&per_page=${dataOnPage}&page=${currentPage}&search=${SearchTitle}`, {
+        axios.get(`${APP_URL}/api/teams?${queryString}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('alljobs', response);
                 setGetAllJobs(response)
                 setAllJobisLoader(false)
 
@@ -75,7 +93,6 @@ const AllTeams = ({ loadcomponent }) => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
         // setisLoading(true)
-        console.log(pageNumber);
     };
 
     const imgurl = ({ src }) => {
@@ -100,7 +117,6 @@ const AllTeams = ({ loadcomponent }) => {
             }
         })
             .then(response => {
-                console.log('authMelayout', response);
                 setAllstate(response?.data?.data?.states)
             })
             .catch(error => {
@@ -115,10 +131,8 @@ const AllTeams = ({ loadcomponent }) => {
             }
         })
             .then(response => {
-                console.log(response.data);
                 message.success(response.data.message)
                 setdlt(!dlt)
-                console.log(dlt)
             })
             .catch(error => {
                 console.error(error);
@@ -129,33 +143,14 @@ const AllTeams = ({ loadcomponent }) => {
                 }
             });
     }
-    // useEffect(() => {
-    //     axios.post(`https://countriesnow.space/api/v0.1/countries/state/cities`, {
-    //         "country": "United States",
-    //         "state": state
-    //     }, {
-    //         headers: {
 
-    //             'X-RapidAPI-Key': 'c1c3fb6c0cmsh4907d3e33341dbbp1078c6jsnd4b7038ff1c5',
-    //             'X-RapidAPI-Host': 'countries-states-cities-dataset.p.rapidapi.com'
-
-    //         }
-    //     })
-    //         .then(response => {
-    //             console.log('llll', response);
-    //             setAllcity(response?.data?.data)
-    //         })
-    //         .catch(error => {
-    //             console.error(error);
-    //         });
-    // }, [state])
     useEffect(() => {
         setSearchTitle('')
     }, [level,
         sports,
         state,
         Conference])
-    
+
     return (
         <>
 

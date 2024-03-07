@@ -63,17 +63,13 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
             PostMedia.append('media[]', file);
         }
 
-        console.log(selectedFiles);
         axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('img', response.data.data.media_ids);
-                console.log(response?.data?.data?.media_ids?.length);
                 setimgs(prevArray => [...prevArray, ...response.data.data.media_ids])
-                console.log(img)
             })
             .catch(error => {
                 console.error(error);
@@ -95,14 +91,12 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
         const newImgs = [...img];
         newImgs.splice(index, 1);
         setimgs(newImgs);
-        console.log('newImgs', newImgs)
         setActivebtn(false)
     };
 
     const post = ({ e, endpoint }) => {
         if (PostTextEdit || img.length > 0) {
             setisLoading(true)
-            console.log('take', images)
             axios.put(`${APP_URL}/api/post/${Postid}`, {
                 post_text: PostTextEdit?.toString(),
                 status: 'active',
@@ -118,7 +112,6 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
             })
                 .then(response => {
                     setisLoading(false)
-                    console.log('Post edit', response.data);
                     setImagess([])
                     setimgs([])
                     setPostArea('')
@@ -153,12 +146,11 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
             event.preventDefault(); // Prevent cursor movement
             // setFocusedSuggestionIndex(i => i != friendsData.length - 1 && Math.min(i + 1, friendsData.length - 1));
             setFocusedSuggestionIndex(i => friendsData.length - 1 != i && i + 1);
-            console.log('doewn', focusedSuggestionIndex, friendsData.length)
-            console.log(friendsData)
+           
         } else if (event.key === "ArrowUp") {
             event.preventDefault(); // Prevent cursor movement
             setFocusedSuggestionIndex(i => i != 0 ? i - 1 : i = friendsData.length - 1);
-            console.log('up')
+  
         }
     };
     const parseMentionsForIds = (text) => {
@@ -176,7 +168,6 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
     useEffect(() => {
         const ids = parseMentionsForIds(PostTextEdit);
         setmentionuserid(ids);
-        console.log(ids)
     }, [PostTextEdit]);
 
 

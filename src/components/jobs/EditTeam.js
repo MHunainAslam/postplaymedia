@@ -38,7 +38,6 @@ const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
                     }
                 })
                     .then(response => {
-                        console.log('img', response);
                         setLogo(response?.data?.data?.last_inserted_id)
                         setisLoading(false)
 
@@ -73,7 +72,6 @@ const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
             })
                 .then(response => {
                     document.querySelector('.closeteamedit').click()
-                    console.log('img', response);
                     setLogo('')
                     setProfileImage('')
                     setisLoading(false)
@@ -139,7 +137,6 @@ const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
                 }
             })
                 .then(response => {
-                    console.log('llll', response);
                     setAllcity(response?.data?.data)
                 })
                 .catch(error => {

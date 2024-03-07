@@ -54,7 +54,6 @@ const GroupProfileTab = ({ grpdata, Btn_Trigger, getgrpdata }) => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('accept grp inv', response.data);
             })
             .catch(error => {
                 // Handle error here
@@ -121,12 +120,12 @@ const GroupProfileTab = ({ grpdata, Btn_Trigger, getgrpdata }) => {
 
                     {UserProfiledata?.data?.id === grpdata?.data?.group?.created_by?.id ?
                         <p className="para clr-text mb-0" data-bs-toggle="modal" data-bs-target="#DltGroup">
-                            <i class="bi bi-trash3 clr-text heading-m mb-2"></i> <br />
+                            <i className="bi bi-trash3 clr-text heading-m mb-2"></i> <br />
                             Delete Group
                         </p>
                         : <>{Btn_Trigger === 'view-group' ?
                             <p className="para clr-text mb-0" data-bs-toggle="modal" data-bs-target="#LeaveGroup">
-                                <i class="bi bi-x-octagon clr-text heading-m mb-2"></i> <br />
+                                <i className="bi bi-x-octagon clr-text heading-m mb-2"></i> <br />
                                 Leave Group
                             </p>
 
@@ -141,19 +140,19 @@ const GroupProfileTab = ({ grpdata, Btn_Trigger, getgrpdata }) => {
                                 }>
 
                                     {
-                                        Btn_Trigger === 'join-now' ? <> <i class="bi bi-file-plus clr-text heading-m mb-2"></i> <br /> Join Group </> :
-                                            Btn_Trigger === 'withdrawl-request' ? <> <i class="bi bi-hourglass-split clr-text heading-m mb-2"></i> <br />  Pending Group Request  </> :
-                                                Btn_Trigger === 'pending' ? <> <i class="bi bi-x-octagon clr-text heading-m mb-2"></i> <br /> Cancel Group Request </> :
+                                        Btn_Trigger === 'join-now' ? <> <i className="bi bi-file-plus clr-text heading-m mb-2"></i> <br /> Join Group </> :
+                                            Btn_Trigger === 'withdrawl-request' ? <> <i className="bi bi-hourglass-split clr-text heading-m mb-2"></i> <br />  Pending Group Request  </> :
+                                                Btn_Trigger === 'pending' ? <> <i className="bi bi-x-octagon clr-text heading-m mb-2"></i> <br /> Cancel Group Request </> :
                                                     ''}
 
                                 </p>
                                 : Btn_Trigger === 'accept-request' ?
                                     <div className='d-flex'>
                                         <p className="para clr-text mb-0" onClick={() => { accptgrpreq({ e: grpdata?.data?.group?.id, endpoint: 'acceptInvite' }), getgrpdata() }}>
-                                            <i class="bi bi-check-lg clr-text heading-m mb-2"></i><br />
+                                            <i className="bi bi-check-lg clr-text heading-m mb-2"></i><br />
                                             Accept</p>
                                         <p className="para clr-text mb-0 ps-4" onClick={() => { accptgrpreq({ e: grpdata?.data?.group?.id, endpoint: 'rejectInvite' }), getgrpdata() }}>
-                                            <i class="bi bi-x-octagon clr-text heading-m mb-2"></i> <br />
+                                            <i className="bi bi-x-octagon clr-text heading-m mb-2"></i> <br />
                                             Reject</p>
                                     </div>
                                     :

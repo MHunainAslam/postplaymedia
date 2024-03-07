@@ -38,7 +38,6 @@ const GroupTabs = () => {
             }
         })
             .then(response => {
-                console.log('all grps cc', response);
                 setAllgrp(response)
                 setisLoading(false)
                 setGrpBtn(response.data.data.data.map((item) => (item.button_trigger)))
@@ -46,7 +45,6 @@ const GroupTabs = () => {
             .catch(error => {
                 setisLoading(false)
                 console.error(error);
-                console.log('grp error')
                 if (error?.response?.status === 401) {
                     router.push('/')
                     deleteCookie('logged');
@@ -63,7 +61,6 @@ const GroupTabs = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
         // setisLoading(true)
-        console.log(pageNumber);
     };
 
 
@@ -76,7 +73,6 @@ const GroupTabs = () => {
             .then(response => {
                 // Handle successful response here
                 message.success(response.data.message)
-                console.log(response.data);
                 getallgrp()
             })
             .catch(error => {
@@ -85,10 +81,7 @@ const GroupTabs = () => {
                 console.error(error);
             });
     }
-    const canceljoingrp = () => {
-        console.log('3');
-    }
-
+   
     const accptgrpreq = ({ e, endpoint }) => {
         axios.post(`${APP_URL}/api/groups/${endpoint}`, {
             user_id: UserProfiledata?.data?.id,
@@ -100,7 +93,6 @@ const GroupTabs = () => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('accept grp inv', response.data);
                 getallgrp()
             })
             .catch(error => {
@@ -125,7 +117,7 @@ const GroupTabs = () => {
                 </ul>
                 <div className="tab-content ">
                     <div className="tab-pane fade active show" id="AllGroups" role="tabpanel" aria-labelledby="AllGroups-tab">
-                        <AllGroups setGrpSearch={setGrpSearch} GrpSearch={GrpSearch} Allgrp={Allgrp} isLoading={isLoading} getallgrp={getallgrp} reqjoingrp={reqjoingrp} canceljoingrp={canceljoingrp} accptgrpreq={accptgrpreq} />
+                        <AllGroups setGrpSearch={setGrpSearch} GrpSearch={GrpSearch} Allgrp={Allgrp} isLoading={isLoading} getallgrp={getallgrp} reqjoingrp={reqjoingrp} accptgrpreq={accptgrpreq} />
                         {Allgrp?.data?.data?.data?.length > 0 &&
                             <Pagination
                                 dataOnPage={dataOnPage}

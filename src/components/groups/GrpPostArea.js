@@ -49,9 +49,7 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
                     }
                 })
                     .then(response => {
-                        console.log('img', response.data.data.media_ids);
                         setimg(response.data.data.media_ids)
-                        console.log(img)
                         setActivebtn(false)
 
                     })
@@ -91,7 +89,6 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
     const post = ({ e, endpoint }) => {
 
         setisLoading(true)
-        console.log('take', images)
         axios.post(`${APP_URL}/api/post`, {
             post_text: PostText?.toString(),
             status: 'active',
@@ -107,7 +104,6 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
         })
             .then(response => {
                 setisLoading(false)
-                console.log('Post in grp', response.data);
                 setImages([])
                 setimg([])
                 setPostArea('')
@@ -140,12 +136,9 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
             event.preventDefault(); // Prevent cursor movement
             // setFocusedSuggestionIndex(i => i != friendsData.length - 1 && Math.min(i + 1, friendsData.length - 1));
             setFocusedSuggestionIndex(i => friendsData.length - 1 != i && i + 1);
-            console.log('doewn', focusedSuggestionIndex, friendsData.length)
-            console.log(friendsData)
         } else if (event.key === "ArrowUp") {
             event.preventDefault(); // Prevent cursor movement
             setFocusedSuggestionIndex(i => i != 0 ? i - 1 : i = friendsData.length - 1);
-            console.log('up')
         }
     };
     const parseMentionsForIds = (text) => {
@@ -163,7 +156,6 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
     useEffect(() => {
         const ids = parseMentionsForIds(PostText);
         setmentionuserid(ids);
-        console.log(ids)
     }, [PostText]);
 
 

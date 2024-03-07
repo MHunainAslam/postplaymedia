@@ -17,17 +17,6 @@ import { useAppContext } from '@/context/AppContext'
 const JobsTab = () => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const [Userdata, setUserdata] = useState(UserProfiledata)
-    // useEffect(() => {
-
-    //     Authme(token)
-    //         .then(data => {
-    //             console.log('Data from Authme:', data);
-    //             setUserdata(data)
-    //         })
-    //         .catch(error => {
-    //             console.error('Error from Authme:', error);
-    //         });
-    // }, [])
     const token = GetToken('userdetail')
     const router = useRouter()
     const [JobCategory, setJobCategory] = useState(' AllTeams')
@@ -40,7 +29,6 @@ const JobsTab = () => {
 
     const handleComponentChange = (componentName) => {
         setActiveComponent(componentName);
-        console.log(componentName)
         setloadcomponent(!loadcomponent)
     };
     useEffect(() => {
@@ -51,7 +39,6 @@ const JobsTab = () => {
             }
         })
             .then(response => {
-                console.log('setJobCategory', response);
                 setJobCategory(response)
                 setCatisLoader(false)
             })

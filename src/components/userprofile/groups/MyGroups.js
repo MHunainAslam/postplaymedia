@@ -22,7 +22,6 @@ const MyGroups = ({ xl, md, lg }) => {
             }
         })
             .then(response => {
-                console.log('frnds', response);
                 setAllFrndsData(response)
                 setUserDataLoader(false)
             })

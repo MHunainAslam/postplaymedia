@@ -43,7 +43,6 @@ const AddRemoveUser = ({ setinviteuserid }) => {
             }
         })
             .then(response => {
-                console.log('grp frnds', response);
                 setMyFriends(response)
             })
             .catch(error => {
@@ -64,8 +63,6 @@ const AddRemoveUser = ({ setinviteuserid }) => {
         })
             .then(response => {
                 const aa = response.data.data.data.filter(user => user.friendship_status === 'friends')
-                console.log('filter', aa)
-                console.log('grp users', response);
                 setAllMembers(response)
                 setisLoading(false)
             })
@@ -83,18 +80,14 @@ const AddRemoveUser = ({ setinviteuserid }) => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
         // setisLoading(true)
-        console.log(pageNumber);
     };
     const handlePageChangef = (pageNumber) => {
         setCurrentPagef(pageNumber);
         // setisLoading(true)
-        console.log(pageNumber);
     };
 
     useEffect(() => {
-        console.log(selectedCards.map((item) => (
-            item.friend?.id ? item.friend?.id : item.id
-        )), 'laa');
+
         setinviteuserid(selectedCards.map((item) => (
             item.friend?.id ? item.friend?.id : item.id
         )))
@@ -110,9 +103,6 @@ const AddRemoveUser = ({ setinviteuserid }) => {
             }
         })
             .then(response => {
-                console.log('send inv', response);
-
-
             })
             .catch(error => {
                 console.error(error);
@@ -130,11 +120,7 @@ const AddRemoveUser = ({ setinviteuserid }) => {
                 'Authorization': `Bearer ${token}`,
             }
         })
-            .then(response => {
-                console.log('removve inv', response);
-
-
-            })
+            .then(response => { })
             .catch(error => {
                 console.error(error);
                 message.error(error?.response.data?.message)
@@ -149,24 +135,19 @@ const AddRemoveUser = ({ setinviteuserid }) => {
     const toggleSelect = (item) => {
         // Check if the item is already selected
         const isSelected = selectedMembers.some((selectedItem) => selectedItem.id === item.id);
-        console.log('select');
         if (isSelected) {
             // If selected, remove it
             setSelectedCards((prevSelected) =>
                 prevSelected.filter((selectedItem) => selectedItem.id !== item.id)
 
             );
-            console.log('rmove');
         } else {
             // If not selected, add it
-            console.log('rmove2');
             setSelectedCards((prevSelected) => [...prevSelected, item]);
         }
-        console.log(selectedCards);
     };
     const unselectItemuser = (item) => {
         // Remove the item from SelectedMembers
-        console.log('rmove3');
         setSelectedCards((prevSelected) =>
             prevSelected.filter((selectedItem) => selectedItem?.id !== item.id && selectedItem?.friend?.id !== item?.id)
         );

@@ -26,7 +26,6 @@ const AllFriends = ({ xl, md }) => {
             }
         })
             .then(response => {
-                console.log('people frend', response);
                 setAllFrndsData(response)
                 setUserDataLoader(false)
             })
@@ -45,14 +44,12 @@ const AllFriends = ({ xl, md }) => {
     }, [])
     const unfriend = (e) => {
 
-        console.log(e)
         axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('unfriendsd', response);
                 allfrnd()
             })
             .catch(error => {

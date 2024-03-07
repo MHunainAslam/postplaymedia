@@ -21,7 +21,6 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
     const handlePageChangemine = (pageNumber) => {
         setCurrentPagemine(pageNumber);
         // setisLoading(true)
-        console.log(pageNumber);
     };
     const [isLoading, setisLoading] = useState(true)
     const [dataOnPagemine, setdataOnPagemine] = useState(20)
@@ -29,7 +28,6 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
     const itemsPerPagemine = dataOnPagemine;
     const indexOfLastItemmine = currentPagemine * itemsPerPagemine;
     const indexOfFirstItemmine = indexOfLastItemmine - itemsPerPagemine;
-    // console.log('mine grp', Minegrp);
     const getminegrp = () => {
         setisLoading(true)
         axios.get(`${APP_URL}/api/get-all-groups-by-user-id/${userprofile}?per_page=${dataOnPagemine}&page=${currentPagemine}`, {
@@ -38,7 +36,6 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
             }
         })
             .then(response => {
-                console.log('user grps', response);
                 setMinegrp(response)
                 setminegrpcount(response?.data?.data?.total)
                 setisLoading(false)
@@ -67,7 +64,6 @@ const MyGroups = ({ setminegrpcount, runminegrp }) => {
         })
             .then(response => {
                 // Handle successful response here
-                console.log('accept grp inv', response.data);
                 getallgrp()
             })
             .catch(error => {

@@ -17,14 +17,12 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader, MemberSearch, s
     const [Receiverid, setReceiverid] = useState()
     const router = useRouter()
     const unfriend = (e) => {
-        console.log(e)
         axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('unfriend', response);
                 fetchMembers()
             })
             .catch(error => {
@@ -40,14 +38,12 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader, MemberSearch, s
 
     const sendreq = (e) => {
         setReceiverid(e)
-        console.log(e)
         axios.post(`${APP_URL}/api/friend-requests/send`, { receiver_id: e }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('img', response);
                 fetchMembers()
             })
             .catch(error => {
@@ -63,14 +59,12 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader, MemberSearch, s
 
     const accptfrndreq = (e) => {
 
-        console.log(e, token, 'cjeck')
         axios.patch(`${APP_URL}/api/friend-requests/accept/${e}`, null, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('profile edit', response);
                 fetchMembers()
             })
             .catch(error => {
@@ -84,15 +78,12 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader, MemberSearch, s
             });
     }
     const dltfrndreq = (e) => {
-
-        console.log(e, token, 'cjeck')
         axios.delete(`${APP_URL}/api/friend-requests/${e}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('profile edit', response);
                 fetchMembers()
             })
             .catch(error => {
@@ -114,7 +105,7 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader, MemberSearch, s
                 <div className="col-lg-3 mb-3 col-md-6 ">
                     <div className=" search-inp mt-3">
                         <span className="input-group-text right-0" ><i className="bi bi-search"></i></span>
-                        <input type="text" className="form-control " placeholder="Search Member"  value={MemberSearch} onChange={(e) => setMemberSearch(e.target.value)} />
+                        <input type="text" className="form-control " placeholder="Search Member" value={MemberSearch} onChange={(e) => setMemberSearch(e.target.value)} />
                     </div>
                 </div>
 
@@ -151,7 +142,7 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader, MemberSearch, s
                                                         <p className="para">Groups</p>
                                                     </div>
                                                 </div>
-        
+
                                             </div>
                                             <div className="card-footer justify-content-center">
                                                 {UserProfiledata?.data?.id != item.id && (<>
@@ -166,7 +157,8 @@ const ActiveMembers = ({ fetchMembers, UserData, UserDataLoader, MemberSearch, s
                                                                         <button className='btn secondary-btn m-1' onClick={() => dltfrndreq(item.frp_id)}><p className='mb-0 px-4'> Cancel</p></button>
                                                                         <button className='btn secondary-btn m-1' id={item.id} onClick={() => accptfrndreq(item.frp_id)}><p className='mb-0 px-4' > Accept</p></button>
                                                                     </div>
-                                                                    : ''
+                                                                    :
+                                                                    ''
                                                     }
                                                 </>)}
                                             </div>

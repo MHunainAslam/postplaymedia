@@ -30,7 +30,6 @@ const GlobalSearch = () => {
                 }
             })
                 .then(response => {
-                    console.log('global search', response);
                     setglobal(response.data.data)
                 })
                 .catch(error => {

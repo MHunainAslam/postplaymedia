@@ -177,7 +177,6 @@ const CreateGroups = () => {
             }
         })
             .then(response => {
-                console.log('create grp', response);
                 setbtnActive(false)
                 setisLoading(false)
                 message.success(response.data.message)

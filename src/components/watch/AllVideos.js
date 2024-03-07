@@ -54,16 +54,13 @@ const AllVideos = ({ endpoint }) => {
 
 
             if (Array.isArray(data) && data.length) {
-                console.log(data, 'all video hjf')
                 setAllVideos(data);
             }
 
 
             if (meta && typeof meta === 'object') {
-                console.log(meta, 'meta')
                 setCurrentPageVideo(Number(meta.page));
                 setTotalPagesVideo(Number(meta.total_pages));
-                console.log(meta)
             }
         } catch (error) {
             console.error('Error fetching photos', error);
@@ -93,7 +90,6 @@ const AllVideos = ({ endpoint }) => {
             setloadmoreloader(false)
 
             if (Array.isArray(data) && data.length) {
-                console.log(data, 'all cfgdf')
                 setAllVideos((prevMessages) => [...prevMessages, ...data]);
             }
 
@@ -101,7 +97,6 @@ const AllVideos = ({ endpoint }) => {
             if (meta && typeof meta === 'object') {
                 setCurrentPageVideo(Number(meta.page));
                 setTotalPagesVideo(Number(meta.total_pages));
-                console.log(meta)
             }
         } catch (error) {
             console.error('Error fetching photos', error);
@@ -122,7 +117,6 @@ const AllVideos = ({ endpoint }) => {
     const handleLoadMorefrnd = () => {
 
         if (CurrentPageVideo < TotalPagesVideo && !videoloading) {
-            console.log('adssa')
             fetchVideos(CurrentPageVideo + 1);
         }
     };

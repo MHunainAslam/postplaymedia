@@ -20,7 +20,6 @@ const JobManage = ({ JobCategorydd, loadcomponent }) => {
 
     const handleComponentChange = (componentName) => {
         setActiveComponent(componentName);
-        console.log('componentName', componentName)
     };
 
 
@@ -34,7 +33,6 @@ const JobManage = ({ JobCategorydd, loadcomponent }) => {
             }
         })
             .then(response => {
-                console.log('alljobs manage', response);
                 setGetAllJobs(response)
                 setManageJobisLoader(false)
             })
@@ -50,14 +48,12 @@ const JobManage = ({ JobCategorydd, loadcomponent }) => {
     }, [loadcomponent, SearchTitle])
 
     const deleteJob = (e) => {
-        console.log(e)
         axios.delete(`${APP_URL}/api/job/${e}/delete`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log(response.data);
                 message.success(response.data.message)
                 document.getElementById('Manage-tab').click()
             })
@@ -74,7 +70,6 @@ const JobManage = ({ JobCategorydd, loadcomponent }) => {
 
     const editJob = (e) => {
         handleComponentChange('jobedit')
-        console.log(e, 'll')
         setJobId(e)
     }
     return (

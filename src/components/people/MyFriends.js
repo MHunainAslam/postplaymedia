@@ -22,14 +22,12 @@ const MyFriends = ({ getallfrnds, AllFrndsData, UserDataLoader }) => {
     const unfriend = (e) => {
         setbtndisable(true)
         setReceiverid(e)
-        console.log(e)
         axios.delete(`${APP_URL}/api/friendships/unfriend/${e}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
-                console.log('unfriend', response);
                 getallfrnds()
                 setbtndisable(false)
             })
