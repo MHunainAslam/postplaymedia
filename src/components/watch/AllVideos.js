@@ -22,7 +22,7 @@ const AllVideos = ({ endpoint }) => {
     const [CurrentPageVideo, setCurrentPageVideo] = useState(1)
     const [TotalPagesVideo, setTotalPagesVideo] = useState()
     const [videoloading, setvideoloading] = useState(1)
-    const [loadmoreloader , setloadmoreloader ] = useState(1)
+    const [loadmoreloader, setloadmoreloader] = useState(1)
     // const [loading, setvideoloading] = useState(false)
 
     const openModal = (index) => {
@@ -113,7 +113,7 @@ const AllVideos = ({ endpoint }) => {
         if (CurrentPageVideo === 1 && AllVideos.length === 0) {
             fetchVideo(CurrentPageVideo);
         }
-    }, [CurrentPageVideo, token]);
+    }, [CurrentPageVideo, token, endpoint]);
     const handleLoadMorefrnd = () => {
 
         if (CurrentPageVideo < TotalPagesVideo && !videoloading) {
@@ -195,14 +195,14 @@ const AllVideos = ({ endpoint }) => {
                         onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
                     }}
                 >
-                    {AllVideos.filter(media => media.url.slice(-4) == '.mp4').map((image, index) => (
+                    {AllVideos.filter(media => media.url.slice(-4) == '.mp4' || media.url.slice(-4) == '.mov' || media.url.slice(-4) == '.wmv' || media.url.slice(-4) == '.avi').map((image, index) => (
                         <div className=" col-md-6 mt-3" key={index}>
                             <div className="card gallery-card">
                                 <div className="card-body p-0">
 
                                     <div className={`gallery-img ${isvideo[index] ? '' : 'gallery-video'}`} onClick={() => playVideo(index)}>
 
-                                        {image.url.slice(-4) == '.mp4' ?
+                                        {image.url.slice(-4) == '.mp4' || image.url.slice(-4) == '.mov' || image.url.slice(-4) == '.wmv' || image.url.slice(-4) == '.avi' ?
 
                                             <video
                                                 className='pointer h-100 postimg w-100 dsd'

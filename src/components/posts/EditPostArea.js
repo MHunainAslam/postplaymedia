@@ -32,7 +32,7 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
         setPostArea(true)
         setImagess(prevData?.media)
         setimgs(prevData?.media.map((item) => (item.media.id)))
-    
+
     }, [prevData])
 
     const imgurl = ({ src }) => {
@@ -40,49 +40,57 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
     }
     const handleImageChange = (e) => {
         const selectedFiles = e.target.files;
-        setActivebtn(true);
+        const allowedExtensions = ['jpeg', 'jpg', 'png', 'gif', 'mp4', 'mov', 'wmv', 'avi'];
+        const filePath = e.target.value;
+        const fileExtension = filePath.split('.').pop().toLowerCase();
         const PostMedia = new FormData();
+        if (!allowedExtensions.includes(fileExtension)) {
+            message.error("Unsupported file type.");
+        } else {
+            setActivebtn(true);
+            const PostMedia = new FormData();
 
-        for (const file of selectedFiles) {
-            const reader = new FileReader();
+            for (const file of selectedFiles) {
+                const reader = new FileReader();
 
-            reader.onload = (event) => {
-                setImagess((imgs) => [
-                    ...imgs,
-                    {
-                        name: file.name,
-                        size: file.size,
-                        dataURL: event.target.result,
-                    },
-                ]);
-            };
+                reader.onload = (event) => {
+                    setImagess((imgs) => [
+                        ...imgs,
+                        {
+                            name: file.name,
+                            size: file.size,
+                            dataURL: event.target.result,
+                        },
+                    ]);
+                };
 
-            reader.readAsDataURL(file);
+                reader.readAsDataURL(file);
 
-            // Append each file under the same key 'media[]'
-            PostMedia.append('media[]', file);
-        }
-
-        axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
+                // Append each file under the same key 'media[]'
+                PostMedia.append('media[]', file);
             }
-        })
-            .then(response => {
-                setimgs(prevArray => [...prevArray, ...response.data.data.media_ids])
-            })
-            .catch(error => {
-                console.error(error);
-                message.error(error?.response.data?.message)
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
+
+            axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
                 }
             })
-            .finally(() => {
-                setActivebtn(false);
-            });
+                .then(response => {
+                    setimgs(prevArray => [...prevArray, ...response.data.data.media_ids])
+                })
+                .catch(error => {
+                    console.error(error);
+                    message.error(error?.response.data?.message)
+                    if (error?.response?.status === 401) {
+                        router.push('/')
+                        deleteCookie('logged');
+                        localStorage.removeItem('userdetail')
+                    }
+                })
+                .finally(() => {
+                    setActivebtn(false);
+                });
+        }
     };
     const removeImage = (index) => {
         const newImages = [...images];
@@ -146,11 +154,11 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
             event.preventDefault(); // Prevent cursor movement
             // setFocusedSuggestionIndex(i => i != friendsData.length - 1 && Math.min(i + 1, friendsData.length - 1));
             setFocusedSuggestionIndex(i => friendsData.length - 1 != i && i + 1);
-           
+
         } else if (event.key === "ArrowUp") {
             event.preventDefault(); // Prevent cursor movement
             setFocusedSuggestionIndex(i => i != 0 ? i - 1 : i = friendsData.length - 1);
-  
+
         }
     };
     const parseMentionsForIds = (text) => {
@@ -242,7 +250,7 @@ const EditPostArea = ({ postdone, setpostdone, grpid, postin, prevData, setEditD
                         <>
                             <div className=" border-top ">
                                 <div className='d-flex align-items-center'>
-                                    <input type="file" accept="image/*,video/*" multiple onChange={handleImageChange} className='d-none' name="" id="postmediaedit" />
+                                    <input type="file" accept=".jpeg,.jpg,.png,.gif,.mp4,.mov,.wmv,.avi" multiple onChange={handleImageChange} className='d-none' name="" id="postmediaedit" />
                                     <label className="d-flex pointer mt-3" htmlFor="postmediaedit">
                                         <li className="header-btns ms-0 ">
                                             <i className="bi bi-paperclip clr-primary"></i>

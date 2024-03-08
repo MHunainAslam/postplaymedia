@@ -24,7 +24,7 @@ const ShowAllImages = ({ images, item }) => {
                 {displayImages?.map((image, index) => (
                     <div className={`imageWrapper openimg${index} ${index > 4 && 'd-none'}`} key={index}>
                         <div>
-                            {image.media?.url.slice(-4) == '.mp4' ?
+                            {image?.media?.url.slice(-4) == '.mp4' || image?.media?.url.slice(-4) == '.mov' || image?.media?.url.slice(-4) == '.wmv' || image?.media?.url.slice(-4) == '.avi' ?
                                 <video
                                     className='pointer h-100 postimg w-100 dsd'
                                     src={IMG_URL + image?.media?.url}

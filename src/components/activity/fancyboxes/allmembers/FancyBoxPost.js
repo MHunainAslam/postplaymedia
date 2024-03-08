@@ -173,7 +173,7 @@ const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedIm
         const ids = parseMentionsForIds(cmnt);
         setmentionuserid(ids);
     }, [cmnt]);
-   
+
     useEffect(() => {
         // document.querySelectorAll('.close-fancybox-s').forEach(element => {
         //     element.click();
@@ -196,7 +196,8 @@ const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedIm
 
                                                 {images ?
                                                     <>
-                                                        {images?.slice(-4) == '.mp4' ?
+                                                        {/* {images?.slice(-4) == '.mp4' ? */}
+                                                        {images?.slice(-4) == '.mp4' || images?.slice(-4) == '.mov' || images?.slice(-4) == '.wmv' || images?.slice(-4) == '.avi' ?
                                                             <video
                                                                 className='pointer h-100 postimg w-100 dsd postmodalimg'
                                                                 src={IMG_URL + item?.media[0]?.media?.url}
@@ -226,7 +227,7 @@ const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedIm
                                                             <p className="para clr-light mb-0 ms-3">{time}</p>
                                                         </div>
                                                         <div className="d-flex justify-content-end ms-auto">
-                                                            
+
                                                             <span className={`close pointer close-fancybox-s ${fancyBoxId}close${i}`} data-bs-dismiss="modal" onClick={closeModal}><i className="bi bi-x-lg"></i></span>
                                                         </div>
                                                     </div>

@@ -20,7 +20,7 @@ const GrpActivity = () => {
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const participants = grpdata?.data?.participants?.participants?.find(item => item.user.id === UserProfiledata?.data?.id)
     let matchingItem = grpdata?.data?.participants?.participants?.find(item => item.user_id == UserProfiledata?.data?.id);
-   
+
 
     const [Comments, setComments] = useState([])
     const [grpid, setgrpid] = useState()
@@ -335,22 +335,23 @@ const GrpActivity = () => {
                                             :
 
                                             item.media.map((media, i) => (
-                                                <>
-                                                    {media?.media?.url.slice(-4) == '.mp4' ?
 
-                                                        <video
-                                                            className='pointer h-100 postimg w-100 dsd'
-                                                            src={IMG_URL + media?.media?.url}
-                                                            controls
-                                                        />
-                                                        :
-                                                        // IMG_URL + media?.media?.url
-                                                        <Image
-                                                            className='pointer h-100 postimg w-100 dsd'
-                                                            src={IMG_URL + media?.media?.url}
-                                                        />
-                                                    }
-                                                </>
+                                                media?.media?.url.slice(-4) == '.mp4' || media?.media?.url.slice(-4) == '.mov' || media?.media?.url.slice(-4) == '.wmv' || media?.media?.url.slice(-4) == '.avi' ?
+
+                                                    <video
+                                                        className='pointer h-100 postimg w-100 dsd'
+                                                        src={IMG_URL + media?.media?.url}
+                                                        controls
+                                                        key={i}
+                                                    />
+                                                    :
+                                                    // IMG_URL + media?.media?.url
+                                                    <Image
+                                                        className='pointer h-100 postimg w-100 dsd'
+                                                        src={IMG_URL + media?.media?.url}
+                                                        key={i}
+                                                    />
+
                                             ))
 
                                         }

@@ -54,13 +54,13 @@ const PersonalTab = ({ postdone }) => {
     const PostopenModal = (index) => {
         setPostSelectedImage(index);
         setPostModalOpen(true);
-     
+
     };
     const PostcloseModal = () => {
         setPostSelectedImage(null);
         setPostModalOpen(false);
     };
-   
+
 
     const fetchPosts = async (page) => {
         try {
@@ -340,22 +340,22 @@ const PersonalTab = ({ postdone }) => {
                                             :
 
                                             item.media.map((media, i) => (
-                                                <>
-                                                    {media?.media?.url.slice(-4) == '.mp4' ?
+                                                media?.media?.url.slice(-4) == '.mp4' || media?.media?.url.slice(-4) == '.mov' || media?.media?.url.slice(-4) == '.wmv' || media?.media?.url.slice(-4) == '.avi' ?
 
-                                                        <video
-                                                            className='pointer h-100 postimg w-100 dsd'
-                                                            src={IMG_URL + media?.media?.url}
-                                                            controls
-                                                        />
-                                                        :
-                                                        // IMG_URL + media?.media?.url
-                                                        <Image
-                                                            className='pointer h-100 postimg w-100 dsd'
-                                                            src={IMG_URL + media?.media?.url}
-                                                        />
-                                                    }
-                                                </>
+                                                    <video
+                                                        className='pointer h-100 postimg w-100 dsd'
+                                                        src={IMG_URL + media?.media?.url}
+                                                        controls
+                                                        key={i}
+                                                    />
+                                                    :
+                                                    // IMG_URL + media?.media?.url
+                                                    <Image
+                                                        className='pointer h-100 postimg w-100 dsd'
+                                                        src={IMG_URL + media?.media?.url}
+                                                        key={i}
+                                                    />
+
                                             ))
 
                                         }

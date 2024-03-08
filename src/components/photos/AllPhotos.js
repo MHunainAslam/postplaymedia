@@ -14,8 +14,10 @@ import { useAppContext } from '@/context/AppContext';
 
 
 const AllPhotos = ({ endpoint }) => {
+    const [filetype, setfiletype] = useState(['jpeg', 'jpg', 'png', 'gif', 'mp4', 'mov', 'wmv', 'avi'])
     const token = GetToken('userdetail')
     const { UserProfiledata, UserProfileloader } = useAppContext()
+    console.log(UserProfiledata?.data?.role?.name == 'Athlete')
     const images = [{ url: '/assets/images/posts/covers.jpg', comment: '123' }, { url: '/assets/images/posts/cover.jpeg', comment: '321' }, { url: '/assets/images/Modal/Avatar.png', comment: '567' }]; // Replace with your image URLs
     const [AllPosts, setAllPosts] = useState([])
     const [CurrentPagefrnd, setCurrentPagefrnd] = useState(1)
@@ -114,7 +116,7 @@ const AllPhotos = ({ endpoint }) => {
         if (CurrentPagefrnd === 1 && AllMedia.length === 0) {
             fetchphotos(CurrentPagefrnd);
         }
-    }, [CurrentPagefrnd, token]);
+    }, [CurrentPagefrnd, token, endpoint]);
     const handleLoadMorefrnd = () => {
 
         if (CurrentPagefrnd < TotalPagesfrnd && !loading) {
@@ -139,10 +141,7 @@ const AllPhotos = ({ endpoint }) => {
             window.removeEventListener('scroll', handleScrollfrnd);
         };
     }, [handleScrollfrnd]);
-    useEffect(() => {
-        // getallfrnds()
-        fetchphotos(1)
-    }, [token])
+    console.log(AllMedia)
 
     return (
         <>
@@ -171,7 +170,7 @@ const AllPhotos = ({ endpoint }) => {
                         onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
                     }}
                 >
-                    {AllMedia.filter(media => media.url.slice(-4) !== '.mp4').map((image, index) => (
+                    {AllMedia.filter(media => media.url.slice(-4) === 'jpeg' || media.url.slice(-3) === 'jpg' || media.url.slice(-3) === 'png' || media.url.slice(-3) === 'gif').map((image, index) => (
                         <div className="col-xxl-3 col-lg-4 col-12 mt-3" key={index}>
                             <div className="card gallery-card">
                                 <div className="card-body p-0">

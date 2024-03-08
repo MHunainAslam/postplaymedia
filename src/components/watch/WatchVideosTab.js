@@ -1,9 +1,12 @@
+'use client'
 import Image from 'next/image'
 import React from 'react'
 import AllVideos from './AllVideos'
+import { useAppContext } from '@/context/AppContext'
 
 
 const WatchVideosTab = () => {
+    const { UserProfiledata, UserProfileloader } = useAppContext()
     return (
         <>
             <div className="activity-tabs mt-5">
@@ -15,7 +18,7 @@ const WatchVideosTab = () => {
                 </ul>
                 <div className="tab-content ">
                     <div className="tab-pane fade active show" id="AllPhotos" role="tabpanel" aria-labelledby="AllPhotos-tab">
-                        <AllVideos endpoint={'posted-activity-media-associative?'}/>
+                        <AllVideos endpoint={`${UserProfiledata?.data?.role?.name == 'Admin' ? 'posted-activity-media-admin?' : `posted-activity-media-associative?`}`}/>
                     </div>
 
                 </div>

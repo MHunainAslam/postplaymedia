@@ -268,11 +268,11 @@ const AllMembers = ({ postdone, endpoint }) => {
             event.preventDefault(); // Prevent cursor movement
             // setFocusedSuggestionIndex(i => i != friendsData.length - 1 && Math.min(i + 1, friendsData.length - 1));
             setFocusedSuggestionIndex(i => friendsData.length - 1 != i && i + 1);
-         
+
         } else if (event.key === "ArrowUp") {
             event.preventDefault(); // Prevent cursor movement
             setFocusedSuggestionIndex(i => i != 0 ? i - 1 : i = friendsData.length - 1);
-          
+
         }
     };
     const parseMentionsForIds = (text) => {
@@ -440,7 +440,8 @@ const AllMembers = ({ postdone, endpoint }) => {
 
                                         item.media.map((media, i) => (
 
-                                            media?.media?.url.slice(-4) == '.mp4' ?
+                                            // media?.media?.url.slice(-4) == '.mp4' ?
+                                            media?.media?.url.slice(-4) == '.mp4' || media?.media?.url.slice(-4) == '.mov' || media?.media?.url.slice(-4) == '.wmv' || media?.media?.url.slice(-4) == '.avi' ?
 
                                                 <video
                                                     className='pointer h-100 postimg w-100 dsd'

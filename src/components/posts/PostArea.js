@@ -29,50 +29,55 @@ const PostArea = ({ postdone, setpostdone }) => {
         return `${IMG_URL}${src}`
     }
     const handleImageChange = (e) => {
+        const allowedExtensions = ['jpeg', 'jpg', 'png', 'gif', 'mp4', 'mov', 'wmv', 'avi'];
         const selectedFiles = e.target.files;
-        setActivebtn(true);
+        const filePath = e.target.value;
+        const fileExtension = filePath.split('.').pop().toLowerCase();
         const PostMedia = new FormData();
+        if (!allowedExtensions.includes(fileExtension)) {
+            message.error("Unsupported file type.");
+        } else {
+            setActivebtn(true);
+            for (const file of selectedFiles) {
+                const reader = new FileReader();
 
-        for (const file of selectedFiles) {
-            const reader = new FileReader();
+                reader.onload = (event) => {
+                    setImages((imgs) => [
+                        ...imgs,
+                        {
+                            name: file.name,
+                            size: file.size,
+                            dataURL: event.target.result,
+                        },
+                    ]);
+                };
 
-            reader.onload = (event) => {
-                setImages((imgs) => [
-                    ...imgs,
-                    {
-                        name: file.name,
-                        size: file.size,
-                        dataURL: event.target.result,
-                    },
-                ]);
-            };
+                reader.readAsDataURL(file);
 
-            reader.readAsDataURL(file);
-
-            // Append each file under the same key 'media[]'
-            PostMedia.append('media[]', file);
-        }
-
-        axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
+                // Append each file under the same key 'media[]'
+                PostMedia.append('media[]', file);
             }
-        })
-            .then(response => {
-                setimg(prevArray => [...prevArray, ...response.data.data.media_ids])
-            })
-            .catch(error => {
-                console.error(error);
-                message.error(error?.response.data?.message)
-                if (error?.response?.status === 401) {
-                    router.push('/')
-                    deleteCookie('logged');
-                    localStorage.removeItem('userdetail')
+            axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
                 }
             })
-            .finally(() => {
-                setActivebtn(false);
-            });
+                .then(response => {
+                    setimg(prevArray => [...prevArray, ...response.data.data.media_ids])
+                })
+                .catch(error => {
+                    console.error(error);
+                    message.error(error?.response.data?.message)
+                    if (error?.response?.status === 401) {
+                        router.push('/')
+                        deleteCookie('logged');
+                        localStorage.removeItem('userdetail')
+                    }
+                })
+                .finally(() => {
+                    setActivebtn(false);
+                });
+        }
     };
 
     const removeImage = (index) => {
@@ -161,6 +166,9 @@ const PostArea = ({ postdone, setpostdone }) => {
         setmentionuserid(ids);
     }, [PostText]);
 
+    useEffect(() => {
+
+    }, [])
 
 
     return (
@@ -233,7 +241,7 @@ const PostArea = ({ postdone, setpostdone }) => {
                         <>
                             <div className=" border-top ">
                                 <div className='d-flex align-items-center'>
-                                    <input type="file" accept="image/*,video/*" multiple onChange={handleImageChange} className='d-none' name="" id="postmedia" />
+                                    <input type="file" accept=".jpeg,.jpg,.png,.gif,.mp4,.mov,.wmv,.avi" multiple onChange={handleImageChange} className='d-none' name="" id="postmedia" />
                                     <label className="d-flex pointer mt-3" htmlFor="postmedia">
                                         <li className="header-btns ms-0 ">
                                             <i className="bi bi-paperclip clr-primary"></i>
@@ -247,7 +255,7 @@ const PostArea = ({ postdone, setpostdone }) => {
                                 {images.map((item, i) => (
                                     <div className='ShowAttachedFile' key={i}>
                                         <div className='d-flex align-items-center'>
-                                     
+
                                             <Image src={item.dataURL} alt="" width={100} height={100} className='post-img '></Image>
                                             <video src={item.dataURL} alt="" width={100} height={100} className='post-img '></video>
                                             {/* <p className="para clr-text mb-0 ms-2">{item.name}</p> */}

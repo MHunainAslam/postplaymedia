@@ -1,18 +1,17 @@
-import React from 'react'
-import ActivityLayout from '../ActivityLayout'
-import PhotosTab from '@/components/photos/PhotosTab'
-import RootLayout from '../layout'
 
-const Page = () => {
+import React, { useContext } from 'react'
+import ActivityLayout, { UserContext } from '../ActivityLayout'
+import PhotosTab from '@/components/photos/PhotosTab'
+
+
+
+const page = () => {
     return (
         <ActivityLayout ActivityPages>
-            <>
-
-                <PhotosTab />
-            </>
-            </ActivityLayout>
+            <PhotosTab />
+        </ActivityLayout>
 
     )
 }
 
-export default Page
+export default page

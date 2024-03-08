@@ -224,7 +224,7 @@ const Page = () => {
 
                                                 item?.media.map((media, i) => (
 
-                                                    media?.media?.url.slice(-4) == '.mp4' ?
+                                                    media?.media?.url.slice(-4) == '.mp4' || media?.media?.url.slice(-4) == '.mov' || media?.media?.url.slice(-4) == '.wmv' || media?.media?.url.slice(-4) == '.avi' ?
 
                                                         <video
                                                             className='pointer h-100 postimg w-100 dsd'

@@ -29,51 +29,61 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
         return `${IMG_URL}${src}`
     }
     const handleImageChange = (e) => {
+        const allowedExtensions = ['jpeg', 'jpg', 'png', 'gif', 'mp4', 'mov', 'wmv', 'avi'];
         const selectedFiles = e.target.files;
-        setActivebtn(true)
-        for (const file of selectedFiles) {
-            const reader = new FileReader();
-            const PostMedia = new FormData();
-            // Array.from(e.target.files).forEach((file, index) => {
-            //     PostMedia.append(`media[${index}]`, file);
-            // });
-            for (const file of e.target.files) {
-                // Append each file under the same key 'media[]'
-                PostMedia.append('media[]', file);
-            }
+        const filePath = e.target.value;
+        const fileExtension = filePath.split('.').pop().toLowerCase();
+        const PostMedia = new FormData();
+        if (!allowedExtensions.includes(fileExtension)) {
+            message.error("Unsupported file type.");
+            
+        } else {
 
-            reader.onload = (event) => {
-                axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    }
-                })
-                    .then(response => {
-                        setimg(response.data.data.media_ids)
-                        setActivebtn(false)
+            setActivebtn(true)
+            for (const file of selectedFiles) {
+                const reader = new FileReader();
+                const PostMedia = new FormData();
+                // Array.from(e.target.files).forEach((file, index) => {
+                //     PostMedia.append(`media[${index}]`, file);
+                // });
+                for (const file of e.target.files) {
+                    // Append each file under the same key 'media[]'
+                    PostMedia.append('media[]', file);
+                }
 
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        message.error(error?.response.data?.message)
-                        setActivebtn(false)
-                        if (error?.response?.status === 401) {
-                            router.push('/')
-                            deleteCookie('logged');
-                            localStorage.removeItem('userdetail')
+                reader.onload = (event) => {
+                    axios.post(`${APP_URL}/api/post-media-activity`, PostMedia, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
                         }
-                    });
-                setImages((imgs) => [
-                    ...imgs,
-                    {
-                        name: file.name,
-                        size: file.size,
-                        dataURL: event.target.result,
-                    },
-                ]);
-            };
+                    })
+                        .then(response => {
+                            setimg(response.data.data.media_ids)
+                            setActivebtn(false)
 
-            reader.readAsDataURL(file);
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            message.error(error?.response.data?.message)
+                            setActivebtn(false)
+                            if (error?.response?.status === 401) {
+                                router.push('/')
+                                deleteCookie('logged');
+                                localStorage.removeItem('userdetail')
+                            }
+                        });
+                    setImages((imgs) => [
+                        ...imgs,
+                        {
+                            name: file.name,
+                            size: file.size,
+                            dataURL: event.target.result,
+                        },
+                    ]);
+                };
+
+                reader.readAsDataURL(file);
+            }
         }
     };
     const removeImage = (index) => {
@@ -230,7 +240,7 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
                         <>
                             <div className=" border-top ">
                                 <div className='d-flex align-items-center'>
-                                    <input type="file" accept="image/*,video/*" multiple onChange={handleImageChange} className='d-none' name="" id="postmedia" />
+                                    <input type="file" accept=".jpeg,.jpg,.png,.gif,.mp4,.mov,.wmv,.avi" multiple onChange={handleImageChange} className='d-none' name="" id="postmedia" />
                                     <label className="d-flex pointer mt-3" htmlFor="postmedia">
                                         <li className="header-btns ms-0 ">
                                             <i className="bi bi-paperclip clr-primary"></i>
