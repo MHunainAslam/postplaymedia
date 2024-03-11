@@ -1371,16 +1371,18 @@ h5 {
 
 .post-card-main video.postimg {
   object-fit: cover !important;
+  max-height: 600px;
 }
 
 .post-card-main .postimg,
 .post-card-main .ant-image {
-  object-fit: contain;
+  object-fit: cover;
   object-position: top;
   min-width: -webkit-fill-available;
   /* max-height: 500px; */
   /* border-block: 1px solid #b5bbbf; */
   height: 100%;
+  max-height: 600px;
 }
 
 .post-card-main {
