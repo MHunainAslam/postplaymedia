@@ -206,7 +206,7 @@ const FancyBoxPost = ({ i, cmntloader, images, modalOpen, closeModal, selectedIm
                                                             <Image width={5000} height={5000} src={images} loader={imgurl} className='w-100 postmodalimg object-fit-contain h-100' alt={` ${selectedImage + 1}`} />
                                                         }
                                                     </>
-                                                    : <p className='para-lg w-100 text-white text-center px-5'>{formatMentionsToLinks(para, UserProfiledata?.data?.id)}</p>}
+                                                    : <p className='para-lg w-100 text-white text-center px-5 text-break'>{formatMentionsToLinks(para, UserProfiledata?.data?.id)}</p>}
                                                 {/* <button className='post-back-btn' onClick={prevImage}><i className="bi bi-chevron-left"></i></button>
                                         <button className='post-next-btn' onClick={nextImage}><i className="bi bi-chevron-right"></i></button> */}
                                             </div>
