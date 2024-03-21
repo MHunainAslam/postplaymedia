@@ -184,7 +184,7 @@ const AllVideos = ({ endpoint }) => {
                 <span className="spinner-grow spinner-grow-sm mx-2 clr-primary" aria-hidden="true"></span>
             </div>
                 :
-                AllVideos.filter(media => media.url.slice(-4) == '.mp4').length == 0 &&
+                AllVideos.filter(media => media.url.slice(-4) == '.mp4' || media.url.slice(-4) == '.mov' || media.url.slice(-4) == '.wmv' || media.url.slice(-4) == '.avi').length == 0 &&
                 <div div className=" mt-3 alert-box text-center">
                     <p className='heading-m clr-primary '>No Video Posted!</p>
                 </div>
