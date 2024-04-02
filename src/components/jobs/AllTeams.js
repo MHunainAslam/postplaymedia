@@ -43,6 +43,10 @@ const AllTeams = ({ loadcomponent }) => {
     const router = useRouter()
     const { UserProfiledata, UserProfileloader } = useAppContext()
     const [Userdata, setUserdata] = useState(UserProfiledata)
+    useEffect(() => {
+        setUserdata(UserProfiledata)
+    }, [UserProfiledata])
+
     const params = {
         conference: Conference,
         state: state,

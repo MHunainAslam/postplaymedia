@@ -304,8 +304,8 @@ const ActivityHeader = ({ }) => {
                                 </Link>
                                 <ul  className={`dropdown-menu p-0 m-0 border-0 div-notifications ${AllNotiShow ? 'show show-c' : ''}`} ref={FrndContainerRef}>
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <li><Link className="text-decoration-none clr-text ms-2 pointer-event" href="#" >Notifications</Link></li>
-                                        <li className='pointer' onClick={readallnoti}>Read All</li>
+                                        <li><Link className="text-decoration-none clr-text pointer-event" href="#" >Notifications</Link></li>
+                                        <li className='pointer para text-dark ' onClick={readallnoti}>Read All</li>
                                     </div>
                                     <hr className='mt-0' />
                                     {Notifications?.length === 0 ?

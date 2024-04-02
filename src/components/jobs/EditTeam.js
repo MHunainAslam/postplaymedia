@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config'
 import { GetToken } from '@/utils/Token'
-import { message } from 'antd'
+import { Select, message } from 'antd'
 import conferencefield from '../../utils/Confrences.json'
 
 const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
@@ -144,6 +144,14 @@ const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
                 });
         }
     }, [states])
+    const filterOption = (input, option) =>
+        (option?.value ?? '').toLowerCase().includes(input.toLowerCase());
+    const changestate = (value) => {
+        setstates(value)
+    }
+    const changecity = (value) => {
+        setcity(value)
+    }
     return (
         <>
 
@@ -242,20 +250,47 @@ const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
                             <div className='d-md-flex align-items-center my-3'>
                                 <label htmlFor="" className='col-md-2'>State </label>
                                 <div className="col">
-                                    <select name="" className='form-select slct' id="" value={states} onChange={(e) => { setstates(e.target.value) }}>
+                                    <Select
+                                        className='slct2'
+                                        showSearch
+                                        placeholder="Select State"
+                                        optionFilterProp="children"
+                                        onChange={changestate}
+                                        value={states}
+                                        // onSearch={onSearch}
+                                        filterOption={filterOption}
+                                        options={Allstate?.map(person => ({
+                                            value: person.name, // Assuming you want to use `name` as the value too
+                                            label: person.name, // This will be displayed in the dropdown
+                                        }))}
+                                    />
+                                    {/* <select name="" className='form-select slct' id="" value={states} onChange={(e) => { setstates(e.target.value) }}>
                                         <option value='' selected hidden>select State</option>
                                         {Allstate?.map((item, i) => (
                                             <option value={item.name} key={i}>{item.name}</option>
                                         ))}
-                                        {/* <option value='city2'>State 2</option> */}
-                                    </select>
+                                    </select> */}
 
                                 </div>
                             </div>
                             <div className='d-md-flex align-items-center my-3'>
                                 <label htmlFor="" className='col-md-2'>City </label>
                                 <div className="col">
-                                    <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
+                                    <Select
+                                        className='slct2'
+                                        showSearch
+                                        placeholder="Select City"
+                                        optionFilterProp="children"
+                                        onChange={changecity}
+                                        value={city}
+                                        // onSearch={onSearch}
+                                        filterOption={filterOption}
+                                        options={Allcity?.map(person => ({
+                                            value: person, // Assuming you want to use `name` as the value too
+                                            label: person, // This will be displayed in the dropdown
+                                        }))}
+                                    />
+                                    {/* <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
                                         <option value='' selected hidden>select City</option>
                                         {Allcity.length === 0 ?
                                             <option value=''>No City Available</option>
@@ -266,7 +301,7 @@ const EditTeam = ({ EditTeamID, setdlt, dlt }) => {
                                                 ))}
                                             </>}
 
-                                    </select>
+                                    </select> */}
                                 </div>
                             </div>
 

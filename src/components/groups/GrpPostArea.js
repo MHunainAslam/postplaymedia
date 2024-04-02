@@ -242,9 +242,9 @@ const GrpPostArea = ({ postdone, setpostdone }) => {
                                 <div className='d-flex align-items-center'>
                                     <input type="file" accept=".jpeg,.jpg,.png,.gif,.mp4,.mov,.wmv,.avi" multiple onChange={handleImageChange} className='d-none' name="" id="postmedia" />
                                     <label className="d-flex pointer mt-3" htmlFor="postmedia">
-                                        <li className="header-btns ms-0 ">
+                                        {/* <li className="header-btns ms-0 ">
                                             <i className="bi bi-paperclip clr-primary"></i>
-                                        </li>
+                                        </li> */}
                                         <li className="w-auto px-2 rounded-5 header-btns ms-0">
                                             <p className='mb-0 para clr-primary'>Attach Media</p>
                                         </li>

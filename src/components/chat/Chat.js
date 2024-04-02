@@ -159,7 +159,6 @@ const Chat = ({ TabState, param }) => {
     };
     const handleScroll = () => {
         const container = chatContainerRef.current;
-
         // Check if the user has scrolled to the bottom of the div
         if (container && container.scrollTop <= 0) {
             setFirstRun(false)
@@ -223,10 +222,7 @@ const Chat = ({ TabState, param }) => {
         const container = chatContainerRef.current;
         const isAtBottom = container.scrollTop + container.clientHeight + 50 >= container.scrollHeight;
         const interval = setInterval(() => {
-
-
             every10(1)
-
         }, 10000);
         return () => clearInterval(interval);
     }, [params])

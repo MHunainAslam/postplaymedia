@@ -3,7 +3,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../../config'
 import { useRouter } from 'next/navigation'
-import { message } from 'antd'
+import { Select, message } from 'antd'
 import PayPalPay from './PayPalPay'
 import AtheletePackages from './AtheletePackages'
 
@@ -131,6 +131,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
         })
             .then(response => {
                 setAllcity(response?.data?.data)
+                setcity('')
             })
             .catch(error => {
                 console.error(error);
@@ -144,6 +145,14 @@ const AtheleteRegistration = ({ back, RoleId }) => {
         }
 
         setCInstituteweb(string);
+    }
+    const filterOption = (input, option) =>
+        (option?.value ?? '').toLowerCase().includes(input.toLowerCase());
+    const changestate = (value) => {
+        setstate(value)
+    }
+    const changecity = (value) => {
+        setcity(value)
     }
     return (
         <>
@@ -212,13 +221,26 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                         {/* state */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">State  </label>
-                            <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
+                            {/* <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
                                 <option value='' selected hidden>select State</option>
                                 {Allstate?.map((item, i) => (
                                     <option value={item.name} key={i}>{item.name}</option>
                                 ))}
-                                {/* <option value='city2'>State 2</option> */}
-                            </select>
+                            </select> */}
+                            <Select
+                                className='slct2'
+                                showSearch
+                                placeholder="Select State"
+                                optionFilterProp="children"
+                                onChange={changestate}
+                                value={state}
+                                // onSearch={onSearch}
+                                filterOption={filterOption}
+                                options={Allstate?.map(person => ({
+                                    value: person.name, // Assuming you want to use `name` as the value too
+                                    label: person.name, // This will be displayed in the dropdown
+                                }))}
+                            />
                             {Error ? state === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                         </div>
@@ -226,7 +248,7 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                         {/* city */}
                         <div className="col-md-6">
                             <label className='para-sm clr-text mt-4' htmlFor="">City  </label>
-                            <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
+                            {/* <select name="" className='form-select slct' id="" value={city} onChange={(e) => { setcity(e.target.value) }}>
                                 <option value='' selected hidden>select City</option>
                                 {Allcity.length === 0 ?
                                     <option value=''>No City Available</option>
@@ -237,7 +259,21 @@ const AtheleteRegistration = ({ back, RoleId }) => {
                                         ))}
                                     </>}
 
-                            </select>
+                            </select> */}
+                            <Select
+                                className='slct2'
+                                showSearch
+                                placeholder="Select City"
+                                optionFilterProp="children"
+                                onChange={changecity}
+                                value={city}
+                                // onSearch={onSearch}
+                                filterOption={filterOption}
+                                options={Allcity?.map(person => ({
+                                    value: person, // Assuming you want to use `name` as the value too
+                                    label: person, // This will be displayed in the dropdown
+                                }))}
+                            />
                             {Error ? city === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                         </div>

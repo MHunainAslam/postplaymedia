@@ -1,6 +1,6 @@
 'use client'
 import { GetToken } from '@/utils/Token'
-import { DatePicker, message } from 'antd'
+import { DatePicker, Select, message } from 'antd'
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { APP_URL } from '../../../../config'
@@ -11,7 +11,7 @@ import { useAppContext } from '@/context/AppContext'
 
 const PeopleProfileEdit = ({ }) => {
     const token = GetToken('userdetail')
-    const { UserProfiledata, UserProfileloader ,authme} = useAppContext()
+    const { UserProfiledata, UserProfileloader, authme } = useAppContext()
     const [Name, setName] = useState(UserProfiledata?.data?.name)
     const [number, setnumber] = useState(UserProfiledata?.data?.phone)
     const [DateofBirth, setDateofBirth] = useState(UserProfiledata?.data?.dob)
@@ -38,6 +38,7 @@ const PeopleProfileEdit = ({ }) => {
     const onChange = (date, dateString) => {
         setDateofBirth(date)
     };
+
     useEffect(() => {
         setName(UserProfiledata?.data?.name)
         setnumber(UserProfiledata?.data?.phone)
@@ -115,7 +116,7 @@ const PeopleProfileEdit = ({ }) => {
         })
             .then(response => {
                 message.success(response.data?.message)
-                router.push('/profile/activity')
+                // router.push('/profile/activity')
                 setisloading(false)
                 authme()
             })
@@ -181,6 +182,14 @@ const PeopleProfileEdit = ({ }) => {
 
         setC_instituteweb(string);
     }
+    const filterOption = (input, option) =>
+        (option?.value ?? '').toLowerCase().includes(input.toLowerCase());
+    const changestate = (value) => {
+        setstate(value)
+    }
+    const changecity = (value) => {
+        setCity(value)
+    }
     return (
         <>
             <p className="heading mt-3 clr-text">Edit Profile </p>
@@ -222,18 +231,46 @@ const PeopleProfileEdit = ({ }) => {
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-md-2'>State </label>
                     <div className="col">
-                        <select name="" className='form-select slct' id="" value={state} onChange={(e) => { setstate(e.target.value) }}>
+                        <Select
+                            className='slct2'
+                            showSearch
+                            placeholder="Select State"
+                            optionFilterProp="children"
+                            onChange={changestate}
+                            value={state}
+                            // onSearch={onSearch}
+                            filterOption={filterOption}
+                            options={Allstate?.map(person => ({
+                                value: person.name, // Assuming you want to use `name` as the value too
+                                label: person.name, // This will be displayed in the dropdown
+                            }))}
+                        />
+                        {/* <select name="" id="" >
                             <option value='' selected hidden>select State</option>
                             {Allstate?.map((item, i) => (
                                 <option value={item.name} key={i}>{item.name}</option>
                             ))}
-                        </select>
+                        </select> */}
                     </div>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
                     <label htmlFor="" className='col-md-2'>City </label>
                     <div className="col">
-                        <select name="" className='form-select slct' id="" value={City} onChange={(e) => { setCity(e.target.value) }}>
+                        <Select
+                            className='slct2'
+                            showSearch
+                            placeholder="Select City"
+                            optionFilterProp="children"
+                            onChange={changecity}
+                            value={City}
+                            // onSearch={onSearch}
+                            filterOption={filterOption}
+                            options={Allcity?.map(person => ({
+                                value: person, // Assuming you want to use `name` as the value too
+                                label: person, // This will be displayed in the dropdown
+                            }))}
+                        />
+                        {/* <select name="" className='form-select slct' id="" value={City} onChange={(e) => { setCity(e.target.value) }}>
                             <option value='' selected hidden>select City</option>
                             {Allcity?.length === 0 ?
                                 <option value=''>No City Available</option>
@@ -243,7 +280,7 @@ const PeopleProfileEdit = ({ }) => {
                                         <option value={item} key={i}>{item}</option>
                                     ))}
                                 </>}
-                        </select>
+                        </select> */}
                     </div>
                 </div>
 
