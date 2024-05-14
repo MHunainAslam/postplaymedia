@@ -264,8 +264,9 @@ const CoachRegistration = ({ back, RoleId }) => {
 
                     {/* current institute weburl*/}
                     <div className="col-md-6">
-                        <label className='para-sm clr-text mt-4' htmlFor="">Current institute website  </label>
-                        <input type="url" className="form-control inp" onBlur={CInstituteweb === '' ? (e) => { setCInstituteweb(e.target.value) } : checkURL} placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
+                        <label className='para-sm clr-text mt-4' htmlFor="">NCAA ID  </label>
+                        <input type="text" className="form-control inp" placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} />
+                        {/* <input type="url" className="form-control inp" onBlur={CInstituteweb === '' ? (e) => { setCInstituteweb(e.target.value) } : checkURL} placeholder="" value={CInstituteweb} onChange={(e) => { setCInstituteweb(e.target.value) }} /> */}
                         {Error ? CInstituteweb === '' ? <p className='para-sm text-danger ms-2 mt-1 mb-0'> Required*</p> : '' : ''}
 
                     </div>

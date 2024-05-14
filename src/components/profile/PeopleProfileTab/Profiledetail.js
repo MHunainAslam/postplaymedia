@@ -38,7 +38,7 @@ const Profiledetail = ({ }) => {
     const [getRoles, setgetRoles] = useState([])
     const [isloading, setisloading] = useState(true)
     const router = useRouter()
- 
+
 
 
     useEffect(() => {
@@ -49,7 +49,7 @@ const Profiledetail = ({ }) => {
             }
         })
             .then(response => {
-                
+
                 setgetRoles(response?.data)
                 setisloading(false)
             })
@@ -100,7 +100,7 @@ const Profiledetail = ({ }) => {
             }
         })
             .then(response => {
-          
+
                 setAllcity(response?.data?.data)
             })
             .catch(error => {
@@ -177,10 +177,13 @@ const Profiledetail = ({ }) => {
 
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-lg-4 col-md-6'>Current institute website</label>
-                    <Link href={`${Userdata?.data?.current_ins_website}`} target='_blank'  className="para-lg link-hov text-dark mb-0 text-capitalize">
+                    <label htmlFor="" className='col-lg-4 col-md-6'>NCAA ID</label>
+                    <p className="para-lg text-dark mb-0 text-capitalize">
+                        {UserProfiledata?.data?.current_ins_website === null ? '--' : UserProfiledata?.data?.current_ins_website}
+                    </p>
+                    {/* <Link href={`${Userdata?.data?.current_ins_website}`} target='_blank'  className="para-lg link-hov text-dark mb-0 text-capitalize">
                         {Userdata?.data?.current_ins_website === '' ? '--' : Userdata?.data?.current_ins_website}
-                    </Link>
+                    </Link> */}
                 </div>
                 {Userdata?.data?.role?.slug != 'athlete' ?
                     <div className='d-md-flex align-items-center my-3'>

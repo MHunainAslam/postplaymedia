@@ -14,6 +14,7 @@ import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
 import { useAppContext } from '@/context/AppContext'
+import Link from 'next/link'
 export const UserContext = createContext();
 const UserProfileLayout = ({ children, ProfilePages }) => {
     const token = GetToken('userdetail')
@@ -64,14 +65,14 @@ const UserProfileLayout = ({ children, ProfilePages }) => {
                                             <div className="row">
                                                 <div className="col-lg-2 col-md-3 d-md-block d-none border-right">
                                                     <div className="d-flex justify-content-center pt-4 border-bottom">
-                                                        <div className='mx-2'>
+                                                        <Link href={'/profile/friends'} className='text-decoration-none mx-2'>
                                                             <p className="heading-m mb-0 clr-primary text-center">{UserProfiledata?.data?.friends_count}</p>
                                                             <p className="para clr-text text-center">Friends</p>
-                                                        </div>
-                                                        <div className='mx-2'>
+                                                        </Link>
+                                                        <Link href={'/profile/groups'} className='text-decoration-none mx-2'>
                                                             <p className="heading-m mb-0 clr-primary text-center">{UserProfiledata?.data?.group_count} </p>
                                                             <p className="para clr-text text-center">Groups</p>
-                                                        </div>
+                                                        </Link>
                                                     </div>
                                                     {/* <div>
                                                         <p className="heading-m text-dark mt-4 text-center">

@@ -13,6 +13,7 @@ import { GetToken } from '@/utils/Token'
 import Loader from '@/components/Loader'
 import { useParams, useRouter } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
+import Link from 'next/link'
 export const UserContext = createContext();
 const ProfileLayout = ({ children, ProfilePages }) => {
     const token = GetToken('userdetail')
@@ -23,7 +24,7 @@ const ProfileLayout = ({ children, ProfilePages }) => {
     const [Userdata, setUserdata] = useState('')
     const [UserdataLoader, setUserdataLoader] = useState(true)
     const { userprofile } = useParams()
-   
+
 
     const closeModal = () => {
         setSelectedImage(null);
@@ -51,9 +52,9 @@ const ProfileLayout = ({ children, ProfilePages }) => {
                 }
             });
     }, [])
-  
-  
-    
+
+
+
 
     return (
         <>
@@ -78,16 +79,16 @@ const ProfileLayout = ({ children, ProfilePages }) => {
                                             <div className="row">
                                                 <div className="col-lg-2 col-md-3 d-md-block d-none border-right">
                                                     <div className="d-flex justify-content-center pt-4 border-bottom">
-                                                        <div className='mx-2'>
+                                                        <Link href={`/people/${userprofile}/friends`} className='text-decoration-none mx-2'>
                                                             <p className="heading-m mb-0 clr-primary text-center">{Userdata?.data?.friends_count}</p>
                                                             <p className="para clr-text text-center">Friends </p>
-                                                        </div>
-                                                        <div className='mx-2'>
+                                                        </Link>
+                                                        <Link href={`/people/${userprofile}/groups`} className='text-decoration-none mx-2'>
                                                             <p className="heading-m mb-0 clr-primary text-center">{Userdata?.data?.group_count}</p>
                                                             <p className="para clr-text text-center">Groups</p>
-                                                        </div>
+                                                        </Link>
                                                     </div>
-                                                   
+
                                                 </div>
                                                 <div className="col-md-9 col-lg-10 ">
                                                     <UserContext.Provider value={{ Userdata, setUserdata }}>

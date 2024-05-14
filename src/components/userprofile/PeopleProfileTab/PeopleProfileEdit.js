@@ -299,9 +299,10 @@ const PeopleProfileEdit = ({ }) => {
                     </div>
                 </div>
                 <div className='d-md-flex align-items-center my-3'>
-                    <label htmlFor="" className='col-md-2'>Current institute website</label>
+                    <label htmlFor="" className='col-md-2'>NCAA ID</label>
                     <div className="col">
-                        <input type="text" name="" id="" className='form-control inp col-m' onBlur={C_instituteweb === '' ? (e) => { setC_instituteweb(e.target.value) } : checkURL} value={C_instituteweb} onChange={(e) => setC_instituteweb(e.target.value)} />
+                        <input type="text" name="" id="" className='form-control inp col-m'  value={C_instituteweb} onChange={(e) => setC_instituteweb(e.target.value)} />
+                        {/* <input type="text" name="" id="" className='form-control inp col-m' onBlur={C_instituteweb === '' ? (e) => { setC_instituteweb(e.target.value) } : checkURL} value={C_instituteweb} onChange={(e) => setC_instituteweb(e.target.value)} /> */}
                     </div>
                 </div>
                 {UserProfiledata?.data?.role?.slug != 'athlete' ?
